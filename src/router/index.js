@@ -22,6 +22,32 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/authentication',
+    component: () =>
+      import(
+        /* webpackChunkName: "layouts-authentication-layout" */
+        '@/views/layouts/authentication/AuthenticationLayout'
+      ),
+    children: [
+      {
+        path: 'sign-in',
+        name: 'SignIn',
+        component: () =>
+          import(
+            /* webpackChunkName: "views-authentication" */ '@/views/authentication/SignIn'
+          ),
+      },
+      {
+        path: 'sign-up',
+        name: 'SignUp',
+        component: () =>
+          import(
+            /* webpackChunkName: "views-authentication" */ '@/views/authentication/SignUp'
+          ),
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({

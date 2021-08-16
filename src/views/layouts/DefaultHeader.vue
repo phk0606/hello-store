@@ -31,8 +31,16 @@
       <v-row justify="end" no-gutters class="mt-5">
         <v-col cols="auto">
           <v-btn-toggle tile group dense>
-            <v-btn small value="left" class="mr-0">회원가입</v-btn>
-            <v-btn small value="center" class="mr-0">로그인</v-btn>
+            <v-btn small value="left" class="mr-0" to="/authentication/sign-up"
+              >회원가입</v-btn
+            >
+            <v-btn
+              small
+              value="center"
+              class="mr-0"
+              to="/authentication/sign-in"
+              >로그인</v-btn
+            >
             <v-btn small value="right" class="mr-0">ID/비밀번호 찾기</v-btn>
             <v-btn small value="justify" class="mr-0">비회원 주문조회</v-btn>
           </v-btn-toggle>
