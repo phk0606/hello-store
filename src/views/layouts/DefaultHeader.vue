@@ -4,12 +4,14 @@
       <v-row justify="center" align="center" class="mt-2">
         <v-col cols="3">
           <!-- <v-app-bar-nav-icon @click="drawer = !drawer" /> -->
-          <v-img
-            lazy-src="@/assets/logo.jpg"
-            max-height="100"
-            max-width="110"
-            src="@/assets/logo.png"
-          />
+          <router-link to="/">
+            <v-img
+              lazy-src="@/assets/logo.jpg"
+              max-height="100"
+              max-width="110"
+              src="@/assets/logo.png"
+            />
+          </router-link>
         </v-col>
         <!-- <v-spacer />
           <v-col cols="2">
@@ -47,13 +49,13 @@
         </v-col>
       </v-row>
       <v-row class="mt-0">
-        <v-col class="pt-2">
+        <v-col class="pt-2 pl-0 pr-0">
           <v-bottom-navigation
             class="justify-space-around"
             background-color="indigo darken-2"
             dark
           >
-            <v-menu open-on-hover offset-y m>
+            <v-menu open-on-hover offset-y>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn v-on="on" v-bind="attrs">
                   <span :class="font">오픈숍</span>
@@ -106,7 +108,7 @@
             </v-menu>
             <v-menu open-on-hover offset-y>
               <template v-slot:activator="{ on, attrs }">
-                <v-btn v-on="on" v-bind="attrs">
+                <v-btn v-on="on" v-bind="attrs" to="/shop/style-shop">
                   <span :class="font">스타일숍</span>
                 </v-btn>
               </template>

@@ -48,6 +48,32 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/shop',
+    component: () =>
+      import(
+        /* webpackChunkName: "layouts-authentication-layout" */
+        '@/views/layouts/shop/ShopLayout'
+      ),
+    children: [
+      {
+        path: 'style-shop',
+        name: 'StyleShop',
+        component: () =>
+          import(
+            /* webpackChunkName: "views-authentication" */ '@/views/shop/ShopList'
+          ),
+      },
+      {
+        path: 'sign-up',
+        name: 'SignUp',
+        component: () =>
+          import(
+            /* webpackChunkName: "views-authentication" */ '@/views/authentication/SignUp'
+          ),
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({
