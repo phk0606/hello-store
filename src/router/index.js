@@ -8,7 +8,7 @@ const routes = [
     path: '/',
     component: () =>
       import(
-        /* webpackChunkName: "default-layout" */ '@/views/layout/DefaultLayout.vue'
+        /* webpackChunkName: "default-layout" */ '@/views/layouts/DefaultLayout.vue'
       ),
     children: [
       {

@@ -30,7 +30,7 @@
       </v-row>
       <v-row justify="end" no-gutters class="mt-5">
         <v-col cols="auto">
-          <v-btn-toggle v-model="text" tile group dense>
+          <v-btn-toggle tile group dense>
             <v-btn small value="left" class="mr-0">회원가입</v-btn>
             <v-btn small value="center" class="mr-0">로그인</v-btn>
             <v-btn small value="right" class="mr-0">ID/비밀번호 찾기</v-btn>
