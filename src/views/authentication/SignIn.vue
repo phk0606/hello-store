@@ -1,7 +1,14 @@
 <template>
-  <v-container class="grey fill-height">
+  <v-container class="fill-height">
     <v-row justify="center">
       <v-col cols="auto">
+        <router-link to="/">
+          <v-img
+            width="120"
+            class="mx-auto mb-6"
+            :src="require('@/assets/logo.png')"
+          />
+        </router-link>
         <v-card width="460">
           <v-card-text class="text-center px-12 py-16">
             <validation-observer ref="observer" v-slot="{ invalid }">
@@ -52,6 +59,12 @@
                     class="text-decoration-none"
                     to="/authentication/sign-up"
                     >회원가입</router-link
+                  >
+                  |
+                  <router-link
+                    class="text-decoration-none"
+                    to="/authentication/sign-up"
+                    >ID/비밀번호 찾기</router-link
                   >
                 </div>
               </v-form>
