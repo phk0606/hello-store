@@ -7,6 +7,7 @@
           height="400"
           hide-delimiter-background
           show-arrows-on-hover
+          :touch="{ left: () => activeSlide--, right: () => activeSlide++ }"
         >
           <v-carousel-item
             v-for="(slide, i) in slides"
