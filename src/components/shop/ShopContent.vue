@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import ShopLeft from '@/views/layouts/shop/ShopLeft.vue';
+import ShopLeft from '@/components/shop/ShopLeft.vue';
 
 export default {
   name: 'ShopContent',

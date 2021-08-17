@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import ProductItemList from '@/views/shop/ProductItemList.vue';
+import ProductItemList from '@/components/shop/ProductItemList.vue';
 
 export default {
   name: 'ProductList',

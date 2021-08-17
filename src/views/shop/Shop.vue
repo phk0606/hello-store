@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import DefaultHeader from '@/views/layouts/DefaultHeader.vue';
-import ShopContent from './ShopContent.vue';
-import DefaultFooter from '@/views/layouts/DefaultFooter.vue';
+import DefaultHeader from '@/components/DefaultHeader.vue';
+import ShopContent from '@/components/shop/ShopContent.vue';
+import DefaultFooter from '@/components/DefaultFooter.vue';
 
 export default {
   name: 'ShopLayout',

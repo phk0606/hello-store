@@ -7,27 +7,14 @@ const routes = [
   {
     path: '/',
     component: () =>
-      import(
-        /* webpackChunkName: "default-layout" */ '@/views/layouts/DefaultLayout.vue'
-      ),
-    children: [
-      {
-        path: '/',
-        name: 'Home',
-        component: () =>
-          import(
-            /* webpackChunkName: "home" */
-            '@/views/Home'
-          ),
-      },
-    ],
+      import(/* webpackChunkName: "default-layout" */ '@/views/Main.vue'),
   },
   {
     path: '/authentication',
     component: () =>
       import(
         /* webpackChunkName: "layouts-authentication-layout" */
-        '@/views/layouts/authentication/AuthenticationLayout'
+        '@/views/authentication/Authentication'
       ),
     children: [
       {
@@ -53,7 +40,7 @@ const routes = [
     component: () =>
       import(
         /* webpackChunkName: "style-shop-layout" */
-        '@/views/layouts/shop/ShopLayout'
+        '@/views/shop/Shop'
       ),
     children: [
       {
