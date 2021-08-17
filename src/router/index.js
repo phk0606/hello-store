@@ -49,27 +49,27 @@ const routes = [
     ],
   },
   {
-    path: '/shop',
+    path: '/style-shop',
     component: () =>
       import(
-        /* webpackChunkName: "layouts-authentication-layout" */
+        /* webpackChunkName: "style-shop-layout" */
         '@/views/layouts/shop/ShopLayout'
       ),
     children: [
       {
-        path: 'style-shop',
-        name: 'StyleShop',
+        path: 'product-list',
+        name: 'ProductList',
         component: () =>
           import(
-            /* webpackChunkName: "views-authentication" */ '@/views/shop/ShopList'
+            /* webpackChunkName: "style-shop-product-list" */ '@/views/shop/ProductList'
           ),
       },
       {
-        path: 'sign-up',
-        name: 'SignUp',
+        path: 'product-detail',
+        name: 'ProductDetail',
         component: () =>
           import(
-            /* webpackChunkName: "views-authentication" */ '@/views/authentication/SignUp'
+            /* webpackChunkName: "style-shop-product-detail" */ '@/views/shop/ProductDetail'
           ),
       },
     ],

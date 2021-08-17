@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto">
+  <v-card class="mx-auto" to="/style-shop/product-detail">
     <v-img
       class="white--text align-end"
       height="200px"
