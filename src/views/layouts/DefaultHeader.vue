@@ -1,7 +1,7 @@
 <template>
-  <v-app-bar height="250" class="" app color="red accent-2" dark src="">
+  <v-app-bar height="230" class="" app color="red accent-2" dark src="">
     <v-container fluid>
-      <v-row justify="center" align="center" class="mt-2">
+      <v-row justify="center" align="center">
         <v-col cols="3">
           <!-- <v-app-bar-nav-icon @click="drawer = !drawer" /> -->
           <router-link to="/">
@@ -30,7 +30,7 @@
           <v-btn color="indigo darken-3"> 검색 </v-btn>
         </v-col>
       </v-row>
-      <v-row justify="end" no-gutters class="mt-5">
+      <v-row justify="end" no-gutters>
         <v-col cols="auto">
           <v-btn-toggle tile group dense>
             <v-btn small value="left" class="mr-0" to="/authentication/sign-up"
@@ -48,14 +48,15 @@
           </v-btn-toggle>
         </v-col>
       </v-row>
-      <v-row class="mt-0">
-        <v-col class="pt-2 pl-0 pr-0">
+      <v-row>
+        <v-col>
           <v-bottom-navigation
             class="justify-space-around"
             background-color="indigo darken-2"
             dark
+            app
           >
-            <v-menu open-on-hover offset-y>
+            <v-menu open-on-hover offset-y min-width="1000">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn v-on="on" v-bind="attrs">
                   <span :class="font">오픈숍</span>
@@ -68,7 +69,7 @@
                   </v-col>
                 </v-row>
                 <v-row>
-                  <v-col cols="auto">
+                  <v-col cols="2">
                     <v-list flat>
                       <v-list-item-group v-model="selectedItem" color="primary">
                         <v-list-item v-for="(item, i) in items2" :key="i">
@@ -83,30 +84,40 @@
                     </v-list>
                   </v-col>
                   <v-col
-                    cols="auto"
+                    cols="10"
                     class="d-flex flex-no-wrap"
                     align-self="center"
                   >
-                    <v-card outlined max-width="150" max-height="150">
-                      <v-img src="@/assets/logo.jpg" />
-                    </v-card>
-                    <v-card outlined max-width="150" max-height="150">
-                      <v-img src="@/assets/logo.jpg" />
-                    </v-card>
-                    <v-card outlined max-width="150" max-height="150">
-                      <v-img src="@/assets/logo.jpg" />
-                    </v-card>
-                    <v-card outlined max-width="150" max-height="150">
-                      <v-img src="@/assets/logo.jpg" />
-                    </v-card>
-                    <v-card outlined max-width="150" max-height="150">
-                      <v-img src="@/assets/logo.jpg" />
-                    </v-card>
+                    <v-img
+                      src="@/assets/logo.jpg"
+                      max-width="150"
+                      max-height="150"
+                    />
+                    <v-img
+                      src="@/assets/logo.jpg"
+                      max-width="150"
+                      max-height="150"
+                    />
+                    <v-img
+                      src="@/assets/logo.jpg"
+                      max-width="150"
+                      max-height="150"
+                    />
+                    <v-img
+                      src="@/assets/logo.jpg"
+                      max-width="150"
+                      max-height="150"
+                    />
+                    <v-img
+                      src="@/assets/logo.jpg"
+                      max-width="150"
+                      max-height="150"
+                    />
                   </v-col>
                 </v-row>
               </v-container>
             </v-menu>
-            <v-menu open-on-hover offset-y>
+            <v-menu open-on-hover offset-y min-width="1000">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn v-on="on" v-bind="attrs" to="/shop/style-shop">
                   <span :class="font">스타일숍</span>
@@ -119,7 +130,7 @@
                   </v-col>
                 </v-row>
                 <v-row>
-                  <v-col cols="auto">
+                  <v-col cols="2">
                     <v-list flat>
                       <v-list-item-group v-model="selectedItem" color="primary">
                         <v-list-item v-for="(item, i) in items2" :key="i">
@@ -134,25 +145,35 @@
                     </v-list>
                   </v-col>
                   <v-col
-                    cols="auto"
+                    cols="10"
                     class="d-flex flex-no-wrap"
                     align-self="center"
                   >
-                    <v-card outlined max-width="150" max-height="150">
-                      <v-img src="@/assets/logo.jpg" />
-                    </v-card>
-                    <v-card outlined max-width="150" max-height="150">
-                      <v-img src="@/assets/logo.jpg" />
-                    </v-card>
-                    <v-card outlined max-width="150" max-height="150">
-                      <v-img src="@/assets/logo.jpg" />
-                    </v-card>
-                    <v-card outlined max-width="150" max-height="150">
-                      <v-img src="@/assets/logo.jpg" />
-                    </v-card>
-                    <v-card outlined max-width="150" max-height="150">
-                      <v-img src="@/assets/logo.jpg" />
-                    </v-card>
+                    <v-img
+                      src="@/assets/logo.jpg"
+                      max-width="150"
+                      max-height="150"
+                    />
+                    <v-img
+                      src="@/assets/logo.jpg"
+                      max-width="150"
+                      max-height="150"
+                    />
+                    <v-img
+                      src="@/assets/logo.jpg"
+                      max-width="150"
+                      max-height="150"
+                    />
+                    <v-img
+                      src="@/assets/logo.jpg"
+                      max-width="150"
+                      max-height="150"
+                    />
+                    <v-img
+                      src="@/assets/logo.jpg"
+                      max-width="150"
+                      max-height="150"
+                    />
                   </v-col>
                 </v-row>
               </v-container>
