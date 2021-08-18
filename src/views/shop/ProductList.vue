@@ -46,15 +46,31 @@
         <product-item />
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
-        <v-pagination
+    <v-row justify="center" style="text-align: center">
+      <v-col cols="auto">
+        <!-- <v-pagination
           v-model="page"
           :length="80"
           :total-visible="7"
           prev-icon="mdi-menu-left"
           next-icon="mdi-menu-right"
           circle
+          color="indigo darken-3"
+        /> -->
+        <pagination
+          :options="{
+            theme: 'bootstrap4',
+            edgeNavigation: true,
+            texts: {
+              first: '처음',
+              last: '마지막',
+              count: '전체 {count} 개중 {from} 부터 {to}  |{count} 개| 1 개',
+            },
+          }"
+          v-model="page"
+          :records="500"
+          :per-page="20"
+          @paginate="myCallback"
         />
       </v-col>
     </v-row>
@@ -63,11 +79,13 @@
 
 <script>
 import ProductItem from '@/components/shop/ProductItem.vue';
+import Pagination from 'vue-pagination-2';
 
 export default {
   name: 'ProductList',
   components: {
     ProductItem,
+    Pagination,
   },
   data() {
     return {
@@ -78,6 +96,11 @@ export default {
         { text: '할인', value: 'discount' },
       ],
     };
+  },
+  methods: {
+    myCallback: function (page) {
+      console.log(`Page ${page} was selected. Do something about it`);
+    },
   },
 };
 </script>
