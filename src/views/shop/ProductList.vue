@@ -20,20 +20,64 @@
         </v-card>
       </v-col>
     </v-row>
-    <product-item-list />
+    <v-row justify="space-between" align="end">
+      <v-col>
+        <v-btn-toggle tile group no-gutters>
+          <v-btn small value="left" class="font-weight-bold">신상품</v-btn>
+          <v-divider vertical />
+          <v-btn small value="center" class="font-weight-bold">낮은가격</v-btn>
+          <v-divider vertical />
+          <v-btn small value="right" class="font-weight-bold">높은가격</v-btn>
+        </v-btn-toggle>
+      </v-col>
+      <v-col cols="3">
+        <v-select
+          :items="items"
+          label="모아보기"
+          hide-details
+          outlined
+          dense
+          :menu-props="{ offsetY: true }"
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col v-for="i in 20" :key="i" cols="12" sm="6" md="4" lg="3">
+        <product-item />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-pagination
+          v-model="page"
+          :length="80"
+          :total-visible="7"
+          prev-icon="mdi-menu-left"
+          next-icon="mdi-menu-right"
+          circle
+        />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
-import ProductItemList from '@/components/shop/ProductItemList.vue';
+import ProductItem from '@/components/shop/ProductItem.vue';
 
 export default {
   name: 'ProductList',
   components: {
-    ProductItemList,
+    ProductItem,
   },
   data() {
-    return {};
+    return {
+      page: 1,
+      items: [
+        { text: '신상품', value: 'newArrival' },
+        { text: 'Best', value: 'best' },
+        { text: '할인', value: 'discount' },
+      ],
+    };
   },
 };
 </script>
