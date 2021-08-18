@@ -144,9 +144,65 @@
             </v-card>
           </v-tab-item>
           <v-tab-item value="tab-2">
-            <v-card flat>
-              <v-card-text>2222222222</v-card-text>
-            </v-card>
+            <v-expansion-panels>
+              <v-expansion-panel v-for="(item, i) in 5" :key="i">
+                <v-expansion-panel-header>
+                  <v-row>
+                    <v-col cols="2">
+                      <v-img
+                        src="//app-storage-edge-006.cafe24.com/bannermanage2/rooseoin0/2021/05/06/f0f36a4d1d86e805e2efd73894865765.jpg"
+                        max-width="80"
+                      />
+                    </v-col>
+                    <v-col cols="6">
+                      <v-row>
+                        <v-col cols="5">
+                          <div>2021-08-17 12:30:02</div>
+                        </v-col>
+                        <v-col>
+                          <div>phk0606</div>
+                        </v-col>
+                      </v-row>
+                      <v-row>
+                        <div>
+                          사진과 다르게 색감이 좋으며, 입었을 때 스판 원단으로
+                          불편함이 없어요! 친절한 상담, 빠른 배송 감사합니다
+                        </div>
+                      </v-row>
+                    </v-col>
+                    <v-col cols="2">
+                      <v-rating v-model="rating" color="indigo" small />
+                    </v-col>
+                  </v-row>
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <v-row>
+                    <v-col cols="2">
+                      <v-img
+                        src="//app-storage-edge-006.cafe24.com/bannermanage2/rooseoin0/2021/05/06/f0f36a4d1d86e805e2efd73894865765.jpg"
+                        max-width="150"
+                      />
+                    </v-col>
+                    <v-col cols="8">
+                      <v-row>
+                        <v-col>
+                          <div>
+                            사진과 다르게 색감이 좋으며, 입었을 때 스판 원단으로
+                            불편함이 없어요! 친절한 상담, 빠른 배송 감사합니다
+                          </div>
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                    <v-col cols="1" class="d-flex">
+                      <v-btn outlined small color="brown" class="mr-2">
+                        수정
+                      </v-btn>
+                      <v-btn outlined small color="red"> 삭제 </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
           </v-tab-item>
           <v-tab-item value="tab-3">
             <v-card flat>
