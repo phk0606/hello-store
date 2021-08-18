@@ -290,6 +290,28 @@
                 </v-card>
               </v-expansion-panel>
             </v-expansion-panels>
+            <v-container>
+              <v-row justify="center" class="pt-2" style="text-align: center">
+                <v-col cols="auto">
+                  <pagination
+                    :options="{
+                      theme: 'bootstrap4',
+                      edgeNavigation: true,
+                      texts: {
+                        first: '처음',
+                        last: '마지막',
+                        count:
+                          '전체 {count} 개중 {from} 부터 {to}  |{count} 개| 1 개',
+                      },
+                    }"
+                    v-model="page"
+                    :records="40"
+                    :per-page="20"
+                    @paginate="myCallback"
+                  />
+                </v-col>
+              </v-row>
+            </v-container>
           </v-tab-item>
           <v-tab-item value="tab-3">
             <v-card flat>
@@ -319,13 +341,19 @@
 </template>
 
 <script>
+import Pagination from 'vue-pagination-2';
+
 export default {
   data: () => ({
+    page: 1,
     panelItems: 5,
     rating: 4,
     tab: null,
     items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
   }),
+  components: {
+    Pagination,
+  },
   methods: {
     replyRegistShow(index) {
       console.log(index);
@@ -341,6 +369,9 @@ export default {
       } else {
         this.$refs.replyListRow[index].style.display = 'none';
       }
+    },
+    myCallback: function (page) {
+      console.log(`Page ${page} was selected. Do something about it`);
     },
   },
 };
