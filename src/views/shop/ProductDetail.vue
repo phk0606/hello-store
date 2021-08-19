@@ -144,6 +144,164 @@
             </v-card>
           </v-tab-item>
           <v-tab-item value="tab-2">
+            <v-container>
+              <v-row justify="end">
+                <v-col cols="auto">
+                  <!-- <v-btn dark color="purple">상품평 작성</v-btn> -->
+                  <v-dialog v-model="dialog" persistent max-width="600px">
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn color="purple" dark v-bind="attrs" v-on="on">
+                        상품평 작성
+                      </v-btn>
+                    </template>
+                    <v-card>
+                      <v-card-title>
+                        <span class="text-h5"
+                          ><v-icon large color="indigo">
+                            mdi-lead-pencil </v-icon
+                          >상품평 작성하기</span
+                        >
+                      </v-card-title>
+                      <v-card-text>
+                        <v-container>
+                          <v-row>
+                            <v-col cols="6">
+                              <v-select
+                                :items="items"
+                                label="구매한 상품을 선택하세요."
+                                hide-details
+                                outlined
+                                dense
+                                :menu-props="{ offsetY: true }"
+                              />
+                            </v-col>
+                          </v-row>
+                          <v-row>
+                            <v-col>
+                              <validation-provider
+                                name="ProductComment"
+                                v-slot="{ errors }"
+                                rules="required|max:10"
+                              >
+                                <v-textarea
+                                  rows="3"
+                                  outlined
+                                  v-model="productComment"
+                                  label="상품평"
+                                  :counter="10"
+                                  :error-messages="errors"
+                                />
+                              </validation-provider>
+                            </v-col>
+                          </v-row>
+                          <v-row>
+                            <v-card>
+                              <v-card-title>평점</v-card-title>
+                              <v-card-text>
+                                <v-radio-group
+                                  dense
+                                  hide-details
+                                  v-model="radios"
+                                  row
+                                >
+                                  <v-radio value="1">
+                                    <template v-slot:label>
+                                      매우 만족
+                                      <v-rating
+                                        background-color="indigo lighten-3"
+                                        color="indigo"
+                                        small
+                                        readonly
+                                        :value="5"
+                                      />
+                                    </template>
+                                  </v-radio>
+                                  <v-radio value="2">
+                                    <template v-slot:label>
+                                      만족
+                                      <v-rating
+                                        background-color="indigo lighten-3"
+                                        color="indigo"
+                                        small
+                                        readonly
+                                        :value="4"
+                                      />
+                                    </template>
+                                  </v-radio>
+                                  <v-radio value="3">
+                                    <template v-slot:label>
+                                      보통
+                                      <v-rating
+                                        background-color="indigo lighten-3"
+                                        color="indigo"
+                                        small
+                                        readonly
+                                        :value="3"
+                                      />
+                                    </template>
+                                  </v-radio>
+                                  <v-radio value="4">
+                                    <template v-slot:label>
+                                      불만
+                                      <v-rating
+                                        background-color="indigo lighten-3"
+                                        color="indigo"
+                                        small
+                                        readonly
+                                        :value="2"
+                                      />
+                                    </template>
+                                  </v-radio>
+                                  <v-radio value="5">
+                                    <template v-slot:label>
+                                      매우불만
+                                      <v-rating
+                                        background-color="indigo lighten-3"
+                                        color="indigo"
+                                        small
+                                        readonly
+                                        :value="1"
+                                      />
+                                    </template>
+                                  </v-radio>
+                                </v-radio-group>
+                              </v-card-text>
+                            </v-card>
+                          </v-row>
+                          <v-row>
+                            <v-file-input
+                              @change="Preview_image"
+                              v-model="image"
+                              show-size
+                            />
+                          </v-row>
+                          <v-row>
+                            <v-img :src="url" />
+                          </v-row>
+                        </v-container>
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-spacer />
+                        <v-btn
+                          color="blue darken-1"
+                          text
+                          @click="dialog = false"
+                        >
+                          Close
+                        </v-btn>
+                        <v-btn
+                          color="blue darken-1"
+                          text
+                          @click="dialog = false"
+                        >
+                          Save
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
+                </v-col>
+              </v-row>
+            </v-container>
             <v-expansion-panels>
               <v-expansion-panel v-for="(item, i) in panelItems" :key="i">
                 <v-expansion-panel-header>
@@ -345,10 +503,15 @@ import Pagination from 'vue-pagination-2';
 
 export default {
   data: () => ({
+    url: null,
+    image: null,
+    radios: 'Duckduckgo',
+    productComment: null,
     page: 1,
     panelItems: 5,
     rating: 4,
     tab: null,
+    dialog: false,
     items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
   }),
   components: {
@@ -372,6 +535,13 @@ export default {
     },
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
+    },
+    Preview_image(e) {
+      if (e !== null) {
+        this.url = URL.createObjectURL(this.image);
+      } else {
+        this.url = null;
+      }
     },
   },
 };
