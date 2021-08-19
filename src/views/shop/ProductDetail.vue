@@ -92,12 +92,12 @@
             <v-row dense align="center">
               <v-col cols="2" class="pr-0"> 수량: </v-col>
               <v-col cols="3">
-                <v-text-field outlined dense hide-details value="1" />
+                <v-text-field outlined dense hide-details v-model="num" />
               </v-col>
               <v-col>
-                <v-btn small class="mr-2" icon color="indigo"
+                <v-btn small class="mr-2" icon color="indigo" @click="plus"
                   ><v-icon>mdi-plus</v-icon></v-btn
-                ><v-btn small icon color="indigo"
+                ><v-btn small icon color="indigo" @click="minus"
                   ><v-icon>mdi-minus</v-icon></v-btn
                 >
               </v-col>
@@ -177,10 +177,21 @@ export default {
   data: () => ({
     tab: null,
     items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
+    num: 1,
   }),
   components: {
     ProductComment,
     ProductQna,
+  },
+  methods: {
+    plus() {
+      this.num += 1;
+    },
+    minus() {
+      if (this.num > 1) {
+        this.num -= 1;
+      }
+    },
   },
 };
 </script>
