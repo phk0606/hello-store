@@ -8,7 +8,9 @@
             <v-img
               lazy-src="@/assets/logo.jpg"
               max-height="100"
+              min-height="100"
               max-width="110"
+              min-width="110"
               src="@/assets/logo.png"
             />
           </router-link>
@@ -26,13 +28,22 @@
             class="hidden-xs-and-down"
           />
         </v-col>
-        <v-col cols="4">
+        <v-col cols="2">
           <v-btn color="indigo darken-3"> 검색 </v-btn>
+        </v-col>
+        <v-col cols="2">
+          <v-row class="d-flex justify-center">
+            <v-btn href="/cart" icon>
+              <v-badge content="2" value="2" color="indigo" overlap>
+                <v-icon>mdi-cart</v-icon>
+              </v-badge>
+            </v-btn>
+          </v-row>
         </v-col>
       </v-row>
       <v-row justify="end" no-gutters>
         <v-col cols="auto">
-          <v-btn-toggle tile group dense>
+          <v-btn-toggle group dense>
             <v-btn small value="left" class="mr-0" to="/authentication/sign-up"
               >회원가입</v-btn
             >
