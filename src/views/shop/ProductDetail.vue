@@ -61,12 +61,13 @@
 
           <v-card-text class="text--primary">
             <div>판매 가격: 15,000 원</div>
-
+            <div>포인트: 250</div>
             <div>상품 요약: 깃털처럼 가벼운 것에 비해 최고 효과</div>
           </v-card-text>
           <v-card-text>
             <v-row>
               <v-col cols="auto">
+                <v-subheader>옵션1</v-subheader>
                 <v-select
                   :items="items"
                   label="옵션을 선택해 주세요."
@@ -76,7 +77,7 @@
                   :menu-props="{ offsetY: true }"
                   class="pb-4"
                 />
-
+                <v-subheader>옵션2</v-subheader>
                 <v-select
                   :items="items"
                   label="옵션을 선택해 주세요."
@@ -104,13 +105,20 @@
             </v-row>
             <v-row>
               <v-col>
-                <div>총 금액:</div>
+                <div>배송비:</div>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <div>총 결제 금액:</div>
               </v-col>
             </v-row>
           </v-container>
         </v-card>
         <div class="pt-5">
-          <v-btn dark block large color="black"> 구매하기 </v-btn>
+          <v-btn dark block large color="black" to="/style-shop/product-order">
+            구매하기
+          </v-btn>
         </div>
         <div class="pt-5" />
         <div>
