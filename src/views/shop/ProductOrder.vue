@@ -11,7 +11,7 @@
           <template v-slot:default>
             <thead>
               <tr>
-                <th class="text-center subtitle-1">번호</th>
+                <th class="text-center">번호</th>
                 <th class="text-center">상품정보</th>
                 <th class="text-center">수량</th>
                 <th class="text-center">판매가격</th>
@@ -23,7 +23,7 @@
                 v-for="(order, index) in orders.slice().reverse()"
                 :key="index"
               >
-                <td>{{ index + 1 }}</td>
+                <td class="text-center">{{ index + 1 }}</td>
                 <td>
                   <v-row>
                     <v-col cols="3">
@@ -36,8 +36,8 @@
                     </v-col>
                   </v-row>
                 </td>
-                <td>{{ order.quantity }}</td>
-                <td>{{ order.price }}</td>
+                <td class="text-center">{{ order.quantity }}</td>
+                <td class="text-center">{{ order.price }}</td>
               </tr>
             </tbody>
           </template>
