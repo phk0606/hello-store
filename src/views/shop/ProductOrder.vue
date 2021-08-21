@@ -96,6 +96,7 @@
                   <v-row dense align="center">
                     <v-col
                       ><v-text-field
+                        placeholder="우편번호"
                         hide-details
                         dense
                         solo-inverted
@@ -107,6 +108,7 @@
                   <v-row dense align="center">
                     <v-col
                       ><v-text-field
+                        placeholder="도로명 주소"
                         hide-details
                         dense
                         solo-inverted
@@ -114,7 +116,23 @@
                         disabled
                     /></v-col>
                     <v-col
-                      ><v-text-field hide-details dense solo-inverted required
+                      ><v-text-field
+                        placeholder="지번 주소"
+                        hide-details
+                        dense
+                        solo-inverted
+                        required
+                        disabled
+                    /></v-col>
+                  </v-row>
+                  <v-row dense align="center">
+                    <v-col
+                      ><v-text-field
+                        placeholder="상세 주소"
+                        hide-details
+                        dense
+                        solo-inverted
+                        required
                     /></v-col>
                   </v-row>
                 </v-col>

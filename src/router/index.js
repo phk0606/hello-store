@@ -72,7 +72,7 @@ const routes = [
         name: 'OrderComplete',
         component: () =>
           import(
-            /* webpackChunkName: "style-shop-product-order" */ '@/views/shop/OrderComplete'
+            /* webpackChunkName: "style-shop-order-complete" */ '@/views/shop/OrderComplete'
           ),
       },
     ],
