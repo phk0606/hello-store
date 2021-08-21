@@ -135,7 +135,9 @@
               <v-divider />
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">요청사항:</div></v-col>
-                <v-col><v-textarea hide-details dense filled /></v-col>
+                <v-col
+                  ><v-textarea hide-details dense filled no-resize
+                /></v-col>
               </v-row>
             </v-container>
           </v-card-text>
@@ -219,10 +221,18 @@
                 </v-col>
               </v-row>
               <v-divider />
-              <v-row align="center">
-                <v-col cols="auto"> 에스크로 결제 </v-col>
+              <v-row dense align="center">
+                <v-col cols="2">
+                  <div class="subtitle-1">에스크로 결제</div>
+                </v-col>
                 <v-col>
-                  <v-radio-group dense hide-details v-model="radios2" row>
+                  <v-radio-group
+                    dense
+                    hide-details
+                    v-model="radios2"
+                    row
+                    class="mt-0"
+                  >
                     <v-radio value="1">
                       <template v-slot:label> 계좌이체 </template>
                     </v-radio>
@@ -232,9 +242,13 @@
                   </v-radio-group>
                 </v-col>
               </v-row>
+              <v-divider />
               <v-row>
-                <v-col>
-                  <v-btn to="/style-shop/order-info">결제하기</v-btn>
+                <v-col class="d-flex justify-end">
+                  <v-btn class="mr-5" to="/style-shop/order-info"
+                    >결제하기</v-btn
+                  >
+
                   <v-btn>취소</v-btn>
                 </v-col>
               </v-row>
