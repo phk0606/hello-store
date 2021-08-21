@@ -63,7 +63,13 @@
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
                 <v-col
-                  ><v-text-field hide-details dense solo-inverted required
+                  ><v-text-field
+                    value="홍길동"
+                    hide-details
+                    dense
+                    solo-inverted
+                    required
+                    readonly
                 /></v-col>
               </v-row>
               <v-row dense align="center">
@@ -73,9 +79,10 @@
                     hide-details
                     dense
                     solo-inverted
-                    placeholder="01012341234"
+                    value="01012341234"
                     counter="11"
                     required
+                    readonly
                 /></v-col>
               </v-row>
             </v-container>
@@ -86,7 +93,13 @@
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
                 <v-col
-                  ><v-text-field hide-details dense required solo-inverted
+                  ><v-text-field
+                    hide-details
+                    dense
+                    required
+                    solo-inverted
+                    value="홍길동"
+                    readonly
                 /></v-col>
               </v-row>
               <v-divider />
@@ -95,30 +108,14 @@
                   <div class="subtitle-1">*주소:</div>
                 </v-col>
                 <v-col>
-                  <v-row dense align="center">
-                    <v-col
-                      ><v-text-field
-                        hide-details
-                        dense
-                        solo-inverted
-                        required
-                        disabled
-                    /></v-col>
-                    <v-col><v-btn>우편번호 찾기</v-btn></v-col>
-                  </v-row>
-                  <v-row dense align="center">
-                    <v-col
-                      ><v-text-field
-                        hide-details
-                        dense
-                        solo-inverted
-                        required
-                        disabled
-                    /></v-col>
-                    <v-col
-                      ><v-text-field hide-details dense solo-inverted required
-                    /></v-col>
-                  </v-row>
+                  <v-text-field
+                    hide-details
+                    dense
+                    required
+                    solo-inverted
+                    value="경기도 수원시 장안구 천천동 123-12 105동 106호"
+                    readonly
+                  />
                 </v-col>
               </v-row>
               <v-divider />
@@ -129,7 +126,7 @@
                     hide-details
                     dense
                     solo-inverted
-                    placeholder="01012341234"
+                    value="01012341234"
                     counter="11"
                     required
                 /></v-col>
@@ -138,7 +135,13 @@
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">요청사항:</div></v-col>
                 <v-col
-                  ><v-textarea hide-details dense filled no-resize
+                  ><v-textarea
+                    hide-details
+                    dense
+                    filled
+                    no-resize
+                    value="빠른 배송 부탁합니다."
+                    readonly
                 /></v-col>
               </v-row>
             </v-container>
