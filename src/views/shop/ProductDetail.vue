@@ -9,7 +9,7 @@
           <!-- <v-card-title>Top 10 Australian beaches</v-card-title> -->
         </v-img>
       </v-col>
-      <v-col cols="5">
+      <v-col cols="6">
         <v-card>
           <v-card-title>상품명: 기모티셔츠</v-card-title>
           <v-card-text>
@@ -64,20 +64,10 @@
             <div>포인트: 250</div>
             <div>상품 요약: 깃털처럼 가벼운 것에 비해 최고 효과</div>
           </v-card-text>
-          <v-card-text>
-            <v-row>
-              <v-col cols="auto">
-                <v-subheader>옵션1</v-subheader>
-                <v-select
-                  :items="items"
-                  label="옵션을 선택해 주세요."
-                  hide-details
-                  outlined
-                  dense
-                  :menu-props="{ offsetY: true }"
-                  class="pb-4"
-                />
-                <v-subheader>옵션2</v-subheader>
+          <v-container>
+            <v-row dense align="center">
+              <v-col cols="auto"><div class="subtitle-1">옵션1:</div></v-col>
+              <v-col>
                 <v-select
                   :items="items"
                   label="옵션을 선택해 주세요."
@@ -88,10 +78,23 @@
                 />
               </v-col>
             </v-row>
-          </v-card-text>
-          <v-container fluid>
             <v-row dense align="center">
-              <v-col cols="2" class="pr-0"> 수량: </v-col>
+              <v-col cols="auto"><div class="subtitle-1">옵션2:</div></v-col>
+              <v-col>
+                <v-select
+                  :items="items"
+                  label="옵션을 선택해 주세요."
+                  hide-details
+                  outlined
+                  dense
+                  :menu-props="{ offsetY: true }"
+                />
+              </v-col>
+            </v-row>
+          </v-container>
+          <v-container>
+            <v-row dense align="center">
+              <v-col cols="auto"><div class="subtitle-1">수량:</div> </v-col>
               <v-col cols="3">
                 <v-text-field outlined dense hide-details v-model="num" />
               </v-col>

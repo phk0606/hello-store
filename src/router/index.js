@@ -67,6 +67,14 @@ const routes = [
             /* webpackChunkName: "style-shop-product-order" */ '@/views/shop/ProductOrder'
           ),
       },
+      {
+        path: 'order-info',
+        name: 'OrderInfo',
+        component: () =>
+          import(
+            /* webpackChunkName: "style-shop-product-order" */ '@/views/shop/OrderInfo'
+          ),
+      },
     ],
   },
 ];

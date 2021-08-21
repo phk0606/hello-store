@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row dense>
       <v-col>
-        <v-subheader>구매 목록</v-subheader>
+        <div class="h5">구매 목록</div>
       </v-col>
     </v-row>
     <v-row>
@@ -11,7 +11,7 @@
           <template v-slot:default>
             <thead>
               <tr>
-                <th class="text-center">번호</th>
+                <th class="text-center subtitle-1">번호</th>
                 <th class="text-center">상품정보</th>
                 <th class="text-center">수량</th>
                 <th class="text-center">판매가격</th>
@@ -27,10 +27,10 @@
                 <td>
                   <v-row>
                     <v-col cols="3">
-                      <v-img :src="order.imgSrc" max-width="90" />
+                      <v-img :src="order.imgSrc" max-width="100" />
                     </v-col>
                     <v-col>
-                      <div>{{ order.productName }}</div>
+                      <div>상품명: {{ order.productName }}</div>
                       <div>색상: {{ order.option1 }}</div>
                       <div>디자인: {{ order.option2 }}</div>
                     </v-col>
@@ -51,83 +51,186 @@
         </template>
       </v-col>
     </v-row>
-
-    <v-row justify="">
-      <v-col cols="12">
+    <v-divider />
+    <v-row>
+      <v-col cols="8">
         <v-card ref="form">
           <v-card-title>주문자 정보</v-card-title>
           <v-card-text>
-            <v-text-field
-              ref="name"
-              v-model="name"
-              :rules="[() => !!name || 'This field is required']"
-              :error-messages="errorMessages"
-              label="*이름"
-              required
-            />
-            <v-text-field
-              ref="address"
-              v-model="address"
-              label="*연락처"
-              placeholder="01012341234"
-              counter="25"
-              required
-            />
+            <v-container>
+              <v-row dense align="center">
+                <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
+                <v-col
+                  ><v-text-field hide-details dense solo-inverted required
+                /></v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col cols="2"><div class="subtitle-1">*연락처:</div></v-col>
+                <v-col
+                  ><v-text-field
+                    hide-details
+                    dense
+                    solo-inverted
+                    placeholder="01012341234"
+                    counter="11"
+                    required
+                /></v-col>
+              </v-row>
+            </v-container>
           </v-card-text>
           <v-card-title>배송 정보</v-card-title>
           <v-card-text>
-            <v-text-field
-              ref="name"
-              v-model="name"
-              :rules="[() => !!name || 'This field is required']"
-              :error-messages="errorMessages"
-              label="*이름(회사)"
-              required
-            />
-            <v-text-field
-              ref="address"
-              v-model="address"
-              label="주소"
-              placeholder=""
-              counter="25"
-              required
-            />
-            <v-text-field
-              ref="address"
-              v-model="address"
-              label="연락처"
-              placeholder="01012341234"
-              counter="25"
-              required
-            />
-            <v-textarea outlined label="요청사항" />
+            <v-container>
+              <v-row dense align="center">
+                <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
+                <v-col
+                  ><v-text-field hide-details dense required solo-inverted
+                /></v-col>
+              </v-row>
+              <v-divider />
+              <v-row dense align="center">
+                <v-col cols="2">
+                  <div class="subtitle-1">*주소:</div>
+                </v-col>
+                <v-col>
+                  <v-row dense align="center">
+                    <v-col
+                      ><v-text-field
+                        hide-details
+                        dense
+                        solo-inverted
+                        required
+                        disabled
+                    /></v-col>
+                    <v-col><v-btn>우편번호 찾기</v-btn></v-col>
+                  </v-row>
+                  <v-row dense align="center">
+                    <v-col
+                      ><v-text-field
+                        hide-details
+                        dense
+                        solo-inverted
+                        required
+                        disabled
+                    /></v-col>
+                    <v-col
+                      ><v-text-field hide-details dense solo-inverted required
+                    /></v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+              <v-divider />
+              <v-row dense align="center">
+                <v-col cols="2"><div class="subtitle-1">*연락처:</div></v-col>
+                <v-col
+                  ><v-text-field
+                    hide-details
+                    dense
+                    solo-inverted
+                    placeholder="01012341234"
+                    counter="11"
+                    required
+                /></v-col>
+              </v-row>
+              <v-divider />
+              <v-row dense align="center">
+                <v-col cols="2"><div class="subtitle-1">요청사항:</div></v-col>
+                <v-col><v-textarea hide-details dense filled /></v-col>
+              </v-row>
+            </v-container>
           </v-card-text>
           <v-card-title>결제 금액 확인 및 결제 방법 선택</v-card-title>
           <v-card-text>
-            <v-text-field
-              ref="name"
-              v-model="name"
-              :rules="[() => !!name || 'This field is required']"
-              :error-messages="errorMessages"
-              label="총 상품 가격"
-              required
-            />
-            <v-text-field
-              ref="address"
-              v-model="address"
-              label="배송비"
-              placeholder=""
-              counter="25"
-              required
-            />
-            <v-text-field
-              ref="address"
-              v-model="address"
-              label="총 결제 금액"
-              placeholder="01012341234"
-              counter="25"
-              required
-            />
+            <v-container>
+              <v-row dense align="center">
+                <v-col cols="2"
+                  ><div class="subtitle-1">총 상품 가격:</div></v-col
+                >
+                <v-col>
+                  <v-text-field
+                    reverse
+                    value="76000"
+                    hide-details
+                    dense
+                    required
+                    solo-inverted
+                    readonly
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col cols="2"><div class="subtitle-1">배송비:</div></v-col>
+                <v-col>
+                  <v-text-field
+                    reverse
+                    value="2500"
+                    hide-details
+                    dense
+                    required
+                    solo-inverted
+                    readonly
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col cols="2"
+                  ><div class="subtitle-1">총 결제 금액:</div></v-col
+                >
+                <v-col>
+                  <v-text-field
+                    reverse
+                    value="78500"
+                    hide-details
+                    dense
+                    required
+                    solo-inverted
+                    readonly
+                    class="text-right"
+                  />
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card-text>
+          <v-card-text>
+            <v-row align="center">
+              <v-col cols="2"> 일반결제 </v-col>
+              <v-col>
+                <v-radio-group dense hide-details v-model="radios" row>
+                  <v-radio value="1">
+                    <template v-slot:label> 무통장 입금 </template>
+                  </v-radio>
+                  <v-radio value="2">
+                    <template v-slot:label> 카드결제 </template>
+                  </v-radio>
+                  <v-radio value="3">
+                    <template v-slot:label> 계좌이체 </template>
+                  </v-radio>
+                  <v-radio value="4">
+                    <template v-slot:label> 가상계좌 </template>
+                  </v-radio>
+                </v-radio-group>
+              </v-col>
+            </v-row>
+            <v-divider />
+            <v-row align="center">
+              <v-col cols="auto"> 에스크로 결제 </v-col>
+              <v-col>
+                <v-radio-group dense hide-details v-model="radios" row>
+                  <v-radio value="1">
+                    <template v-slot:label> 계좌이체 </template>
+                  </v-radio>
+                  <v-radio value="2">
+                    <template v-slot:label> 가상계좌 </template>
+                  </v-radio>
+                </v-radio-group>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-btn to="/style-shop/order-info">결제하기</v-btn>
+                <v-btn>취소</v-btn>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-col>
@@ -146,6 +249,7 @@ export default {
   data() {
     return {
       adress: null,
+      radios: 'Duckduckgo',
       orders: [
         {
           productId: 12345,
