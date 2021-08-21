@@ -77,6 +77,30 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/my-page',
+    component: () =>
+      import(
+        /* webpackChunkName: "style-shop-layout" */
+        '@/views/my/My'
+      ),
+    children: [
+      {
+        path: 'order-info',
+        name: 'OrderInfo',
+        component: () =>
+          import(
+            /* webpackChunkName: "my-order-info" */ '@/views/my/OrderInfo'
+          ),
+      },
+      {
+        path: 'cart',
+        name: 'Cart',
+        component: () =>
+          import(/* webpackChunkName: "cart" */ '@/views/my/Cart'),
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({

@@ -33,10 +33,13 @@
         </v-col>
         <v-col cols="2">
           <v-row class="d-flex justify-center">
-            <v-btn href="/cart" icon>
+            <v-btn href="/my-page/cart" icon>
               <v-badge content="2" value="2" color="indigo" overlap>
-                <v-icon>mdi-cart</v-icon>
+                <v-icon large>mdi-cart</v-icon>
               </v-badge>
+            </v-btn>
+            <v-btn href="/my-page/order-info" icon>
+              <v-icon large>mdi-account</v-icon>
             </v-btn>
           </v-row>
         </v-col>
