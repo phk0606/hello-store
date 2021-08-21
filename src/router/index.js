@@ -68,11 +68,11 @@ const routes = [
           ),
       },
       {
-        path: 'order-info',
-        name: 'OrderInfo',
+        path: 'order-complete',
+        name: 'OrderComplete',
         component: () =>
           import(
-            /* webpackChunkName: "style-shop-product-order" */ '@/views/shop/OrderInfo'
+            /* webpackChunkName: "style-shop-product-order" */ '@/views/shop/OrderComplete'
           ),
       },
     ],

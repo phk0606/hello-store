@@ -2,11 +2,12 @@
   <v-container fluid>
     <v-row dense>
       <v-col>
-        <div class="h5">구매 목록</div>
+        <div class="h5">주문 완료</div>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12">
+        <h6>주문번호: 1111111</h6>
         <v-simple-table fixed-header dense height="400px">
           <template v-slot:default>
             <thead>
@@ -15,7 +16,7 @@
                 <th class="text-center">상품정보</th>
                 <th class="text-center">수량</th>
                 <th class="text-center">판매가격</th>
-                <!-- <th class="text-center">포인트</th> -->
+                <th class="text-center">배송비</th>
               </tr>
             </thead>
             <tbody>
@@ -38,6 +39,7 @@
                 </td>
                 <td class="text-center">{{ order.quantity }}</td>
                 <td class="text-center">{{ order.price }}</td>
+                <td class="text-center">{{ order.deliveryCharge }}</td>
               </tr>
             </tbody>
           </template>
@@ -141,17 +143,14 @@
               </v-row>
             </v-container>
           </v-card-text>
-          <v-card-title>결제 금액 확인 및 결제 방법 선택</v-card-title>
+          <v-card-title>결제 정보</v-card-title>
           <v-card-text>
             <v-container>
               <v-row dense align="center">
-                <v-col cols="2"
-                  ><div class="subtitle-1">총 상품 가격:</div></v-col
-                >
+                <v-col cols="2"><div class="subtitle-1">결제 방법:</div></v-col>
                 <v-col>
                   <v-text-field
-                    reverse
-                    value="76000"
+                    value="신용카드"
                     hide-details
                     dense
                     required
@@ -160,27 +159,11 @@
                   />
                 </v-col>
               </v-row>
+
               <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">배송비:</div></v-col>
+                <v-col cols="2"><div class="subtitle-1">결제 금액:</div></v-col>
                 <v-col>
                   <v-text-field
-                    reverse
-                    value="2500"
-                    hide-details
-                    dense
-                    required
-                    solo-inverted
-                    readonly
-                  />
-                </v-col>
-              </v-row>
-              <v-row dense align="center">
-                <v-col cols="2"
-                  ><div class="subtitle-1">총 결제 금액:</div></v-col
-                >
-                <v-col>
-                  <v-text-field
-                    reverse
                     value="78500"
                     hide-details
                     dense
@@ -191,65 +174,16 @@
                   />
                 </v-col>
               </v-row>
-            </v-container>
-          </v-card-text>
-          <v-card-text>
-            <v-container>
-              <v-row dense align="center">
-                <v-col cols="2"> <div class="subtitle-1">일반결제</div> </v-col>
-                <v-col>
-                  <v-radio-group
-                    dense
-                    hide-details
-                    v-model="radios1"
-                    row
-                    class="mt-0"
-                  >
-                    <v-radio value="1">
-                      <template v-slot:label>무통장 입금</template>
-                    </v-radio>
-                    <v-radio value="2">
-                      <template v-slot:label> 카드결제 </template>
-                    </v-radio>
-                    <v-radio value="3">
-                      <template v-slot:label> 계좌이체 </template>
-                    </v-radio>
-                    <v-radio value="4">
-                      <template v-slot:label> 가상계좌 </template>
-                    </v-radio>
-                  </v-radio-group>
-                </v-col>
-              </v-row>
-              <v-divider />
-              <v-row dense align="center">
-                <v-col cols="2">
-                  <div class="subtitle-1">에스크로 결제</div>
-                </v-col>
-                <v-col>
-                  <v-radio-group
-                    dense
-                    hide-details
-                    v-model="radios2"
-                    row
-                    class="mt-0"
-                  >
-                    <v-radio value="1">
-                      <template v-slot:label> 계좌이체 </template>
-                    </v-radio>
-                    <v-radio value="2">
-                      <template v-slot:label> 가상계좌 </template>
-                    </v-radio>
-                  </v-radio-group>
-                </v-col>
-              </v-row>
               <v-divider />
               <v-row>
-                <v-col class="d-flex justify-end">
-                  <v-btn class="mr-5" to="/style-shop/order-complete"
-                    >결제하기</v-btn
+                <v-col class="d-flex justify-space-around">
+                  <v-btn to="/style-shop/order-complete"
+                    >주문내역/배송조회 확인</v-btn
                   >
 
-                  <v-btn>취소</v-btn>
+                  <v-btn>쇼핑 계속하기</v-btn>
+                  <v-btn>메인으로 가기</v-btn>
+                  <v-btn>로그아웃</v-btn>
                 </v-col>
               </v-row>
             </v-container>
@@ -262,6 +196,7 @@
 
 <script>
 export default {
+  name: 'OrderComplete',
   methods: {
     sumField(key) {
       // sum data in give key (property)
@@ -270,9 +205,6 @@ export default {
   },
   data() {
     return {
-      adress: null,
-      radios1: '1',
-      radios2: '1',
       orders: [
         {
           productId: 12345,
@@ -281,6 +213,7 @@ export default {
             '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
           quantity: 1,
           price: 12000,
+          deliveryCharge: 2500,
           option1: '화이트',
           option2: 'C형',
         },
@@ -291,6 +224,7 @@ export default {
             '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
           quantity: 1,
           price: 12000,
+          deliveryCharge: 2500,
           option1: '화이트',
           option2: 'C형',
         },
@@ -301,6 +235,7 @@ export default {
             '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
           quantity: 1,
           price: 12000,
+          deliveryCharge: 2500,
           option1: '화이트',
           option2: 'C형',
         },
@@ -311,6 +246,7 @@ export default {
             '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
           quantity: 1,
           price: 12000,
+          deliveryCharge: 2500,
           option1: '화이트',
           option2: 'C형',
         },
@@ -321,6 +257,7 @@ export default {
             '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
           quantity: 1,
           price: 12000,
+          deliveryCharge: 2500,
           option1: '화이트',
           option2: 'C형',
         },
@@ -331,6 +268,7 @@ export default {
             '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
           quantity: 1,
           price: 12000,
+          deliveryCharge: 2500,
           option1: '화이트',
           option2: 'C형',
         },
@@ -340,8 +278,4 @@ export default {
 };
 </script>
 
-<style>
-label {
-  margin-bottom: 0;
-}
-</style>
+<style></style>
