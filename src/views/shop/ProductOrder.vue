@@ -124,13 +124,6 @@
                                   <vue-daum-postcode @complete="onComplete" />
                                 </v-col>
                               </v-row>
-                              <v-row>
-                                <v-col>
-                                  <div>
-                                    <pre v-if="result">{{ result }}</pre>
-                                  </div>
-                                </v-col>
-                              </v-row>
                             </v-container>
                           </v-card-text>
                           <v-card-actions>
@@ -141,13 +134,6 @@
                               @click="dialog = false"
                             >
                               Close
-                            </v-btn>
-                            <v-btn
-                              color="blue darken-1"
-                              text
-                              @click="dialog = false"
-                            >
-                              Save
                             </v-btn>
                           </v-card-actions>
                         </v-card>
