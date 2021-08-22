@@ -173,7 +173,6 @@
                     required
                     solo-inverted
                     readonly
-                    class="text-right"
                   />
                 </v-col>
               </v-row>
