@@ -1,4 +1,4 @@
-# vuetify-ex
+# hello-store
 
 ## Project setup
 ```
