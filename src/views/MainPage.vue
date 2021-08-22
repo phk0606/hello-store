@@ -12,7 +12,7 @@ import MainContent from '@/components/MainContent.vue';
 import DefaultFooter from '@/components/DefaultFooter.vue';
 
 export default {
-  name: 'DefaultLayout',
+  name: 'MainPage',
   components: {
     DefaultHeader,
     MainContent,

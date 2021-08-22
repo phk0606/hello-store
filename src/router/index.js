@@ -6,31 +6,32 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: '/',
+    name: 'MainPage',
     component: () =>
-      import(/* webpackChunkName: "default-layout" */ '@/views/Main.vue'),
+      import(/* webpackChunkName: "main-page" */ '@/views/MainPage'),
   },
   {
     path: '/authentication',
     component: () =>
       import(
-        /* webpackChunkName: "layouts-authentication-layout" */
+        /* webpackChunkName: "authentication" */
         '@/views/authentication/Authentication'
       ),
     children: [
       {
         path: 'sign-in',
-        name: 'SignIn',
+        name: 'authentication-signin',
         component: () =>
           import(
-            /* webpackChunkName: "views-authentication" */ '@/views/authentication/SignIn'
+            /* webpackChunkName: "authentication-signin" */ '@/views/authentication/SignIn'
           ),
       },
       {
         path: 'sign-up',
-        name: 'SignUp',
+        name: 'authentication-signup',
         component: () =>
           import(
-            /* webpackChunkName: "views-authentication" */ '@/views/authentication/SignUp'
+            /* webpackChunkName: "authentication-signup" */ '@/views/authentication/SignUp'
           ),
       },
     ],
@@ -39,21 +40,21 @@ const routes = [
     path: '/style-shop',
     component: () =>
       import(
-        /* webpackChunkName: "style-shop-layout" */
-        '@/views/shop/Shop'
+        /* webpackChunkName: "style-shop" */
+        '@/views/shop/StyleShop'
       ),
     children: [
       {
         path: 'product-list',
-        name: 'ProductList',
+        name: 'style-shop-ProductList',
         component: () =>
           import(
-            /* webpackChunkName: "style-shop-product-list" */ '@/views/shop/ProductList'
+            /* webpackChunkName: "style-shop-ProductList" */ '@/views/shop/ProductList'
           ),
       },
       {
         path: 'product-detail',
-        name: 'ProductDetail',
+        name: 'style-shop-product-detail',
         component: () =>
           import(
             /* webpackChunkName: "style-shop-product-detail" */ '@/views/shop/ProductDetail'
@@ -61,7 +62,7 @@ const routes = [
       },
       {
         path: 'product-order',
-        name: 'ProductOrder',
+        name: 'style-shop-product-order',
         component: () =>
           import(
             /* webpackChunkName: "style-shop-product-order" */ '@/views/shop/ProductOrder'
@@ -69,10 +70,10 @@ const routes = [
       },
       {
         path: 'order-complete',
-        name: 'OrderComplete',
+        name: 'style-shop-product-order-complete',
         component: () =>
           import(
-            /* webpackChunkName: "style-shop-order-complete" */ '@/views/shop/OrderComplete'
+            /* webpackChunkName: "style-shop-product-order-complete" */ '@/views/shop/OrderComplete'
           ),
       },
     ],
@@ -81,23 +82,31 @@ const routes = [
     path: '/my-page',
     component: () =>
       import(
-        /* webpackChunkName: "style-shop-layout" */
-        '@/views/my/My'
+        /* webpackChunkName: "my-page" */
+        '@/views/myPage/MyPage'
       ),
     children: [
       {
         path: 'order-info',
-        name: 'OrderInfo',
+        name: 'my-page-order-info',
         component: () =>
           import(
-            /* webpackChunkName: "my-order-info" */ '@/views/my/OrderInfo'
+            /* webpackChunkName: "my-page-order-info" */ '@/views/myPage/OrderInfo'
+          ),
+      },
+      {
+        path: 'order-detail-info',
+        name: 'my-page-order-detail-info',
+        component: () =>
+          import(
+            /* webpackChunkName: "my-page-order-detail-info" */ '@/views/myPage/OrderDetailInfo'
           ),
       },
       {
         path: 'cart',
-        name: 'Cart',
+        name: 'my-page-cart',
         component: () =>
-          import(/* webpackChunkName: "cart" */ '@/views/my/Cart'),
+          import(/* webpackChunkName: "my-page-cart" */ '@/views/myPage/Cart'),
       },
     ],
   },

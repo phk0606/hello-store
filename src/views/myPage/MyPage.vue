@@ -8,11 +8,11 @@
 
 <script>
 import DefaultHeader from '@/components/DefaultHeader.vue';
-import MyContent from '@/components/my/MyContent.vue';
+import MyContent from '@/components/myPage/MyPageContent.vue';
 import DefaultFooter from '@/components/DefaultFooter.vue';
 
 export default {
-  name: 'MyLayout',
+  name: 'MyPage',
   components: {
     DefaultHeader,
     MyContent,

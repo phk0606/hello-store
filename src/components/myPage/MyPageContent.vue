@@ -3,7 +3,7 @@
     <v-container fluid>
       <v-row dense>
         <v-col cols="2">
-          <my-left />
+          <my-page-left />
         </v-col>
         <v-col cols="10">
           <router-view />
@@ -14,12 +14,12 @@
 </template>
 
 <script>
-import MyLeft from '@/components/my/MyLeft.vue';
+import MyPageLeft from '@/components/myPage/MyPageLeft.vue';
 
 export default {
-  name: 'MyContent',
+  name: 'MyPageContent',
   components: {
-    MyLeft,
+    MyPageLeft,
   },
 };
 </script>

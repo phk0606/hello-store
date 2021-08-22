@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <h5>주문 내역</h5>
     <v-divider />
     <v-row>
@@ -71,7 +71,7 @@
                 10. 주문 일시 2021-08-12 12:15:15 주문번호: 1454460561166
               </v-col>
               <v-col>
-                <v-btn>주문 상세 내역</v-btn>
+                <v-btn to="/my-page/order-detail-info">주문 상세 내역</v-btn>
                 <v-btn>주문 취소</v-btn>
               </v-col>
             </v-row>

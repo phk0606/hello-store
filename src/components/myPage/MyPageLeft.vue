@@ -116,6 +116,7 @@
 
 <script>
 export default {
+  name: 'MyPageLeft',
   data: () => ({
     items: [
       { text: 'Outer', icon: 'mdi-clock' },
