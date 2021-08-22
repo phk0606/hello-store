@@ -48,15 +48,6 @@
     </v-row>
     <v-row justify="center" style="text-align: center">
       <v-col cols="auto">
-        <!-- <v-pagination
-          v-model="page"
-          :length="80"
-          :total-visible="7"
-          prev-icon="mdi-menu-left"
-          next-icon="mdi-menu-right"
-          circle
-          color="indigo darken-3"
-        /> -->
         <pagination
           :options="{
             theme: 'bootstrap4',
