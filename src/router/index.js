@@ -110,6 +110,24 @@ const routes = [
       },
     ],
   },
+  {
+    path: '/admin',
+    component: () =>
+      import(
+        /* webpackChunkName: "admin" */
+        '@/views/admin/Admin'
+      ),
+    children: [
+      {
+        path: 'product-regist',
+        name: 'product-regist',
+        component: () =>
+          import(
+            /* webpackChunkName: "product-regist" */ '@/views/admin/ProductRegist'
+          ),
+      },
+    ],
+  },
 ];
 
 const router = new VueRouter({

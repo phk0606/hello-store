@@ -41,6 +41,9 @@
             <v-btn to="/my-page/order-info" icon>
               <v-icon large>mdi-account</v-icon>
             </v-btn>
+            <v-btn to="/admin/product-regist" icon>
+              <v-icon large>mdi-account-tie</v-icon>
+            </v-btn>
           </v-row>
         </v-col>
       </v-row>
