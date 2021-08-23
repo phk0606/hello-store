@@ -251,65 +251,63 @@
             </v-container>
           </v-card-text>
           <v-card-text>
-            <v-container>
-              <v-row dense align="center">
-                <v-col cols="2"> <div class="subtitle-1">일반결제</div> </v-col>
-                <v-col>
-                  <v-radio-group
-                    dense
-                    hide-details
-                    v-model="radios1"
-                    row
-                    class="mt-0"
-                  >
-                    <v-radio value="1">
-                      <template v-slot:label>무통장 입금</template>
-                    </v-radio>
-                    <v-radio value="2">
-                      <template v-slot:label> 카드결제 </template>
-                    </v-radio>
-                    <v-radio value="3">
-                      <template v-slot:label> 계좌이체 </template>
-                    </v-radio>
-                    <v-radio value="4">
-                      <template v-slot:label> 가상계좌 </template>
-                    </v-radio>
-                  </v-radio-group>
-                </v-col>
-              </v-row>
-              <v-divider />
-              <v-row dense align="center">
-                <v-col cols="2">
-                  <div class="subtitle-1">에스크로 결제</div>
-                </v-col>
-                <v-col>
-                  <v-radio-group
-                    dense
-                    hide-details
-                    v-model="radios2"
-                    row
-                    class="mt-0"
-                  >
-                    <v-radio value="1">
-                      <template v-slot:label> 계좌이체 </template>
-                    </v-radio>
-                    <v-radio value="2">
-                      <template v-slot:label> 가상계좌 </template>
-                    </v-radio>
-                  </v-radio-group>
-                </v-col>
-              </v-row>
-              <v-divider />
-              <v-row>
-                <v-col class="d-flex justify-end">
-                  <v-btn class="mr-5" to="/style-shop/order-complete"
-                    >결제하기</v-btn
-                  >
+            <v-row dense align="center">
+              <v-col cols="2"> <div class="subtitle-1">일반결제</div> </v-col>
+              <v-col>
+                <v-radio-group
+                  dense
+                  hide-details
+                  v-model="radios1"
+                  row
+                  class="mt-0"
+                >
+                  <v-radio value="1">
+                    <template v-slot:label>무통장 입금</template>
+                  </v-radio>
+                  <v-radio value="2">
+                    <template v-slot:label> 카드결제 </template>
+                  </v-radio>
+                  <v-radio value="3">
+                    <template v-slot:label> 계좌이체 </template>
+                  </v-radio>
+                  <v-radio value="4">
+                    <template v-slot:label> 가상계좌 </template>
+                  </v-radio>
+                </v-radio-group>
+              </v-col>
+            </v-row>
+            <v-divider />
+            <v-row dense align="center">
+              <v-col cols="2">
+                <div class="subtitle-1">에스크로 결제</div>
+              </v-col>
+              <v-col>
+                <v-radio-group
+                  dense
+                  hide-details
+                  v-model="radios2"
+                  row
+                  class="mt-0"
+                >
+                  <v-radio value="1">
+                    <template v-slot:label> 계좌이체 </template>
+                  </v-radio>
+                  <v-radio value="2">
+                    <template v-slot:label> 가상계좌 </template>
+                  </v-radio>
+                </v-radio-group>
+              </v-col>
+            </v-row>
+            <v-divider />
+            <v-row>
+              <v-col class="d-flex justify-end">
+                <v-btn class="mr-5" to="/style-shop/order-complete"
+                  >결제하기</v-btn
+                >
 
-                  <v-btn>취소</v-btn>
-                </v-col>
-              </v-row>
-            </v-container>
+                <v-btn>취소</v-btn>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-col>

@@ -22,7 +22,7 @@
         <span><v-icon>mdi-drag-vertical-variant</v-icon> 상품 정보 입력</span>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row dense>
       <v-col cols="auto">
         <v-select
           :items="items1"
@@ -39,6 +39,226 @@
           placeholder="상품명을 입력하세요."
           outlined
         />
+      </v-col>
+    </v-row>
+    <v-row dense>
+      <v-col cols="">
+        <v-card ref="form">
+          <v-card-text>
+            <v-row dense align="center">
+              <v-col cols="12" class="d-flex"
+                ><v-text-field
+                  hide-details
+                  dense
+                  outlined
+                  required
+                  suffix="원"
+                  class="mr-2"
+                  ><template v-slot:prepend>
+                    <v-card width="80" flat> 판매 가격:</v-card></template
+                  >
+                </v-text-field>
+                <v-text-field
+                  hide-details
+                  dense
+                  outlined
+                  required
+                  suffix="원"
+                  class="mr-2"
+                  ><template v-slot:prepend
+                    ><v-card width="80" flat>정상 가격:</v-card></template
+                  > </v-text-field
+                ><v-text-field hide-details dense outlined required suffix="원"
+                  ><template v-slot:prepend
+                    ><v-card width="110" flat>최대 구매 개수:</v-card></template
+                  >
+                </v-text-field></v-col
+              >
+            </v-row>
+            <v-divider />
+            <v-row dense align="center">
+              <v-col cols="2">*적립 포인트: </v-col>
+              <v-col cols="10">
+                <v-radio-group dense row hide-details>
+                  <v-radio value="1" label="기본 포인트 적용" />
+                  <v-radio
+                    class="mr-0"
+                    value="1"
+                    label="별도 포인트 적용: 판매 가격의"
+                  />
+                  <v-col cols="2"
+                    ><v-text-field dense hide-details outlined suffix="%"
+                  /></v-col>
+                  <v-radio value="1" label="포인트 없음" />
+                </v-radio-group>
+              </v-col>
+            </v-row>
+            <v-divider />
+            <v-row dense align="center">
+              <v-col cols="2">*배송비: </v-col>
+              <v-col cols="10">
+                <v-radio-group dense row hide-details>
+                  <v-radio value="1" label="기본 배송비 적용" />
+                  <v-radio class="mr-0" value="1" label="별도 배송비 적용: " />
+                  <v-col cols="2"
+                    ><v-text-field dense hide-details outlined suffix="원"
+                  /></v-col>
+                  <v-radio value="1" label="무료 배송" />
+                </v-radio-group>
+              </v-col>
+            </v-row>
+            <v-divider />
+            <v-row dense align="center">
+              <v-col cols="2">상품 특성: </v-col>
+              <v-col cols="10" class="d-flex">
+                <v-checkbox dense label="신상품" class="mr-2" />
+                <v-checkbox dense label="BEST" class="mr-2" />
+                <v-checkbox dense label="할인" />
+              </v-col>
+            </v-row>
+            <v-divider />
+            <v-row dense align="center">
+              <v-col cols="2"
+                >상품 정보:
+                <v-radio-group dense hide-details>
+                  <v-radio value="1" label="미사용" />
+
+                  <v-radio value="1" label="사용" />
+                </v-radio-group>
+              </v-col>
+              <v-col cols="10">
+                <v-row>
+                  <v-btn>추가</v-btn>
+                  <v-btn>삭제</v-btn>
+                </v-row>
+                <v-divider />
+                <v-row>
+                  <v-checkbox /><v-text-field
+                    label="항목명"
+                    dense
+                    hide-details
+                    outlined
+                  /><v-text-field label="설명" dense hide-details outlined />
+                </v-row>
+              </v-col>
+            </v-row>
+            <v-divider />
+            <v-row dense align="center">
+              <v-col cols="2"
+                >옵션:
+                <v-radio-group dense hide-details>
+                  <v-radio value="1" label="미사용" />
+
+                  <v-radio value="1" label="사용" />
+                </v-radio-group>
+              </v-col>
+              <v-col cols="10">
+                <v-row>
+                  <v-btn>추가</v-btn>
+                  <v-btn>삭제</v-btn>
+                </v-row>
+                <v-divider />
+                <v-row>
+                  <v-checkbox /><v-text-field
+                    label="옵션명"
+                    dense
+                    hide-details
+                    outlined
+                  /><v-text-field label="설명" dense hide-details outlined />
+                  <v-text-field label="가격" dense hide-details outlined />
+                  <v-col>
+                    <v-btn>항목 추가</v-btn>
+                    <v-btn>항목 삭제</v-btn>
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row dense>
+      <v-col>
+        <span><v-icon>mdi-drag-vertical-variant</v-icon> 상품 소개 글</span>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-text-field
+          label="25자 이내로 소개글을 입력하세요."
+          dense
+          hide-details
+          outlined
+        />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        *리스트 이미지
+        <v-file-input @change="Preview_image" v-model="image" show-size />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        *상품 대표 이미지
+        <v-file-input @change="Preview_image" v-model="image" show-size />
+        <v-file-input @change="Preview_image" v-model="image" show-size />
+        <v-file-input @change="Preview_image" v-model="image" show-size />
+        <v-file-input @change="Preview_image" v-model="image" show-size />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        메인 노출 이미지
+        <v-file-input @change="Preview_image" v-model="image" show-size />
+      </v-col>
+    </v-row>
+    <v-row dense>
+      <v-col>
+        <span><v-icon>mdi-drag-vertical-variant</v-icon> 상품 상세 정보</span>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-textarea hide-details dense filled />
+      </v-col>
+    </v-row>
+    <v-row dense>
+      <v-col>
+        <span><v-icon>mdi-drag-vertical-variant</v-icon> 배송 안내</span>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-textarea hide-details dense filled />
+      </v-col>
+    </v-row>
+    <v-row dense>
+      <v-col>
+        <span
+          ><v-icon>mdi-drag-vertical-variant</v-icon> 교환 및 반품 안내</span
+        >
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-textarea hide-details dense filled />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        상품 노출 여부:
+        <v-radio-group dense row hide-details>
+          <v-radio value="1" label="진열" />
+          <v-radio class="mr-0" value="1" label="숨김" />
+          <v-radio value="1" label="품절" />
+        </v-radio-group>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-btn>등록</v-btn>
+        <v-btn>취소</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -64,7 +284,28 @@ export default {
       ],
     };
   },
+  methods: {
+    Preview_image(e) {
+      if (e !== null) {
+        this.url = URL.createObjectURL(this.image);
+      } else {
+        this.url = null;
+      }
+    },
+  },
 };
 </script>
 
-<style></style>
+<style>
+.v-input__prepend-outer {
+  margin-top: 0 !important;
+  margin-right: 0 !important;
+  align-self: center;
+}
+.v-input {
+  margin-top: 0 !important;
+}
+label {
+  margin-bottom: 0;
+}
+</style>
