@@ -30,10 +30,10 @@
     </v-row>
     <v-row>
       <v-col cols="auto">
-        <v-btn>1차 카테고리 생성</v-btn>
+        <v-btn small>1차 카테고리 생성</v-btn>
       </v-col>
       <v-col>
-        <v-btn>2차 카테고리 생성</v-btn>
+        <v-btn small>2차 카테고리 생성</v-btn>
       </v-col>
     </v-row>
     <v-row>
@@ -47,32 +47,40 @@
       </v-col>
       <v-col>
         <v-card>
-          <v-row>
-            <v-col>1차 카테고리 명 </v-col>
+          <v-row align="center" dense>
+            <v-col cols="auto">1차 카테고리 명 </v-col>
             <v-col>
-              <v-text-field outlined />
+              <v-text-field outlined dense hide-details />
             </v-col>
           </v-row>
         </v-card>
         <v-card>
-          <v-row>
+          <v-row align="center" dense>
             <v-col>1차 카테고리 명: Outer</v-col>
           </v-row>
-          <v-row>
-            <v-col>2차 카테고리 명 </v-col>
+          <v-row align="center" dense>
+            <v-col cols="auto">2차 카테고리 명 </v-col>
             <v-col>
-              <v-text-field outlined />
+              <v-text-field outlined dense hide-details />
+            </v-col>
+          </v-row>
+          <v-row align="center" dense>
+            <v-col cols="auto"> 카테고리 노출 </v-col>
+            <v-col>
+              <v-radio-group dense row hide-details>
+                <v-radio value="1" label="노출" />
+
+                <v-radio value="2" label="숨김" />
+              </v-radio-group>
             </v-col>
           </v-row>
         </v-card>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
-        <v-btn>저장</v-btn>
-      </v-col>
-      <v-col><v-btn>취소</v-btn></v-col>
-      <v-col><v-btn>삭제</v-btn></v-col>
+    <v-row justify="end">
+      <v-col cols="auto"> <v-btn>저장</v-btn></v-col
+      ><v-col cols="5"><v-btn>취소</v-btn></v-col>
+      <v-col cols="2"><v-btn>삭제</v-btn></v-col>
     </v-row>
   </v-container>
 </template>
@@ -155,4 +163,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.v-input {
+  margin-top: 0 !important;
+}
+label {
+  margin-bottom: 0;
+}
+</style>
