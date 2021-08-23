@@ -15,15 +15,14 @@
     <v-row />
     <v-row>
       <v-col>
-        <span><v-icon>mdi-drag-vertical</v-icon> 상품 등록</span>
+        <span><v-icon>mdi-drag-vertical</v-icon>상품 등록</span>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <span><v-icon>mdi-drag-vertical-variant</v-icon> 상품 정보 입력</span>
+        <span><v-icon>mdi-drag-vertical-variant</v-icon>상품 정보 입력</span>
       </v-col>
     </v-row>
-    <v-row />
     <v-row>
       <v-col cols="3">
         <v-select
@@ -71,7 +70,7 @@
                   suffix="원"
                   class="mr-5"
                   ><template v-slot:prepend>
-                    <v-card width="80" flat> 판매 가격:</v-card></template
+                    <v-card width="80" flat>판매 가격:</v-card></template
                   >
                 </v-text-field>
                 <v-text-field
@@ -215,7 +214,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <span><v-icon>mdi-drag-vertical-variant</v-icon> 상품 소개 글</span>
+        <span><v-icon>mdi-drag-vertical-variant</v-icon>상품 소개 글</span>
       </v-col>
     </v-row>
     <v-row dense>
@@ -251,7 +250,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <span><v-icon>mdi-drag-vertical-variant</v-icon> 상품 상세 정보</span>
+        <span><v-icon>mdi-drag-vertical-variant</v-icon>상품 상세 정보</span>
       </v-col>
     </v-row>
     <v-row dense>
@@ -261,7 +260,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <span><v-icon>mdi-drag-vertical-variant</v-icon> 배송 안내</span>
+        <span><v-icon>mdi-drag-vertical-variant</v-icon>배송 안내</span>
       </v-col>
     </v-row>
     <v-row dense>
@@ -271,9 +270,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <span
-          ><v-icon>mdi-drag-vertical-variant</v-icon> 교환 및 반품 안내</span
-        >
+        <span><v-icon>mdi-drag-vertical-variant</v-icon>교환 및 반품 안내</span>
       </v-col>
     </v-row>
     <v-row dense>

@@ -7,16 +7,19 @@
 </template>
 
 <script>
-import DefaultHeader from '@/components/DefaultHeader.vue';
-import MainContent from '@/components/MainContent.vue';
-import DefaultFooter from '@/components/DefaultFooter.vue';
-
 export default {
   name: 'MainPage',
   components: {
-    DefaultHeader,
-    MainContent,
-    DefaultFooter,
+    DefaultHeader: () =>
+      import(
+        /* webpackChunkName: "default-header" */ '@/components/DefaultHeader'
+      ),
+    MainContent: () =>
+      import(/* webpackChunkName: "main-content" */ '@/components/MainContent'),
+    DefaultFooter: () =>
+      import(
+        /* webpackChunkName: "default-footer" */ '@/components/DefaultFooter'
+      ),
   },
 };
 </script>

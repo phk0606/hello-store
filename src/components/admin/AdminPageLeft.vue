@@ -33,7 +33,7 @@
     <v-list dense>
       <v-list-item-group>
         <v-subheader>카테고리 관리</v-subheader>
-        <v-list-item>
+        <v-list-item to="/admin/category-manage">
           <v-icon>mdi-menu-right</v-icon>
 
           <v-list-item-content>
