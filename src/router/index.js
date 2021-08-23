@@ -126,6 +126,14 @@ const routes = [
             /* webpackChunkName: "product-regist" */ '@/views/admin/ProductRegist'
           ),
       },
+      {
+        path: 'product-list',
+        name: 'product-list',
+        component: () =>
+          import(
+            /* webpackChunkName: "product-list" */ '@/views/admin/ProductList'
+          ),
+      },
     ],
   },
 ];

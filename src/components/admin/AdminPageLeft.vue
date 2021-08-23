@@ -13,7 +13,7 @@
     <v-list dense>
       <v-list-item-group>
         <v-subheader>상품 리스트</v-subheader>
-        <v-list-item>
+        <v-list-item to="/admin/product-list">
           <v-icon>mdi-menu-right</v-icon>
 
           <v-list-item-content>
