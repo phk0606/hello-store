@@ -7,11 +7,12 @@
         </v-list-item-title>
       </v-list-item-content>
     </v-list-item>
-    <v-list dense>
-      <v-subheader>상품 등록</v-subheader>
-    </v-list>
+
     <v-list dense>
       <v-list-item-group>
+        <router-link to="/admin/product-regist"
+          ><v-subheader>상품 등록</v-subheader></router-link
+        >
         <v-subheader>상품 리스트</v-subheader>
         <v-list-item to="/admin/product-list">
           <v-icon>mdi-menu-right</v-icon>
