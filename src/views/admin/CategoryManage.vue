@@ -67,6 +67,13 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <v-btn>저장</v-btn>
+      </v-col>
+      <v-col><v-btn>취소</v-btn></v-col>
+      <v-col><v-btn>삭제</v-btn></v-col>
+    </v-row>
   </v-container>
 </template>
 
