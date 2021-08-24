@@ -86,7 +86,13 @@
 </template>
 
 <script>
+import { getCategories } from '@/api/category';
+
 export default {
+  async created() {
+    const { categories } = await getCategories();
+    console.log(categories);
+  },
   data() {
     return {
       items: [
