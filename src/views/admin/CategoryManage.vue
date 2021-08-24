@@ -36,7 +36,7 @@
         <v-btn small>2차 카테고리 생성</v-btn>
       </v-col>
     </v-row>
-    <v-row>{{ selectedCategoryId }}: {{ selectedCategoryName }}</v-row>
+    <v-row>{{ selectedCategoryId }}: {{ selectedCategoryName }} </v-row>
     <v-row>
       <v-col cols="4">
         <v-card class="mx-auto" max-width="400">
@@ -50,13 +50,13 @@
               <div @click="selectCategory(item)">{{ item.name }}</div>
             </template>
           </v-treeview>
-          <v-subheader class="indigo lighten-4">오픈숍</v-subheader>
+          <!-- <v-subheader class="indigo lighten-4">오픈숍</v-subheader>
           <v-treeview
             dense
             activatable
             color="warning"
             :items="productCategories"
-          />
+          /> -->
         </v-card>
       </v-col>
       <v-col cols="8">
@@ -131,9 +131,13 @@ export default {
   },
   methods: {
     selectCategory(a) {
-      console.log(a);
-      this.selectedCategoryId = a.id;
-      this.selectedCategoryName = a.name;
+      if (a.parentId != null) {
+        this.selectedCategoryId = a.parentId;
+        this.selectedCategoryName = a.parentName;
+      } else {
+        this.selectedCategoryId = a.id;
+        this.selectedCategoryName = a.name;
+      }
     },
     async getProductCategories() {
       const { data } = await getProductCategories();
