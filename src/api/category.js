@@ -1,8 +1,12 @@
 import { instance } from './index';
 
 // 카테고리 목록
-function getCategories() {
+function getProductCategories() {
   return instance.get('getProductCategories');
 }
 
-export { getCategories };
+function createProductCategory(name) {
+  return instance.post('createProductCategory', name);
+}
+
+export { getProductCategories, createProductCategory };

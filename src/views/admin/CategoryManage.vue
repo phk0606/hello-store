@@ -61,30 +61,50 @@
       </v-col>
       <v-col cols="8">
         <v-card>
-          <v-row align="center" dense>
-            <v-col cols="auto">1차 카테고리 명 </v-col>
-            <v-col>
-              <v-text-field outlined dense hide-details />
-            </v-col>
-          </v-row>
+          <v-form id="categoryForm" @submit.prevent="submitForm">
+            <v-row align="center" dense>
+              <v-col cols="auto">1차 카테고리 명 </v-col>
+              <v-col>
+                <v-text-field
+                  v-model="firstCategoryName"
+                  outlined
+                  dense
+                  hide-details
+                />
+              </v-col>
+            </v-row>
+            <v-row align="center" dense>
+              <v-col cols="auto"> 카테고리 노출 </v-col>
+              <v-col>
+                <v-radio-group v-model="radioGroup1" dense row hide-details>
+                  <v-radio value="Y" label="노출" />
+                  <v-radio value="N" label="숨김" />
+                </v-radio-group>
+              </v-col>
+            </v-row>
+          </v-form>
         </v-card>
         <v-card>
           <v-row align="center" dense>
-            <v-col>1차 카테고리 명: Outer</v-col>
+            <v-col>1차 카테고리 명: {{ selectedCategoryName }}</v-col>
           </v-row>
           <v-row align="center" dense>
             <v-col cols="auto">2차 카테고리 명 </v-col>
             <v-col>
-              <v-text-field outlined dense hide-details />
+              <v-text-field
+                v-model="secondCategoryName"
+                outlined
+                dense
+                hide-details
+              />
             </v-col>
           </v-row>
           <v-row align="center" dense>
             <v-col cols="auto"> 카테고리 노출 </v-col>
             <v-col>
-              <v-radio-group dense row hide-details>
-                <v-radio value="1" label="노출" />
-
-                <v-radio value="2" label="숨김" />
+              <v-radio-group v-model="radioGroup2" dense row hide-details>
+                <v-radio value="Y" label="노출" />
+                <v-radio value="N" label="숨김" />
               </v-radio-group>
             </v-col>
           </v-row>
@@ -92,7 +112,10 @@
       </v-col>
     </v-row>
     <v-row justify="end">
-      <v-col cols="auto"> <v-btn>저장</v-btn></v-col
+      <v-col cols="auto"
+        ><v-btn type="submit" color="indigo" form="categoryForm" dark
+          >저장</v-btn
+        ></v-col
       ><v-col cols="5"><v-btn>취소</v-btn></v-col>
       <v-col cols="2"><v-btn>삭제</v-btn></v-col>
     </v-row>
@@ -100,12 +123,11 @@
 </template>
 
 <script>
-import { getCategories } from '@/api/category';
+import { getProductCategories, createProductCategory } from '@/api/category';
 
 export default {
-  async created() {
-    const { data } = await getCategories();
-    this.productCategories = data;
+  created() {
+    this.getProductCategories();
   },
   methods: {
     selectCategory(a) {
@@ -113,9 +135,32 @@ export default {
       this.selectedCategoryId = a.id;
       this.selectedCategoryName = a.name;
     },
+    async getProductCategories() {
+      const { data } = await getProductCategories();
+      this.productCategories = data;
+    },
+    async submitForm() {
+      try {
+        const response = await createProductCategory({
+          name: this.firstCategoryName,
+          showYn: this.radioGroup1,
+        });
+        this.getProductCategories();
+        console.log(response);
+      } catch (error) {
+        console.log(error.response.data.message);
+        this.logMessage = error.response.data.message;
+      }
+    },
   },
   data() {
     return {
+      logMessage: '',
+      firstCategoryId: 0,
+      firstCategoryName: '',
+      secondCategoryName: '',
+      radioGroup1: 'Y',
+      radioGroup2: 'Y',
       selectedCategoryId: null,
       selectedCategoryName: null,
       items: [
@@ -136,7 +181,6 @@ export default {
         },
       ],
       productCategories: [],
-      selectedCategory: [],
     };
   },
 };
