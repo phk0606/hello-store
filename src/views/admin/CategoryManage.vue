@@ -36,6 +36,7 @@
         <v-btn small>2차 카테고리 생성</v-btn>
       </v-col>
     </v-row>
+    <v-row>{{ selectedCategoryId }}: {{ selectedCategoryName }}</v-row>
     <v-row>
       <v-col cols="4">
         <v-card class="mx-auto" max-width="400">
@@ -45,7 +46,10 @@
             activatable
             color="warning"
             :items="productCategories"
-          />
+            ><template slot="label" slot-scope="{ item }">
+              <div @click="selectCategory(item)">{{ item.name }}</div>
+            </template>
+          </v-treeview>
           <v-subheader class="indigo lighten-4">오픈숍</v-subheader>
           <v-treeview
             dense
@@ -101,11 +105,19 @@ import { getCategories } from '@/api/category';
 export default {
   async created() {
     const { data } = await getCategories();
-    console.log(data);
     this.productCategories = data;
+  },
+  methods: {
+    selectCategory(a) {
+      console.log(a);
+      this.selectedCategoryId = a.id;
+      this.selectedCategoryName = a.name;
+    },
   },
   data() {
     return {
+      selectedCategoryId: null,
+      selectedCategoryName: null,
       items: [
         {
           text: '상품 관리',
@@ -124,6 +136,7 @@ export default {
         },
       ],
       productCategories: [],
+      selectedCategory: [],
     };
   },
 };
