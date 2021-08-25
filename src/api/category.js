@@ -5,6 +5,10 @@ function getProductCategories() {
   return instance.get('getProductCategories');
 }
 
+function getProductCategory(data) {
+  return instance.get('getProductCategory', { params: data });
+}
+
 function createProductCategory(data) {
   return instance.post('createProductCategory', data);
 }
@@ -19,6 +23,7 @@ function deleteProductCategory(data) {
 
 export {
   getProductCategories,
+  getProductCategory,
   createProductCategory,
   modifyProductCategory,
   deleteProductCategory,

@@ -309,14 +309,19 @@
 </template>
 
 <script>
+import { getProductCategory } from '@/api/category';
+
 export default {
   name: 'ProductRegist',
+  created() {
+    this.getProductCategory();
+  },
   data() {
     return {
       category1Select: null,
       category2Select: null,
-      category1: ['OUTER', 'TOP', 'BOTTOM', 'DRESS'],
-      category2: ['OUTER', 'TOP', 'BOTTOM', 'DRESS'],
+      category1: [],
+      category2: [],
       image: null,
       items1: ['Foo', 'Bar', 'Fizz', 'Buzz'],
       items: [
@@ -334,6 +339,16 @@ export default {
     };
   },
   methods: {
+    async getProductCategory() {
+      const { data } = await getProductCategory({
+        parentId: this.category1Select,
+      });
+      if (this.category1Select == null) {
+        this.category1 = data;
+      } else {
+        this.category2 = data;
+      }
+    },
     Preview_image(e) {
       if (e !== null) {
         this.url = URL.createObjectURL(this.image);
@@ -341,8 +356,8 @@ export default {
         this.url = null;
       }
     },
-    changeCategory1(a) {
-      console.log(a);
+    changeCategory1() {
+      this.getProductCategory();
     },
   },
 };
