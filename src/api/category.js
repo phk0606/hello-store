@@ -5,8 +5,21 @@ function getProductCategories() {
   return instance.get('getProductCategories');
 }
 
-function createProductCategory(name) {
-  return instance.post('createProductCategory', name);
+function createProductCategory(data) {
+  return instance.post('createProductCategory', data);
 }
 
-export { getProductCategories, createProductCategory };
+function modifyProductCategory(data) {
+  return instance.post('modifyProductCategory', data);
+}
+
+function deleteProductCategory(data) {
+  return instance.post('deleteProductCategory', data);
+}
+
+export {
+  getProductCategories,
+  createProductCategory,
+  modifyProductCategory,
+  deleteProductCategory,
+};

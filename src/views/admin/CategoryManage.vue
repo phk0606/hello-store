@@ -53,7 +53,7 @@
       </v-col>
       <v-col cols="8">
         <v-card>
-          <v-form id="categoryForm" @submit.prevent="submitForm">
+          <v-form id="categoryForm1" @submit.prevent="createFirstCategory">
             <v-container>
               <v-row>
                 <v-col>1차 카테고리 관리</v-col>
@@ -72,7 +72,15 @@
                 </v-col>
                 <v-col cols="5">
                   <v-btn class="mr-3" small @click="clear">초기화</v-btn>
-                  <v-btn class="mr-3" small>등록</v-btn>
+                  <v-btn
+                    class="mr-3"
+                    small
+                    type="submit"
+                    color="indigo"
+                    form="categoryForm1"
+                    dark
+                    >등록</v-btn
+                  >
                 </v-col>
               </v-row>
               <v-row align="center" dense>
@@ -84,8 +92,10 @@
                   </v-radio-group>
                 </v-col>
                 <v-col>
-                  <v-btn class="mr-3" small>수정</v-btn>
-                  <v-btn small>삭제</v-btn>
+                  <v-btn class="mr-3" small @click.prevent="modifyFirstCategory"
+                    >수정</v-btn
+                  >
+                  <v-btn small @click.prevent="deleteFirstCategory">삭제</v-btn>
                 </v-col>
               </v-row>
             </v-container>
@@ -93,44 +103,61 @@
         </v-card>
         <v-divider />
         <v-card>
-          <v-container>
-            <v-row>
-              <v-col>2차 카테고리 관리</v-col>
-              <v-col>{{ firstCategoryId }}</v-col>
-            </v-row>
-            <v-row align="center" dense>
-              <v-col>1차 카테고리 명: {{ firstCategoryName }}</v-col>
-            </v-row>
-            <v-row align="center" dense>
-              <v-col cols="3">2차 카테고리 명 </v-col>
-              <v-col cols="4">
-                <v-text-field
-                  v-model="secondCategoryName"
-                  outlined
-                  dense
-                  hide-details
-                  class="mr-5"
-                />
-              </v-col>
-              <v-col cols="5">
-                <v-btn class="mr-3" small @click="clear">초기화</v-btn>
-                <v-btn class="mr-3" small>등록</v-btn>
-              </v-col>
-            </v-row>
-            <v-row align="center" dense>
-              <v-col cols="3"> 카테고리 노출 </v-col>
-              <v-col cols="4">
-                <v-radio-group v-model="radioGroup2" dense row hide-details>
-                  <v-radio value="Y" label="노출" />
-                  <v-radio value="N" label="숨김" />
-                </v-radio-group>
-              </v-col>
-              <v-col>
-                <v-btn class="mr-3" small>수정</v-btn>
-                <v-btn small>삭제</v-btn>
-              </v-col>
-            </v-row>
-          </v-container>
+          <v-form id="categoryForm2" @submit.prevent="createSecondCategory">
+            <v-container>
+              <v-row>
+                <v-col>2차 카테고리 관리</v-col>
+                <v-col>{{ firstCategoryId }} {{ secondCategoryId }}</v-col>
+              </v-row>
+              <v-row align="center" dense>
+                <v-col>1차 카테고리 명: {{ firstCategoryName }}</v-col>
+              </v-row>
+              <v-row align="center" dense>
+                <v-col cols="3">2차 카테고리 명 </v-col>
+                <v-col cols="4">
+                  <v-text-field
+                    v-model="secondCategoryName"
+                    outlined
+                    dense
+                    hide-details
+                    class="mr-5"
+                  />
+                </v-col>
+                <v-col cols="5">
+                  <v-btn class="mr-3" small @click="clear">초기화</v-btn>
+                  <v-btn
+                    class="mr-3"
+                    small
+                    type="submit"
+                    color="indigo"
+                    form="categoryForm2"
+                    dark
+                    >등록</v-btn
+                  >
+                </v-col>
+              </v-row>
+              <v-row align="center" dense>
+                <v-col cols="3"> 카테고리 노출 </v-col>
+                <v-col cols="4">
+                  <v-radio-group v-model="radioGroup2" dense row hide-details>
+                    <v-radio value="Y" label="노출" />
+                    <v-radio value="N" label="숨김" />
+                  </v-radio-group>
+                </v-col>
+                <v-col>
+                  <v-btn
+                    class="mr-3"
+                    small
+                    @click.prevent="modifySecondCategory"
+                    >수정</v-btn
+                  >
+                  <v-btn small @click.prevent="deleteSecondCategory"
+                    >삭제</v-btn
+                  >
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-form>
         </v-card>
       </v-col>
     </v-row>
@@ -146,7 +173,12 @@
 </template>
 
 <script>
-import { getProductCategories, createProductCategory } from '@/api/category';
+import {
+  getProductCategories,
+  createProductCategory,
+  modifyProductCategory,
+  deleteProductCategory,
+} from '@/api/category';
 
 export default {
   created() {
@@ -176,13 +208,86 @@ export default {
       const { data } = await getProductCategories();
       this.productCategories = data;
     },
-    async submitForm() {
+    async createFirstCategory() {
       try {
         const response = await createProductCategory({
           name: this.firstCategoryName,
           showYn: this.radioGroup1,
         });
         this.getProductCategories();
+        this.clear();
+        console.log(response);
+      } catch (error) {
+        console.log(error.response.data.message);
+        this.logMessage = error.response.data.message;
+      }
+    },
+    async createSecondCategory() {
+      try {
+        const response = await createProductCategory({
+          parentId: this.firstCategoryId,
+          name: this.secondCategoryName,
+          showYn: this.radioGroup1,
+        });
+        this.getProductCategories();
+        this.clear();
+        console.log(response);
+      } catch (error) {
+        console.log(error.response.data.message);
+        this.logMessage = error.response.data.message;
+      }
+    },
+    async modifyFirstCategory() {
+      try {
+        const response = await modifyProductCategory({
+          id: this.firstCategoryId,
+          name: this.firstCategoryName,
+          showYn: this.radioGroup1,
+        });
+        this.getProductCategories();
+        this.clear();
+        console.log(response);
+      } catch (error) {
+        console.log(error.response.data.message);
+        this.logMessage = error.response.data.message;
+      }
+    },
+    async modifySecondCategory() {
+      try {
+        const response = await modifyProductCategory({
+          parentId: this.firstCategoryId,
+          id: this.secondCategoryId,
+          name: this.secondCategoryName,
+          showYn: this.radioGroup2,
+        });
+        this.getProductCategories();
+        this.clear();
+        console.log(response);
+      } catch (error) {
+        console.log(error.response.data.message);
+        this.logMessage = error.response.data.message;
+      }
+    },
+    async deleteFirstCategory() {
+      try {
+        const response = await deleteProductCategory({
+          id: this.firstCategoryId,
+        });
+        this.getProductCategories();
+        this.clear();
+        console.log(response);
+      } catch (error) {
+        console.log(error.response.data.message);
+        this.logMessage = error.response.data.message;
+      }
+    },
+    async deleteSecondCategory() {
+      try {
+        const response = await deleteProductCategory({
+          id: this.secondCategoryId,
+        });
+        this.getProductCategories();
+        this.clear();
         console.log(response);
       } catch (error) {
         console.log(error.response.data.message);
