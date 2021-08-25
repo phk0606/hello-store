@@ -163,7 +163,7 @@
                 </v-row>
               </v-col>
             </v-row>
-            <!-- <v-divider />
+            <v-divider />
             <v-row dense align="center">
               <v-col cols="2"
                 >옵션:
@@ -193,10 +193,10 @@
                   <v-col>
                     <v-text-field label="설명" dense hide-details outlined />
                   </v-col>
-                  <v-col>
+                  <!-- <v-col>
                     <v-text-field label="가격" dense hide-details outlined />
-                  </v-col>
-                  <v-col>
+                  </v-col> -->
+                  <!-- <v-col>
                     <v-row justify="center">
                       <v-btn small>항목 추가</v-btn>
                     </v-row>
@@ -204,10 +204,10 @@
                     <v-row justify="center">
                       <v-btn small>항목 삭제</v-btn>
                     </v-row>
-                  </v-col>
+                  </v-col> -->
                 </v-row>
               </v-col>
-            </v-row> -->
+            </v-row>
           </v-card-text>
         </v-card>
       </v-col>
