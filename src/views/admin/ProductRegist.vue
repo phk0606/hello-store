@@ -167,25 +167,34 @@
             <v-row dense align="center">
               <v-col cols="2"
                 >옵션:
-                <v-radio-group dense hide-details>
+                <!-- <v-radio-group dense hide-details>
                   <v-radio value="1" label="미사용" />
 
                   <v-radio value="1" label="사용" />
-                </v-radio-group>
+                </v-radio-group> -->
               </v-col>
               <v-col cols="10">
                 <v-row dense>
-                  <v-col cols="auto">
+                  <!-- <v-col cols="auto">
                     <v-btn small>추가</v-btn>
                   </v-col>
                   <v-col>
                     <v-btn small>삭제</v-btn>
+                  </v-col> -->
+                  <v-col cols="auto">
+                    <v-checkbox hide-details dense label="사용여부" />
+                  </v-col>
+                  <v-col>
+                    <v-text-field label="옵션명" dense hide-details outlined />
+                  </v-col>
+                  <v-col>
+                    <v-text-field label="설명" dense hide-details outlined />
                   </v-col>
                 </v-row>
                 <v-divider />
                 <v-row dense align="center">
                   <v-col cols="auto">
-                    <v-checkbox hide-details dense />
+                    <v-checkbox hide-details dense label="사용여부" />
                   </v-col>
                   <v-col>
                     <v-text-field label="옵션명" dense hide-details outlined />
