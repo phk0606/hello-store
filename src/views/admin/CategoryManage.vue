@@ -30,13 +30,12 @@
     </v-row>
     <v-row>
       <v-col cols="auto">
-        <v-btn small>1차 카테고리 생성</v-btn>
+        <v-btn small>1차 카테고리 관리</v-btn>
       </v-col>
       <v-col>
-        <v-btn small>2차 카테고리 생성</v-btn>
+        <v-btn small>2차 카테고리 관리</v-btn>
       </v-col>
     </v-row>
-    <v-row>{{ selectedCategoryId }}: {{ selectedCategoryName }} </v-row>
     <v-row>
       <v-col cols="4">
         <v-card class="mx-auto" max-width="400">
@@ -50,75 +49,99 @@
               <div @click="selectCategory(item)">{{ item.name }}</div>
             </template>
           </v-treeview>
-          <!-- <v-subheader class="indigo lighten-4">오픈숍</v-subheader>
-          <v-treeview
-            dense
-            activatable
-            color="warning"
-            :items="productCategories"
-          /> -->
         </v-card>
       </v-col>
       <v-col cols="8">
         <v-card>
           <v-form id="categoryForm" @submit.prevent="submitForm">
+            <v-container>
+              <v-row>
+                <v-col>1차 카테고리 관리</v-col>
+                <v-col>{{ firstCategoryId }}</v-col>
+              </v-row>
+              <v-row align="center" dense>
+                <v-col cols="3">1차 카테고리 명 </v-col>
+                <v-col cols="4">
+                  <v-text-field
+                    v-model="firstCategoryName"
+                    outlined
+                    dense
+                    hide-details
+                    class="mr-5"
+                  />
+                </v-col>
+                <v-col cols="5">
+                  <v-btn class="mr-3" small @click="clear">초기화</v-btn>
+                  <v-btn class="mr-3" small>등록</v-btn>
+                </v-col>
+              </v-row>
+              <v-row align="center" dense>
+                <v-col cols="3"> 카테고리 노출 </v-col>
+                <v-col cols="4">
+                  <v-radio-group v-model="radioGroup1" dense row hide-details>
+                    <v-radio value="Y" label="노출" />
+                    <v-radio value="N" label="숨김" />
+                  </v-radio-group>
+                </v-col>
+                <v-col>
+                  <v-btn class="mr-3" small>수정</v-btn>
+                  <v-btn small>삭제</v-btn>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-form>
+        </v-card>
+        <v-divider />
+        <v-card>
+          <v-container>
+            <v-row>
+              <v-col>2차 카테고리 관리</v-col>
+              <v-col>{{ firstCategoryId }}</v-col>
+            </v-row>
             <v-row align="center" dense>
-              <v-col cols="auto">1차 카테고리 명 </v-col>
-              <v-col>
+              <v-col>1차 카테고리 명: {{ firstCategoryName }}</v-col>
+            </v-row>
+            <v-row align="center" dense>
+              <v-col cols="3">2차 카테고리 명 </v-col>
+              <v-col cols="4">
                 <v-text-field
-                  v-model="firstCategoryName"
+                  v-model="secondCategoryName"
                   outlined
                   dense
                   hide-details
+                  class="mr-5"
                 />
+              </v-col>
+              <v-col cols="5">
+                <v-btn class="mr-3" small @click="clear">초기화</v-btn>
+                <v-btn class="mr-3" small>등록</v-btn>
               </v-col>
             </v-row>
             <v-row align="center" dense>
-              <v-col cols="auto"> 카테고리 노출 </v-col>
-              <v-col>
-                <v-radio-group v-model="radioGroup1" dense row hide-details>
+              <v-col cols="3"> 카테고리 노출 </v-col>
+              <v-col cols="4">
+                <v-radio-group v-model="radioGroup2" dense row hide-details>
                   <v-radio value="Y" label="노출" />
                   <v-radio value="N" label="숨김" />
                 </v-radio-group>
               </v-col>
+              <v-col>
+                <v-btn class="mr-3" small>수정</v-btn>
+                <v-btn small>삭제</v-btn>
+              </v-col>
             </v-row>
-          </v-form>
-        </v-card>
-        <v-card>
-          <v-row align="center" dense>
-            <v-col>1차 카테고리 명: {{ selectedCategoryName }}</v-col>
-          </v-row>
-          <v-row align="center" dense>
-            <v-col cols="auto">2차 카테고리 명 </v-col>
-            <v-col>
-              <v-text-field
-                v-model="secondCategoryName"
-                outlined
-                dense
-                hide-details
-              />
-            </v-col>
-          </v-row>
-          <v-row align="center" dense>
-            <v-col cols="auto"> 카테고리 노출 </v-col>
-            <v-col>
-              <v-radio-group v-model="radioGroup2" dense row hide-details>
-                <v-radio value="Y" label="노출" />
-                <v-radio value="N" label="숨김" />
-              </v-radio-group>
-            </v-col>
-          </v-row>
+          </v-container>
         </v-card>
       </v-col>
     </v-row>
-    <v-row justify="end">
+    <!-- <v-row justify="end">
       <v-col cols="auto"
         ><v-btn type="submit" color="indigo" form="categoryForm" dark
           >저장</v-btn
         ></v-col
       ><v-col cols="5"><v-btn>취소</v-btn></v-col>
       <v-col cols="2"><v-btn>삭제</v-btn></v-col>
-    </v-row>
+    </v-row> -->
   </v-container>
 </template>
 
@@ -130,13 +153,23 @@ export default {
     this.getProductCategories();
   },
   methods: {
+    clear() {
+      this.firstCategoryId = null;
+      this.firstCategoryName = null;
+      this.secondCategoryId = null;
+      this.secondCategoryName = null;
+    },
     selectCategory(a) {
       if (a.parentId != null) {
-        this.selectedCategoryId = a.parentId;
-        this.selectedCategoryName = a.parentName;
+        this.firstCategoryId = a.parentId;
+        this.firstCategoryName = a.parentName;
+        this.secondCategoryId = a.id;
+        this.secondCategoryName = a.name;
       } else {
-        this.selectedCategoryId = a.id;
-        this.selectedCategoryName = a.name;
+        this.firstCategoryId = a.id;
+        this.firstCategoryName = a.name;
+        this.secondCategoryId = null;
+        this.secondCategoryName = null;
       }
     },
     async getProductCategories() {
@@ -160,8 +193,9 @@ export default {
   data() {
     return {
       logMessage: '',
-      firstCategoryId: 0,
+      firstCategoryId: null,
       firstCategoryName: '',
+      secondCategoryId: null,
       secondCategoryName: '',
       radioGroup1: 'Y',
       radioGroup2: 'Y',
