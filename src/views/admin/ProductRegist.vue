@@ -139,86 +139,94 @@
             <v-divider />
             <v-row dense align="center">
               <v-col cols="2"
-                >상품 정보:
-                <!-- <v-radio-group dense hide-details>
-                  <v-radio value="1" label="미사용" />
-                  <v-radio value="1" label="사용" />
-                </v-radio-group> -->
-              </v-col>
-              <v-col cols="10">
-                <!-- <v-row dense>
-                  <v-col cols="auto">
-                    <v-btn small>추가</v-btn>
-                  </v-col>
-                  <v-col>
-                    <v-btn small>삭제</v-btn>
-                  </v-col>
-                </v-row>
-                <v-divider /> -->
-                <v-row align="center" dense>
-                  <!-- <v-col cols="auto">
-                    <v-checkbox hide-details dense />
-                  </v-col> -->
-                  <!-- <v-col>
-                    <v-text-field label="항목명" dense hide-details outlined />
-                  </v-col> -->
-                  <v-col>
-                    <v-text-field label="설명" dense hide-details outlined />
-                  </v-col>
-                </v-row>
-              </v-col>
-            </v-row>
-            <v-divider />
-            <v-row dense align="center">
-              <v-col cols="2"
                 >옵션:
-                <!-- <v-radio-group dense hide-details>
-                  <v-radio value="1" label="미사용" />
+                <v-radio-group v-model="optionRadio" dense hide-details>
+                  <v-radio value="N" label="미사용" />
 
-                  <v-radio value="1" label="사용" />
-                </v-radio-group> -->
+                  <v-radio value="Y" label="사용" />
+                </v-radio-group>
               </v-col>
               <v-col cols="10">
-                <v-row dense>
-                  <!-- <v-col cols="auto">
-                    <v-btn small>추가</v-btn>
+                <v-row dense align="center">
+                  <v-col cols="auto"> 옵션 1: </v-col>
+                  <v-col cols="8">
+                    <div v-for="(firstOption, i) in firstOptions" :key="i">
+                      <v-row dense align="center">
+                        <v-col>
+                          <v-text-field
+                            v-model="firstOption.value1"
+                            label="옵션명"
+                            placeholder="예: 색상"
+                            dense
+                            hide-details
+                            outlined
+                          />
+                        </v-col>
+                        <v-col>
+                          <v-text-field
+                            v-model="firstOption.value2"
+                            label="옵션값"
+                            dense
+                            hide-details
+                            outlined
+                          />
+                        </v-col>
+                        <v-col cols="auto">
+                          <v-btn @click="firstOptionRemove(i)" small
+                            >삭제</v-btn
+                          >
+                        </v-col>
+                      </v-row>
+                    </div>
                   </v-col>
                   <v-col>
-                    <v-btn small>삭제</v-btn>
-                  </v-col> -->
-                  <v-col cols="auto">
-                    <v-checkbox hide-details dense label="사용여부" />
-                  </v-col>
-                  <v-col>
-                    <v-text-field label="옵션명" dense hide-details outlined />
-                  </v-col>
-                  <v-col>
-                    <v-text-field label="설명" dense hide-details outlined />
+                    <v-container>
+                      <v-row justify="center">
+                        <v-btn small @click="firstOptionAdd">항목 추가</v-btn>
+                      </v-row>
+                    </v-container>
                   </v-col>
                 </v-row>
                 <v-divider />
                 <v-row dense align="center">
-                  <v-col cols="auto">
-                    <v-checkbox hide-details dense label="사용여부" />
+                  <v-col cols="auto"> 옵션 2: </v-col>
+                  <v-col cols="8">
+                    <div v-for="(secondOption, i) in secondOptions" :key="i">
+                      <v-row dense align="center">
+                        <v-col>
+                          <v-text-field
+                            v-model="secondOption.value1"
+                            label="옵션명"
+                            placeholder="예: 색상"
+                            dense
+                            hide-details
+                            outlined
+                          />
+                        </v-col>
+                        <v-col>
+                          <v-text-field
+                            v-model="secondOption.value2"
+                            label="옵션값"
+                            dense
+                            hide-details
+                            outlined
+                          />
+                        </v-col>
+                        <v-col cols="auto">
+                          <v-btn @click="secondOptionRemove(i)" small
+                            >삭제</v-btn
+                          >
+                        </v-col>
+                      </v-row>
+                    </div>
                   </v-col>
                   <v-col>
-                    <v-text-field label="옵션명" dense hide-details outlined />
+                    <v-container>
+                      <v-row justify="center">
+                        <v-btn small @click="secondOptionAdd">항목 추가</v-btn>
+                      </v-row>
+                    </v-container>
                   </v-col>
-                  <v-col>
-                    <v-text-field label="설명" dense hide-details outlined />
-                  </v-col>
-                  <!-- <v-col>
-                    <v-text-field label="가격" dense hide-details outlined />
-                  </v-col> -->
-                  <!-- <v-col>
-                    <v-row justify="center">
-                      <v-btn small>항목 추가</v-btn>
-                    </v-row>
-                    <v-row class="mt-5" />
-                    <v-row justify="center">
-                      <v-btn small>항목 삭제</v-btn>
-                    </v-row>
-                  </v-col> -->
                 </v-row>
               </v-col>
             </v-row>
@@ -226,7 +234,7 @@
         </v-card>
       </v-col>
     </v-row>
-    <!-- <v-row>
+    <v-row>
       <v-col>
         <span><v-icon>mdi-drag-vertical-variant</v-icon>상품 소개 글</span>
       </v-col>
@@ -234,13 +242,14 @@
     <v-row dense>
       <v-col>
         <v-text-field
+          v-model="description"
           label="25자 이내로 소개글을 입력하세요."
           dense
           hide-details
           outlined
         />
       </v-col>
-    </v-row> -->
+    </v-row>
     <v-row>
       <v-col>
         *리스트 이미지
@@ -323,6 +332,20 @@ export default {
   },
   data() {
     return {
+      description: '',
+      firstOptions: [
+        {
+          value1: '',
+          value2: '',
+        },
+      ],
+      secondOptions: [
+        {
+          value1: '',
+          value2: '',
+        },
+      ],
+      optionRadio: 'Y',
       showRadio: 'show',
       pointRadio: 'default',
       shippingFeeRadio: 'default',
@@ -347,6 +370,24 @@ export default {
     };
   },
   methods: {
+    firstOptionAdd() {
+      this.firstOptions.push({
+        value1: '',
+        value2: '',
+      });
+    },
+    secondOptionAdd() {
+      this.secondOptions.push({
+        value1: '',
+        value2: '',
+      });
+    },
+    firstOptionRemove(index) {
+      this.firstOptions.splice(index, 1);
+    },
+    secondOptionRemove(index) {
+      this.secondOptions.splice(index, 1);
+    },
     async getProductCategory() {
       const { data } = await getProductCategory({
         parentId: this.category1Select,
