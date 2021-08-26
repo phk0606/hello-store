@@ -38,6 +38,7 @@
       </v-col>
       <v-col cols="3">
         <v-select
+          v-model="category2Select"
           :items="category2"
           label="카테고리 선택"
           outlined
@@ -48,6 +49,7 @@
       </v-col>
       <v-col>
         <v-text-field
+          v-model="name"
           dense
           label="상품명"
           placeholder="상품명을 입력하세요."
@@ -63,6 +65,7 @@
             <v-row dense align="center">
               <v-col cols="12" class="d-flex"
                 ><v-text-field
+                  v-model="salePrice"
                   hide-details
                   dense
                   outlined
@@ -74,6 +77,7 @@
                   >
                 </v-text-field>
                 <v-text-field
+                  v-model="regularPrice"
                   hide-details
                   dense
                   outlined
@@ -83,7 +87,13 @@
                   ><template v-slot:prepend
                     ><v-card width="80" flat>정상 가격:</v-card></template
                   > </v-text-field
-                ><v-text-field hide-details dense outlined required suffix="개"
+                ><v-text-field
+                  v-model="maxPurchaseQuantity"
+                  hide-details
+                  dense
+                  outlined
+                  required
+                  suffix="개"
                   ><template v-slot:prepend
                     ><v-card width="110" flat>최대 구매 개수:</v-card></template
                   >
@@ -102,7 +112,12 @@
                     label="별도 포인트 적용: 판매 가격의"
                   />
                   <v-col cols="2"
-                    ><v-text-field dense hide-details outlined suffix="%"
+                    ><v-text-field
+                      v-model="pointPerPrice"
+                      dense
+                      hide-details
+                      outlined
+                      suffix="%"
                   /></v-col>
                   <v-radio value="empty" label="포인트 없음" />
                 </v-radio-group>
@@ -121,7 +136,12 @@
                   <v-radio value="default" label="기본 배송비 적용" />
                   <v-radio class="mr-0" value="2" label="별도 배송비 적용: " />
                   <v-col cols="each"
-                    ><v-text-field dense hide-details outlined suffix="원"
+                    ><v-text-field
+                      v-model="eachShippingFee"
+                      dense
+                      hide-details
+                      outlined
+                      suffix="원"
                   /></v-col>
                   <v-radio value="free" label="무료 배송" />
                 </v-radio-group>
@@ -131,9 +151,26 @@
             <v-row dense align="center">
               <v-col cols="2">상품 특성: </v-col>
               <v-col cols="10" class="d-flex">
-                <v-checkbox dense hide-details label="신상품" class="mr-2" />
-                <v-checkbox dense hide-details label="BEST" class="mr-2" />
-                <v-checkbox dense hide-details label="할인" />
+                <v-checkbox
+                  v-model="newArrival"
+                  dense
+                  hide-details
+                  label="신상품"
+                  class="mr-2"
+                />
+                <v-checkbox
+                  v-model="best"
+                  dense
+                  hide-details
+                  label="BEST"
+                  class="mr-2"
+                />
+                <v-checkbox
+                  v-model="discount"
+                  dense
+                  hide-details
+                  label="할인"
+                />
               </v-col>
             </v-row>
             <v-divider />
@@ -332,6 +369,14 @@ export default {
   },
   data() {
     return {
+      name: '',
+      salePrice: null,
+      regularPrice: null,
+      maxPurchaseQuantity: null,
+      pointPerPrice: null,
+      newArrival: null,
+      best: null,
+      discount: null,
       description: '',
       firstOptions: [
         {
@@ -354,7 +399,6 @@ export default {
       category1: [],
       category2: [],
       image: null,
-      items1: ['Foo', 'Bar', 'Fizz', 'Buzz'],
       items: [
         {
           text: '상품 관리',
