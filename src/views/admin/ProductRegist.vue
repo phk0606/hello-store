@@ -362,6 +362,8 @@
 <script>
 import { getProductCategory } from '@/api/category';
 
+import { createProduct } from '@/api/product';
+
 export default {
   name: 'ProductRegist',
   created() {
@@ -415,6 +417,19 @@ export default {
     };
   },
   methods: {
+    async createProduct() {
+      try {
+        const response = await createProduct({
+          name: this.firstCategoryName,
+          showYn: this.radioGroup1,
+        });
+
+        console.log(response);
+      } catch (error) {
+        console.log(error.response.data.message);
+        this.logMessage = error.response.data.message;
+      }
+    },
     firstOptionAdd() {
       this.firstOptions.push({
         value1: this.firstOptions[0].value1,
