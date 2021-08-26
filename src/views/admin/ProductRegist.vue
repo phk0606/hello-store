@@ -373,6 +373,7 @@ export default {
       salePrice: null,
       regularPrice: null,
       maxPurchaseQuantity: null,
+      eachShippingFee: null,
       pointPerPrice: null,
       newArrival: null,
       best: null,
@@ -416,7 +417,7 @@ export default {
   methods: {
     firstOptionAdd() {
       this.firstOptions.push({
-        value1: '',
+        value1: this.firstOptions[0].value1,
         value2: '',
       });
     },
