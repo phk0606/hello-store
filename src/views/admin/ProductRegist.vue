@@ -32,7 +32,7 @@
           outlined
           dense
           hide-details
-          @change="changeCategory1"
+          @change="changeCategory"
           :menu-props="{ offsetY: true }"
         />
       </v-col>
@@ -105,10 +105,10 @@
               <v-col cols="2">*적립 포인트: </v-col>
               <v-col cols="10">
                 <v-radio-group v-model="pointRadio" dense row hide-details>
-                  <v-radio value="default" label="기본 포인트 적용" />
+                  <v-radio value="DEFAULT" label="기본 포인트 적용" />
                   <v-radio
                     class="mr-0"
-                    value="each"
+                    value="EACH"
                     label="별도 포인트 적용: 판매 가격의"
                   />
                   <v-col cols="2"
@@ -119,7 +119,7 @@
                       outlined
                       suffix="%"
                   /></v-col>
-                  <v-radio value="empty" label="포인트 없음" />
+                  <v-radio value="EMPTY" label="포인트 없음" />
                 </v-radio-group>
               </v-col>
             </v-row>
@@ -133,9 +133,9 @@
                   row
                   hide-details
                 >
-                  <v-radio value="default" label="기본 배송비 적용" />
+                  <v-radio value="DEFAULT" label="기본 배송비 적용" />
                   <v-radio class="mr-0" value="2" label="별도 배송비 적용: " />
-                  <v-col cols="each"
+                  <v-col cols="EACH"
                     ><v-text-field
                       v-model="eachShippingFee"
                       dense
@@ -143,7 +143,7 @@
                       outlined
                       suffix="원"
                   /></v-col>
-                  <v-radio value="free" label="무료 배송" />
+                  <v-radio value="FREE" label="무료 배송" />
                 </v-radio-group>
               </v-col>
             </v-row>
@@ -234,7 +234,7 @@
                           <v-text-field
                             v-model="secondOption.value1"
                             label="옵션명"
-                            placeholder="예: 색상"
+                            placeholder="예: 사이즈"
                             dense
                             hide-details
                             outlined
@@ -399,15 +399,15 @@
       <v-col>
         상품 노출 여부:
         <v-radio-group v-model="showRadio" dense row hide-details>
-          <v-radio value="show" label="진열" />
-          <v-radio class="mr-0" value="hide" label="숨김" />
-          <v-radio value="soldout" label="품절" />
+          <v-radio value="SHOW" label="진열" />
+          <v-radio class="mr-0" value="HIDE" label="숨김" />
+          <v-radio value="SOLDOUT" label="품절" />
         </v-radio-group>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="auto">
-        <v-btn>등록</v-btn>
+        <v-btn @click.prevent="createProduct">등록</v-btn>
       </v-col>
       <v-col>
         <v-btn>취소</v-btn>
@@ -463,9 +463,9 @@ export default {
         },
       ],
       optionRadio: 'Y',
-      showRadio: 'show',
-      pointRadio: 'default',
-      shippingFeeRadio: 'default',
+      showRadio: 'SHOW',
+      pointRadio: 'DEFAULT',
+      shippingFeeRadio: 'DEFAULT',
       category1Select: null,
       category2Select: null,
       category1: [],
@@ -487,11 +487,42 @@ export default {
   },
   methods: {
     async createProduct() {
+      const formData = new FormData();
+
+      formData.append('productImages', this.listImage);
+      formData.append('productImages', this.detailImage1);
+      formData.append('productImages', this.detailImage2);
+      formData.append('productImages', this.detailImage3);
+      formData.append('productImages', this.detailImage4);
+      formData.append('productImages', this.mainImage);
+
+      const productDto = {
+        categoryId: this.category2Select,
+        name: this.name,
+        salePrice: this.salePrice,
+        regularPrice: this.regularPrice,
+        maxPurchaseQuantity: this.maxPurchaseQuantity,
+        pointType: this.pointRadio,
+        pointPerPrice: this.pointPerPrice,
+        shippingFeeType: this.shippingFeeRadio,
+        eachShippingFee: this.eachShippingFee,
+        newArrival: this.newArrival,
+        best: this.best,
+        discount: this.discount,
+        firstOptions: this.firstOptions,
+        secondOptions: this.secondOptions,
+        description: this.description,
+        productShowType: this.showRadio,
+      };
+
+      formData.append(
+        'productDto',
+        new Blob([JSON.stringify(productDto)], {
+          type: 'application/json',
+        }),
+      );
       try {
-        const response = await createProduct({
-          name: this.firstCategoryName,
-          showYn: this.radioGroup1,
-        });
+        const response = await createProduct(formData);
 
         console.log(response);
       } catch (error) {
@@ -507,7 +538,7 @@ export default {
     },
     secondOptionAdd() {
       this.secondOptions.push({
-        value1: '',
+        value1: this.secondOptions[0].value1,
         value2: '',
       });
     },
@@ -525,6 +556,8 @@ export default {
         this.category1 = data;
       } else {
         this.category2 = data;
+        console.log(data);
+        this.category2Select = data[0].value;
       }
     },
     Preview_image(e, imageTarget) {
@@ -559,7 +592,7 @@ export default {
         }
       }
     },
-    changeCategory1() {
+    changeCategory() {
       this.getCategory();
     },
   },
