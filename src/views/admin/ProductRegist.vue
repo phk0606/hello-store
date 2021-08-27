@@ -288,75 +288,19 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col>
+      <v-col cols="3">
         *리스트 이미지
         <v-file-input
           dense
           @change="Preview_image($event, 'listImage')"
           v-model="listImage"
+          show-size
         />
       </v-col>
-      <v-col>
+      <v-col cols="3">
         <v-img :src="listImageUrl" width="200" height="200" />
       </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        *상품 대표 이미지1
-        <v-file-input
-          dense
-          @change="Preview_image($event, 'detailImage1')"
-          v-model="detailImage1"
-        />
-      </v-col>
-      <v-col>
-        <v-img :src="detailImageUrl1" width="200" height="200" />
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        *상품 대표 이미지2
-        <v-file-input
-          dense
-          @change="Preview_image($event, 'detailImage2')"
-          v-model="detailImage2"
-          show-size
-        />
-      </v-col>
-      <v-col>
-        <v-img :src="detailImageUrl2" width="200" height="200" />
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        *상품 대표 이미지3
-        <v-file-input
-          dense
-          @change="Preview_image($event, 'detailImage3')"
-          v-model="detailImage3"
-          show-size
-        />
-      </v-col>
-      <v-col>
-        <v-img :src="detailImageUrl3" width="200" height="200" />
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
-        *상품 대표 이미지4
-        <v-file-input
-          dense
-          @change="Preview_image($event, 'detailImage4')"
-          v-model="detailImage4"
-          show-size
-        />
-      </v-col>
-      <v-col>
-        <v-img :src="detailImageUrl4" width="200" height="200" />
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col>
+      <v-col cols="3">
         메인 노출 이미지
         <v-file-input
           dense
@@ -365,8 +309,60 @@
           show-size
         />
       </v-col>
-      <v-col>
+      <v-col cols="3">
         <v-img :src="mainImageUrl" width="200" height="200" />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="3">
+        *상품 대표 이미지1
+        <v-file-input
+          dense
+          @change="Preview_image($event, 'detailImage1')"
+          v-model="detailImage1"
+          show-size
+        />
+      </v-col>
+      <v-col cols="3">
+        <v-img :src="detailImageUrl1" width="200" height="200" />
+      </v-col>
+      <v-col cols="3">
+        *상품 대표 이미지2
+        <v-file-input
+          dense
+          @change="Preview_image($event, 'detailImage2')"
+          v-model="detailImage2"
+          show-size
+        />
+      </v-col>
+      <v-col cols="3">
+        <v-img :src="detailImageUrl2" width="200" height="200" />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="3">
+        *상품 대표 이미지3
+        <v-file-input
+          dense
+          @change="Preview_image($event, 'detailImage3')"
+          v-model="detailImage3"
+          show-size
+        />
+      </v-col>
+      <v-col cols="3">
+        <v-img :src="detailImageUrl3" width="200" height="200" />
+      </v-col>
+      <v-col cols="3">
+        *상품 대표 이미지4
+        <v-file-input
+          dense
+          @change="Preview_image($event, 'detailImage4')"
+          v-model="detailImage4"
+          show-size
+        />
+      </v-col>
+      <v-col cols="3">
+        <v-img :src="detailImageUrl4" width="200" height="200" />
       </v-col>
     </v-row>
     <v-row>
