@@ -8,15 +8,15 @@
 </template>
 
 <script>
-import { getProductCategories } from '@/api/category';
+import { getCategories } from '@/api/category';
 
 export default {
   created() {
-    this.getProductCategories();
+    this.getCategories();
   },
   methods: {
-    async getProductCategories() {
-      const { data } = await getProductCategories();
+    async getCategories() {
+      const { data } = await getCategories();
       this.menus = data;
     },
   },

@@ -290,22 +290,83 @@
     <v-row>
       <v-col>
         *리스트 이미지
-        <v-file-input dense @change="Preview_image" v-model="image" show-size />
+        <v-file-input
+          dense
+          @change="Preview_image($event, 'listImage')"
+          v-model="listImage"
+        />
+      </v-col>
+      <v-col>
+        <v-img :src="listImageUrl" width="200" height="200" />
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        *상품 대표 이미지
-        <v-file-input dense @change="Preview_image" v-model="image" show-size />
-        <v-file-input dense @change="Preview_image" v-model="image" show-size />
-        <v-file-input dense @change="Preview_image" v-model="image" show-size />
-        <v-file-input dense @change="Preview_image" v-model="image" show-size />
+        *상품 대표 이미지1
+        <v-file-input
+          dense
+          @change="Preview_image($event, 'detailImage1')"
+          v-model="detailImage1"
+        />
+      </v-col>
+      <v-col>
+        <v-img :src="detailImageUrl1" width="200" height="200" />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        *상품 대표 이미지2
+        <v-file-input
+          dense
+          @change="Preview_image($event, 'detailImage2')"
+          v-model="detailImage2"
+          show-size
+        />
+      </v-col>
+      <v-col>
+        <v-img :src="detailImageUrl2" width="200" height="200" />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        *상품 대표 이미지3
+        <v-file-input
+          dense
+          @change="Preview_image($event, 'detailImage3')"
+          v-model="detailImage3"
+          show-size
+        />
+      </v-col>
+      <v-col>
+        <v-img :src="detailImageUrl3" width="200" height="200" />
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        *상품 대표 이미지4
+        <v-file-input
+          dense
+          @change="Preview_image($event, 'detailImage4')"
+          v-model="detailImage4"
+          show-size
+        />
+      </v-col>
+      <v-col>
+        <v-img :src="detailImageUrl4" width="200" height="200" />
       </v-col>
     </v-row>
     <v-row>
       <v-col>
         메인 노출 이미지
-        <v-file-input dense @change="Preview_image" v-model="image" show-size />
+        <v-file-input
+          dense
+          @change="Preview_image($event, 'mainImage')"
+          v-model="mainImage"
+          show-size
+        />
+      </v-col>
+      <v-col>
+        <v-img :src="mainImageUrl" width="200" height="200" />
       </v-col>
     </v-row>
     <v-row>
@@ -360,17 +421,29 @@
 </template>
 
 <script>
-import { getProductCategory } from '@/api/category';
+import { getCategory } from '@/api/category';
 
 import { createProduct } from '@/api/product';
 
 export default {
   name: 'ProductRegist',
   created() {
-    this.getProductCategory();
+    this.getCategory();
   },
   data() {
     return {
+      listImage: null,
+      listImageUrl: null,
+      detailImage1: null,
+      detailImageUrl1: null,
+      detailImage2: null,
+      detailImageUrl2: null,
+      detailImage3: null,
+      detailImageUrl3: null,
+      detailImage4: null,
+      detailImageUrl4: null,
+      mainImage: null,
+      mainImageUrl: null,
       name: '',
       salePrice: null,
       regularPrice: null,
@@ -448,8 +521,8 @@ export default {
     secondOptionRemove(index) {
       this.secondOptions.splice(index, 1);
     },
-    async getProductCategory() {
-      const { data } = await getProductCategory({
+    async getCategory() {
+      const { data } = await getCategory({
         parentId: this.category1Select,
       });
       if (this.category1Select == null) {
@@ -458,15 +531,40 @@ export default {
         this.category2 = data;
       }
     },
-    Preview_image(e) {
+    Preview_image(e, imageTarget) {
+      console.log(imageTarget);
       if (e !== null) {
-        this.url = URL.createObjectURL(this.image);
+        if (imageTarget === 'listImage') {
+          this.listImageUrl = URL.createObjectURL(this.listImage);
+        } else if (imageTarget === 'detailImage1') {
+          this.detailImageUrl1 = URL.createObjectURL(this.detailImage1);
+        } else if (imageTarget === 'detailImage2') {
+          this.detailImageUrl2 = URL.createObjectURL(this.detailImage2);
+        } else if (imageTarget === 'detailImage3') {
+          this.detailImageUrl3 = URL.createObjectURL(this.detailImage3);
+        } else if (imageTarget === 'detailImage4') {
+          this.detailImageUrl4 = URL.createObjectURL(this.detailImage4);
+        } else if (imageTarget === 'mainImage') {
+          this.mainImageUrl = URL.createObjectURL(this.mainImage);
+        }
       } else {
-        this.url = null;
+        if (imageTarget === 'listImage') {
+          this.listImageUrl = null;
+        } else if (imageTarget === 'detailImage1') {
+          this.detailImageUrl1 = null;
+        } else if (imageTarget === 'detailImage2') {
+          this.detailImageUrl2 = null;
+        } else if (imageTarget === 'detailImage3') {
+          this.detailImageUrl3 = null;
+        } else if (imageTarget === 'detailImage4') {
+          this.detailImageUrl4 = null;
+        } else if (imageTarget === 'mainImage') {
+          this.mainImageUrl = null;
+        }
       }
     },
     changeCategory1() {
-      this.getProductCategory();
+      this.getCategory();
     },
   },
 };

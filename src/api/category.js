@@ -1,30 +1,30 @@
 import { instance } from './index';
 
 // 카테고리 목록
-function getProductCategories() {
-  return instance.get('getProductCategories');
+function getCategories() {
+  return instance.get('getCategories');
 }
 
-function getProductCategory(data) {
-  return instance.get('getProductCategory', { params: data });
+function getCategory(data) {
+  return instance.get('getCategory', { params: data });
 }
 
-function createProductCategory(data) {
-  return instance.post('createProductCategory', data);
+function createCategory(data) {
+  return instance.post('createCategory', data);
 }
 
-function modifyProductCategory(data) {
-  return instance.post('modifyProductCategory', data);
+function modifyCategory(data) {
+  return instance.post('modifyCategory', data);
 }
 
-function deleteProductCategory(data) {
-  return instance.post('deleteProductCategory', data);
+function deleteCategory(data) {
+  return instance.post('deleteCategory', data);
 }
 
 export {
-  getProductCategories,
-  getProductCategory,
-  createProductCategory,
-  modifyProductCategory,
-  deleteProductCategory,
+  getCategories,
+  getCategory,
+  createCategory,
+  modifyCategory,
+  deleteCategory,
 };

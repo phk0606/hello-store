@@ -174,15 +174,15 @@
 
 <script>
 import {
-  getProductCategories,
-  createProductCategory,
-  modifyProductCategory,
-  deleteProductCategory,
+  getCategories,
+  createCategory,
+  modifyCategory,
+  deleteCategory,
 } from '@/api/category';
 
 export default {
   created() {
-    this.getProductCategories();
+    this.getCategories();
   },
   methods: {
     clear() {
@@ -204,13 +204,13 @@ export default {
         this.secondCategoryName = null;
       }
     },
-    async getProductCategories() {
-      const { data } = await getProductCategories();
+    async getCategories() {
+      const { data } = await getCategories();
       this.productCategories = data;
     },
     async createFirstCategory() {
       try {
-        const response = await createProductCategory({
+        const response = await createCategory({
           name: this.firstCategoryName,
           showYn: this.radioGroup1,
         });
@@ -224,7 +224,7 @@ export default {
     },
     async createSecondCategory() {
       try {
-        const response = await createProductCategory({
+        const response = await createCategory({
           parentId: this.firstCategoryId,
           name: this.secondCategoryName,
           showYn: this.radioGroup1,
@@ -239,7 +239,7 @@ export default {
     },
     async modifyFirstCategory() {
       try {
-        const response = await modifyProductCategory({
+        const response = await modifyCategory({
           id: this.firstCategoryId,
           name: this.firstCategoryName,
           showYn: this.radioGroup1,
@@ -254,7 +254,7 @@ export default {
     },
     async modifySecondCategory() {
       try {
-        const response = await modifyProductCategory({
+        const response = await modifyCategory({
           parentId: this.firstCategoryId,
           id: this.secondCategoryId,
           name: this.secondCategoryName,
@@ -270,7 +270,7 @@ export default {
     },
     async deleteFirstCategory() {
       try {
-        const response = await deleteProductCategory({
+        const response = await deleteCategory({
           id: this.firstCategoryId,
         });
         this.getProductCategories();
@@ -283,7 +283,7 @@ export default {
     },
     async deleteSecondCategory() {
       try {
-        const response = await deleteProductCategory({
+        const response = await deleteCategory({
           id: this.secondCategoryId,
         });
         this.getProductCategories();
