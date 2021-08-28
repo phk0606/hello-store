@@ -22,8 +22,7 @@
     </v-row>
 
     <v-row dense align="center" justify="center">
-      <v-col cols="2">단일 검색</v-col>
-      <v-col cols="4">
+      <v-col cols="auto" class="d-flex">
         <v-select
           :items="items1"
           label=""
@@ -31,17 +30,21 @@
           hide-details
           dense
           :menu-props="{ offsetY: true }"
-        />
+        >
+          <template v-slot:prepend>
+            <v-card width="80" flat>단일 검색:</v-card></template
+          >
+        </v-select>
+        <v-text-field dense hide-details outlined>
+          <template v-slot:prepend> <v-card width="10" flat /></template>
+        </v-text-field>
       </v-col>
-      <v-col cols="3">
-        <v-text-field dense hide-details outlined />
-      </v-col>
-      <v-col cols="3">
-        <v-btn small>상세 검색</v-btn>
+      <v-col cols="auto">
+        <v-btn small text>상세 검색</v-btn>
       </v-col>
     </v-row>
     <v-row dense align="center" justify="center">
-      <v-col cols="2">카테고리 선택</v-col>
+      <v-col cols="auto">카테고리 선택</v-col>
       <v-col cols="3">
         <v-select
           :items="items1"
@@ -246,6 +249,10 @@ export default {
 </script>
 
 <style>
+.v-input__prepend-outer {
+  margin: 0 !important;
+  align-self: center;
+}
 .v-input {
   margin-top: 0 !important;
 }
