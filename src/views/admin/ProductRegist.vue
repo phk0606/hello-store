@@ -398,7 +398,7 @@
     </v-row>
     <v-row dense>
       <v-col>
-        <tiptap-vuetify v-model="shippingFeeInfo" :extensions="extensions" />
+        <tiptap-vuetify v-model="shippingInfo" :extensions="extensions" />
       </v-col>
     </v-row>
     <v-row>
@@ -473,7 +473,7 @@ export default {
   data() {
     return {
       detailInfo: ``,
-      shippingFeeInfo: ``,
+      shippingInfo: ``,
       exchangeReturnInfo: ``,
       extensions: [
         History,
@@ -621,7 +621,7 @@ export default {
         description: this.description,
         productShowType: this.showRadio,
         detailInfo: this.detailInfo,
-        shippingFeeInfo: this.shippingFeeInfo,
+        shippingInfo: this.shippingInfo,
         exchangeReturnInfo: this.exchangeReturnInfo,
       };
 
