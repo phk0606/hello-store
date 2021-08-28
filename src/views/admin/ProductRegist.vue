@@ -491,12 +491,36 @@ export default {
     async createProduct() {
       const formData = new FormData();
 
-      formData.append('productImages', this.listImage);
-      formData.append('productImages', this.detailImage1);
-      formData.append('productImages', this.detailImage2);
-      formData.append('productImages', this.detailImage3);
-      formData.append('productImages', this.detailImage4);
-      formData.append('productImages', this.mainImage);
+      formData.append(
+        'productImages',
+        this.listImage,
+        'LIST_' + this.listImage.name,
+      );
+      formData.append(
+        'productImages',
+        this.detailImage1,
+        'DETAIL_' + this.detailImage1.name,
+      );
+      formData.append(
+        'productImages',
+        this.detailImage2,
+        'DETAIL_' + this.detailImage2.name,
+      );
+      formData.append(
+        'productImages',
+        this.detailImage3,
+        'DETAIL_' + this.detailImage3.name,
+      );
+      formData.append(
+        'productImages',
+        this.detailImage4,
+        'DETAIL_' + this.detailImage4.name,
+      );
+      formData.append(
+        'productImages',
+        this.mainImage,
+        'MAIN_' + this.mainImage.name,
+      );
 
       const productDto = {
         categoryId: this.category2Select,
