@@ -12,15 +12,20 @@
         </v-breadcrumbs>
       </v-col>
     </v-row>
-    <v-row />
-    <v-row>
+    <v-row dense>
       <v-col>
-        <span><v-icon>mdi-drag-vertical</v-icon>상품 등록</span>
+        <v-chip label x-large color="white">
+          <v-icon left> mdi-chevron-right-box </v-icon>
+          상품 등록
+        </v-chip>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row dense>
       <v-col>
-        <span><v-icon>mdi-drag-vertical-variant</v-icon>상품 정보 입력</span>
+        <v-chip label large color="white">
+          <v-icon left> mdi-record </v-icon>
+          상품 정보 입력
+        </v-chip>
       </v-col>
     </v-row>
     <v-row>
@@ -275,7 +280,10 @@
     </v-row>
     <v-row>
       <v-col>
-        <span><v-icon>mdi-drag-vertical-variant</v-icon>상품 소개 글</span>
+        <v-chip label large color="white">
+          <v-icon left> mdi-record </v-icon>
+          상품 소개 글
+        </v-chip>
       </v-col>
     </v-row>
     <v-row dense>
@@ -369,37 +377,49 @@
     </v-row>
     <v-row>
       <v-col>
-        <span><v-icon>mdi-drag-vertical-variant</v-icon>상품 상세 정보</span>
+        <v-chip label x-large color="white">
+          <v-icon left> mdi-record </v-icon>
+          상품 상세 정보
+        </v-chip>
       </v-col>
     </v-row>
     <v-row dense>
       <v-col>
-        <v-textarea hide-details dense filled />
+        <tiptap-vuetify v-model="detailInfo" :extensions="extensions" />
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <span><v-icon>mdi-drag-vertical-variant</v-icon>배송 안내</span>
+        <v-chip label x-large color="white">
+          <v-icon left> mdi-record </v-icon>
+          배송 안내
+        </v-chip>
       </v-col>
     </v-row>
     <v-row dense>
       <v-col>
-        <v-textarea hide-details dense filled />
+        <tiptap-vuetify v-model="shippingFeeInfo" :extensions="extensions" />
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <span><v-icon>mdi-drag-vertical-variant</v-icon>교환 및 반품 안내</span>
+        <v-chip label x-large color="white">
+          <v-icon left> mdi-record </v-icon>
+          교환 및 반품 안내
+        </v-chip>
       </v-col>
     </v-row>
     <v-row dense>
       <v-col>
-        <v-textarea hide-details dense filled />
+        <tiptap-vuetify v-model="exchangeReturnInfo" :extensions="extensions" />
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        상품 노출 여부:
+        <v-chip label x-large color="white">
+          <v-icon left> mdi-record </v-icon>
+          상품 노출 여부:
+        </v-chip>
         <v-radio-group v-model="showRadio" dense row hide-details>
           <v-radio value="SHOW" label="진열" />
           <v-radio class="mr-0" value="HIDE" label="숨김" />
@@ -420,16 +440,66 @@
 
 <script>
 import { getCategory } from '@/api/category';
-
 import { createProduct } from '@/api/product';
+
+import {
+  TiptapVuetify,
+  Image,
+  Heading,
+  Bold,
+  Italic,
+  Strike,
+  Underline,
+  Code,
+  Paragraph,
+  BulletList,
+  OrderedList,
+  ListItem,
+  Link,
+  Blockquote,
+  HardBreak,
+  HorizontalRule,
+  History,
+} from 'tiptap-vuetify';
 
 export default {
   name: 'ProductRegist',
+  components: {
+    TiptapVuetify,
+  },
   created() {
     this.getCategory();
   },
   data() {
     return {
+      detailInfo: ``,
+      shippingFeeInfo: ``,
+      exchangeReturnInfo: ``,
+      extensions: [
+        History,
+        Image,
+        Blockquote,
+        Link,
+        Underline,
+        Strike,
+        Italic,
+        ListItem,
+        BulletList,
+        OrderedList,
+        [
+          Heading,
+          {
+            options: {
+              levels: [1, 2, 3],
+            },
+          },
+        ],
+        Bold,
+        Code,
+        HorizontalRule,
+        Paragraph,
+        HardBreak,
+      ],
       listImage: null,
       listImageUrl: null,
       detailImage1: null,
@@ -491,37 +561,48 @@ export default {
     async createProduct() {
       const formData = new FormData();
 
-      formData.append(
-        'productImages',
-        this.listImage,
-        'LIST_' + this.listImage.name,
-      );
-      formData.append(
-        'productImages',
-        this.detailImage1,
-        'DETAIL_' + this.detailImage1.name,
-      );
-      formData.append(
-        'productImages',
-        this.detailImage2,
-        'DETAIL_' + this.detailImage2.name,
-      );
-      formData.append(
-        'productImages',
-        this.detailImage3,
-        'DETAIL_' + this.detailImage3.name,
-      );
-      formData.append(
-        'productImages',
-        this.detailImage4,
-        'DETAIL_' + this.detailImage4.name,
-      );
-      formData.append(
-        'productImages',
-        this.mainImage,
-        'MAIN_' + this.mainImage.name,
-      );
-
+      if (this.listImage != null) {
+        formData.append(
+          'productImages',
+          this.listImage,
+          'LIST_' + this.listImage.name,
+        );
+      }
+      if (this.detailImage1 != null) {
+        formData.append(
+          'productImages',
+          this.detailImage1,
+          'DETAIL_' + this.detailImage1.name,
+        );
+      }
+      if (this.detailImage2 != null) {
+        formData.append(
+          'productImages',
+          this.detailImage2,
+          'DETAIL_' + this.detailImage2.name,
+        );
+      }
+      if (this.detailImage3 != null) {
+        formData.append(
+          'productImages',
+          this.detailImage3,
+          'DETAIL_' + this.detailImage3.name,
+        );
+      }
+      if (this.detailImage4 != null) {
+        formData.append(
+          'productImages',
+          this.detailImage4,
+          'DETAIL_' + this.detailImage4.name,
+        );
+      }
+      if (this.mainImage != null) {
+        formData.append(
+          'productImages',
+          this.mainImage,
+          'MAIN_' + this.mainImage.name,
+        );
+      }
       const productDto = {
         categoryId: this.category2Select,
         name: this.name,
@@ -539,6 +620,9 @@ export default {
         secondOptions: this.secondOptions,
         description: this.description,
         productShowType: this.showRadio,
+        detailInfo: this.detailInfo,
+        shippingFeeInfo: this.shippingFeeInfo,
+        exchangeReturnInfo: this.exchangeReturnInfo,
       };
 
       formData.append(
