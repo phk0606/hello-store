@@ -95,7 +95,7 @@
                   required
                   suffix="개"
                   ><template v-slot:prepend
-                    ><v-card width="110" flat>최대 구매 개수:</v-card></template
+                    ><v-card width="120" flat>최대 구매 개수:</v-card></template
                   >
                 </v-text-field></v-col
               >
@@ -177,11 +177,11 @@
             <v-row dense align="center">
               <v-col cols="2"
                 >옵션:
-                <v-radio-group v-model="optionRadio" dense hide-details>
+                <!-- <v-radio-group v-model="optionRadio" dense hide-details>
                   <v-radio value="N" label="미사용" />
 
                   <v-radio value="Y" label="사용" />
-                </v-radio-group>
+                </v-radio-group> -->
               </v-col>
               <v-col cols="10">
                 <v-row dense align="center">
@@ -191,7 +191,8 @@
                       <v-row dense align="center">
                         <v-col>
                           <v-text-field
-                            v-model="firstOption.value1"
+                            id="optionName"
+                            v-model="firstOption.optionName"
                             label="옵션명"
                             placeholder="예: 색상"
                             dense
@@ -201,7 +202,8 @@
                         </v-col>
                         <v-col>
                           <v-text-field
-                            v-model="firstOption.value2"
+                            id="optionValue"
+                            v-model="firstOption.optionValue"
                             label="옵션값"
                             dense
                             hide-details
@@ -232,7 +234,7 @@
                       <v-row dense align="center">
                         <v-col>
                           <v-text-field
-                            v-model="secondOption.value1"
+                            v-model="secondOption.optionName"
                             label="옵션명"
                             placeholder="예: 사이즈"
                             dense
@@ -242,7 +244,7 @@
                         </v-col>
                         <v-col>
                           <v-text-field
-                            v-model="secondOption.value2"
+                            v-model="secondOption.optionValue"
                             label="옵션값"
                             dense
                             hide-details
@@ -452,14 +454,14 @@ export default {
       description: '',
       firstOptions: [
         {
-          value1: '',
-          value2: '',
+          optionName: '',
+          optionValue: '',
         },
       ],
       secondOptions: [
         {
-          value1: '',
-          value2: '',
+          optionName: '',
+          optionValue: '',
         },
       ],
       optionRadio: 'Y',
@@ -521,6 +523,9 @@ export default {
           type: 'application/json',
         }),
       );
+
+      console.log(this.firstOptions);
+
       try {
         const response = await createProduct(formData);
 
@@ -532,14 +537,14 @@ export default {
     },
     firstOptionAdd() {
       this.firstOptions.push({
-        value1: this.firstOptions[0].value1,
-        value2: '',
+        optionName: this.firstOptions[0].optionName,
+        optionValue: '',
       });
     },
     secondOptionAdd() {
       this.secondOptions.push({
-        value1: this.secondOptions[0].value1,
-        value2: '',
+        optionName: this.secondOptions[0].optionName,
+        optionValue: '',
       });
     },
     firstOptionRemove(index) {
