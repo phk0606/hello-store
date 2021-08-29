@@ -604,7 +604,8 @@ export default {
         );
       }
       const productDto = {
-        categoryId: this.category2Select,
+        category1Id: this.category1Select,
+        category2Id: this.category2Select,
         name: this.name,
         salePrice: this.salePrice,
         regularPrice: this.regularPrice,
