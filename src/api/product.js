@@ -8,4 +8,8 @@ function createProduct(data) {
   });
 }
 
-export { createProduct };
+function searchProducts() {
+  return instance.get('searchProducts');
+}
+
+export { createProduct, searchProducts };

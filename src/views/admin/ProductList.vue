@@ -146,11 +146,15 @@
           hide-default-footer
           v-model="selected"
           :headers="headers"
-          :items="desserts"
+          :items="itemsWithSno"
           item-key="name"
           show-select
           class="elevation-1"
-        />
+        >
+          <template v-slot:[`item.image`]="{ item }">
+            <img :src="item.image" style="width: 50px; height: 50px" />
+          </template>
+        </v-data-table>
       </v-col>
     </v-row>
 
@@ -186,10 +190,19 @@
 
 <script>
 import Pagination from 'vue-pagination-2';
+import { searchProducts } from '@/api/product';
 
 export default {
+  created() {
+    this.searchProducts();
+  },
   components: {
     Pagination,
+  },
+  computed: {
+    itemsWithSno() {
+      return this.contentList.map((d, index) => ({ ...d, sno: index + 1 }));
+    },
   },
   data() {
     return {
@@ -201,24 +214,26 @@ export default {
           text: '번호',
           align: 'center',
           sortable: false,
-          value: 'name',
+          value: 'sno',
         },
-        { text: '카테고리와 상품명', value: 'calories' },
-        { text: '판매 가격(적립금)', value: 'calories' },
-        { text: '상태', value: 'fat' },
-        { text: '등록일(수정일)', value: 'carbs' },
-        { text: '아이디', value: 'protein' },
-        { text: '조회수', value: 'iron' },
+        { text: '이미지', align: 'center', sortable: false, value: 'image' },
+        { text: '카테고리와 상품명', value: 'productName' },
+        { text: '판매 가격(적립금)', value: 'salePrice' },
+        { text: '진열상태', value: 'productShowType' },
+        { text: '등록일(수정일)', value: 'createdDate' },
+        { text: '아이디', value: 'user' },
+        { text: '조회수', value: 'clickCount' },
         { text: '수정', value: 'iron' },
       ],
-      desserts: [
+      contentList: [
         {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: '1%',
+          image: 'http://localhost:8300/getImage',
+          productName: '',
+          salePrice: 159,
+          productShowType: 6.0,
+          createdDate: 24,
+          user: 4.0,
+          clickCount: '1%',
         },
       ],
       date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
@@ -255,6 +270,16 @@ export default {
     },
     detailSearchShow() {
       this.detailSearchShowYn = !this.detailSearchShowYn;
+    },
+    async searchProducts() {
+      try {
+        const response = await searchProducts();
+
+        console.log(response);
+      } catch (error) {
+        console.log(error.response.data.message);
+        this.logMessage = error.response.data.message;
+      }
     },
   },
 };
