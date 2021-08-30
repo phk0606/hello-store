@@ -152,10 +152,23 @@
           class="elevation-1"
         >
           <template v-slot:[`item.image`]="{ item }">
-            <img
+            <v-img
               :src="'data:image/png;base64,' + item.image"
               style="width: 50px; height: 50px"
             />
+          </template>
+          <template v-slot:[`item.name`]="{ item }">
+            <v-row>{{ item.categoryName }}</v-row>
+            <v-row>{{ item.name }}</v-row>
+          </template>
+          <template v-slot:[`item.createdDate`]="{ item }">
+            <v-row>{{ item.createdDate }}</v-row>
+            <v-row>({{ item.lastModifiedDate }})</v-row>
+          </template>
+          <template v-slot:[`item.productShowType`]="{ item }">
+            <v-row v-if="item.productShowType === 'SHOW'"> 진열 </v-row>
+            <v-row v-else-if="item.productShowType === 'HIDE'"> 숨김 </v-row>
+            <v-row v-else-if="item.productShowType === 'SOLDOUT'"> 품절 </v-row>
           </template>
         </v-data-table>
       </v-col>
@@ -220,25 +233,15 @@ export default {
           value: 'sno',
         },
         { text: '이미지', align: 'center', sortable: false, value: 'image' },
-        { text: '카테고리와 상품명', value: 'productName' },
+        { text: '카테고리와 상품명', align: 'center', value: 'name' },
         { text: '판매 가격(적립금)', value: 'salePrice' },
         { text: '진열상태', value: 'productShowType' },
         { text: '등록일(수정일)', value: 'createdDate' },
-        { text: '아이디', value: 'user' },
+        { text: '아이디', value: 'createBy' },
         { text: '조회수', value: 'clickCount' },
         { text: '수정', value: 'iron' },
       ],
-      contentList: [
-        {
-          image: '',
-          productName: '',
-          salePrice: 159,
-          productShowType: 6.0,
-          createdDate: 24,
-          user: 4.0,
-          clickCount: '1%',
-        },
-      ],
+      contentList: [],
       date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
         .toISOString()
         .substr(0, 10),
