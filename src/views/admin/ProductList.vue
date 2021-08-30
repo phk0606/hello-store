@@ -146,7 +146,7 @@
           hide-default-footer
           v-model="selected"
           :headers="headers"
-          :items="itemsWithSno"
+          :items="contentList"
           item-key="productId"
           show-select
           class="elevation-1"
@@ -221,9 +221,9 @@ export default {
     Pagination,
   },
   computed: {
-    itemsWithSno() {
-      return this.contentList.map((d, index) => ({ ...d, sno: index + 1 }));
-    },
+    // itemsWithSno() {
+    //   return this.contentList.map((d, index) => ({ ...d, sno: index + 1 }));
+    // },
   },
   data() {
     return {
@@ -237,7 +237,7 @@ export default {
           text: '번호',
           align: 'center',
           sortable: false,
-          value: 'sno',
+          value: 'productId',
         },
         { text: '이미지', align: 'center', sortable: false, value: 'image' },
         { text: '카테고리와 상품명', align: 'center', value: 'name' },
