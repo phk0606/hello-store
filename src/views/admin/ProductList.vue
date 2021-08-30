@@ -147,7 +147,7 @@
           v-model="selected"
           :headers="headers"
           :items="itemsWithSno"
-          item-key="name"
+          item-key="productId"
           show-select
           class="elevation-1"
         >
@@ -191,8 +191,8 @@
             },
           }"
           v-model="page"
-          :records="500"
-          :per-page="20"
+          :records="records"
+          :per-page="perPage"
           @paginate="myCallback"
         />
       </v-col>
@@ -210,11 +210,12 @@
 
 <script>
 import Pagination from 'vue-pagination-2';
-import { getProducts } from '@/api/product';
+import { getProducts, getProductsPage } from '@/api/product';
 
 export default {
   created() {
-    this.getProducts();
+    // this.getProducts();
+    this.getProductsPage(1);
   },
   components: {
     Pagination,
@@ -228,6 +229,8 @@ export default {
     return {
       detailSearchShowYn: false,
       page: 1,
+      records: 10,
+      perPage: 5,
       selected: [],
       headers: [
         {
@@ -277,6 +280,7 @@ export default {
   methods: {
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
+      this.getProductsPage(page);
     },
     detailSearchShow() {
       this.detailSearchShowYn = !this.detailSearchShowYn;
@@ -285,6 +289,22 @@ export default {
       try {
         const { data } = await getProducts();
         this.contentList = data;
+        console.log(data);
+      } catch (error) {
+        console.log(error.response.data.message);
+        this.logMessage = error.response.data.message;
+      }
+    },
+    async getProductsPage(page) {
+      try {
+        const { data } = await getProductsPage({
+          page: page - 1,
+          size: this.perPage,
+        });
+        this.contentList = data.content;
+        this.perPage = data.size;
+        this.records = data.totalElements;
+        this.page = data.pageable.pageNumber + 1;
         console.log(data);
       } catch (error) {
         console.log(error.response.data.message);

@@ -12,8 +12,12 @@ function getProducts() {
   return instance.get('getProducts');
 }
 
+function getProductsPage(data) {
+  return instance.get('getProductsPage', { params: data });
+}
+
 function getImage() {
   return instance.get('getImage');
 }
 
-export { createProduct, getProducts, getImage };
+export { createProduct, getProducts, getProductsPage, getImage };
