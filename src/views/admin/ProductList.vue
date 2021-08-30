@@ -166,9 +166,14 @@
             <v-row>({{ item.lastModifiedDate }})</v-row>
           </template>
           <template v-slot:[`item.productShowType`]="{ item }">
-            <v-row v-if="item.productShowType === 'SHOW'"> 진열 </v-row>
+            <v-row justify="center" v-if="item.productShowType === 'SHOW'">
+              진열
+            </v-row>
             <v-row v-else-if="item.productShowType === 'HIDE'"> 숨김 </v-row>
             <v-row v-else-if="item.productShowType === 'SOLDOUT'"> 품절 </v-row>
+          </template>
+          <template v-slot:[`item.modify`]>
+            <v-row><v-btn>수정</v-btn></v-row>
           </template>
         </v-data-table>
       </v-col>
@@ -234,12 +239,12 @@ export default {
         },
         { text: '이미지', align: 'center', sortable: false, value: 'image' },
         { text: '카테고리와 상품명', align: 'center', value: 'name' },
-        { text: '판매 가격(적립금)', value: 'salePrice' },
-        { text: '진열상태', value: 'productShowType' },
-        { text: '등록일(수정일)', value: 'createdDate' },
-        { text: '아이디', value: 'createBy' },
-        { text: '조회수', value: 'clickCount' },
-        { text: '수정', value: 'iron' },
+        { text: '판매 가격(적립금)', align: 'center', value: 'salePrice' },
+        { text: '진열상태', align: 'center', value: 'productShowType' },
+        { text: '등록일(수정일)', align: 'center', value: 'createdDate' },
+        { text: '아이디', align: 'center', value: 'createBy' },
+        { text: '조회수', align: 'center', value: 'clickCount' },
+        { text: '수정', align: 'center', value: 'modify' },
       ],
       contentList: [],
       date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
