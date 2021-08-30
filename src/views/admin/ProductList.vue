@@ -152,7 +152,10 @@
           class="elevation-1"
         >
           <template v-slot:[`item.image`]="{ item }">
-            <img :src="item.image" style="width: 50px; height: 50px" />
+            <img
+              :src="'data:image/png;base64,' + item.image"
+              style="width: 50px; height: 50px"
+            />
           </template>
         </v-data-table>
       </v-col>
@@ -227,7 +230,7 @@ export default {
       ],
       contentList: [
         {
-          image: 'http://localhost:8300/getImage',
+          image: '',
           productName: '',
           salePrice: 159,
           productShowType: 6.0,
@@ -273,9 +276,9 @@ export default {
     },
     async searchProducts() {
       try {
-        const response = await searchProducts();
-
-        console.log(response);
+        const { data } = await searchProducts();
+        this.contentList = data;
+        console.log(data);
       } catch (error) {
         console.log(error.response.data.message);
         this.logMessage = error.response.data.message;

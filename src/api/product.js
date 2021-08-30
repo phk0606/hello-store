@@ -12,4 +12,8 @@ function searchProducts() {
   return instance.get('searchProducts');
 }
 
-export { createProduct, searchProducts };
+function getImage() {
+  return instance.get('getImage');
+}
+
+export { createProduct, searchProducts, getImage };
