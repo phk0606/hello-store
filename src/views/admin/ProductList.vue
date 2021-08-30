@@ -178,15 +178,6 @@
         </v-data-table>
       </v-col>
     </v-row>
-
-    <v-row>
-      <v-col>
-        <v-btn>삭제</v-btn>
-        <v-btn>진열</v-btn>
-        <v-btn>숨김</v-btn>
-        <v-btn>품절</v-btn>
-      </v-col>
-    </v-row>
     <v-row justify="center" style="text-align: center">
       <v-col cols="auto">
         <pagination
@@ -206,16 +197,24 @@
         />
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <v-btn>삭제</v-btn>
+        <v-btn>진열</v-btn>
+        <v-btn>숨김</v-btn>
+        <v-btn>품절</v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
 import Pagination from 'vue-pagination-2';
-import { searchProducts } from '@/api/product';
+import { getProducts } from '@/api/product';
 
 export default {
   created() {
-    this.searchProducts();
+    this.getProducts();
   },
   components: {
     Pagination,
@@ -282,9 +281,9 @@ export default {
     detailSearchShow() {
       this.detailSearchShowYn = !this.detailSearchShowYn;
     },
-    async searchProducts() {
+    async getProducts() {
       try {
-        const { data } = await searchProducts();
+        const { data } = await getProducts();
         this.contentList = data;
         console.log(data);
       } catch (error) {

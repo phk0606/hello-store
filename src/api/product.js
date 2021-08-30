@@ -8,12 +8,12 @@ function createProduct(data) {
   });
 }
 
-function searchProducts() {
-  return instance.get('searchProducts');
+function getProducts() {
+  return instance.get('getProducts');
 }
 
 function getImage() {
   return instance.get('getImage');
 }
 
-export { createProduct, searchProducts, getImage };
+export { createProduct, getProducts, getImage };
