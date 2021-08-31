@@ -78,7 +78,7 @@
                   :menu-props="{ offsetY: true }"
                 />
               </v-col>
-              <v-col cols="auto">판매 가격</v-col>
+              <v-col cols="auto" class="ml-5">판매 가격</v-col>
               <v-col cols="2">
                 <v-text-field dense hide-details outlined suffix="원" />
               </v-col>
@@ -131,7 +131,7 @@
                   <v-date-picker v-model="date2" @input="menu2 = false" />
                 </v-menu>
               </v-col>
-              <v-col cols="auto">진열 여부</v-col>
+              <v-col cols="auto" class="ml-5">진열 여부</v-col>
               <v-col cols="auto" class="d-flex">
                 <v-checkbox dense hide-details label="진열" class="mr-2" />
                 <v-checkbox dense hide-details label="품절" class="mr-2" />
