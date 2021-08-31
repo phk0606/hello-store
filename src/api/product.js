@@ -8,12 +8,16 @@ function createProduct(data) {
   });
 }
 
-function getProducts() {
-  return instance.get('getProducts');
-}
+// function getProducts() {
+//   return instance.get('getProducts');
+// }
 
 function getProductsPage(data) {
   return instance.get('getProductsPage', { params: data });
+}
+
+function getProductsPageCondition(data) {
+  return instance.get('getProductsPageCondition', { params: data });
 }
 
 function getImage() {
@@ -30,8 +34,8 @@ function modifyProductShowType(data) {
 
 export {
   createProduct,
-  getProducts,
   getProductsPage,
+  getProductsPageCondition,
   getImage,
   removeProducts,
   modifyProductShowType,

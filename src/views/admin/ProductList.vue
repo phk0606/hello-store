@@ -24,12 +24,14 @@
     <v-row dense align="center" justify="center">
       <v-col cols="auto"> 상품명 </v-col>
       <v-col cols="3">
-        <v-text-field dense hide-details outlined>
+        <v-text-field v-model="productName" dense hide-details outlined>
           <template v-slot:prepend> <v-card width="10" flat /></template>
         </v-text-field>
       </v-col>
       <v-col cols="auto">
-        <v-btn color="indigo" dark>검색</v-btn>
+        <v-btn color="indigo" dark @click="getProductsPageCondition(1)"
+          >검색</v-btn
+        >
       </v-col>
       <v-col cols="auto">
         <v-btn small text @click="detailSearchShow">상세 검색</v-btn>
@@ -67,11 +69,23 @@
               </v-col>
               <v-col cols="auto" class="ml-5">판매 가격</v-col>
               <v-col cols="2">
-                <v-text-field dense hide-details outlined suffix="원" />
+                <v-text-field
+                  v-model="salePriceMin"
+                  dense
+                  hide-details
+                  outlined
+                  suffix="원"
+                />
               </v-col>
               <v-col cols="auto">~</v-col>
               <v-col cols="2">
-                <v-text-field dense hide-details outlined suffix="원" />
+                <v-text-field
+                  v-model="salePriceMax"
+                  dense
+                  hide-details
+                  outlined
+                  suffix="원"
+                />
               </v-col>
             </v-row>
             <v-row dense align="center" justify="center">
@@ -87,14 +101,14 @@
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-text-field
-                      v-model="date"
+                      v-model="date1"
                       prepend-icon="mdi-calendar"
                       readonly
                       v-bind="attrs"
                       v-on="on"
                     />
                   </template>
-                  <v-date-picker v-model="date" @input="menu = false" />
+                  <v-date-picker v-model="date1" @input="menu = false" />
                 </v-menu>
               </v-col>
               <v-col cols="2">
@@ -120,9 +134,29 @@
               </v-col>
               <v-col cols="auto" class="ml-5">진열 여부</v-col>
               <v-col cols="auto" class="d-flex">
-                <v-checkbox dense hide-details label="진열" class="mr-2" />
-                <v-checkbox dense hide-details label="품절" class="mr-2" />
-                <v-checkbox dense hide-details label="숨김" />
+                <v-checkbox
+                  v-model="productShowTypes"
+                  value="SHOW"
+                  dense
+                  hide-details
+                  label="진열"
+                  class="mr-2"
+                />
+                <v-checkbox
+                  v-model="productShowTypes"
+                  value="SOLDOUT"
+                  dense
+                  hide-details
+                  label="품절"
+                  class="mr-2"
+                />
+                <v-checkbox
+                  v-model="productShowTypes"
+                  value="HIDE"
+                  dense
+                  hide-details
+                  label="숨김"
+                />
               </v-col>
             </v-row>
           </v-container>
@@ -213,8 +247,8 @@
 <script>
 import Pagination from 'vue-pagination-2';
 import {
-  getProducts,
-  getProductsPage,
+  //getProductsPage,
+  getProductsPageCondition,
   removeProducts,
   modifyProductShowType,
 } from '@/api/product';
@@ -223,7 +257,8 @@ import { getCategory } from '@/api/category';
 export default {
   created() {
     // this.getProducts();
-    this.getProductsPage(1);
+    //this.getProductsPage(1);
+    this.getProductsPageCondition(1);
     this.getCategory();
   },
   components: {
@@ -236,6 +271,10 @@ export default {
   },
   data() {
     return {
+      productShowTypes: [''],
+      salePriceMin: '',
+      salePriceMax: '',
+      productName: '',
       category1Select: null,
       category2Select: null,
       category1: [],
@@ -262,12 +301,8 @@ export default {
         { text: '수정', align: 'center', value: 'modify' },
       ],
       contentList: [],
-      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-        .toISOString()
-        .substr(0, 10),
-      date2: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
-        .toISOString()
-        .substr(0, 10),
+      date1: '',
+      date2: '',
       menu: false,
       menu2: false,
       items: [
@@ -301,6 +336,7 @@ export default {
         this.category1 = data;
       } else {
         this.category2 = data;
+        this.category2Select = null;
         console.log(data);
         //this.category2Select = data[0].value;
       }
@@ -340,7 +376,7 @@ export default {
           productIds,
         });
         //console.log(data);
-        this.getProductsPage(1);
+        this.getProductsPageCondition(1);
       } catch (error) {
         console.log(error.response.data.message);
         this.logMessage = error.response.data.message;
@@ -348,26 +384,56 @@ export default {
     },
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
-      this.getProductsPage(page);
+      this.getProductsPageCondition(page);
     },
     detailSearchShow() {
       this.detailSearchShowYn = !this.detailSearchShowYn;
-    },
-    async getProducts() {
-      try {
-        const { data } = await getProducts();
-        this.contentList = data;
-        console.log(data);
-      } catch (error) {
-        console.log(error.response.data.message);
-        this.logMessage = error.response.data.message;
+      if (this.detailSearchShowYn) {
+        this.date1 = new Date(new Date().setDate(new Date().getDate() - 3))
+          .toISOString()
+          .substr(0, 10);
+        this.date2 = new Date(
+          Date.now() - new Date().getTimezoneOffset() * 60000,
+        )
+          .toISOString()
+          .substr(0, 10);
+      } else {
+        this.date1 = '';
+        this.date2 = '';
       }
     },
-    async getProductsPage(page) {
+    // async getProductsPage(page) {
+    //   try {
+    //     const { data } = await getProductsPage({
+    //       page: page - 1,
+    //       size: this.perPage,
+    //     });
+    //     this.contentList = data.content;
+    //     this.perPage = data.size;
+    //     this.records = data.totalElements;
+    //     this.page = data.pageable.pageNumber + 1;
+    //     console.log(data);
+    //   } catch (error) {
+    //     console.log(error.response.data.message);
+    //     this.logMessage = error.response.data.message;
+    //   }
+    // },
+    async getProductsPageCondition(page) {
       try {
-        const { data } = await getProductsPage({
+        const { data } = await getProductsPageCondition({
           page: page - 1,
           size: this.perPage,
+          productName: this.productName,
+          firstCategoryId:
+            this.category1Select === null ? '' : this.category1Select,
+          secondCategoryId:
+            this.category2Select === null ? '' : this.category2Select,
+          salePriceMin: this.salePriceMin,
+          salePriceMax: this.salePriceMax,
+          productShowTypes: this.productShowTypes.join(','),
+
+          productRegistryDateA: this.date1,
+          productRegistryDateB: this.date2,
         });
         this.contentList = data.content;
         this.perPage = data.size;
