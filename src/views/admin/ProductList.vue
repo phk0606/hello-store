@@ -199,7 +199,7 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-btn>삭제</v-btn>
+        <v-btn @click="removeProducts">삭제</v-btn>
         <v-btn>진열</v-btn>
         <v-btn>숨김</v-btn>
         <v-btn>품절</v-btn>
@@ -210,7 +210,7 @@
 
 <script>
 import Pagination from 'vue-pagination-2';
-import { getProducts, getProductsPage } from '@/api/product';
+import { getProducts, getProductsPage, removeProducts } from '@/api/product';
 
 export default {
   created() {
@@ -278,6 +278,26 @@ export default {
     };
   },
   methods: {
+    async removeProducts() {
+      const products = this.selected;
+      const productIds = [];
+
+      for (const key in products) {
+        const productId = products[key].productId;
+        console.log(productId);
+        productIds.push(productId);
+      }
+      try {
+        await removeProducts({
+          productIds,
+        });
+        //console.log(data);
+        this.getProductsPage(1);
+      } catch (error) {
+        console.log(error.response.data.message);
+        this.logMessage = error.response.data.message;
+      }
+    },
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
       this.getProductsPage(page);

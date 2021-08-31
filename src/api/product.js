@@ -20,4 +20,14 @@ function getImage() {
   return instance.get('getImage');
 }
 
-export { createProduct, getProducts, getProductsPage, getImage };
+function removeProducts(productIds) {
+  return instance.delete('removeProducts', { data: productIds });
+}
+
+export {
+  createProduct,
+  getProducts,
+  getProductsPage,
+  getImage,
+  removeProducts,
+};
