@@ -16,7 +16,7 @@
       <v-col>
         <v-chip label x-large color="white">
           <v-icon left> mdi-chevron-right-box </v-icon>
-          상품 등록
+          상품 수정
         </v-chip>
       </v-col>
     </v-row>
@@ -180,14 +180,7 @@
             </v-row>
             <v-divider />
             <v-row dense align="center">
-              <v-col cols="2"
-                >옵션:
-                <!-- <v-radio-group v-model="optionRadio" dense hide-details>
-                  <v-radio value="N" label="미사용" />
-
-                  <v-radio value="Y" label="사용" />
-                </v-radio-group> -->
-              </v-col>
+              <v-col cols="2">옵션: </v-col>
               <v-col cols="10">
                 <v-row dense align="center">
                   <v-col cols="auto"> 옵션 1: </v-col>
