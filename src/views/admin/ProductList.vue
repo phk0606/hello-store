@@ -169,8 +169,15 @@
             <v-row justify="center" v-if="item.productShowType === 'SHOW'">
               진열
             </v-row>
-            <v-row v-else-if="item.productShowType === 'HIDE'"> 숨김 </v-row>
-            <v-row v-else-if="item.productShowType === 'SOLDOUT'"> 품절 </v-row>
+            <v-row justify="center" v-else-if="item.productShowType === 'HIDE'">
+              숨김
+            </v-row>
+            <v-row
+              justify="center"
+              v-else-if="item.productShowType === 'SOLDOUT'"
+            >
+              품절
+            </v-row>
           </template>
           <template v-slot:[`item.modify`]>
             <v-row><v-btn>수정</v-btn></v-row>
@@ -200,9 +207,9 @@
     <v-row>
       <v-col>
         <v-btn @click="removeProducts">삭제</v-btn>
-        <v-btn>진열</v-btn>
-        <v-btn>숨김</v-btn>
-        <v-btn>품절</v-btn>
+        <v-btn @click="modifyProductShowType('SHOW')">진열</v-btn>
+        <v-btn @click="modifyProductShowType('HIDE')">숨김</v-btn>
+        <v-btn @click="modifyProductShowType('SOLDOUT')">품절</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -210,7 +217,12 @@
 
 <script>
 import Pagination from 'vue-pagination-2';
-import { getProducts, getProductsPage, removeProducts } from '@/api/product';
+import {
+  getProducts,
+  getProductsPage,
+  removeProducts,
+  modifyProductShowType,
+} from '@/api/product';
 
 export default {
   created() {
@@ -278,6 +290,27 @@ export default {
     };
   },
   methods: {
+    async modifyProductShowType(productShowType) {
+      const products = this.selected;
+      const productIds = [];
+
+      for (const key in products) {
+        const productId = products[key].productId;
+        console.log(productId);
+        productIds.push(productId);
+      }
+      try {
+        await modifyProductShowType({
+          productIds,
+          productShowType: productShowType,
+        });
+        //console.log(data);
+        this.getProductsPage(1);
+      } catch (error) {
+        console.log(error.response.data.message);
+        this.logMessage = error.response.data.message;
+      }
+    },
     async removeProducts() {
       const products = this.selected;
       const productIds = [];

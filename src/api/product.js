@@ -24,10 +24,15 @@ function removeProducts(productIds) {
   return instance.delete('removeProducts', { data: productIds });
 }
 
+function modifyProductShowType(data) {
+  return instance.put('modifyProductShowType', data);
+}
+
 export {
   createProduct,
   getProducts,
   getProductsPage,
   getImage,
   removeProducts,
+  modifyProductShowType,
 };
