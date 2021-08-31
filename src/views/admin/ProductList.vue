@@ -22,10 +22,10 @@
     </v-row>
 
     <v-row dense align="center" justify="center">
-      <v-col cols="auto" class="d-flex">
+      <v-col cols="3" class="d-flex">
         <v-select
-          :items="items1"
-          label=""
+          :items="searchItems"
+          label="항목 선택"
           outlined
           hide-details
           dense
@@ -35,106 +35,112 @@
             <v-card width="80" flat>단일 검색:</v-card></template
           >
         </v-select>
+      </v-col>
+      <v-col cols="3">
         <v-text-field dense hide-details outlined>
           <template v-slot:prepend> <v-card width="10" flat /></template>
         </v-text-field>
       </v-col>
       <v-col cols="auto">
-        <v-btn>검색</v-btn>
+        <v-btn color="indigo" dark>검색</v-btn>
       </v-col>
       <v-col cols="auto">
         <v-btn small text @click="detailSearchShow">상세 검색</v-btn>
       </v-col>
     </v-row>
     <transition name="fade">
-      <v-card v-show="detailSearchShowYn">
-        <v-container>
-          <v-row dense align="center" justify="center">
-            <v-col cols="auto">카테고리 선택</v-col>
-            <v-col cols="3">
-              <v-select
-                :items="items1"
-                label=""
-                outlined
-                hide-details
-                dense
-                :menu-props="{ offsetY: true }"
-              />
-            </v-col>
+      <v-row>
+        <v-card v-show="detailSearchShowYn">
+          <v-container>
+            <v-row dense align="center" justify="center">
+              <v-col cols="auto">카테고리 선택</v-col>
+              <v-col cols="2">
+                <v-select
+                  label="카테고리 선택"
+                  v-model="category1Select"
+                  :items="category1"
+                  outlined
+                  hide-details
+                  dense
+                  @change="changeCategory"
+                  :menu-props="{ offsetY: true }"
+                />
+              </v-col>
 
-            <v-col cols="3">
-              <v-select
-                :items="items1"
-                label=""
-                outlined
-                hide-details
-                dense
-                :menu-props="{ offsetY: true }"
-              />
-            </v-col>
-            <v-col cols="auto">판매 가격</v-col>
-            <v-col>
-              <v-text-field dense hide-details outlined />
-            </v-col>
-            <v-col>
-              <v-text-field dense hide-details outlined />
-            </v-col>
-          </v-row>
-          <v-row dense align="center" justify="center">
-            <v-col cols="auto">상품 등록일</v-col>
-            <v-col>
-              <v-menu
-                v-model="menu"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="date"
-                    label="Picker without buttons"
-                    prepend-icon="mdi-calendar"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  />
-                </template>
-                <v-date-picker v-model="date" @input="menu = false" />
-              </v-menu>
-            </v-col>
-            <v-col>
-              <v-menu
-                v-model="menu2"
-                :close-on-content-click="false"
-                :nudge-right="40"
-                transition="scale-transition"
-                offset-y
-                min-width="auto"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    v-model="date2"
-                    label="Picker without buttons"
-                    prepend-icon="mdi-calendar"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  />
-                </template>
-                <v-date-picker v-model="date" @input="menu2 = false" />
-              </v-menu>
-            </v-col>
-            <v-col cols="auto">진열 여부</v-col>
-            <v-col class="d-flex">
-              <v-checkbox dense hide-details label="진열" class="mr-2" />
-              <v-checkbox dense hide-details label="품절" class="mr-2" />
-              <v-checkbox dense hide-details label="숨김" />
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-card>
+              <v-col cols="3">
+                <v-select
+                  v-model="category2Select"
+                  :items="category2"
+                  label="카테고리 선택"
+                  outlined
+                  hide-details
+                  dense
+                  :menu-props="{ offsetY: true }"
+                />
+              </v-col>
+              <v-col cols="auto">판매 가격</v-col>
+              <v-col cols="2">
+                <v-text-field dense hide-details outlined suffix="원" />
+              </v-col>
+              <v-col cols="auto">~</v-col>
+              <v-col cols="2">
+                <v-text-field dense hide-details outlined suffix="원" />
+              </v-col>
+            </v-row>
+            <v-row dense align="center" justify="center">
+              <v-col cols="auto">상품 등록일</v-col>
+              <v-col cols="2">
+                <v-menu
+                  v-model="menu"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="date"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    />
+                  </template>
+                  <v-date-picker v-model="date" @input="menu = false" />
+                </v-menu>
+              </v-col>
+              <v-col cols="2">
+                <v-menu
+                  v-model="menu2"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="date2"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    />
+                  </template>
+                  <v-date-picker v-model="date2" @input="menu2 = false" />
+                </v-menu>
+              </v-col>
+              <v-col cols="auto">진열 여부</v-col>
+              <v-col cols="auto" class="d-flex">
+                <v-checkbox dense hide-details label="진열" class="mr-2" />
+                <v-checkbox dense hide-details label="품절" class="mr-2" />
+                <v-checkbox dense hide-details label="숨김" />
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card>
+      </v-row>
     </transition>
     <v-divider />
     <v-row>
@@ -206,10 +212,12 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-btn @click="removeProducts">삭제</v-btn>
-        <v-btn @click="modifyProductShowType('SHOW')">진열</v-btn>
-        <v-btn @click="modifyProductShowType('HIDE')">숨김</v-btn>
-        <v-btn @click="modifyProductShowType('SOLDOUT')">품절</v-btn>
+        <v-btn class="mr-5" @click="removeProducts">삭제</v-btn>
+        <v-btn class="mr-5" @click="modifyProductShowType('SHOW')">진열</v-btn>
+        <v-btn class="mr-5" @click="modifyProductShowType('HIDE')">숨김</v-btn>
+        <v-btn class="mr-5" @click="modifyProductShowType('SOLDOUT')"
+          >품절</v-btn
+        >
       </v-col>
     </v-row>
   </v-container>
@@ -223,11 +231,13 @@ import {
   removeProducts,
   modifyProductShowType,
 } from '@/api/product';
+import { getCategory } from '@/api/category';
 
 export default {
   created() {
     // this.getProducts();
     this.getProductsPage(1);
+    this.getCategory();
   },
   components: {
     Pagination,
@@ -239,6 +249,10 @@ export default {
   },
   data() {
     return {
+      category1Select: null,
+      category2Select: null,
+      category1: [],
+      category2: [],
       detailSearchShowYn: false,
       page: 1,
       records: 10,
@@ -269,7 +283,16 @@ export default {
         .substr(0, 10),
       menu: false,
       menu2: false,
-      items1: ['Foo', 'Bar', 'Fizz', 'Buzz'],
+      searchItems: [
+        {
+          text: '상품명',
+          value: 'productName',
+        },
+        {
+          text: '상품ID',
+          value: 'productId',
+        },
+      ],
       items: [
         {
           text: '상품 관리',
@@ -290,6 +313,21 @@ export default {
     };
   },
   methods: {
+    changeCategory() {
+      this.getCategory();
+    },
+    async getCategory() {
+      const { data } = await getCategory({
+        parentId: this.category1Select,
+      });
+      if (this.category1Select == null) {
+        this.category1 = data;
+      } else {
+        this.category2 = data;
+        console.log(data);
+        this.category2Select = data[0].value;
+      }
+    },
     async modifyProductShowType(productShowType) {
       const products = this.selected;
       const productIds = [];
