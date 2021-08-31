@@ -22,20 +22,7 @@
     </v-row>
 
     <v-row dense align="center" justify="center">
-      <v-col cols="3" class="d-flex">
-        <v-select
-          :items="searchItems"
-          label="항목 선택"
-          outlined
-          hide-details
-          dense
-          :menu-props="{ offsetY: true }"
-        >
-          <template v-slot:prepend>
-            <v-card width="80" flat>단일 검색:</v-card></template
-          >
-        </v-select>
-      </v-col>
+      <v-col cols="auto"> 상품명 </v-col>
       <v-col cols="3">
         <v-text-field dense hide-details outlined>
           <template v-slot:prepend> <v-card width="10" flat /></template>
@@ -283,16 +270,6 @@ export default {
         .substr(0, 10),
       menu: false,
       menu2: false,
-      searchItems: [
-        {
-          text: '상품명',
-          value: 'productName',
-        },
-        {
-          text: '상품ID',
-          value: 'productId',
-        },
-      ],
       items: [
         {
           text: '상품 관리',
@@ -325,7 +302,7 @@ export default {
       } else {
         this.category2 = data;
         console.log(data);
-        this.category2Select = data[0].value;
+        //this.category2Select = data[0].value;
       }
     },
     async modifyProductShowType(productShowType) {
