@@ -206,8 +206,12 @@
               품절
             </v-row>
           </template>
-          <template v-slot:[`item.modify`]>
-            <v-row><v-btn to="/admin/product-modify">수정</v-btn></v-row>
+          <template v-slot:[`item.modify`]="{ item }">
+            <v-row
+              ><v-btn :to="`/admin/product-modify/${item.productId}`"
+                >{{ item.productId }}수정</v-btn
+              ></v-row
+            >
           </template>
         </v-data-table>
       </v-col>

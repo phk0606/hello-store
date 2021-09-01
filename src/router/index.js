@@ -127,7 +127,7 @@ const routes = [
           ),
       },
       {
-        path: 'product-modify',
+        path: 'product-modify/:productId',
         name: 'product-modify',
         component: () =>
           import(

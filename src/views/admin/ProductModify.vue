@@ -433,7 +433,7 @@
 
 <script>
 import { getCategory } from '@/api/category';
-import { createProduct } from '@/api/product';
+import { createProduct, getProductById } from '@/api/product';
 
 import {
   TiptapVuetify,
@@ -461,6 +461,9 @@ export default {
     TiptapVuetify,
   },
   created() {
+    const productId = this.$route.params.productId;
+    this.getProductById(productId);
+
     this.getCategory();
   },
   data() {
@@ -551,6 +554,18 @@ export default {
     };
   },
   methods: {
+    async getProductById(productId) {
+      try {
+        const { data } = await getProductById({
+          productId: productId,
+        });
+
+        console.log(data);
+      } catch (error) {
+        console.log(error.response.data.message);
+        this.logMessage = error.response.data.message;
+      }
+    },
     async createProduct() {
       const formData = new FormData();
 

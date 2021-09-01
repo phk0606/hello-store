@@ -8,13 +8,13 @@ function createProduct(data) {
   });
 }
 
-// function getProducts() {
-//   return instance.get('getProducts');
-// }
-
-function getProductsPage(data) {
-  return instance.get('getProductsPage', { params: data });
+function getProductById(data) {
+  return instance.get('getProductById', { params: data });
 }
+
+// function getProductsPage(data) {
+//   return instance.get('getProductsPage', { params: data });
+// }
 
 function getProductsPageCondition(data) {
   return instance.get('getProductsPageCondition', { params: data });
@@ -34,7 +34,8 @@ function modifyProductShowType(data) {
 
 export {
   createProduct,
-  getProductsPage,
+  // getProductsPage,
+  getProductById,
   getProductsPageCondition,
   getImage,
   removeProducts,
