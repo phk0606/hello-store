@@ -209,7 +209,7 @@
           <template v-slot:[`item.modify`]="{ item }">
             <v-row
               ><v-btn :to="`/admin/product-modify/${item.productId}`"
-                >{{ item.productId }}수정</v-btn
+                >수정</v-btn
               ></v-row
             >
           </template>

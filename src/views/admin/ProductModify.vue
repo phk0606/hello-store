@@ -462,9 +462,9 @@ export default {
   },
   created() {
     const productId = this.$route.params.productId;
-    this.getProductById(productId);
 
-    this.getCategory();
+    //this.getCategory();
+    this.getProductById(productId);
   },
   data() {
     return {
@@ -546,7 +546,7 @@ export default {
           href: 'breadcrumbs_dashboard',
         },
         {
-          text: '상품 등록',
+          text: '상품 수정',
           disabled: false,
           href: 'breadcrumbs_link_1',
         },
@@ -555,12 +555,64 @@ export default {
   },
   methods: {
     async getProductById(productId) {
+      this.getCategory();
       try {
         const { data } = await getProductById({
           productId: productId,
         });
 
         console.log(data);
+        this.category1Select = data.firstCategoryId;
+        this.getCategory(data.secondCategoryId);
+        console.log(data.secondCategoryId);
+        this.name = data.productName;
+        this.salePrice = data.salePrice;
+        this.regularPrice = data.regularPrice;
+        this.maxPurchaseQuantity = data.maxPurchaseQuantity;
+        this.pointType = data.pointType;
+        this.pointPerPrice = data.pointPerPrice;
+        this.shippingFeeType = data.shippingFeeType;
+        this.newArrival = data.newArrival;
+        this.best = data.best;
+        this.discount = data.discount;
+        this.firstOptions = data.firstOptions;
+        this.secondOptions = data.secondOptions;
+        this.description = data.description;
+        console.log(data.productImageDtos);
+
+        for (let i in data.productImageDtos) {
+          let imageType = data.productImageDtos[i].imageType;
+          let dataImageString = 'data:image/png;base64,';
+          console.log(i + ': ' + imageType);
+
+          if (imageType === 'LIST') {
+            this.listImageUrl =
+              dataImageString + data.productImageDtos[i].byteImage;
+          } else if (imageType === 'MAIN') {
+            this.mainImageUrl =
+              dataImageString + data.productImageDtos[i].byteImage;
+          } else if (imageType === 'DETAIL1') {
+            this.detailImageUrl1 =
+              dataImageString + data.productImageDtos[i].byteImage;
+          } else if (imageType === 'DETAIL2') {
+            this.detailImageUrl2 =
+              dataImageString + data.productImageDtos[i].byteImage;
+          } else if (imageType === 'DETAIL3') {
+            this.detailImageUrl3 =
+              dataImageString + data.productImageDtos[i].byteImage;
+          } else if (imageType === 'DETAIL4') {
+            this.detailImageUrl4 =
+              dataImageString + data.productImageDtos[i].byteImage;
+          } else if (imageType === 'MAIN') {
+            this.mainImageUrl =
+              dataImageString + data.productImageDtos[i].byteImage;
+          }
+
+          this.detailInfo = data.detailInfo;
+          this.shippingInfo = data.shippingInfo;
+          this.exchangeReturnInfo = data.exchangeReturnInfo;
+          this.showRadio = data.productShowType;
+        }
       } catch (error) {
         console.log(error.response.data.message);
         this.logMessage = error.response.data.message;
@@ -580,28 +632,28 @@ export default {
         formData.append(
           'productImages',
           this.detailImage1,
-          'DETAIL_' + this.detailImage1.name,
+          'DETAIL1_' + this.detailImage1.name,
         );
       }
       if (this.detailImage2 != null) {
         formData.append(
           'productImages',
           this.detailImage2,
-          'DETAIL_' + this.detailImage2.name,
+          'DETAIL2_' + this.detailImage2.name,
         );
       }
       if (this.detailImage3 != null) {
         formData.append(
           'productImages',
           this.detailImage3,
-          'DETAIL_' + this.detailImage3.name,
+          'DETAIL3_' + this.detailImage3.name,
         );
       }
       if (this.detailImage4 != null) {
         formData.append(
           'productImages',
           this.detailImage4,
-          'DETAIL_' + this.detailImage4.name,
+          'DETAIL4_' + this.detailImage4.name,
         );
       }
       if (this.mainImage != null) {
@@ -669,7 +721,7 @@ export default {
     secondOptionRemove(index) {
       this.secondOptions.splice(index, 1);
     },
-    async getCategory() {
+    async getCategory(secondCategoryId) {
       const { data } = await getCategory({
         parentId: this.category1Select,
       });
@@ -677,9 +729,9 @@ export default {
         this.category1 = data;
       } else {
         this.category2 = data;
-        this.category2Select = null;
+        this.category2Select =
+          secondCategoryId !== null ? secondCategoryId : null;
         console.log(data);
-        //this.category2Select = data[0].value;
       }
     },
     Preview_image(e, imageTarget) {

@@ -572,28 +572,28 @@ export default {
         formData.append(
           'productImages',
           this.detailImage1,
-          'DETAIL_' + this.detailImage1.name,
+          'DETAIL1_' + this.detailImage1.name,
         );
       }
       if (this.detailImage2 != null) {
         formData.append(
           'productImages',
           this.detailImage2,
-          'DETAIL_' + this.detailImage2.name,
+          'DETAIL2_' + this.detailImage2.name,
         );
       }
       if (this.detailImage3 != null) {
         formData.append(
           'productImages',
           this.detailImage3,
-          'DETAIL_' + this.detailImage3.name,
+          'DETAIL3_' + this.detailImage3.name,
         );
       }
       if (this.detailImage4 != null) {
         formData.append(
           'productImages',
           this.detailImage4,
-          'DETAIL_' + this.detailImage4.name,
+          'DETAIL4_' + this.detailImage4.name,
         );
       }
       if (this.mainImage != null) {
