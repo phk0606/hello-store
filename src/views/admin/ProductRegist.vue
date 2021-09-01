@@ -305,6 +305,7 @@
           @change="Preview_image($event, 'listImage')"
           v-model="listImage"
           show-size
+          accept="image/png, image/jpeg, image/bmp"
         />
       </v-col>
       <v-col cols="3">
@@ -317,6 +318,7 @@
           @change="Preview_image($event, 'mainImage')"
           v-model="mainImage"
           show-size
+          accept="image/png, image/jpeg, image/bmp"
         />
       </v-col>
       <v-col cols="3">
@@ -331,6 +333,7 @@
           @change="Preview_image($event, 'detailImage1')"
           v-model="detailImage1"
           show-size
+          accept="image/png, image/jpeg, image/bmp"
         />
       </v-col>
       <v-col cols="3">
@@ -343,6 +346,7 @@
           @change="Preview_image($event, 'detailImage2')"
           v-model="detailImage2"
           show-size
+          accept="image/png, image/jpeg, image/bmp"
         />
       </v-col>
       <v-col cols="3">
@@ -357,6 +361,7 @@
           @change="Preview_image($event, 'detailImage3')"
           v-model="detailImage3"
           show-size
+          accept="image/png, image/jpeg, image/bmp"
         />
       </v-col>
       <v-col cols="3">
@@ -369,6 +374,7 @@
           @change="Preview_image($event, 'detailImage4')"
           v-model="detailImage4"
           show-size
+          accept="image/png, image/jpeg, image/bmp"
         />
       </v-col>
       <v-col cols="3">

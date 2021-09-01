@@ -298,6 +298,7 @@
           @change="Preview_image($event, 'listImage')"
           v-model="listImage"
           show-size
+          accept="image/png, image/jpeg, image/bmp"
         />
       </v-col>
       <v-col cols="3">
@@ -310,6 +311,7 @@
           @change="Preview_image($event, 'mainImage')"
           v-model="mainImage"
           show-size
+          accept="image/png, image/jpeg, image/bmp"
         />
       </v-col>
       <v-col cols="3">
@@ -324,6 +326,7 @@
           @change="Preview_image($event, 'detailImage1')"
           v-model="detailImage1"
           show-size
+          accept="image/png, image/jpeg, image/bmp"
         />
       </v-col>
       <v-col cols="3">
@@ -336,6 +339,7 @@
           @change="Preview_image($event, 'detailImage2')"
           v-model="detailImage2"
           show-size
+          accept="image/png, image/jpeg, image/bmp"
         />
       </v-col>
       <v-col cols="3">
@@ -350,6 +354,7 @@
           @change="Preview_image($event, 'detailImage3')"
           v-model="detailImage3"
           show-size
+          accept="image/png, image/jpeg, image/bmp"
         />
       </v-col>
       <v-col cols="3">
@@ -362,6 +367,7 @@
           @change="Preview_image($event, 'detailImage4')"
           v-model="detailImage4"
           show-size
+          accept="image/png, image/jpeg, image/bmp"
         />
       </v-col>
       <v-col cols="3">
@@ -554,6 +560,29 @@ export default {
     };
   },
   methods: {
+    b64toBlob(b64Data, contentType = '', sliceSize = 512) {
+      const byteCharacters = atob(b64Data);
+      const byteArrays = [];
+
+      for (
+        let offset = 0;
+        offset < byteCharacters.length;
+        offset += sliceSize
+      ) {
+        const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        const byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+      }
+
+      const blob = new Blob(byteArrays, { type: contentType });
+      return blob;
+    },
     async getProductById(productId) {
       this.getCategory();
       try {
@@ -569,9 +598,9 @@ export default {
         this.salePrice = data.salePrice;
         this.regularPrice = data.regularPrice;
         this.maxPurchaseQuantity = data.maxPurchaseQuantity;
-        this.pointType = data.pointType;
+        this.pointRadio = data.pointType;
         this.pointPerPrice = data.pointPerPrice;
-        this.shippingFeeType = data.shippingFeeType;
+        this.shippingFeeRadio = data.shippingFeeType;
         this.newArrival = data.newArrival;
         this.best = data.best;
         this.discount = data.discount;
@@ -582,30 +611,39 @@ export default {
 
         for (let i in data.productImageDtos) {
           let imageType = data.productImageDtos[i].imageType;
-          let dataImageString = 'data:image/png;base64,';
+          let originalFileName = data.productImageDtos[i].originalFileName;
+          let dataImage = data.productImageDtos[i].byteImage;
+          let dataImageString =
+            'data:image/png;base64,' + data.productImageDtos[i].byteImage;
+          let contentType = 'image/png';
           console.log(i + ': ' + imageType);
 
+          let file = new File(
+            [this.b64toBlob(dataImage, contentType)],
+            originalFileName,
+          );
+
           if (imageType === 'LIST') {
-            this.listImageUrl =
-              dataImageString + data.productImageDtos[i].byteImage;
+            this.listImageUrl = dataImageString;
+            this.listImage = file;
           } else if (imageType === 'MAIN') {
-            this.mainImageUrl =
-              dataImageString + data.productImageDtos[i].byteImage;
+            this.mainImageUrl = dataImageString;
+            this.mainImage = file;
           } else if (imageType === 'DETAIL1') {
-            this.detailImageUrl1 =
-              dataImageString + data.productImageDtos[i].byteImage;
+            this.detailImageUrl1 = dataImageString;
+            this.detailImage1 = file;
           } else if (imageType === 'DETAIL2') {
-            this.detailImageUrl2 =
-              dataImageString + data.productImageDtos[i].byteImage;
+            this.detailImageUrl2 = dataImageString;
+            this.detailImage2 = file;
           } else if (imageType === 'DETAIL3') {
-            this.detailImageUrl3 =
-              dataImageString + data.productImageDtos[i].byteImage;
+            this.detailImageUrl3 = dataImageString;
+            this.detailImage3 = file;
           } else if (imageType === 'DETAIL4') {
-            this.detailImageUrl4 =
-              dataImageString + data.productImageDtos[i].byteImage;
+            this.detailImageUrl4 = dataImageString;
+            this.detailImage4 = file;
           } else if (imageType === 'MAIN') {
-            this.mainImageUrl =
-              dataImageString + data.productImageDtos[i].byteImage;
+            this.mainImageUrl = dataImageString;
+            this.mainImage = file;
           }
 
           this.detailInfo = data.detailInfo;
