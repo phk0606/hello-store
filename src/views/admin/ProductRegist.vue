@@ -139,7 +139,11 @@
                   hide-details
                 >
                   <v-radio value="DEFAULT" label="기본 배송비 적용" />
-                  <v-radio class="mr-0" value="2" label="별도 배송비 적용: " />
+                  <v-radio
+                    class="mr-0"
+                    value="EACH"
+                    label="별도 배송비 적용: "
+                  />
                   <v-col cols="EACH"
                     ><v-text-field
                       v-model="eachShippingFee"
@@ -530,12 +534,14 @@ export default {
       description: '',
       firstOptions: [
         {
+          optionGroupNumber: 1,
           optionName: '',
           optionValue: '',
         },
       ],
       secondOptions: [
         {
+          optionGroupNumber: 2,
           optionName: '',
           optionValue: '',
         },
@@ -651,12 +657,14 @@ export default {
     },
     firstOptionAdd() {
       this.firstOptions.push({
+        optionGroupNumber: 1,
         optionName: this.firstOptions[0].optionName,
         optionValue: '',
       });
     },
     secondOptionAdd() {
       this.secondOptions.push({
+        optionGroupNumber: 2,
         optionName: this.secondOptions[0].optionName,
         optionValue: '',
       });

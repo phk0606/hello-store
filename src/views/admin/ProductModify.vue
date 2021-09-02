@@ -139,7 +139,11 @@
                   hide-details
                 >
                   <v-radio value="DEFAULT" label="기본 배송비 적용" />
-                  <v-radio class="mr-0" value="2" label="별도 배송비 적용: " />
+                  <v-radio
+                    class="mr-0"
+                    value="EACH"
+                    label="별도 배송비 적용: "
+                  />
                   <v-col cols="EACH"
                     ><v-text-field
                       v-model="eachShippingFee"
@@ -428,7 +432,7 @@
     </v-row>
     <v-row>
       <v-col cols="auto">
-        <v-btn @click.prevent="createProduct">등록</v-btn>
+        <v-btn @click.prevent="modifyProduct">수정</v-btn>
       </v-col>
       <v-col>
         <v-btn>취소</v-btn>
@@ -439,7 +443,7 @@
 
 <script>
 import { getCategory } from '@/api/category';
-import { createProduct, getProductById } from '@/api/product';
+import { modifyProduct, getProductById } from '@/api/product';
 
 import {
   TiptapVuetify,
@@ -474,6 +478,7 @@ export default {
   },
   data() {
     return {
+      productId: '',
       detailInfo: ``,
       shippingInfo: ``,
       exchangeReturnInfo: ``,
@@ -526,12 +531,14 @@ export default {
       description: '',
       firstOptions: [
         {
+          optionGroupNumber: 1,
           optionName: '',
           optionValue: '',
         },
       ],
       secondOptions: [
         {
+          optionGroupNumber: 2,
           optionName: '',
           optionValue: '',
         },
@@ -591,6 +598,7 @@ export default {
         });
 
         console.log(data);
+        this.productId = data.productId;
         this.category1Select = data.firstCategoryId;
         this.getCategory(data.secondCategoryId);
         console.log(data.secondCategoryId);
@@ -601,6 +609,7 @@ export default {
         this.pointRadio = data.pointType;
         this.pointPerPrice = data.pointPerPrice;
         this.shippingFeeRadio = data.shippingFeeType;
+        this.eachShippingFee = data.eachShippingFee;
         this.newArrival = data.newArrival;
         this.best = data.best;
         this.discount = data.discount;
@@ -656,7 +665,7 @@ export default {
         this.logMessage = error.response.data.message;
       }
     },
-    async createProduct() {
+    async modifyProduct() {
       const formData = new FormData();
 
       if (this.listImage != null) {
@@ -702,6 +711,7 @@ export default {
         );
       }
       const productDto = {
+        productId: this.productId,
         categoryId: this.category2Select,
         name: this.name,
         salePrice: this.salePrice,
@@ -733,7 +743,7 @@ export default {
       console.log(this.firstOptions);
 
       try {
-        const response = await createProduct(formData);
+        const response = await modifyProduct(formData);
 
         console.log(response);
       } catch (error) {
@@ -743,12 +753,14 @@ export default {
     },
     firstOptionAdd() {
       this.firstOptions.push({
+        optionGroupNumber: 1,
         optionName: this.firstOptions[0].optionName,
         optionValue: '',
       });
     },
     secondOptionAdd() {
       this.secondOptions.push({
+        optionGroupNumber: 2,
         optionName: this.secondOptions[0].optionName,
         optionValue: '',
       });

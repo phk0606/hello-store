@@ -20,12 +20,20 @@ function getProductsPageCondition(data) {
   return instance.get('getProductsPageCondition', { params: data });
 }
 
-function getImage() {
-  return instance.get('getImage');
-}
+// function getImage() {
+//   return instance.get('getImage');
+// }
 
 function removeProducts(productIds) {
   return instance.delete('removeProducts', { data: productIds });
+}
+
+function modifyProduct(data) {
+  return instance.put('modifyProduct', data, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
 }
 
 function modifyProductShowType(data) {
@@ -37,7 +45,8 @@ export {
   // getProductsPage,
   getProductById,
   getProductsPageCondition,
-  getImage,
+  // getImage,
   removeProducts,
+  modifyProduct,
   modifyProductShowType,
 };
