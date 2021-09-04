@@ -193,7 +193,7 @@
                       <v-row dense align="center">
                         <v-col>
                           <v-text-field
-                            id="optionName"
+                            :id="`optionName${i}`"
                             v-model="firstOption.optionName"
                             label="옵션명"
                             placeholder="예: 색상"
@@ -204,7 +204,7 @@
                         </v-col>
                         <v-col>
                           <v-text-field
-                            id="optionValue"
+                            :id="`optionValue${i}`"
                             v-model="firstOption.optionValue"
                             label="옵션값"
                             dense
