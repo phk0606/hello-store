@@ -11,6 +11,7 @@
         </router-link>
 
         <v-card width="550">
+          <p class="log">{{ logMessage }}</p>
           <v-card-text class="text-center px-12 py-16">
             <validation-observer ref="observer" v-slot="{ invalid }">
               <v-form @submit.prevent="signUp">
@@ -94,20 +95,11 @@
                     :error-messages="errors"
                   />
                 </validation-provider>
-                <!-- <validation-provider
-                  v-slot="{ errors }"
-                  name="주소"
-                  :rules="{ required: true }"
-                >
-                  <v-text-field
-                    v-model="address"
-                    label="주소"
-                    clearable
-                    prepend-icon="mdi-map-marker"
-                    :error-messages="errors"
-                  />
-                </validation-provider> -->
-                <Address />
+
+                <Address
+                  v-on:setAddress="setAddress"
+                  v-on:setDetailAddress="setDetailAddress"
+                />
 
                 <v-btn
                   class="mt-6"
@@ -159,6 +151,7 @@
 
 <script>
 import Address from '@/components/Address';
+import { registerUser } from '@/api/auth';
 
 export default {
   name: 'SignUp',
@@ -174,15 +167,44 @@ export default {
       passwordConfirm: null,
       name: '',
       phoneNumber: '',
+      zonecode: '',
+      roadAddress: '',
       address: '',
+      detailAddress: '',
+      logMessage: '',
     };
   },
   methods: {
     async signUp() {
       const result = await this.$refs.observer.validate();
       if (result) {
-        alert('회원가입 프로세스');
+        const userData = {
+          username: this.username,
+          password: this.password,
+          email: this.email,
+          name: this.name,
+          phoneNumber: this.phoneNumber,
+          zoneCode: this.zonecode,
+          address: this.roadAddress,
+          detailAddress: this.detailAddress,
+        };
+
+        console.log(userData);
+        const { data } = await registerUser(userData);
+        console.log(data.username);
+        this.logMessage = `${data.username} 님이 가입되었습니다`;
+        this.initForm();
       }
+    },
+    setAddress(zonecode, roadAddress, address) {
+      // console.log(zonecode, roadAddress, address);
+      this.zonecode = zonecode;
+      this.roadAddress = roadAddress;
+      this.address = address;
+    },
+    setDetailAddress(detailAddress) {
+      // console.log(detailAddress);
+      this.detailAddress = detailAddress;
     },
     cancel() {
       this.$router.push('/');

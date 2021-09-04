@@ -74,11 +74,13 @@
         <v-row dense align="center">
           <v-col
             ><v-text-field
+              v-model="detailAddress"
               placeholder="상세 주소"
               hide-details
               dense
               solo-inverted
               required
+              @change="setDetailAddress"
           /></v-col>
         </v-row>
       </v-col>
@@ -100,6 +102,11 @@ export default {
       this.roadAddress = result.roadAddress;
       this.address = result.address;
       this.dialog = false;
+
+      this.$emit('setAddress', this.zonecode, this.roadAddress, this.address);
+    },
+    setDetailAddress() {
+      this.$emit('setDetailAddress', this.detailAddress);
     },
   },
   data() {
@@ -109,6 +116,7 @@ export default {
       zonecode: null,
       address: null,
       roadAddress: null,
+      detailAddress: null,
     };
   },
 };
