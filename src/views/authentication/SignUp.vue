@@ -10,35 +10,21 @@
           />
         </router-link>
 
-        <v-card width="460">
+        <v-card width="550">
           <v-card-text class="text-center px-12 py-16">
             <validation-observer ref="observer" v-slot="{ invalid }">
               <v-form @submit.prevent="signUp">
                 <div class="text-h4 font-weight-black">회원가입</div>
                 <validation-provider
                   v-slot="{ errors }"
-                  name="이름"
+                  name="아이디"
                   :rules="{ required: true }"
                 >
                   <v-text-field
                     v-model="username"
-                    label="이름"
+                    label="아이디"
                     clearable
-                    prepend-icon="mdi-account"
-                    :error-messages="errors"
-                  />
-                </validation-provider>
-
-                <validation-provider
-                  v-slot="{ errors }"
-                  name="이메일"
-                  :rules="{ required: true }"
-                >
-                  <v-text-field
-                    v-model="email"
-                    label="이메일"
-                    clearable
-                    prepend-icon="mdi-email"
+                    prepend-icon="mdi-identifier"
                     :error-messages="errors"
                   />
                 </validation-provider>
@@ -68,6 +54,60 @@
                     :error-messages="errors"
                   />
                 </validation-provider>
+                <validation-provider
+                  v-slot="{ errors }"
+                  name="이름"
+                  :rules="{ required: true }"
+                >
+                  <v-text-field
+                    v-model="name"
+                    label="이름"
+                    clearable
+                    prepend-icon="mdi-account"
+                    :error-messages="errors"
+                  />
+                </validation-provider>
+                <validation-provider
+                  v-slot="{ errors }"
+                  name="휴대폰 번호"
+                  :rules="{ required: true }"
+                >
+                  <v-text-field
+                    v-model="phoneNumber"
+                    label="휴대폰 번호"
+                    clearable
+                    prepend-icon="mdi-cellphone"
+                    :error-messages="errors"
+                  />
+                </validation-provider>
+
+                <validation-provider
+                  v-slot="{ errors }"
+                  name="이메일"
+                  :rules="{ required: true }"
+                >
+                  <v-text-field
+                    v-model="email"
+                    label="이메일"
+                    clearable
+                    prepend-icon="mdi-email"
+                    :error-messages="errors"
+                  />
+                </validation-provider>
+                <!-- <validation-provider
+                  v-slot="{ errors }"
+                  name="주소"
+                  :rules="{ required: true }"
+                >
+                  <v-text-field
+                    v-model="address"
+                    label="주소"
+                    clearable
+                    prepend-icon="mdi-map-marker"
+                    :error-messages="errors"
+                  />
+                </validation-provider> -->
+                <Address />
 
                 <v-btn
                   class="mt-6"
@@ -118,8 +158,13 @@
 </template>
 
 <script>
+import Address from '@/components/Address';
+
 export default {
   name: 'SignUp',
+  components: {
+    Address,
+  },
   data() {
     return {
       dialog: false,
@@ -127,6 +172,9 @@ export default {
       email: null,
       password: null,
       passwordConfirm: null,
+      name: '',
+      phoneNumber: '',
+      address: '',
     };
   },
   methods: {
