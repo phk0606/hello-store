@@ -16,14 +16,14 @@
                 <div class="text-h4 font-weight-black">로그인</div>
                 <validation-provider
                   v-slot="{ errors }"
-                  name="이메일"
+                  name="아이디"
                   :rules="{ required: true }"
                 >
                   <v-text-field
-                    v-model="email"
-                    label="이메일"
+                    v-model="username"
+                    label="아이디"
                     clearable
-                    prepend-icon="mdi-email"
+                    prepend-icon="mdi-identifier"
                     :error-messages="errors"
                   />
                 </validation-provider>
@@ -81,17 +81,35 @@ export default {
   name: 'SignIn',
   data() {
     return {
-      email: null,
-      password: null,
+      username: '',
+      password: '',
     };
   },
   methods: {
     async signIn() {
       const result = await this.$refs.observer.validate();
       if (result) {
-        alert('로그인 프로세스');
+        try {
+          // 비즈니스 로직
+          const userData = {
+            username: this.username,
+            password: this.password,
+          };
+          await this.$store.dispatch('LOGIN', userData);
+          //this.$router.push('/main');
+        } catch (error) {
+          // 에러 핸들링할 코드
+          console.log(error.response.data);
+          this.logMessage = error.response.data;
+        } finally {
+          //this.initForm();
+        }
       }
     },
+    // initForm() {
+    //   this.username = '';
+    //   this.password = '';
+    // },
   },
 };
 </script>

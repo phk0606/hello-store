@@ -1,7 +1,7 @@
-import { instance } from './index';
+import { admin } from './index';
 
 function createProduct(data) {
-  return instance.post('createProduct', data, {
+  return admin.post('/createProduct', data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -9,27 +9,19 @@ function createProduct(data) {
 }
 
 function getProductById(data) {
-  return instance.get('getProductById', { params: data });
+  return admin.get('/getProductById', { params: data });
 }
-
-// function getProductsPage(data) {
-//   return instance.get('getProductsPage', { params: data });
-// }
 
 function getProductsPageCondition(data) {
-  return instance.get('getProductsPageCondition', { params: data });
+  return admin.get('/getProductsPageCondition', { params: data });
 }
 
-// function getImage() {
-//   return instance.get('getImage');
-// }
-
 function removeProducts(productIds) {
-  return instance.delete('removeProducts', { data: productIds });
+  return admin.delete('/removeProducts', { data: productIds });
 }
 
 function modifyProduct(data) {
-  return instance.put('modifyProduct', data, {
+  return admin.put('/modifyProduct', data, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
@@ -37,15 +29,13 @@ function modifyProduct(data) {
 }
 
 function modifyProductShowType(data) {
-  return instance.put('modifyProductShowType', data);
+  return admin.put('/modifyProductShowType', data);
 }
 
 export {
   createProduct,
-  // getProductsPage,
   getProductById,
   getProductsPageCondition,
-  // getImage,
   removeProducts,
   modifyProduct,
   modifyProductShowType,

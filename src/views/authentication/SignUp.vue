@@ -193,8 +193,13 @@ export default {
         const { data } = await registerUser(userData);
         console.log(data.username);
         this.logMessage = `${data.username} 님이 가입되었습니다`;
-        this.initForm();
+        //this.initForm();
       }
+    },
+    initForm() {
+      this.username = '';
+      this.password = '';
+      this.nickname = '';
     },
     setAddress(zonecode, roadAddress, address) {
       // console.log(zonecode, roadAddress, address);
