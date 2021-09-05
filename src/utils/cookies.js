@@ -1,21 +1,32 @@
-function saveAuthToCookie(value) {
-  document.cookie = `til_auth=${value}`;
+function saveAccessTokenToCookie(value) {
+  document.cookie = `ecomm_accessToken=${value}` + ';path=/';
+}
+
+function saveRefreshTokenToCookie(value) {
+  document.cookie = `ecomm_refreshToken=${value}` + ';path=/';
 }
 
 function saveUserToCookie(value) {
-  document.cookie = `til_user=${value}`;
+  document.cookie = `ecomm_user=${value}` + ';path=/';
 }
 
-function getAuthFromCookie() {
+function getAccessTokenFromCookie() {
   return document.cookie.replace(
-    /(?:(?:^|.*;\s*)til_auth\s*=\s*([^;]*).*$)|^.*$/,
+    /(?:(?:^|.*;\s*)ecomm_accessToken\s*=\s*([^;]*).*$)|^.*$/,
+    '$1',
+  );
+}
+
+function getRefreshTokenFromCookie() {
+  return document.cookie.replace(
+    /(?:(?:^|.*;\s*)ecomm_refreshToken\s*=\s*([^;]*).*$)|^.*$/,
     '$1',
   );
 }
 
 function getUserFromCookie() {
   return document.cookie.replace(
-    /(?:(?:^|.*;\s*)til_user\s*=\s*([^;]*).*$)|^.*$/,
+    /(?:(?:^|.*;\s*)ecomm_user\s*=\s*([^;]*).*$)|^.*$/,
     '$1',
   );
 }
@@ -25,9 +36,11 @@ function deleteCookie(value) {
 }
 
 export {
-  saveAuthToCookie,
+  saveAccessTokenToCookie,
+  saveRefreshTokenToCookie,
   saveUserToCookie,
-  getAuthFromCookie,
+  getAccessTokenFromCookie,
+  getRefreshTokenFromCookie,
   getUserFromCookie,
   deleteCookie,
 };

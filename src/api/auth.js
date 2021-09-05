@@ -3,12 +3,16 @@ import { instance } from './index';
 
 // 회원가입 API
 function registerUser(userData) {
-  return instance.post('/signup', userData);
+  return instance.post('/auth/signup', userData);
 }
 
 // 로그인 API
 function loginUser(userData) {
-  return instance.post('/authenticate', userData);
+  return instance.post('/auth/login', userData);
 }
 
-export { registerUser, loginUser };
+function refreshToken(tokenData) {
+  return instance.post('/auth/refreshToken', tokenData);
+}
+
+export { registerUser, loginUser, refreshToken };

@@ -360,10 +360,10 @@ export default {
           productShowType: productShowType,
         });
         //console.log(data);
-        this.getProductsPage(1);
+        this.getProductsPageCondition(1);
       } catch (error) {
-        console.log(error.response.data.message);
-        this.logMessage = error.response.data.message;
+        console.log(error.response);
+        // this.logMessage = error.response.data.message;
       }
     },
     async removeProducts() {
@@ -445,8 +445,8 @@ export default {
         this.page = data.pageable.pageNumber + 1;
         console.log(data);
       } catch (error) {
-        console.log(error.response.data.message);
-        this.logMessage = error.response.data.message;
+        console.log(error);
+        // this.logMessage = error.response.data.message;
       }
     },
   },
