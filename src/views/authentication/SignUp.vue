@@ -22,6 +22,7 @@
                   :rules="{ required: true }"
                 >
                   <v-text-field
+                    tabindex="1"
                     v-model="username"
                     label="아이디"
                     clearable
@@ -35,6 +36,7 @@
                   :rules="{ required: true }"
                 >
                   <v-text-field
+                    tabindex="2"
                     v-model="password"
                     label="비밀번호"
                     clearable
@@ -48,6 +50,7 @@
                   :rules="{ required: true, confirmed: '비밀번호' }"
                 >
                   <v-text-field
+                    tabindex="3"
                     v-model="passwordConfirm"
                     label="비밀번호 확인"
                     clearable
@@ -61,6 +64,7 @@
                   :rules="{ required: true }"
                 >
                   <v-text-field
+                    tabindex="4"
                     v-model="name"
                     label="이름"
                     clearable
@@ -74,6 +78,7 @@
                   :rules="{ required: true }"
                 >
                   <v-text-field
+                    tabindex="5"
                     v-model="phoneNumber"
                     label="휴대폰 번호"
                     clearable
@@ -88,6 +93,7 @@
                   :rules="{ required: true }"
                 >
                   <v-text-field
+                    tabindex="6"
                     v-model="email"
                     label="이메일"
                     clearable

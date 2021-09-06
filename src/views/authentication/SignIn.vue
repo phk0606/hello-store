@@ -20,6 +20,7 @@
                   :rules="{ required: true }"
                 >
                   <v-text-field
+                    tabindex="1"
                     v-model="username"
                     label="아이디"
                     clearable
@@ -33,6 +34,7 @@
                   :rules="{ required: true }"
                 >
                   <v-text-field
+                    tabindex="2"
                     v-model="password"
                     label="비밀번호"
                     clearable
@@ -41,6 +43,7 @@
                   />
                 </validation-provider>
                 <v-btn
+                  tabindex="3"
                   type="submit"
                   class="mt-6"
                   block
