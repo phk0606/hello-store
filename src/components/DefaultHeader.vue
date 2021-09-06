@@ -32,7 +32,7 @@
           <v-btn color="indigo darken-3"> 검색 </v-btn>
         </v-col>
         <v-col cols="2">
-          <v-row class="d-flex justify-center">
+          <v-row v-if="isUserLogin" class="d-flex justify-center">
             <v-btn to="/my-page/cart" icon>
               <v-badge content="2" value="2" color="indigo" overlap>
                 <v-icon large>mdi-cart</v-icon>
@@ -47,7 +47,26 @@
           </v-row>
         </v-col>
       </v-row>
-      <v-row justify="end" no-gutters>
+      <v-row v-if="isUserLogin" justify="end" no-gutters>
+        <v-col cols="auto">
+          <v-btn-toggle group dense>
+            <v-btn small value="left" class="mr-0" to="/authentication/sign-up"
+              >주문 내역</v-btn
+            >
+            <v-btn
+              small
+              value="center"
+              class="mr-0"
+              to="/authentication/sign-in"
+              >1:1문의</v-btn
+            >
+            <v-btn @click="logoutUser" small value="right" class="mr-0"
+              >로그아웃</v-btn
+            >
+          </v-btn-toggle>
+        </v-col>
+      </v-row>
+      <v-row v-else justify="end" no-gutters>
         <v-col cols="auto">
           <v-btn-toggle group dense>
             <v-btn small value="left" class="mr-0" to="/authentication/sign-up"
@@ -241,8 +260,28 @@
 </template>
 
 <script>
+import { deleteCookie } from '@/utils/cookies';
+
 export default {
   name: 'DefaultHeader',
+  computed: {
+    isUserLogin() {
+      return this.$store.getters.isLogin;
+    },
+  },
+  methods: {
+    logoutUser() {
+      this.$store.commit('clearUsername');
+      this.$store.commit('clearAccessToken');
+      this.$store.commit('clearRefreshToken');
+      deleteCookie('ecomm_accessToken');
+      deleteCookie('ecomm_refreshToken');
+      deleteCookie('ecomm_user');
+      if (this.$route.path !== '/') {
+        this.$router.push('/');
+      }
+    },
+  },
   data() {
     return {
       font: 'text-caption text-sm-body-2 text-md-body-1 text-lg-h6 text-xl-h4',

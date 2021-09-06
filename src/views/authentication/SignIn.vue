@@ -96,7 +96,7 @@ export default {
             password: this.password,
           };
           await this.$store.dispatch('LOGIN', userData);
-          //this.$router.push('/main');
+          this.$router.push('/');
         } catch (error) {
           // 에러 핸들링할 코드
           console.log(error.response.data);
