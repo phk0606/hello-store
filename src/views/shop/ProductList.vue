@@ -42,8 +42,65 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col v-for="i in 20" :key="i" cols="12" sm="6" md="4" lg="3">
-        <product-item />
+      <v-col
+        v-for="(content, i) in contentList"
+        :key="i"
+        cols="12"
+        sm="6"
+        md="4"
+        lg="3"
+      >
+        <v-card class="mx-auto" to="/style-shop/product-detail">
+          <v-img
+            class="white--text align-end"
+            height="200px"
+            :src="'data:image/png;base64,' + content.image"
+          >
+            <!-- <v-card-title>Top 10 Australian beaches</v-card-title> -->
+          </v-img>
+
+          <v-card-text class="text--primary">
+            <div>{{ content.salePrice }}</div>
+
+            <div>{{ content.productName }}</div>
+            <div>{{ content.description }}</div>
+          </v-card-text>
+          <div class="text-center">
+            <v-chip
+              v-if="content.newArrival"
+              class="ma-2"
+              x-small
+              color="pink"
+              label
+              text-color="white"
+            >
+              <!-- <v-icon left> mdi-label </v-icon> -->
+              신상품
+            </v-chip>
+            <v-chip
+              v-if="content.best"
+              class="ma-2"
+              x-small
+              color="pink"
+              label
+              text-color="white"
+            >
+              <!-- <v-icon left> mdi-label </v-icon> -->
+              Best
+            </v-chip>
+            <v-chip
+              v-if="content.discount"
+              class="ma-2"
+              x-small
+              color="pink"
+              label
+              text-color="white"
+            >
+              <!-- <v-icon left> mdi-label </v-icon> -->
+              할인
+            </v-chip>
+          </div>
+        </v-card>
       </v-col>
     </v-row>
     <v-row justify="center" style="text-align: center">
@@ -69,17 +126,22 @@
 </template>
 
 <script>
-import ProductItem from '@/components/shop/ProductItem.vue';
+// import ProductItem from '@/components/shop/ProductItem.vue';
 import Pagination from 'vue-pagination-2';
+import { getProductsPageCondition } from '@/api/shopProduct';
 
 export default {
   name: 'ProductList',
   components: {
-    ProductItem,
+    // ProductItem,
     Pagination,
+  },
+  created() {
+    this.getProductsPageCondition(1);
   },
   data() {
     return {
+      contentList: null,
       page: 1,
       items: [
         { text: '신상품', value: 'newArrival' },
@@ -89,6 +151,22 @@ export default {
     };
   },
   methods: {
+    async getProductsPageCondition(page) {
+      try {
+        const { data } = await getProductsPageCondition({
+          page: page - 1,
+          size: this.perPage,
+        });
+        this.contentList = data.content;
+        // this.perPage = data.size;
+        // this.records = data.totalElements;
+        // this.page = data.pageable.pageNumber + 1;
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
     },
