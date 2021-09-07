@@ -2,20 +2,28 @@
   <v-container>
     <v-row>
       <v-col cols="6">
-        <v-img
+        <v-carousel
+          cycle
           height="550px"
-          src="http://gdimg.gmarket.co.kr/1677536429/still/600?ver=1569323291"
+          hide-delimiter-background
+          show-arrows-on-hover
+          :touch="{ left: () => activeSlide--, right: () => activeSlide++ }"
         >
-          <!-- <v-card-title>Top 10 Australian beaches</v-card-title> -->
-        </v-img>
+          <v-carousel-item
+            v-for="(image, i) in images"
+            :key="i"
+            :src="`data:image/png;base64, ${image}`"
+          />
+        </v-carousel>
       </v-col>
       <v-col cols="6">
         <v-card>
-          <v-card-title>상품명: 기모티셔츠</v-card-title>
+          <v-card-title>상품명: {{ productName }}</v-card-title>
           <v-card-text>
             <v-row>
               <div>
                 <v-chip
+                  v-if="newArrival"
                   x-small
                   color="pink"
                   class="mx-1"
@@ -26,6 +34,7 @@
                   신상품
                 </v-chip>
                 <v-chip
+                  v-if="best"
                   x-small
                   color="pink"
                   class="mx-1"
@@ -36,6 +45,7 @@
                   Best
                 </v-chip>
                 <v-chip
+                  v-if="discount"
                   x-small
                   color="pink"
                   class="mx-1"
@@ -46,6 +56,7 @@
                   할인
                 </v-chip>
                 <v-chip
+                  v-if="productShowType === 'SOLDOUT'"
                   x-small
                   color="pink"
                   class="mx-1"
@@ -60,9 +71,9 @@
           </v-card-text>
 
           <v-card-text class="text--primary">
-            <div>판매 가격: 15,000 원</div>
+            <div>판매 가격: {{ salePrice }} 원</div>
             <div>포인트: 250</div>
-            <div>상품 요약: 깃털처럼 가벼운 것에 비해 최고 효과</div>
+            <div>상품 요약: {{ description }}</div>
           </v-card-text>
           <v-container>
             <v-row dense align="center">
@@ -183,9 +194,24 @@
 <script>
 import ProductComment from '@/components/shop/ProductComment';
 import ProductQna from '@/components/shop/ProductQna.vue';
+import { getProductById } from '@/api/shopProduct';
 
 export default {
+  created() {
+    const productId = this.$route.params.productId;
+    this.getProductById(productId);
+  },
   data: () => ({
+    images: null,
+    productName: '',
+    newArrival: null,
+    best: null,
+    discount: null,
+    productShowType: null,
+    salePrice: null,
+    point: null,
+    description: null,
+    shippingFee: null,
     tab: null,
     items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
     num: 1,
@@ -195,6 +221,25 @@ export default {
     ProductQna,
   },
   methods: {
+    async getProductById(productId) {
+      try {
+        const { data } = await getProductById({
+          productId: productId,
+        });
+        console.log(data);
+        this.images = data.byteImages;
+        this.productName = data.productName;
+        this.newArrival = data.newArrival;
+        this.best = data.best;
+        this.discount = data.discount;
+        this.productShowType = data.productShowType;
+        this.salePrice = data.salePrice;
+
+        this.description = data.description;
+      } catch (error) {
+        console.log(error);
+      }
+    },
     plus() {
       this.num += 1;
     },
