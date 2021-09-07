@@ -160,9 +160,7 @@
         <v-tabs-items v-model="tab">
           <v-tab-item value="tab-1">
             <v-card flat>
-              <v-img
-                src="//rooseoin.co.kr/web/upload/NNEditor/20210126/5d9bcb9618446c391134799c5ecea042.jpg"
-              />
+              <p v-html="detailInfo" />
             </v-card>
           </v-tab-item>
           <v-tab-item value="tab-2">
@@ -173,16 +171,12 @@
           </v-tab-item>
           <v-tab-item value="tab-4">
             <v-card flat>
-              <v-img
-                src="https://beidelli.com/_d1/img/detailfix_delivery.jpg"
-              />
+              <p v-html="shippingInfo" />
             </v-card>
           </v-tab-item>
           <v-tab-item value="tab-5">
             <v-card flat>
-              <v-img
-                src="https://app-storage-edge-006.cafe24.com/bannerplus/ju021026/2020/06/30/8735105994f4f71748fce77753053d07.jpg"
-              />
+              <p v-html="exchangeReturnInfo" />
             </v-card>
           </v-tab-item>
         </v-tabs-items>
@@ -212,6 +206,9 @@ export default {
     point: null,
     description: null,
     shippingFee: null,
+    detailInfo: null,
+    shippingInfo: null,
+    exchangeReturnInfo: null,
     tab: null,
     items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
     num: 1,
@@ -236,6 +233,9 @@ export default {
         this.salePrice = data.salePrice;
 
         this.description = data.description;
+        this.detailInfo = data.detailInfo;
+        this.shippingInfo = data.shippingInfo;
+        this.exchangeReturnInfo = data.exchangeReturnInfo;
       } catch (error) {
         console.log(error);
       }
