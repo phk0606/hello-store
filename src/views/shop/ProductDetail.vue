@@ -136,24 +136,7 @@
           </v-container>
         </v-card>
         <div class="pt-5">
-          <v-btn
-            dark
-            block
-            large
-            color="black"
-            :to="{
-              path: '/style-shop/product-order',
-              query: {
-                productId: productId,
-                productName: productName,
-                salePrice: salePrice,
-                quantity: quantity,
-                shippingFee: shippingFee,
-                totalPrice: this.getTotalPrice,
-                point: point,
-              },
-            }"
-          >
+          <v-btn dark block large color="black" @click="order">
             구매하기
           </v-btn>
         </div>
@@ -261,6 +244,20 @@ export default {
     ProductQna,
   },
   methods: {
+    order() {
+      this.$router.push({
+        path: '/style-shop/product-order',
+        query: {
+          productId: this.productId,
+          productName: this.productName,
+          salePrice: this.salePrice,
+          quantity: this.quantity,
+          shippingFee: this.shippingFee,
+          totalPrice: this.getTotalPrice,
+          point: this.point,
+        },
+      });
+    },
     async getProductById(productId) {
       try {
         const { data } = await getProductById({

@@ -8,4 +8,8 @@ function getProductById(data) {
   return instance.get('/shop/getProductById', { params: data });
 }
 
-export { getProductsPageCondition, getProductById };
+function getListImage(data) {
+  return instance.get('/shop/getListImage', { params: data });
+}
+
+export { getProductsPageCondition, getProductById, getListImage };

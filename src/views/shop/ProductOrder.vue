@@ -56,12 +56,12 @@
           show-select
           class="elevation-1"
         >
-          <!-- <template v-slot:[`item.image`]="{ item }">
+          <template v-slot:[`item.image`]="{ item }">
             <v-img
               :src="'data:image/png;base64,' + item.image"
               style="width: 50px; height: 50px"
             />
-          </template> -->
+          </template>
           <template v-slot:[`item.name`]="{ item }">
             <v-row>{{ item.categoryName }}</v-row>
             <v-row>{{ item.name }}</v-row>
@@ -71,7 +71,7 @@
         <template>
           <v-row>
             <v-col cols="10"> 총 상품 금액 </v-col>
-            <v-col>{{ sumField('price') }}</v-col>
+            <!-- <v-col>{{ sumField('price') }}</v-col> -->
           </v-row>
         </template>
       </v-col>
@@ -255,12 +255,16 @@
 
 <script>
 import Address from '@/components/Address';
+import { getListImage } from '@/api/shopProduct';
 
 export default {
-  created() {
+  async created() {
     const query = this.$route.query;
+    await this.getListImage(query.productId);
+
     const orders = [
       {
+        image: this.listImage,
         productId: query.productId,
         productName: query.productName,
         salePrice: query.salePrice,
@@ -271,6 +275,7 @@ export default {
       },
     ];
     this.orders = orders;
+    console.log(orders);
   },
   components: {
     Address,
@@ -279,6 +284,17 @@ export default {
     sumField(key) {
       // sum data in give key (property)
       return this.orders.reduce((a, b) => a + (b[key] || 0), 0);
+    },
+    async getListImage(productId) {
+      try {
+        const { data } = await getListImage({
+          productId: productId,
+        });
+        console.log(data);
+        this.listImage = data.byteImage;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   data() {
@@ -296,6 +312,7 @@ export default {
         { text: '배송비', align: 'center', value: 'shippingFee' },
         { text: '합계', align: 'center', value: 'totalPrice' },
       ],
+      listImage: null,
       orders: [
         {
           productId: null,
@@ -311,68 +328,6 @@ export default {
         },
       ],
       selected: [],
-      // orders: [
-      //   {
-      //     productId: 12345,
-      //     productName: '백프린팅 반팔티셔츠1',
-      //     imgSrc:
-      //       '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
-      //     quantity: 1,
-      //     price: 12000,
-      //     option1: '화이트',
-      //     option2: 'C형',
-      //   },
-      //   {
-      //     productId: 12345,
-      //     productName: '백프린팅 반팔티셔츠2',
-      //     imgSrc:
-      //       '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
-      //     quantity: 1,
-      //     price: 12000,
-      //     option1: '화이트',
-      //     option2: 'C형',
-      //   },
-      //   {
-      //     productId: 12345,
-      //     productName: '백프린팅 반팔티셔츠3',
-      //     imgSrc:
-      //       '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
-      //     quantity: 1,
-      //     price: 12000,
-      //     option1: '화이트',
-      //     option2: 'C형',
-      //   },
-      //   {
-      //     productId: 12345,
-      //     productName: '백프린팅 반팔티셔츠4',
-      //     imgSrc:
-      //       '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
-      //     quantity: 1,
-      //     price: 12000,
-      //     option1: '화이트',
-      //     option2: 'C형',
-      //   },
-      //   {
-      //     productId: 12345,
-      //     productName: '백프린팅 반팔티셔츠5',
-      //     imgSrc:
-      //       '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
-      //     quantity: 1,
-      //     price: 12000,
-      //     option1: '화이트',
-      //     option2: 'C형',
-      //   },
-      //   {
-      //     productId: 12345,
-      //     productName: '백프린팅 반팔티셔츠6',
-      //     imgSrc:
-      //       '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
-      //     quantity: 1,
-      //     price: 12000,
-      //     option1: '화이트',
-      //     option2: 'C형',
-      //   },
-      // ],
     };
   },
 };
