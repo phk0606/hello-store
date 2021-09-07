@@ -136,7 +136,24 @@
           </v-container>
         </v-card>
         <div class="pt-5">
-          <v-btn dark block large color="black" to="/style-shop/product-order">
+          <v-btn
+            dark
+            block
+            large
+            color="black"
+            :to="{
+              path: '/style-shop/product-order',
+              query: {
+                productId: productId,
+                productName: productName,
+                salePrice: salePrice,
+                quantity: quantity,
+                shippingFee: shippingFee,
+                totalPrice: this.getTotalPrice,
+                point: point,
+              },
+            }"
+          >
             구매하기
           </v-btn>
         </div>
@@ -207,6 +224,7 @@ export default {
     },
   },
   data: () => ({
+    productId: null,
     images: null,
     productName: '',
     newArrival: null,
@@ -221,7 +239,6 @@ export default {
     detailInfo: null,
     shippingInfo: null,
     exchangeReturnInfo: null,
-    totalPrice: null,
     firstOptions: [
       {
         optionGroupNumber: 1,
@@ -237,7 +254,6 @@ export default {
       },
     ],
     tab: null,
-    items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
     quantity: 1,
   }),
   components: {
@@ -251,6 +267,7 @@ export default {
           productId: productId,
         });
         console.log(data);
+        this.productId = data.productId;
         this.images = data.byteImages;
         this.productName = data.productName;
         this.newArrival = data.newArrival;
