@@ -93,6 +93,17 @@
                     ><v-card width="80" flat>정상 가격:</v-card></template
                   > </v-text-field
                 ><v-text-field
+                  v-model="stockQuantity"
+                  hide-details
+                  dense
+                  outlined
+                  required
+                  suffix="개"
+                  class="mr-5"
+                  ><template v-slot:prepend
+                    ><v-card width="80" flat>재고 수량:</v-card></template
+                  > </v-text-field
+                ><v-text-field
                   v-model="maxPurchaseQuantity"
                   hide-details
                   dense
@@ -525,6 +536,7 @@ export default {
       name: '',
       salePrice: null,
       regularPrice: null,
+      stockQuantity: null,
       maxPurchaseQuantity: null,
       eachShippingFee: null,
       pointPerPrice: null,
@@ -620,6 +632,7 @@ export default {
         name: this.name,
         salePrice: this.salePrice,
         regularPrice: this.regularPrice,
+        stockQuantity: this.stockQuantity,
         maxPurchaseQuantity: this.maxPurchaseQuantity,
         pointType: this.pointRadio,
         pointPerPrice: this.pointPerPrice,
