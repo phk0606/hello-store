@@ -116,8 +116,8 @@
             },
           }"
           v-model="page"
-          :records="500"
-          :per-page="20"
+          :records="records"
+          :per-page="perPage"
           @paginate="myCallback"
         />
       </v-col>
@@ -143,6 +143,8 @@ export default {
     return {
       contentList: null,
       page: 1,
+      records: 10,
+      perPage: 6,
       items: [
         { text: '신상품', value: 'newArrival' },
         { text: 'Best', value: 'best' },
@@ -158,9 +160,9 @@ export default {
           size: this.perPage,
         });
         this.contentList = data.content;
-        // this.perPage = data.size;
-        // this.records = data.totalElements;
-        // this.page = data.pageable.pageNumber + 1;
+        this.perPage = data.size;
+        this.records = data.totalElements;
+        this.page = data.pageable.pageNumber + 1;
         console.log(data);
       } catch (error) {
         console.log(error);
@@ -169,6 +171,7 @@ export default {
     },
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
+      this.getProductsPageCondition(page);
     },
   },
 };
