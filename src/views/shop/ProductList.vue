@@ -32,12 +32,14 @@
       </v-col>
       <v-col cols="3">
         <v-select
+          v-model="productProperty"
           :items="items"
           label="모아보기"
           hide-details
           outlined
           dense
           :menu-props="{ offsetY: true }"
+          @change="changeProductProperty()"
         />
       </v-col>
     </v-row>
@@ -141,11 +143,13 @@ export default {
   },
   data() {
     return {
+      productProperty: null,
       contentList: null,
       page: 1,
       records: 10,
       perPage: 6,
       items: [
+        { text: '모두보기', value: '' },
         { text: '신상품', value: 'newArrival' },
         { text: 'Best', value: 'best' },
         { text: '할인', value: 'discount' },
@@ -153,11 +157,16 @@ export default {
     };
   },
   methods: {
+    changeProductProperty() {
+      console.log(this.productProperty);
+      this.getProductsPageCondition();
+    },
     async getProductsPageCondition(page) {
       try {
         const { data } = await getProductsPageCondition({
           page: page - 1,
           size: this.perPage,
+          productProperty: this.productProperty,
         });
         this.contentList = data.content;
         this.perPage = data.size;
