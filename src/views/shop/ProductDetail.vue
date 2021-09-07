@@ -71,16 +71,20 @@
           </v-card-text>
 
           <v-card-text class="text--primary">
-            <div>판매 가격: {{ salePrice }} 원</div>
-            <div>포인트: 250</div>
+            <div>
+              판매 가격: {{ salePrice }} 원, 정상 가격: {{ regularPrice }}
+            </div>
+            <div>포인트: {{ point }}</div>
             <div>상품 요약: {{ description }}</div>
           </v-card-text>
           <v-container>
-            <v-row dense align="center">
+            <v-row v-if="firstOptions[0].optionValue" dense align="center">
               <v-col cols="auto"><div class="subtitle-1">옵션1:</div></v-col>
               <v-col>
                 <v-select
-                  :items="items"
+                  :items="firstOptions"
+                  item-text="optionValue"
+                  item-value="optionValue"
                   label="옵션을 선택해 주세요."
                   hide-details
                   outlined
@@ -89,11 +93,13 @@
                 />
               </v-col>
             </v-row>
-            <v-row dense align="center">
+            <v-row v-if="secondOptions[0].optionValue" dense align="center">
               <v-col cols="auto"><div class="subtitle-1">옵션2:</div></v-col>
               <v-col>
                 <v-select
-                  :items="items"
+                  :items="secondOptions"
+                  item-text="optionValue"
+                  item-value="optionValue"
                   label="옵션을 선택해 주세요."
                   hide-details
                   outlined
@@ -107,7 +113,7 @@
             <v-row dense align="center">
               <v-col cols="auto"><div class="subtitle-1">수량:</div> </v-col>
               <v-col cols="3">
-                <v-text-field outlined dense hide-details v-model="num" />
+                <v-text-field outlined dense hide-details v-model="quantity" />
               </v-col>
               <v-col>
                 <v-btn small class="mr-2" icon color="indigo" @click="plus"
@@ -119,12 +125,12 @@
             </v-row>
             <v-row>
               <v-col>
-                <div>배송비:</div>
+                <div>배송비: {{ shippingFee }}</div>
               </v-col>
             </v-row>
             <v-row>
               <v-col>
-                <div>총 결제 금액:</div>
+                <div>총 결제 금액: {{ getTotalPrice }}</div>
               </v-col>
             </v-row>
           </v-container>
@@ -195,6 +201,11 @@ export default {
     const productId = this.$route.params.productId;
     this.getProductById(productId);
   },
+  computed: {
+    getTotalPrice() {
+      return this.salePrice * this.quantity + this.shippingFee;
+    },
+  },
   data: () => ({
     images: null,
     productName: '',
@@ -203,15 +214,31 @@ export default {
     discount: null,
     productShowType: null,
     salePrice: null,
+    regularPrice: null,
     point: null,
     description: null,
     shippingFee: null,
     detailInfo: null,
     shippingInfo: null,
     exchangeReturnInfo: null,
+    totalPrice: null,
+    firstOptions: [
+      {
+        optionGroupNumber: 1,
+        optionName: '',
+        optionValue: '',
+      },
+    ],
+    secondOptions: [
+      {
+        optionGroupNumber: 2,
+        optionName: '',
+        optionValue: '',
+      },
+    ],
     tab: null,
     items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
-    num: 1,
+    quantity: 1,
   }),
   components: {
     ProductComment,
@@ -231,21 +258,25 @@ export default {
         this.discount = data.discount;
         this.productShowType = data.productShowType;
         this.salePrice = data.salePrice;
-
+        this.regularPrice = data.regularPrice;
+        this.point = data.point;
+        this.shippingFee = data.shippingFee;
         this.description = data.description;
         this.detailInfo = data.detailInfo;
         this.shippingInfo = data.shippingInfo;
         this.exchangeReturnInfo = data.exchangeReturnInfo;
+        this.firstOptions = data.firstOptions;
+        this.secondOptions = data.secondOptions;
       } catch (error) {
         console.log(error);
       }
     },
     plus() {
-      this.num += 1;
+      this.quantity += 1;
     },
     minus() {
-      if (this.num > 1) {
-        this.num -= 1;
+      if (this.quantity > 1) {
+        this.quantity -= 1;
       }
     },
   },
