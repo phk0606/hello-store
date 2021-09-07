@@ -53,7 +53,7 @@ const routes = [
           ),
       },
       {
-        path: 'product-detail',
+        path: 'product-detail/:productId',
         name: 'style-shop-product-detail',
         component: () =>
           import(

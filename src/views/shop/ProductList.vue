@@ -52,7 +52,10 @@
         md="4"
         lg="3"
       >
-        <v-card class="mx-auto" to="/style-shop/product-detail">
+        <v-card
+          class="mx-auto"
+          :to="`/style-shop/product-detail/${content.productId}`"
+        >
           <v-img
             class="white--text align-end"
             height="200px"
