@@ -18,6 +18,7 @@ function createInstanceWithAuth(url) {
 export const instance = createInstance();
 export const admin = createInstanceWithAuth('/admin');
 export const user = createInstanceWithAuth('/user');
+export const order = createInstanceWithAuth('/order');
 
 export const posts = createInstanceWithAuth('posts');
 

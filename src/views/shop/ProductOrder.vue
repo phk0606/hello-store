@@ -7,47 +7,11 @@
     </v-row>
     <v-row>
       <v-col cols="12">
-        <!-- <v-simple-table fixed-header dense height="400px">
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-center">번호</th>
-                <th class="text-center">상품정보</th>
-                <th class="text-center">수량</th>
-                <th class="text-center">판매가격</th>
-                <th class="text-center">포인트</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(order, index) in orders.slice().reverse()"
-                :key="index"
-              >
-                <td class="text-center">{{ index + 1 }}</td>
-                <td>
-                  <v-row>
-                    <v-col cols="3">
-                      <v-img :src="order.imgSrc" max-width="100" />
-                    </v-col>
-                    <v-col>
-                      <div>상품명: {{ order.productName }}</div>
-                      <div>색상: {{ order.option1 }}</div>
-                      <div>디자인: {{ order.option2 }}</div>
-                    </v-col>
-                  </v-row>
-                </td>
-                <td class="text-center">{{ order.quantity }}</td>
-                <td class="text-center">{{ order.price }}</td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table> -->
-
         <v-data-table
           hide-default-footer
           v-model="selected"
           :headers="headers"
-          :items="orders"
+          :items="orderProducts"
           item-key="productId"
           show-select
           class="elevation-1"
@@ -68,11 +32,13 @@
           </template>
           <template v-slot:[`item.productName`]="{ item }">
             <v-row>{{ item.productName }}</v-row>
-            <v-row v-if="item.firstOptionName"
-              >{{ item.firstOptionName }}: {{ item.firstOptionValue }}</v-row
+            <v-row v-if="item.orderProductOptions[0].optionName"
+              >{{ item.orderProductOptions[0].optionName }}:
+              {{ item.orderProductOptions[0].optionValue }}</v-row
             >
-            <v-row v-if="item.secondOptionName"
-              >{{ item.secondOptionName }}: {{ item.secondOptionValue }}</v-row
+            <v-row v-if="item.orderProductOptions[1].optionName"
+              >{{ item.orderProductOptions[1].optionName }}:
+              {{ item.orderProductOptions[1].optionValue }}</v-row
             >
           </template>
         </v-data-table>
@@ -83,7 +49,7 @@
               <v-col cols="auto"> 총 상품 금액 </v-col>
               <v-col cols="auto">{{ sumField('salePrice') }}</v-col>
               <v-col cols="auto"> 총 배송비 </v-col>
-              <v-col cols="auto">{{ sumField('shippingFee') }}</v-col>
+              <v-col cols="auto">{{ sumField('orderShippingFee') }}</v-col>
               <v-col cols="auto"> 총 결제 금액 </v-col>
               <v-col cols="auto">{{ sumField('totalPrice') }}</v-col>
             </v-row>
@@ -130,7 +96,12 @@
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
                 <v-col
-                  ><v-text-field hide-details dense required solo-inverted
+                  ><v-text-field
+                    v-model="recipientName"
+                    hide-details
+                    dense
+                    required
+                    solo-inverted
                 /></v-col>
               </v-row>
               <v-divider />
@@ -138,6 +109,7 @@
                 <v-col cols="2"><div class="subtitle-1">*연락처:</div></v-col>
                 <v-col
                   ><v-text-field
+                    v-model="recipientPhoneNumber"
                     hide-details
                     dense
                     solo-inverted
@@ -147,12 +119,20 @@
                 /></v-col>
               </v-row>
               <v-divider />
-              <Address />
+              <Address
+                v-on:setAddress="setAddress"
+                v-on:setDetailAddress="setDetailAddress"
+              />
               <v-divider />
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">요청사항:</div></v-col>
                 <v-col
-                  ><v-textarea hide-details dense filled no-resize
+                  ><v-textarea
+                    v-model="requirement"
+                    hide-details
+                    dense
+                    filled
+                    no-resize
                 /></v-col>
               </v-row>
             </v-container>
@@ -181,7 +161,7 @@
                 <v-col>
                   <v-text-field
                     reverse
-                    :value="sumField('shippingFee')"
+                    :value="sumField('orderShippingFee')"
                     hide-details
                     dense
                     required
@@ -216,17 +196,17 @@
                 <v-radio-group
                   dense
                   hide-details
-                  v-model="radios1"
+                  v-model="paymentMethodType"
                   row
                   class="mt-0"
                 >
-                  <v-radio value="1">
+                  <v-radio value="WITHOUT_BANKBOOK">
                     <template v-slot:label>무통장 입금</template>
                   </v-radio>
-                  <v-radio value="2">
+                  <v-radio value="CREDIT_CARD">
                     <template v-slot:label> 카드결제 </template>
                   </v-radio>
-                  <v-radio value="3">
+                  <v-radio value="ACCOUNT_TRANSFER">
                     <template v-slot:label> 계좌이체 </template>
                   </v-radio>
                   <!-- <v-radio value="4">
@@ -260,10 +240,8 @@
             <v-divider /> -->
             <v-row>
               <v-col class="d-flex justify-end">
-                <v-btn class="mr-5" to="/style-shop/order-complete"
-                  >결제하기</v-btn
-                >
-
+                <v-btn @click="payment" class="mr-5">결제하기</v-btn>
+                <!-- to="/style-shop/order-complete" -->
                 <v-btn>취소</v-btn>
               </v-col>
             </v-row>
@@ -278,29 +256,39 @@
 import Address from '@/components/Address';
 import { getListImage } from '@/api/shopProduct';
 import { getUser } from '@/api/user';
+import { createOrder } from '@/api/order';
 
 export default {
   async created() {
     const query = this.$route.query;
     await this.getListImage(query.productId);
 
-    const orders = [
+    const orderProducts = [
       {
         image: this.listImage,
         productId: query.productId,
         productName: query.productName,
         salePrice: query.salePrice,
-        quantity: query.quantity,
-        shippingFee: query.shippingFee,
+        orderQuantity: query.quantity,
+        orderShippingFee: query.shippingFee,
         totalPrice: query.totalPrice,
         point: query.point,
-        firstOptionName: query.firstOptionName,
-        firstOptionValue: query.firstOptionValue,
-        secondOptionName: query.secondOptionName,
-        secondOptionValue: query.secondOptionValue,
+        orderProductOptions: [
+          {
+            optionGroupNumber: 1,
+            optionName: query.firstOptionName,
+            optionValue: query.firstOptionValue,
+          },
+          {
+            optionGroupNumber: 2,
+            optionName: query.secondOptionName,
+            optionValue: query.secondOptionValue,
+          },
+        ],
       },
     ];
-    this.orders = orders;
+    this.orderProducts = orderProducts;
+    this.productId = query.productId;
     const username = this.$store.state.username;
     console.log(username);
 
@@ -310,10 +298,53 @@ export default {
     Address,
   },
   methods: {
+    setAddress(zonecode, roadAddress, address) {
+      // console.log(zonecode, roadAddress, address);
+      this.zonecode = zonecode;
+      this.roadAddress = roadAddress;
+      this.address = address;
+    },
+    setDetailAddress(detailAddress) {
+      // console.log(detailAddress);
+      this.detailAddress = detailAddress;
+    },
+    async payment() {
+      this.orderProducts.map(orderProduct => {
+        delete orderProduct.image;
+        return orderProduct;
+      });
+
+      const orderDto = {
+        productId: this.productId,
+        userNo: this.user.userNo,
+        username: this.user.username,
+        phoneNumber: this.user.phoneNumber,
+        paymentMethodType: this.paymentMethodType,
+        orderProducts: this.orderProducts,
+        delivery: {
+          recipientName: this.recipientName,
+          phoneNumber: this.recipientPhoneNumber,
+          requirement: this.requirement,
+          address: {
+            zoneCode: this.zonecode,
+            address: this.address,
+            detailAddress: this.detailAddress,
+          },
+        },
+      };
+
+      console.log(orderDto);
+      try {
+        const { data } = await createOrder(orderDto);
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
     sumField(key) {
       // sum data in give key (property)
       let total = 0;
-      return this.orders.reduce((accumulator, currentValue) => {
+      return this.orderProducts.reduce((accumulator, currentValue) => {
         return (total += +currentValue[key]);
       }, 0);
     },
@@ -342,37 +373,50 @@ export default {
   },
   data() {
     return {
+      requierment: '',
+      productId: null,
       user: {},
-      radios1: '1',
+      paymentMethodType: 'WITHOUT_BANKBOOK',
       radios2: '1',
-
+      recipientName: '',
+      recipientPhoneNumber: '',
+      zonecode: '',
+      roadAddress: '',
+      address: '',
+      detailAddress: '',
       headers: [
         { text: '번호', align: 'center', value: 'productId' },
         { text: '이미지', align: 'center', sortable: false, value: 'image' },
         { text: '상품 정보', align: 'center', value: 'productName' },
         { text: '판매 가격', align: 'center', value: 'salePrice' },
-        { text: '수량', align: 'center', value: 'quantity' },
+        { text: '수량', align: 'center', value: 'orderQuantity' },
         { text: '포인트', align: 'center', value: 'point' },
-        { text: '배송비', align: 'center', value: 'shippingFee' },
+        { text: '배송비', align: 'center', value: 'orderShippingFee' },
         { text: '합계', align: 'center', value: 'totalPrice' },
       ],
       listImage: null,
-      orders: [
+      orderProducts: [
         {
-          firstOptionName: null,
-          firstOptionValue: null,
-          secondOptionName: null,
-          secondOptionValue: null,
-          productId: null,
           image: null,
+          productId: null,
           productName: '',
           salePrice: null,
-          quantity: null,
-          point: null,
-          shippingFee: null,
+          orderQuantity: null,
+          orderShippingFee: null,
           totalPrice: null,
-          option1: '',
-          option2: '',
+          point: null,
+          orderProductOptions: [
+            {
+              optionGroupNumber: 1,
+              optionName: this.firstOptionName,
+              optionValue: this.firstOptionValue,
+            },
+            {
+              optionGroupNumber: 2,
+              optionName: this.secondOptionName,
+              optionValue: this.secondOptionValue,
+            },
+          ],
         },
       ],
       selected: [],
