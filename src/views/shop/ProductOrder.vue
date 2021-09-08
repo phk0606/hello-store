@@ -59,7 +59,7 @@
     </v-row>
     <v-divider />
     <v-row>
-      <v-col cols="8">
+      <v-col cols="9">
         <v-card ref="form">
           <v-card-title>주문자 정보</v-card-title>
           <v-card-text>
@@ -193,26 +193,86 @@
             <v-row dense align="center">
               <v-col cols="2"> <div class="subtitle-1">결제 방법</div> </v-col>
               <v-col>
-                <v-radio-group
-                  dense
-                  hide-details
-                  v-model="paymentMethodType"
-                  row
-                  class="mt-0"
-                >
-                  <v-radio value="WITHOUT_BANKBOOK">
-                    <template v-slot:label>무통장 입금</template>
-                  </v-radio>
-                  <v-radio value="CREDIT_CARD">
-                    <template v-slot:label> 카드결제 </template>
-                  </v-radio>
-                  <v-radio value="ACCOUNT_TRANSFER">
-                    <template v-slot:label> 계좌이체 </template>
-                  </v-radio>
-                  <!-- <v-radio value="4">
+                <v-container>
+                  <v-row>
+                    <v-col>
+                      <v-radio-group
+                        dense
+                        hide-details
+                        v-model="paymentMethodType"
+                        row
+                        class="mt-0"
+                      >
+                        <v-radio value="WITHOUT_BANKBOOK">
+                          <template v-slot:label>무통장 입금</template>
+                        </v-radio>
+                        <v-radio value="CREDIT_CARD">
+                          <template v-slot:label> 카드결제 </template>
+                        </v-radio>
+                        <v-radio value="ACCOUNT_TRANSFER">
+                          <template v-slot:label> 계좌이체 </template>
+                        </v-radio>
+                        <!-- <v-radio value="4">
                     <template v-slot:label> 가상계좌 </template>
                   </v-radio> -->
-                </v-radio-group>
+                      </v-radio-group>
+                    </v-col>
+                  </v-row>
+                  <template v-if="paymentMethodType === 'WITHOUT_BANKBOOK'">
+                    <v-row dense align="center">
+                      <v-col cols="3"> ● 입금 계좌 선택 </v-col>
+                      <v-col
+                        ><v-select
+                          v-model="selectedBank"
+                          :items="depositAccount"
+                          item-text="optionText"
+                          item-value="optionValue"
+                          label="입금 은행을 선택해 주세요."
+                          hide-details
+                          outlined
+                          dense
+                          :menu-props="{ offsetY: true }"
+                          return-object
+                      /></v-col>
+                    </v-row>
+                    <v-row dense align="center">
+                      <v-col cols="3"> ● 입금 예정일 </v-col>
+                      <v-col
+                        ><v-menu
+                          v-model="menu"
+                          :close-on-content-click="false"
+                          :nudge-right="40"
+                          transition="scale-transition"
+                          offset-y
+                          min-width="auto"
+                        >
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-text-field
+                              v-model="date1"
+                              prepend-icon="mdi-calendar"
+                              readonly
+                              v-bind="attrs"
+                              v-on="on"
+                            />
+                          </template>
+                          <v-date-picker
+                            v-model="date1"
+                            @input="menu = false"
+                          /> </v-menu
+                      ></v-col>
+                    </v-row>
+                    <v-row dense align="center">
+                      <v-col cols="3"> ● 입금자 명 </v-col>
+                      <v-col
+                        ><v-text-field
+                          outlined
+                          dense
+                          hide-details
+                          v-model="depositorName"
+                      /></v-col>
+                    </v-row>
+                  </template>
+                </v-container>
               </v-col>
             </v-row>
             <v-divider />
@@ -373,7 +433,27 @@ export default {
   },
   data() {
     return {
-      requierment: '',
+      date1: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      menu: false,
+      selectedBank: null,
+      depositorName: '',
+      depositAccount: [
+        {
+          optionText: '하나은행 110-234-05234 헬로스토어',
+          optionValue: 'HanaBank',
+        },
+        {
+          optionText: '우리은행 110-234-05234 헬로스토어',
+          optionValue: 'WooriBank',
+        },
+        {
+          optionText: '국민은행 110-234-05234 헬로스토어',
+          optionValue: 'KBBank',
+        },
+      ],
+      requirement: '',
       productId: null,
       user: {},
       paymentMethodType: 'WITHOUT_BANKBOOK',
