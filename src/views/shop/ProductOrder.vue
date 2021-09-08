@@ -134,8 +134,6 @@
                 /></v-col>
               </v-row>
               <v-divider />
-              <Address />
-              <v-divider />
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">*연락처:</div></v-col>
                 <v-col
@@ -148,6 +146,8 @@
                     required
                 /></v-col>
               </v-row>
+              <v-divider />
+              <Address />
               <v-divider />
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">요청사항:</div></v-col>
@@ -211,7 +211,7 @@
           </v-card-text>
           <v-card-text>
             <v-row dense align="center">
-              <v-col cols="2"> <div class="subtitle-1">일반결제</div> </v-col>
+              <v-col cols="2"> <div class="subtitle-1">결제 방법</div> </v-col>
               <v-col>
                 <v-radio-group
                   dense
@@ -229,14 +229,14 @@
                   <v-radio value="3">
                     <template v-slot:label> 계좌이체 </template>
                   </v-radio>
-                  <v-radio value="4">
+                  <!-- <v-radio value="4">
                     <template v-slot:label> 가상계좌 </template>
-                  </v-radio>
+                  </v-radio> -->
                 </v-radio-group>
               </v-col>
             </v-row>
             <v-divider />
-            <v-row dense align="center">
+            <!-- <v-row dense align="center">
               <v-col cols="2">
                 <div class="subtitle-1">에스크로 결제</div>
               </v-col>
@@ -257,7 +257,7 @@
                 </v-radio-group>
               </v-col>
             </v-row>
-            <v-divider />
+            <v-divider /> -->
             <v-row>
               <v-col class="d-flex justify-end">
                 <v-btn class="mr-5" to="/style-shop/order-complete"
