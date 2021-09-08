@@ -82,6 +82,7 @@
               <v-col cols="auto"><div class="subtitle-1">옵션1:</div></v-col>
               <v-col>
                 <v-select
+                  v-model="firstSelected"
                   :items="firstOptions"
                   item-text="optionValue"
                   item-value="optionValue"
@@ -90,6 +91,7 @@
                   outlined
                   dense
                   :menu-props="{ offsetY: true }"
+                  return-object
                 />
               </v-col>
             </v-row>
@@ -97,6 +99,7 @@
               <v-col cols="auto"><div class="subtitle-1">옵션2:</div></v-col>
               <v-col>
                 <v-select
+                  v-model="secondSelected"
                   :items="secondOptions"
                   item-text="optionValue"
                   item-value="optionValue"
@@ -105,6 +108,7 @@
                   outlined
                   dense
                   :menu-props="{ offsetY: true }"
+                  return-object
                 />
               </v-col>
             </v-row>
@@ -236,6 +240,8 @@ export default {
         optionValue: '',
       },
     ],
+    firstSelected: null,
+    secondSelected: null,
     tab: null,
     quantity: 1,
   }),
@@ -245,9 +251,14 @@ export default {
   },
   methods: {
     order() {
+      console.log(this.firstSelected);
       this.$router.push({
         path: '/style-shop/product-order',
         query: {
+          firstOptionName: this.firstSelected.optionName,
+          firstOptionValue: this.firstSelected.optionValue,
+          secondOptionName: this.secondSelected.optionName,
+          secondOptionValue: this.secondSelected.optionValue,
           productId: this.productId,
           productName: this.productName,
           salePrice: this.salePrice,

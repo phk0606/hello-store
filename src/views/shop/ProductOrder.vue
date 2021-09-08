@@ -42,11 +42,7 @@
             </tbody>
           </template>
         </v-simple-table> -->
-        {{ $route.query.productName }}
-        <!-- <v-img
-          :src="`data:image/png;base64, ` + $route.query.image"
-          max-width="100"
-        /> -->
+
         <v-data-table
           hide-default-footer
           v-model="selected"
@@ -55,16 +51,29 @@
           item-key="productId"
           show-select
           class="elevation-1"
+          disable-sort
         >
           <template v-slot:[`item.image`]="{ item }">
-            <v-img
-              :src="'data:image/png;base64,' + item.image"
-              style="width: 50px; height: 50px"
-            />
+            <v-container>
+              <v-row>
+                <v-col>
+                  <v-img
+                    class="mx-auto"
+                    :src="'data:image/png;base64,' + item.image"
+                    style="width: 100px; height: 100px"
+                  />
+                </v-col>
+              </v-row>
+            </v-container>
           </template>
-          <template v-slot:[`item.name`]="{ item }">
-            <v-row>{{ item.categoryName }}</v-row>
-            <v-row>{{ item.name }}</v-row>
+          <template v-slot:[`item.productName`]="{ item }">
+            <v-row>{{ item.productName }}</v-row>
+            <v-row v-if="item.firstOptionName"
+              >{{ item.firstOptionName }}: {{ item.firstOptionValue }}</v-row
+            >
+            <v-row v-if="item.secondOptionName"
+              >{{ item.secondOptionName }}: {{ item.secondOptionValue }}</v-row
+            >
           </template>
         </v-data-table>
         <v-divider />
@@ -272,6 +281,10 @@ export default {
         shippingFee: query.shippingFee,
         totalPrice: query.totalPrice,
         point: query.point,
+        firstOptionName: query.firstOptionName,
+        firstOptionValue: query.firstOptionValue,
+        secondOptionName: query.secondOptionName,
+        secondOptionValue: query.secondOptionValue,
       },
     ];
     this.orders = orders;
@@ -305,7 +318,7 @@ export default {
       headers: [
         { text: '번호', align: 'center', value: 'productId' },
         { text: '이미지', align: 'center', sortable: false, value: 'image' },
-        { text: '카테고리와 상품명', align: 'center', value: 'productName' },
+        { text: '상품 정보', align: 'center', value: 'productName' },
         { text: '판매 가격', align: 'center', value: 'salePrice' },
         { text: '수량', align: 'center', value: 'quantity' },
         { text: '포인트', align: 'center', value: 'point' },
@@ -315,6 +328,10 @@ export default {
       listImage: null,
       orders: [
         {
+          firstOptionName: null,
+          firstOptionValue: null,
+          secondOptionName: null,
+          secondOptionValue: null,
           productId: null,
           image: null,
           productName: '',
