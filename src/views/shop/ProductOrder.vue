@@ -97,13 +97,19 @@
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
                 <v-col
-                  ><v-text-field hide-details dense solo-inverted required
+                  ><v-text-field
+                    v-model="user.name"
+                    hide-details
+                    dense
+                    solo-inverted
+                    required
                 /></v-col>
               </v-row>
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">*연락처:</div></v-col>
                 <v-col
                   ><v-text-field
+                    v-model="user.phoneNumber"
                     hide-details
                     dense
                     solo-inverted
@@ -267,6 +273,7 @@
 <script>
 import Address from '@/components/Address';
 import { getListImage } from '@/api/shopProduct';
+import { getUser } from '@/api/user';
 
 export default {
   async created() {
@@ -290,7 +297,10 @@ export default {
       },
     ];
     this.orders = orders;
-    console.log(orders);
+    const username = this.$store.state.username;
+    console.log(username);
+
+    this.getUser(username);
   },
   components: {
     Address,
@@ -314,9 +324,21 @@ export default {
         console.log(error);
       }
     },
+    async getUser(username) {
+      try {
+        const { data } = await getUser({
+          username: username,
+        });
+        console.log(data);
+        this.user = data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   data() {
     return {
+      user: {},
       radios1: '1',
       radios2: '1',
 
