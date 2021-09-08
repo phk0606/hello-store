@@ -177,12 +177,19 @@
           item-key="productId"
           show-select
           class="elevation-1"
+          disable-sort
         >
           <template v-slot:[`item.image`]="{ item }">
-            <v-img
-              :src="'data:image/png;base64,' + item.image"
-              style="width: 50px; height: 50px"
-            />
+            <v-container>
+              <v-row>
+                <v-col>
+                  <v-img
+                    :src="'data:image/png;base64,' + item.image"
+                    style="width: 100px; height: 100px"
+                  />
+                </v-col>
+              </v-row>
+            </v-container>
           </template>
           <template v-slot:[`item.name`]="{ item }">
             <v-row>{{ item.categoryName }}</v-row>

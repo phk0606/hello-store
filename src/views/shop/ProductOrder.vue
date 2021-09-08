@@ -78,10 +78,12 @@
         </v-data-table>
         <v-divider />
         <template>
-          <v-row>
-            <v-col cols="10"> 총 상품 금액 </v-col>
-            <!-- <v-col>{{ sumField('price') }}</v-col> -->
-          </v-row>
+          <v-container>
+            <v-row justify="end">
+              <v-col cols="auto"> 총 상품 금액 </v-col>
+              <v-col cols="auto">{{ sumField('totalPrice') }}</v-col>
+            </v-row>
+          </v-container>
         </template>
       </v-col>
     </v-row>
@@ -296,7 +298,10 @@ export default {
   methods: {
     sumField(key) {
       // sum data in give key (property)
-      return this.orders.reduce((a, b) => a + (b[key] || 0), 0);
+      let total = 0;
+      return this.orders.reduce((accumulator, currentValue) => {
+        return (total += +currentValue[key]);
+      }, 0);
     },
     async getListImage(productId) {
       try {
