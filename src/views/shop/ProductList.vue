@@ -70,10 +70,10 @@
             <div>{{ content.productName }}</div>
             <div>{{ content.description }}</div>
           </v-card-text>
-          <div class="text-center">
+          <div class="text-left">
             <v-chip
               v-if="content.newArrival"
-              class="ma-2"
+              class="ml-2"
               x-small
               color="pink"
               label
@@ -84,7 +84,7 @@
             </v-chip>
             <v-chip
               v-if="content.best"
-              class="ma-2"
+              class="ml-2"
               x-small
               color="pink"
               label
@@ -95,7 +95,7 @@
             </v-chip>
             <v-chip
               v-if="content.discount"
-              class="ma-2"
+              class="ml-2"
               x-small
               color="pink"
               label
