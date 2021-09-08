@@ -81,6 +81,10 @@
           <v-container>
             <v-row justify="end">
               <v-col cols="auto"> 총 상품 금액 </v-col>
+              <v-col cols="auto">{{ sumField('salePrice') }}</v-col>
+              <v-col cols="auto"> 총 배송비 </v-col>
+              <v-col cols="auto">{{ sumField('shippingFee') }}</v-col>
+              <v-col cols="auto"> 총 결제 금액 </v-col>
               <v-col cols="auto">{{ sumField('totalPrice') }}</v-col>
             </v-row>
           </v-container>
@@ -158,12 +162,12 @@
             <v-container>
               <v-row dense align="center">
                 <v-col cols="2"
-                  ><div class="subtitle-1">총 상품 가격:</div></v-col
+                  ><div class="subtitle-1">총 상품 금액:</div></v-col
                 >
                 <v-col>
                   <v-text-field
                     reverse
-                    value="76000"
+                    :value="sumField('salePrice')"
                     hide-details
                     dense
                     required
@@ -173,11 +177,11 @@
                 </v-col>
               </v-row>
               <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">배송비:</div></v-col>
+                <v-col cols="2"><div class="subtitle-1">총 배송비:</div></v-col>
                 <v-col>
                   <v-text-field
                     reverse
-                    value="2500"
+                    :value="sumField('shippingFee')"
                     hide-details
                     dense
                     required
@@ -193,7 +197,7 @@
                 <v-col>
                   <v-text-field
                     reverse
-                    value="78500"
+                    :value="sumField('totalPrice')"
                     hide-details
                     dense
                     required
