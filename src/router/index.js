@@ -69,7 +69,7 @@ const routes = [
           ),
       },
       {
-        path: 'order-complete',
+        path: 'order-complete/:orderId',
         name: 'style-shop-product-order-complete',
         component: () =>
           import(

@@ -400,6 +400,7 @@ export default {
       try {
         const { data } = await createOrder(orderDto);
         console.log(data);
+        this.$router.push(`/style-shop/order-complete/${data}`);
       } catch (error) {
         console.log(error);
       }
