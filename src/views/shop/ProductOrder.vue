@@ -223,7 +223,7 @@
                       <v-col cols="3"> ● 입금 계좌 선택 </v-col>
                       <v-col
                         ><v-select
-                          v-model="selectedBank"
+                          v-model="selectedAccount"
                           :items="depositAccount"
                           item-text="optionText"
                           item-value="optionValue"
@@ -248,7 +248,7 @@
                         >
                           <template v-slot:activator="{ on, attrs }">
                             <v-text-field
-                              v-model="date1"
+                              v-model="depositDueDate"
                               prepend-icon="mdi-calendar"
                               readonly
                               v-bind="attrs"
@@ -256,7 +256,7 @@
                             />
                           </template>
                           <v-date-picker
-                            v-model="date1"
+                            v-model="depositDueDate"
                             @input="menu = false"
                           /> </v-menu
                       ></v-col>
@@ -380,6 +380,9 @@ export default {
         username: this.user.username,
         phoneNumber: this.user.phoneNumber,
         paymentMethodType: this.paymentMethodType,
+        depositorName: this.depositorName,
+        depositAccount: this.selectedAccount.optionText,
+        depositDueDate: this.depositDueDate,
         orderProducts: this.orderProducts,
         delivery: {
           recipientName: this.recipientName,
@@ -433,11 +436,13 @@ export default {
   },
   data() {
     return {
-      date1: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+      depositDueDate: new Date(
+        Date.now() - new Date().getTimezoneOffset() * 60000,
+      )
         .toISOString()
         .substr(0, 10),
       menu: false,
-      selectedBank: null,
+      selectedAccount: null,
       depositorName: '',
       depositAccount: [
         {
