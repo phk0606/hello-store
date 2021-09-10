@@ -380,8 +380,10 @@ export default {
         username: this.user.username,
         phoneNumber: this.user.phoneNumber,
         paymentMethodType: this.paymentMethodType,
+        paymentPrice: this.paymentPrice,
         depositorName: this.depositorName,
-        depositAccount: this.selectedAccount.optionText,
+        depositAccount:
+          this.selectedAccount !== null ? this.selectedAccount.optionText : '',
         depositDueDate: this.depositDueDate,
         orderProducts: this.orderProducts,
         delivery: {
@@ -408,9 +410,17 @@ export default {
     sumField(key) {
       // sum data in give key (property)
       let total = 0;
-      return this.orderProducts.reduce((accumulator, currentValue) => {
-        return (total += +currentValue[key]);
-      }, 0);
+      const sumValue = this.orderProducts.reduce(
+        (accumulator, currentValue) => {
+          return (total += +currentValue[key]);
+        },
+        0,
+      );
+
+      if (key === 'totalPrice') {
+        this.paymentPrice = sumValue;
+      }
+      return sumValue;
     },
     async getListImage(productId) {
       try {
@@ -463,6 +473,7 @@ export default {
       productId: null,
       user: {},
       paymentMethodType: 'WITHOUT_BANKBOOK',
+      paymentPrice: null,
       radios2: '1',
       recipientName: '',
       recipientPhoneNumber: '',

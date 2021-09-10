@@ -7,48 +7,47 @@
     </v-row>
     <v-row>
       <v-col cols="12">
-        <h6>주문번호: 1111111</h6>
-        <v-simple-table fixed-header dense height="400px">
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-center">번호</th>
-                <th class="text-center">상품정보</th>
-                <th class="text-center">수량</th>
-                <th class="text-center">판매가격</th>
-                <th class="text-center">배송비</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(order, index) in orders.slice().reverse()"
-                :key="index"
-              >
-                <td class="text-center">{{ index + 1 }}</td>
-                <td>
-                  <v-row>
-                    <v-col cols="3">
-                      <v-img :src="order.imgSrc" max-width="100" />
-                    </v-col>
-                    <v-col>
-                      <div>상품명: {{ order.productName }}</div>
-                      <div>색상: {{ order.option1 }}</div>
-                      <div>디자인: {{ order.option2 }}</div>
-                    </v-col>
-                  </v-row>
-                </td>
-                <td class="text-center">{{ order.quantity }}</td>
-                <td class="text-center">{{ order.price }}</td>
-                <td class="text-center">{{ order.deliveryCharge }}</td>
-              </tr>
-            </tbody>
+        <h6>주문번호: {{ orderId }}</h6>
+        <v-data-table
+          hide-default-footer
+          v-model="selected"
+          :headers="headers"
+          :items="orderProducts"
+          item-key="productId"
+          show-select
+          class="elevation-1"
+          disable-sort
+        >
+          <template v-slot:[`item.image`]="{ item }">
+            <v-container>
+              <v-row>
+                <v-col>
+                  <v-img
+                    class="mx-auto"
+                    :src="'data:image/png;base64,' + item.image"
+                    style="width: 100px; height: 100px"
+                  />
+                </v-col>
+              </v-row>
+            </v-container>
           </template>
-        </v-simple-table>
+          <template v-slot:[`item.productName`]="{ item }">
+            <v-row>{{ item.productName }}</v-row>
+            <v-row v-if="item.orderProductOptions[0].optionName"
+              >{{ item.orderProductOptions[0].optionName }}:
+              {{ item.orderProductOptions[0].optionValue }}</v-row
+            >
+            <v-row v-if="item.orderProductOptions[1].optionName"
+              >{{ item.orderProductOptions[1].optionName }}:
+              {{ item.orderProductOptions[1].optionValue }}</v-row
+            >
+          </template>
+        </v-data-table>
         <v-divider />
         <template>
           <v-row>
             <v-col cols="10"> 총 상품 금액 </v-col>
-            <v-col>{{ sumField('price') }}</v-col>
+            <v-col>{{ sumField('totalPrice') }}</v-col>
           </v-row>
         </template>
       </v-col>
@@ -64,7 +63,7 @@
                 <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
                 <v-col
                   ><v-text-field
-                    value="홍길동"
+                    v-model="name"
                     hide-details
                     dense
                     solo-inverted
@@ -76,10 +75,10 @@
                 <v-col cols="2"><div class="subtitle-1">*연락처:</div></v-col>
                 <v-col
                   ><v-text-field
+                    v-model="phoneNumber"
                     hide-details
                     dense
                     solo-inverted
-                    value="01012341234"
                     counter="11"
                     required
                     readonly
@@ -94,11 +93,11 @@
                 <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
                 <v-col
                   ><v-text-field
+                    v-model="recipientName"
                     hide-details
                     dense
                     required
                     solo-inverted
-                    value="홍길동"
                     readonly
                 /></v-col>
               </v-row>
@@ -109,11 +108,11 @@
                 </v-col>
                 <v-col>
                   <v-text-field
+                    v-model="fullAddress"
                     hide-details
                     dense
                     required
                     solo-inverted
-                    value="경기도 수원시 장안구 천천동 123-12 105동 106호"
                     readonly
                   />
                 </v-col>
@@ -123,10 +122,10 @@
                 <v-col cols="2"><div class="subtitle-1">*연락처:</div></v-col>
                 <v-col
                   ><v-text-field
+                    v-model="recipientPhoneNumber"
                     hide-details
                     dense
                     solo-inverted
-                    value="01012341234"
                     counter="11"
                     required
                 /></v-col>
@@ -136,11 +135,11 @@
                 <v-col cols="2"><div class="subtitle-1">요청사항:</div></v-col>
                 <v-col
                   ><v-textarea
+                    v-model="requirement"
                     hide-details
                     dense
                     filled
                     no-resize
-                    value="빠른 배송 부탁합니다."
                     readonly
                 /></v-col>
               </v-row>
@@ -153,7 +152,7 @@
                 <v-col cols="2"><div class="subtitle-1">결제 방법:</div></v-col>
                 <v-col>
                   <v-text-field
-                    value="신용카드"
+                    v-model="paymentMethodType"
                     hide-details
                     dense
                     required
@@ -167,7 +166,7 @@
                 <v-col cols="2"><div class="subtitle-1">결제 금액:</div></v-col>
                 <v-col>
                   <v-text-field
-                    value="78500"
+                    v-model="paymentPrice"
                     hide-details
                     dense
                     required
@@ -197,84 +196,96 @@
 </template>
 
 <script>
+import { getOrder } from '@/api/order';
+
 export default {
   name: 'OrderComplete',
+  created() {
+    const orderId = this.$route.params.orderId;
+    this.getOrder(orderId);
+    this.orderId = orderId;
+  },
   methods: {
+    async getOrder(orderId) {
+      try {
+        const { data } = await getOrder({
+          orderId: orderId,
+        });
+        console.log(data);
+        this.name = data.name;
+        this.phoneNumber = data.phoneNumber;
+        this.orderProducts = data.orderProducts;
+        this.requirement = data.requirement;
+        this.recipientName = data.recipientName;
+        this.recipientPhoneNumber = data.recipientPhoneNumber;
+        this.fullAddress =
+          data.address.address + ' ' + data.address.detailAddress;
+
+        let paymentMethodType = data.paymentMethodType;
+        if (paymentMethodType === 'WITHOUT_BANKBOOK') {
+          paymentMethodType = '무통장 입금';
+        } else if (paymentMethodType === 'CREDIT_CARD') {
+          paymentMethodType = '카드 결제';
+        } else if (paymentMethodType === 'ACCOUNT_TRANSFER') {
+          paymentMethodType = '계좌 이체';
+        }
+        this.paymentMethodType = paymentMethodType;
+        this.paymentPrice = data.paymentPrice;
+      } catch (error) {
+        console.log(error);
+      }
+    },
     sumField(key) {
       // sum data in give key (property)
-      return this.orders.reduce((a, b) => a + (b[key] || 0), 0);
+      return this.orderProducts.reduce((a, b) => a + (b[key] || 0), 0);
     },
   },
   data() {
     return {
-      orders: [
+      name: '',
+      phoneNumber: '',
+      requirement: '',
+      recipientName: '',
+      recipientPhoneNumber: '',
+      fullAddress: '',
+      paymentMethodType: '',
+      paymentPrice: '',
+      orderId: '',
+      headers: [
+        { text: '번호', align: 'center', value: 'orderProductId' },
+        { text: '이미지', align: 'center', sortable: false, value: 'image' },
+        { text: '상품 정보', align: 'center', value: 'productName' },
+        { text: '판매 가격', align: 'center', value: 'salePrice' },
+        { text: '수량', align: 'center', value: 'orderQuantity' },
+        { text: '포인트', align: 'center', value: 'point' },
+        { text: '배송비', align: 'center', value: 'orderShippingFee' },
+        { text: '합계', align: 'center', value: 'totalPrice' },
+      ],
+      orderProducts: [
         {
-          productId: 12345,
-          productName: '백프린팅 반팔티셔츠1',
-          imgSrc:
-            '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
-          quantity: 1,
-          price: 12000,
-          deliveryCharge: 2500,
-          option1: '화이트',
-          option2: 'C형',
-        },
-        {
-          productId: 12345,
-          productName: '백프린팅 반팔티셔츠2',
-          imgSrc:
-            '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
-          quantity: 1,
-          price: 12000,
-          deliveryCharge: 2500,
-          option1: '화이트',
-          option2: 'C형',
-        },
-        {
-          productId: 12345,
-          productName: '백프린팅 반팔티셔츠3',
-          imgSrc:
-            '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
-          quantity: 1,
-          price: 12000,
-          deliveryCharge: 2500,
-          option1: '화이트',
-          option2: 'C형',
-        },
-        {
-          productId: 12345,
-          productName: '백프린팅 반팔티셔츠4',
-          imgSrc:
-            '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
-          quantity: 1,
-          price: 12000,
-          deliveryCharge: 2500,
-          option1: '화이트',
-          option2: 'C형',
-        },
-        {
-          productId: 12345,
-          productName: '백프린팅 반팔티셔츠5',
-          imgSrc:
-            '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
-          quantity: 1,
-          price: 12000,
-          deliveryCharge: 2500,
-          option1: '화이트',
-          option2: 'C형',
-        },
-        {
-          productId: 12345,
-          productName: '백프린팅 반팔티셔츠6',
-          imgSrc:
-            '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
-          quantity: 1,
-          price: 12000,
-          deliveryCharge: 2500,
-          option1: '화이트',
-          option2: 'C형',
+          image: null,
+          productId: null,
+          productName: '',
+          salePrice: null,
+          orderQuantity: null,
+          orderShippingFee: null,
+          totalPrice: null,
+          point: null,
+          orderProductOptions: [
+            {
+              optionGroupNumber: 1,
+              optionName: this.firstOptionName,
+              optionValue: this.firstOptionValue,
+            },
+            {
+              optionGroupNumber: 2,
+              optionName: this.secondOptionName,
+              optionValue: this.secondOptionValue,
+            },
+          ],
         },
       ],
+      selected: [],
     };
   },
 };
