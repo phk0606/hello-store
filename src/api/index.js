@@ -19,6 +19,7 @@ export const instance = createInstance();
 export const admin = createInstanceWithAuth('/admin');
 export const user = createInstanceWithAuth('/user');
 export const order = createInstanceWithAuth('/order');
+export const cart = createInstanceWithAuth('/cart');
 
 export const posts = createInstanceWithAuth('posts');
 

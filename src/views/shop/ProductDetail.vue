@@ -140,13 +140,22 @@
           </v-container>
         </v-card>
         <div class="pt-5">
-          <v-btn dark block large color="black" @click="order">
+          <v-btn @click="order" dark block large color="black">
             구매하기
           </v-btn>
         </div>
         <div class="pt-5" />
         <div>
-          <v-btn block outlined large color="indigo" rai> 장바구니 </v-btn>
+          <v-btn
+            @click="addCartProduct"
+            block
+            outlined
+            large
+            color="indigo"
+            rai
+          >
+            장바구니
+          </v-btn>
         </div>
       </v-col>
     </v-row>
@@ -199,10 +208,12 @@
 import ProductComment from '@/components/shop/ProductComment';
 import ProductQna from '@/components/shop/ProductQna.vue';
 import { getProductById } from '@/api/shopProduct';
+import { addCartProduct } from '@/api/cart';
 
 export default {
   created() {
     const productId = this.$route.params.productId;
+    this.productId = productId;
     this.getProductById(productId);
   },
   computed: {
@@ -250,6 +261,21 @@ export default {
     ProductQna,
   },
   methods: {
+    async addCartProduct() {
+      try {
+        const { data } = await addCartProduct({
+          productId: this.productId,
+          quantity: this.quantity,
+          firstOptionName: this.firstSelected.optionName,
+          firstOptionValue: this.firstSelected.optionValue,
+          secondOptionName: this.secondSelected.optionName,
+          secondOptionValue: this.secondSelected.optionValue,
+        });
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
     order() {
       console.log(this.firstSelected);
       this.$router.push({

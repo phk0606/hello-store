@@ -178,12 +178,10 @@
               <v-divider />
               <v-row>
                 <v-col class="d-flex justify-space-around">
-                  <v-btn to="/style-shop/order-complete"
-                    >주문내역/배송조회 확인</v-btn
-                  >
+                  <v-btn to="">주문내역/배송조회 확인</v-btn>
 
                   <v-btn>쇼핑 계속하기</v-btn>
-                  <v-btn>메인으로 가기</v-btn>
+                  <v-btn to="/">메인으로 가기</v-btn>
                   <v-btn>로그아웃</v-btn>
                 </v-col>
               </v-row>
