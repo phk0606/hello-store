@@ -4,4 +4,8 @@ function addCartProduct(data) {
   return cart.post('/addCartProduct', data);
 }
 
-export { addCartProduct };
+function getCartProducts(data) {
+  return cart.get('/getCartProducts', { params: data });
+}
+
+export { addCartProduct, getCartProducts };

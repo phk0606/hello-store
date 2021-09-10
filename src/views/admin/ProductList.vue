@@ -413,22 +413,6 @@ export default {
         this.date2 = '';
       }
     },
-    // async getProductsPage(page) {
-    //   try {
-    //     const { data } = await getProductsPage({
-    //       page: page - 1,
-    //       size: this.perPage,
-    //     });
-    //     this.contentList = data.content;
-    //     this.perPage = data.size;
-    //     this.records = data.totalElements;
-    //     this.page = data.pageable.pageNumber + 1;
-    //     console.log(data);
-    //   } catch (error) {
-    //     console.log(error.response.data.message);
-    //     this.logMessage = error.response.data.message;
-    //   }
-    // },
     async getProductsPageCondition(page) {
       try {
         const { data } = await getProductsPageCondition({

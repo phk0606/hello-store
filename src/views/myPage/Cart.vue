@@ -7,7 +7,7 @@
     </v-row>
     <v-row>
       <v-col cols="12">
-        <v-simple-table fixed-header dense height="400px">
+        <!-- <v-simple-table fixed-header dense height="400px">
           <template v-slot:default>
             <thead>
               <tr>
@@ -15,7 +15,6 @@
                 <th class="text-center">상품정보</th>
                 <th class="text-center">수량</th>
                 <th class="text-center">판매가격</th>
-                <!-- <th class="text-center">포인트</th> -->
               </tr>
             </thead>
             <tbody>
@@ -41,7 +40,42 @@
               </tr>
             </tbody>
           </template>
-        </v-simple-table>
+        </v-simple-table> -->
+        <v-data-table
+          hide-default-footer
+          v-model="selected"
+          :headers="headers"
+          :items="cartProductList"
+          item-key="productId"
+          show-select
+          class="elevation-1"
+          disable-sort
+        >
+          <template v-slot:[`item.image`]="{ item }">
+            <v-container>
+              <v-row>
+                <v-col>
+                  <v-img
+                    :src="'data:image/png;base64,' + item.image"
+                    style="width: 100px; height: 100px"
+                  />
+                </v-col>
+              </v-row>
+            </v-container>
+          </template>
+          <template v-slot:[`item.name`]="{ item }">
+            <v-row>{{ item.categoryName }}</v-row>
+            <v-row>{{ item.name }}</v-row>
+          </template>
+
+          <template v-slot:[`item.modify`]="{ item }">
+            <v-row
+              ><v-btn :to="`/admin/product-modify/${item.productId}`"
+                >수정</v-btn
+              ></v-row
+            >
+          </template>
+        </v-data-table>
         <v-divider />
         <template>
           <v-row>
@@ -62,78 +96,48 @@
 </template>
 
 <script>
+import { getCartProducts } from '@/api/cart';
+
 export default {
   name: 'Cart',
+  created() {
+    this.getCartProducts();
+  },
   methods: {
+    async getCartProducts() {
+      try {
+        const username = this.$store.state.username;
+        const { data } = await getCartProducts({
+          username: username,
+        });
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
     sumField(key) {
       // sum data in give key (property)
-      return this.orders.reduce((a, b) => a + (b[key] || 0), 0);
+      return this.cartProductList.reduce((a, b) => a + (b[key] || 0), 0);
     },
   },
   data() {
     return {
-      orders: [
+      selected: [],
+      headers: [
         {
-          productId: 12345,
-          productName: '백프린팅 반팔티셔츠1',
-          imgSrc:
-            '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
-          quantity: 1,
-          price: 12000,
-          option1: '화이트',
-          option2: 'C형',
+          text: '번호',
+          align: 'center',
+          sortable: false,
+          value: 'productId',
         },
-        {
-          productId: 12345,
-          productName: '백프린팅 반팔티셔츠2',
-          imgSrc:
-            '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
-          quantity: 1,
-          price: 12000,
-          option1: '화이트',
-          option2: 'C형',
-        },
-        {
-          productId: 12345,
-          productName: '백프린팅 반팔티셔츠3',
-          imgSrc:
-            '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
-          quantity: 1,
-          price: 12000,
-          option1: '화이트',
-          option2: 'C형',
-        },
-        {
-          productId: 12345,
-          productName: '백프린팅 반팔티셔츠4',
-          imgSrc:
-            '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
-          quantity: 1,
-          price: 12000,
-          option1: '화이트',
-          option2: 'C형',
-        },
-        {
-          productId: 12345,
-          productName: '백프린팅 반팔티셔츠5',
-          imgSrc:
-            '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
-          quantity: 1,
-          price: 12000,
-          option1: '화이트',
-          option2: 'C형',
-        },
-        {
-          productId: 12345,
-          productName: '백프린팅 반팔티셔츠6',
-          imgSrc:
-            '//rooseoin.co.kr/web/product/tiny/202108/030e628575b77813bf8c1efc126dfd7e.webp',
-          quantity: 1,
-          price: 12000,
-          option1: '화이트',
-          option2: 'C형',
-        },
+        { text: '이미지', align: 'center', sortable: false, value: 'image' },
+        { text: '상품 정보', align: 'center', value: 'name' },
+        { text: '판매 가격', align: 'center', value: 'salePrice' },
+        { text: '수량', align: 'center', value: 'quantity' },
+        { text: '수정', align: 'center', value: 'modify' },
+        { text: '합계 금액', align: 'center', value: 'totalPrice' },
       ],
+      cartProductList: [],
     };
   },
 };
