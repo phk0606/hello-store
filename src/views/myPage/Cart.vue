@@ -45,8 +45,8 @@
           hide-default-footer
           v-model="selected"
           :headers="headers"
-          :items="cartProductList"
-          item-key="productId"
+          :items="cartProducts"
+          item-key="cartProductId"
           show-select
           class="elevation-1"
           disable-sort
@@ -58,14 +58,20 @@
                   <v-img
                     :src="'data:image/png;base64,' + item.image"
                     style="width: 100px; height: 100px"
+                    class="mx-auto"
                   />
                 </v-col>
               </v-row>
             </v-container>
           </template>
           <template v-slot:[`item.name`]="{ item }">
-            <v-row>{{ item.categoryName }}</v-row>
-            <v-row>{{ item.name }}</v-row>
+            <v-row>{{ item.productName }}</v-row>
+            <v-row v-if="item.firstOptionName"
+              >{{ item.firstOptionName }}: {{ item.firstOptionValue }}</v-row
+            >
+            <v-row v-if="item.secondOptionName"
+              >{{ item.secondOptionName }}: {{ item.secondOptionValue }}</v-row
+            >
           </template>
 
           <template v-slot:[`item.modify`]="{ item }">
@@ -81,7 +87,7 @@
           <v-row>
             <v-col><v-btn>선택 삭제</v-btn></v-col>
             <v-col cols=""> 총 상품 금액 </v-col>
-            <v-col>{{ sumField('price') }}</v-col>
+            <v-col>{{ sumField('totalPrice') }}</v-col>
           </v-row>
         </template>
       </v-col>
@@ -111,13 +117,14 @@ export default {
           username: username,
         });
         console.log(data);
+        this.cartProducts = data;
       } catch (error) {
         console.log(error);
       }
     },
     sumField(key) {
       // sum data in give key (property)
-      return this.cartProductList.reduce((a, b) => a + (b[key] || 0), 0);
+      return this.cartProducts.reduce((a, b) => a + (b[key] || 0), 0);
     },
   },
   data() {
@@ -128,7 +135,7 @@ export default {
           text: '번호',
           align: 'center',
           sortable: false,
-          value: 'productId',
+          value: 'cartProductId',
         },
         { text: '이미지', align: 'center', sortable: false, value: 'image' },
         { text: '상품 정보', align: 'center', value: 'name' },
@@ -137,7 +144,7 @@ export default {
         { text: '수정', align: 'center', value: 'modify' },
         { text: '합계 금액', align: 'center', value: 'totalPrice' },
       ],
-      cartProductList: [],
+      cartProducts: [],
     };
   },
 };
