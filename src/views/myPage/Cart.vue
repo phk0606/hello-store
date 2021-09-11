@@ -40,21 +40,48 @@
             >
           </template>
           <template v-slot:[`item.quantity`]="{ item }">
-            <v-row
-              ><v-col cols="3"
-                ><v-text-field
+            <v-row align="center" justify="center" dense>
+              <v-col cols="5">
+                <v-text-field
+                  outlined
+                  dense
+                  hide-details
                   v-model="item.quantity"
-                  @input="
-                    item.totalPrice = item.salePrice * item.quantity
-                  " /></v-col
-            ></v-row>
+                  @input="item.totalPrice = item.salePrice * item.quantity"
+                />
+              </v-col>
+              <v-col cols="auto">
+                <v-btn
+                  small
+                  class="mr-2"
+                  icon
+                  color="indigo"
+                  @click="
+                    item.quantity += 1;
+                    item.totalPrice = item.salePrice * item.quantity;
+                  "
+                  ><v-icon>mdi-plus</v-icon></v-btn
+                ><v-btn
+                  small
+                  icon
+                  color="indigo"
+                  @click="
+                    item.quantity > 1 ? (item.quantity -= 1) : 0;
+                    item.totalPrice = item.salePrice * item.quantity;
+                  "
+                  ><v-icon>mdi-minus</v-icon></v-btn
+                >
+              </v-col>
+            </v-row>
           </template>
           <template v-slot:[`item.modify`]="{ item }">
-            <v-row
-              ><v-btn :to="`/admin/product-modify/${item.productId}`"
-                >수정</v-btn
-              ></v-row
-            >
+            <v-row>
+              <v-col>
+                <v-btn :to="`/admin/product-modify/${item.productId}`"
+                  >수정</v-btn
+                >
+              </v-col>
+            </v-row>
           </template>
         </v-data-table>
         <v-divider />
@@ -120,7 +147,7 @@ export default {
         { text: '이미지', align: 'center', sortable: false, value: 'image' },
         { text: '상품 정보', align: 'center', value: 'name' },
         { text: '판매 가격', align: 'center', value: 'salePrice' },
-        { text: '수량', align: 'center', value: 'quantity' },
+        { text: '수량', align: 'center', value: 'quantity', width: '20%' },
         { text: '수정', align: 'center', value: 'modify' },
         { text: '합계 금액', align: 'center', value: 'totalPrice' },
       ],
