@@ -7,40 +7,6 @@
     </v-row>
     <v-row>
       <v-col cols="12">
-        <!-- <v-simple-table fixed-header dense height="400px">
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-center">번호</th>
-                <th class="text-center">상품정보</th>
-                <th class="text-center">수량</th>
-                <th class="text-center">판매가격</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(order, index) in orders.slice().reverse()"
-                :key="index"
-              >
-                <td class="text-center">{{ index + 1 }}</td>
-                <td>
-                  <v-row>
-                    <v-col cols="3">
-                      <v-img :src="order.imgSrc" max-width="100" />
-                    </v-col>
-                    <v-col>
-                      <div>상품명: {{ order.productName }}</div>
-                      <div>색상: {{ order.option1 }}</div>
-                      <div>디자인: {{ order.option2 }}</div>
-                    </v-col>
-                  </v-row>
-                </td>
-                <td class="text-center">{{ order.quantity }}</td>
-                <td class="text-center">{{ order.price }}</td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table> -->
         <v-data-table
           hide-default-footer
           v-model="selected"
@@ -73,7 +39,16 @@
               >{{ item.secondOptionName }}: {{ item.secondOptionValue }}</v-row
             >
           </template>
-
+          <template v-slot:[`item.quantity`]="{ item }">
+            <v-row
+              ><v-col cols="3"
+                ><v-text-field
+                  v-model="item.quantity"
+                  @input="
+                    item.totalPrice = item.salePrice * item.quantity
+                  " /></v-col
+            ></v-row>
+          </template>
           <template v-slot:[`item.modify`]="{ item }">
             <v-row
               ><v-btn :to="`/admin/product-modify/${item.productId}`"
@@ -109,7 +84,12 @@ export default {
   created() {
     this.getCartProducts();
   },
+  computed: {},
   methods: {
+    getTotalPrice(salePrice, quantity) {
+      console.log(salePrice, quantity);
+      return salePrice * quantity;
+    },
     async getCartProducts() {
       try {
         const username = this.$store.state.username;
