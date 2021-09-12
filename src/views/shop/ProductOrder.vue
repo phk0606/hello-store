@@ -315,11 +315,47 @@ import Address from '@/components/Address';
 import { getListImage } from '@/api/shopProduct';
 import { getUser } from '@/api/user';
 import { createOrder } from '@/api/order';
+import { getCartProducts } from '@/api/cart';
 
 export default {
   async created() {
-    const orderProducts = this.$route.params.orderProducts;
-    console.log(orderProducts);
+    const ids = this.$route.query.cartProductIds;
+    const query = this.$route.query;
+
+    if (ids) {
+      const cartProductIds = [];
+      for (const key in ids) {
+        const cartProductId = ids[key];
+        console.log(cartProductId);
+        cartProductIds.push(cartProductId);
+      }
+
+      console.log(cartProductIds);
+      this.getCartProducts(cartProductIds);
+    } else {
+      console.log(orderProduct);
+
+      await this.getListImage(query.productId);
+
+      const orderProduct = [
+        {
+          image: this.listImage,
+          firstOptionName: query.optionName,
+          firstOptionValue: query.optionValue,
+          secondOptionName: query.optionName,
+          secondOptionValue: query.optionValue,
+          productId: query.productId,
+          productName: query.productName,
+          salePrice: query.salePrice,
+          quantity: query.quantity,
+          shippingFee: query.shippingFee,
+          totalPrice: query.totalPrice,
+          point: query.point,
+        },
+      ];
+      this.orderProducts = orderProduct;
+    }
+
     //const query = this.$route.query;
     //await this.getListImage(query.productId);
 
@@ -347,7 +383,7 @@ export default {
     //     ],
     //   },
     // ];
-    this.orderProducts = orderProducts;
+    // this.orderProducts = orderProducts;
     // this.productId = query.productId;
     const username = this.$store.state.username;
     console.log(username);
@@ -367,6 +403,18 @@ export default {
     setDetailAddress(detailAddress) {
       // console.log(detailAddress);
       this.detailAddress = detailAddress;
+    },
+    async getCartProducts(cartProductIds) {
+      console.log(cartProductIds);
+      try {
+        const { data } = await getCartProducts({
+          cartProductIds: cartProductIds.join(','),
+        });
+        console.log(data);
+        this.orderProducts = data;
+      } catch (error) {
+        console.log(error);
+      }
     },
     async payment() {
       this.orderProducts.map(orderProduct => {
@@ -410,8 +458,15 @@ export default {
     sumField(key) {
       // sum data in give key (property)
       // let total = 0;
+      // const sumValue = this.orderProducts.reduce(
+      //   (a, b) => a + (b[key] || 0),
+      //   0,
+      // );
+      let total = 0;
       const sumValue = this.orderProducts.reduce(
-        (a, b) => a + (b[key] || 0),
+        (accumulator, currentValue) => {
+          return (total += +currentValue[key]);
+        },
         0,
       );
 

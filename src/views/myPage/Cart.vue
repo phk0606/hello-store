@@ -140,10 +140,19 @@ export default {
   computed: {},
   methods: {
     order() {
+      const cartProducts = this.selected;
+      const cartProductIds = [];
+
+      for (const key in cartProducts) {
+        const cartProductId = cartProducts[key].cartProductId;
+        console.log(cartProductId);
+        cartProductIds.push(cartProductId);
+      }
+
       this.$router.push({
         name: 'style-shop-product-order',
-        params: {
-          orderProducts: this.selected,
+        query: {
+          cartProductIds: cartProductIds,
         },
       });
     },

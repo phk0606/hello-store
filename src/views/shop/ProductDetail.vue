@@ -279,24 +279,19 @@ export default {
     order() {
       console.log(this.firstSelected);
       this.$router.push({
-        name: 'style-shop-product-order',
-        params: {
-          orderProducts: [
-            {
-              image: this.images[0],
-              firstOptionName: this.firstSelected.optionName,
-              firstOptionValue: this.firstSelected.optionValue,
-              secondOptionName: this.secondSelected.optionName,
-              secondOptionValue: this.secondSelected.optionValue,
-              productId: this.productId,
-              productName: this.productName,
-              salePrice: this.salePrice,
-              quantity: this.quantity,
-              shippingFee: this.shippingFee,
-              totalPrice: this.getTotalPrice,
-              point: this.point,
-            },
-          ],
+        path: '/style-shop/product-order',
+        query: {
+          firstOptionName: this.firstSelected.optionName,
+          firstOptionValue: this.firstSelected.optionValue,
+          secondOptionName: this.secondSelected.optionName,
+          secondOptionValue: this.secondSelected.optionValue,
+          productId: this.productId,
+          productName: this.productName,
+          salePrice: this.salePrice,
+          quantity: this.quantity,
+          shippingFee: this.shippingFee,
+          totalPrice: this.getTotalPrice,
+          point: this.point,
         },
       });
     },
