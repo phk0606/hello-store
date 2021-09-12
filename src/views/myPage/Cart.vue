@@ -104,7 +104,7 @@
     <v-row>
       <v-col>
         <v-btn>계속 쇼핑하기</v-btn>
-        <v-btn>선택 구매</v-btn>
+        <v-btn @click="order">선택 구매</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -124,6 +124,14 @@ export default {
   },
   computed: {},
   methods: {
+    order() {
+      this.$router.push({
+        name: 'style-shop-product-order',
+        params: {
+          orderProducts: this.selected,
+        },
+      });
+    },
     async removeCartProducts() {
       const cartProducts = this.selected;
       const cartProductIds = [];

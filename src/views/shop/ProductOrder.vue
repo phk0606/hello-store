@@ -12,7 +12,7 @@
           v-model="selected"
           :headers="headers"
           :items="orderProducts"
-          item-key="productId"
+          item-key="cartProductId"
           show-select
           class="elevation-1"
           disable-sort
@@ -32,13 +32,11 @@
           </template>
           <template v-slot:[`item.productName`]="{ item }">
             <v-row>{{ item.productName }}</v-row>
-            <v-row v-if="item.orderProductOptions[0].optionName"
-              >{{ item.orderProductOptions[0].optionName }}:
-              {{ item.orderProductOptions[0].optionValue }}</v-row
+            <v-row v-if="item.firstOptionName"
+              >{{ item.firstOptionName }}: {{ item.firstOptionValue }}</v-row
             >
-            <v-row v-if="item.orderProductOptions[1].optionName"
-              >{{ item.orderProductOptions[1].optionName }}:
-              {{ item.orderProductOptions[1].optionValue }}</v-row
+            <v-row v-if="item.secondOptionName"
+              >{{ item.secondOptionName }}: {{ item.secondOptionValue }}</v-row
             >
           </template>
         </v-data-table>
@@ -320,35 +318,37 @@ import { createOrder } from '@/api/order';
 
 export default {
   async created() {
-    const query = this.$route.query;
-    await this.getListImage(query.productId);
+    const orderProducts = this.$route.params.orderProducts;
+    console.log(orderProducts);
+    //const query = this.$route.query;
+    //await this.getListImage(query.productId);
 
-    const orderProducts = [
-      {
-        image: this.listImage,
-        productId: query.productId,
-        productName: query.productName,
-        salePrice: query.salePrice,
-        orderQuantity: query.quantity,
-        orderShippingFee: query.shippingFee,
-        totalPrice: query.totalPrice,
-        point: query.point,
-        orderProductOptions: [
-          {
-            optionGroupNumber: 1,
-            optionName: query.firstOptionName,
-            optionValue: query.firstOptionValue,
-          },
-          {
-            optionGroupNumber: 2,
-            optionName: query.secondOptionName,
-            optionValue: query.secondOptionValue,
-          },
-        ],
-      },
-    ];
+    // const orderProducts = [
+    //   {
+    //     image: this.listImage,
+    //     productId: query.productId,
+    //     productName: query.productName,
+    //     salePrice: query.salePrice,
+    //     orderQuantity: query.quantity,
+    //     orderShippingFee: query.shippingFee,
+    //     totalPrice: query.totalPrice,
+    //     point: query.point,
+    //     orderProductOptions: [
+    //       {
+    //         optionGroupNumber: 1,
+    //         optionName: query.firstOptionName,
+    //         optionValue: query.firstOptionValue,
+    //       },
+    //       {
+    //         optionGroupNumber: 2,
+    //         optionName: query.secondOptionName,
+    //         optionValue: query.secondOptionValue,
+    //       },
+    //     ],
+    //   },
+    // ];
     this.orderProducts = orderProducts;
-    this.productId = query.productId;
+    // this.productId = query.productId;
     const username = this.$store.state.username;
     console.log(username);
 
@@ -486,7 +486,7 @@ export default {
         { text: '이미지', align: 'center', sortable: false, value: 'image' },
         { text: '상품 정보', align: 'center', value: 'productName' },
         { text: '판매 가격', align: 'center', value: 'salePrice' },
-        { text: '수량', align: 'center', value: 'orderQuantity' },
+        { text: '수량', align: 'center', value: 'quantity' },
         { text: '포인트', align: 'center', value: 'point' },
         { text: '배송비', align: 'center', value: 'orderShippingFee' },
         { text: '합계', align: 'center', value: 'totalPrice' },
