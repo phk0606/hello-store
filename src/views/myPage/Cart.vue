@@ -84,11 +84,7 @@
               <v-col>
                 <v-btn
                   @click="
-                    modifyQuantity(
-                      `${item.cartId}`,
-                      `${item.cartProductId}`,
-                      `${item.quantity}`,
-                    )
+                    modifyQuantity(`${item.cartProductId}`, `${item.quantity}`)
                   "
                   >수정</v-btn
                 >
@@ -98,11 +94,11 @@
         </v-data-table>
         <v-divider />
         <template>
-          <!-- <v-row>
+          <v-row>
             <v-col><v-btn @click="removeCartProducts">선택 삭제</v-btn></v-col>
-            <v-col cols=""> 총 상품 금액 </v-col>
-            <v-col>{{ sumField('totalPrice') }}</v-col>
-          </v-row> -->
+            <!-- <v-col cols=""> 총 상품 금액 </v-col>
+            <v-col>{{ sumField('totalPrice') }}</v-col> -->
+          </v-row>
           <v-container>
             <v-row justify="end">
               <v-col cols="auto"> 총 상품 금액 </v-col>
