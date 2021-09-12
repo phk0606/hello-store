@@ -77,7 +77,14 @@
           <template v-slot:[`item.modify`]="{ item }">
             <v-row>
               <v-col>
-                <v-btn :to="`/admin/product-modify/${item.productId}`"
+                <v-btn
+                  @click="
+                    modifyQuantity(
+                      `${item.cartId}`,
+                      `${item.cartProductId}`,
+                      `${item.quantity}`,
+                    )
+                  "
                   >수정</v-btn
                 >
               </v-col>
@@ -87,7 +94,7 @@
         <v-divider />
         <template>
           <v-row>
-            <v-col><v-btn>선택 삭제</v-btn></v-col>
+            <v-col><v-btn @click="removeCartProducts">선택 삭제</v-btn></v-col>
             <v-col cols=""> 총 상품 금액 </v-col>
             <v-col>{{ sumField('totalPrice') }}</v-col>
           </v-row>
@@ -104,7 +111,11 @@
 </template>
 
 <script>
-import { getCartProducts } from '@/api/cart';
+import {
+  getCartProducts,
+  modifyQuantity,
+  removeCartProducts,
+} from '@/api/cart';
 
 export default {
   name: 'Cart',
@@ -113,6 +124,42 @@ export default {
   },
   computed: {},
   methods: {
+    async removeCartProducts() {
+      const cartProducts = this.selected;
+      const cartProductIds = [];
+      const cartId = this.selected[0].cartId;
+
+      console.log(cartId);
+      for (const key in cartProducts) {
+        const cartProductId = cartProducts[key].cartProductId;
+        console.log(cartProductId);
+        cartProductIds.push(cartProductId);
+      }
+
+      try {
+        await removeCartProducts({
+          cartId,
+          cartProductIds,
+        });
+        //console.log(data);
+        this.getCartProducts();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async modifyQuantity(cartProductId, quantity) {
+      console.log(cartProductId, quantity);
+      try {
+        await modifyQuantity({
+          cartProductId: cartProductId,
+          quantity: quantity,
+        });
+
+        this.getCartProducts();
+      } catch (error) {
+        console.log(error);
+      }
+    },
     getTotalPrice(salePrice, quantity) {
       console.log(salePrice, quantity);
       return salePrice * quantity;
@@ -148,7 +195,7 @@ export default {
         { text: '상품 정보', align: 'center', value: 'name' },
         { text: '판매 가격', align: 'center', value: 'salePrice' },
         { text: '수량', align: 'center', value: 'quantity', width: '20%' },
-        { text: '수정', align: 'center', value: 'modify' },
+        { text: '수량 수정', align: 'center', value: 'modify' },
         { text: '합계 금액', align: 'center', value: 'totalPrice' },
       ],
       cartProducts: [],

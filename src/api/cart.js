@@ -8,4 +8,12 @@ function getCartProducts(data) {
   return cart.get('/getCartProducts', { params: data });
 }
 
-export { addCartProduct, getCartProducts };
+function modifyQuantity(data) {
+  return cart.put('/modifyQuantity', data);
+}
+
+function removeCartProducts(data) {
+  return cart.delete('/removeCartProducts', { data });
+}
+
+export { addCartProduct, getCartProducts, modifyQuantity, removeCartProducts };
