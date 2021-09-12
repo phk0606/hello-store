@@ -47,7 +47,7 @@
               <v-col cols="auto"> 총 상품 금액 </v-col>
               <v-col cols="auto">{{ sumField('salePrice') }}</v-col>
               <v-col cols="auto"> 총 배송비 </v-col>
-              <v-col cols="auto">{{ sumField('orderShippingFee') }}</v-col>
+              <v-col cols="auto">{{ sumField('shippingFee') }}</v-col>
               <v-col cols="auto"> 총 결제 금액 </v-col>
               <v-col cols="auto">{{ sumField('totalPrice') }}</v-col>
             </v-row>
@@ -159,7 +159,7 @@
                 <v-col>
                   <v-text-field
                     reverse
-                    :value="sumField('orderShippingFee')"
+                    :value="sumField('shippingFee')"
                     hide-details
                     dense
                     required
@@ -409,11 +409,9 @@ export default {
     },
     sumField(key) {
       // sum data in give key (property)
-      let total = 0;
+      // let total = 0;
       const sumValue = this.orderProducts.reduce(
-        (accumulator, currentValue) => {
-          return (total += +currentValue[key]);
-        },
+        (a, b) => a + (b[key] || 0),
         0,
       );
 
@@ -488,33 +486,33 @@ export default {
         { text: '판매 가격', align: 'center', value: 'salePrice' },
         { text: '수량', align: 'center', value: 'quantity' },
         { text: '포인트', align: 'center', value: 'point' },
-        { text: '배송비', align: 'center', value: 'orderShippingFee' },
+        { text: '배송비', align: 'center', value: 'shippingFee' },
         { text: '합계', align: 'center', value: 'totalPrice' },
       ],
       listImage: null,
       orderProducts: [
-        {
-          image: null,
-          productId: null,
-          productName: '',
-          salePrice: null,
-          orderQuantity: null,
-          orderShippingFee: null,
-          totalPrice: null,
-          point: null,
-          orderProductOptions: [
-            {
-              optionGroupNumber: 1,
-              optionName: this.firstOptionName,
-              optionValue: this.firstOptionValue,
-            },
-            {
-              optionGroupNumber: 2,
-              optionName: this.secondOptionName,
-              optionValue: this.secondOptionValue,
-            },
-          ],
-        },
+        // {
+        //   image: null,
+        //   productId: null,
+        //   productName: '',
+        //   salePrice: null,
+        //   orderQuantity: null,
+        //   shippingFee: null,
+        //   totalPrice: null,
+        //   point: null,
+        //   orderProductOptions: [
+        //     {
+        //       optionGroupNumber: 1,
+        //       optionName: this.firstOptionName,
+        //       optionValue: this.firstOptionValue,
+        //     },
+        //     {
+        //       optionGroupNumber: 2,
+        //       optionName: this.secondOptionName,
+        //       optionValue: this.secondOptionValue,
+        //     },
+        //   ],
+        // },
       ],
       selected: [],
     };
