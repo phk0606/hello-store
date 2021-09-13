@@ -154,10 +154,20 @@ const routes = [
   },
 ];
 
+import qs from 'qs';
+
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
+  parseQuery(query) {
+    return qs.parse(query);
+  },
+  stringifyQuery(query) {
+    var result = qs.stringify(query);
+
+    return result ? '?' + result : '';
+  },
 });
 
 export default router;

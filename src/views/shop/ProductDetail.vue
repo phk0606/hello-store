@@ -266,10 +266,18 @@ export default {
         const { data } = await addCartProduct({
           productId: this.productId,
           quantity: this.quantity,
-          firstOptionName: this.firstSelected.optionName,
-          firstOptionValue: this.firstSelected.optionValue,
-          secondOptionName: this.secondSelected.optionName,
-          secondOptionValue: this.secondSelected.optionValue,
+          cartProductOptions: [
+            {
+              optionGroupNumber: 1,
+              optionName: this.firstSelected.optionName,
+              optionValue: this.firstSelected.optionValue,
+            },
+            {
+              optionGroupNumber: 2,
+              optionName: this.secondSelected.optionName,
+              optionValue: this.secondSelected.optionValue,
+            },
+          ],
         });
         console.log(data);
       } catch (error) {
@@ -281,10 +289,18 @@ export default {
       this.$router.push({
         path: '/style-shop/product-order',
         query: {
-          firstOptionName: this.firstSelected.optionName,
-          firstOptionValue: this.firstSelected.optionValue,
-          secondOptionName: this.secondSelected.optionName,
-          secondOptionValue: this.secondSelected.optionValue,
+          productOptions: [
+            {
+              optionGroupNumber: 1,
+              optionName: this.firstSelected.optionName,
+              optionValue: this.firstSelected.optionValue,
+            },
+            {
+              optionGroupNumber: 2,
+              optionName: this.secondSelected.optionName,
+              optionValue: this.secondSelected.optionValue,
+            },
+          ],
           productId: this.productId,
           productName: this.productName,
           salePrice: this.salePrice,

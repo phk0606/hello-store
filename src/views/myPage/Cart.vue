@@ -32,11 +32,13 @@
           </template>
           <template v-slot:[`item.name`]="{ item }">
             <v-row>{{ item.productName }}</v-row>
-            <v-row v-if="item.firstOptionName"
-              >{{ item.firstOptionName }}: {{ item.firstOptionValue }}</v-row
+            <v-row v-if="item.productOptions && item.productOptions.length >= 1"
+              >{{ item.productOptions[0].optionName }}:
+              {{ item.productOptions[0].optionValue }}</v-row
             >
-            <v-row v-if="item.secondOptionName"
-              >{{ item.secondOptionName }}: {{ item.secondOptionValue }}</v-row
+            <v-row v-if="item.productOptions && item.productOptions.length >= 2"
+              >{{ item.productOptions[1].optionName }}:
+              {{ item.productOptions[1].optionValue }}</v-row
             >
           </template>
           <template v-slot:[`item.quantity`]="{ item }">
@@ -137,6 +139,7 @@ export default {
   methods: {
     order() {
       const cartProducts = this.selected;
+      console.log(this.selected);
       const cartProductIds = [];
 
       for (const key in cartProducts) {
@@ -144,7 +147,11 @@ export default {
         console.log(cartProductId);
         cartProductIds.push(cartProductId);
       }
-
+      console.log(cartProductIds.length);
+      if (cartProductIds.length <= 0) {
+        alert('주문 상품을 선택해 주세요.');
+        return;
+      }
       this.$router.push({
         name: 'style-shop-product-order',
         query: {

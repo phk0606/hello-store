@@ -32,11 +32,13 @@
           </template>
           <template v-slot:[`item.productName`]="{ item }">
             <v-row>{{ item.productName }}</v-row>
-            <v-row v-if="item.firstOptionName"
-              >{{ item.firstOptionName }}: {{ item.firstOptionValue }}</v-row
+            <v-row v-if="item.productOptions && item.productOptions.length >= 1"
+              >{{ item.productOptions[0].optionName }}:
+              {{ item.productOptions[0].optionValue }}</v-row
             >
-            <v-row v-if="item.secondOptionName"
-              >{{ item.secondOptionName }}: {{ item.secondOptionValue }}</v-row
+            <v-row v-if="item.productOptions && item.productOptions.length >= 2"
+              >{{ item.productOptions[1].optionName }}:
+              {{ item.productOptions[1].optionValue }}</v-row
             >
           </template>
         </v-data-table>
@@ -321,13 +323,18 @@ export default {
   async created() {
     const ids = this.$route.query.cartProductIds;
     const query = this.$route.query;
+    console.log(Array.isArray(ids));
 
     if (ids) {
       const cartProductIds = [];
-      for (const key in ids) {
-        const cartProductId = ids[key];
-        console.log(cartProductId);
-        cartProductIds.push(cartProductId);
+      if (Array.isArray(ids)) {
+        for (const key in ids) {
+          const cartProductId = ids[key];
+          console.log(cartProductId);
+          cartProductIds.push(cartProductId);
+        }
+      } else {
+        cartProductIds.push(ids);
       }
 
       console.log(cartProductIds);
@@ -340,10 +347,7 @@ export default {
       const orderProduct = [
         {
           image: this.listImage,
-          firstOptionName: query.optionName,
-          firstOptionValue: query.optionValue,
-          secondOptionName: query.optionName,
-          secondOptionValue: query.optionValue,
+          productOptions: query.productOptions,
           productId: query.productId,
           productName: query.productName,
           salePrice: query.salePrice,

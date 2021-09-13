@@ -13,7 +13,7 @@
           v-model="selected"
           :headers="headers"
           :items="orderProducts"
-          item-key="productId"
+          item-key="orderProductId"
           show-select
           class="elevation-1"
           disable-sort
@@ -32,14 +32,14 @@
             </v-container>
           </template>
           <template v-slot:[`item.productName`]="{ item }">
-            <v-row>{{ item.productName }}</v-row>
-            <v-row v-if="item.orderProductOptions[0].optionName"
-              >{{ item.orderProductOptions[0].optionName }}:
-              {{ item.orderProductOptions[0].optionValue }}</v-row
+            <v-row>상품명: {{ item.productName }}</v-row>
+            <v-row v-if="item.productOptions && item.productOptions.length >= 1"
+              >{{ item.productOptions[0].optionName }}:
+              {{ item.productOptions[0].optionValue }}</v-row
             >
-            <v-row v-if="item.orderProductOptions[1].optionName"
-              >{{ item.orderProductOptions[1].optionName }}:
-              {{ item.orderProductOptions[1].optionValue }}</v-row
+            <v-row v-if="item.productOptions && item.productOptions.length >= 2"
+              >{{ item.productOptions[1].optionName }}:
+              {{ item.productOptions[1].optionValue }}</v-row
             >
           </template>
         </v-data-table>
@@ -254,9 +254,9 @@ export default {
         { text: '이미지', align: 'center', sortable: false, value: 'image' },
         { text: '상품 정보', align: 'center', value: 'productName' },
         { text: '판매 가격', align: 'center', value: 'salePrice' },
-        { text: '수량', align: 'center', value: 'orderQuantity' },
+        { text: '수량', align: 'center', value: 'quantity' },
         { text: '포인트', align: 'center', value: 'point' },
-        { text: '배송비', align: 'center', value: 'orderShippingFee' },
+        { text: '배송비', align: 'center', value: 'shippingFee' },
         { text: '합계', align: 'center', value: 'totalPrice' },
       ],
       orderProducts: [
