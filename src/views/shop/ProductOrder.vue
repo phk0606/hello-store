@@ -360,35 +360,6 @@ export default {
       this.orderProducts = orderProduct;
     }
 
-    //const query = this.$route.query;
-    //await this.getListImage(query.productId);
-
-    // const orderProducts = [
-    //   {
-    //     image: this.listImage,
-    //     productId: query.productId,
-    //     productName: query.productName,
-    //     salePrice: query.salePrice,
-    //     orderQuantity: query.quantity,
-    //     orderShippingFee: query.shippingFee,
-    //     totalPrice: query.totalPrice,
-    //     point: query.point,
-    //     orderProductOptions: [
-    //       {
-    //         optionGroupNumber: 1,
-    //         optionName: query.firstOptionName,
-    //         optionValue: query.firstOptionValue,
-    //       },
-    //       {
-    //         optionGroupNumber: 2,
-    //         optionName: query.secondOptionName,
-    //         optionValue: query.secondOptionValue,
-    //       },
-    //     ],
-    //   },
-    // ];
-    // this.orderProducts = orderProducts;
-    // this.productId = query.productId;
     const username = this.$store.state.username;
     console.log(username);
 
@@ -549,30 +520,7 @@ export default {
         { text: '합계', align: 'center', value: 'totalPrice' },
       ],
       listImage: null,
-      orderProducts: [
-        // {
-        //   image: null,
-        //   productId: null,
-        //   productName: '',
-        //   salePrice: null,
-        //   orderQuantity: null,
-        //   shippingFee: null,
-        //   totalPrice: null,
-        //   point: null,
-        //   orderProductOptions: [
-        //     {
-        //       optionGroupNumber: 1,
-        //       optionName: this.firstOptionName,
-        //       optionValue: this.firstOptionValue,
-        //     },
-        //     {
-        //       optionGroupNumber: 2,
-        //       optionName: this.secondOptionName,
-        //       optionValue: this.secondOptionValue,
-        //     },
-        //   ],
-        // },
-      ],
+      orderProducts: [],
       selected: [],
     };
   },

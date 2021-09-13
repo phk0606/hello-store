@@ -8,4 +8,8 @@ function getOrder(data) {
   return order.get('/getOrder', { params: data });
 }
 
-export { createOrder, getOrder };
+function getOrdersByUsername(data) {
+  return order.get('/getOrdersByUsername', { params: data });
+}
+
+export { createOrder, getOrder, getOrdersByUsername };
