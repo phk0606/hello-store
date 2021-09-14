@@ -88,12 +88,14 @@
                 <v-col cols="2">
                   <v-img
                     class="mx-auto"
-                    :src="'data:image/png;base64,' + item.image"
+                    :src="
+                      'data:image/png;base64,' + item.orderProducts[0].image
+                    "
                     style="width: 100px; height: 100px"
                   />
                 </v-col>
                 <v-col cols="3">
-                  <v-row>{{ item.productName }}</v-row>
+                  <v-row>{{ item.orderProducts[0].productName }}</v-row>
                   <v-row v-if="item.orderProductCount"
                     >외 {{ item.orderProductCount - 1 }} 개</v-row
                   >
