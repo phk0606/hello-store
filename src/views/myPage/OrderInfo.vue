@@ -96,22 +96,29 @@
                 </v-col>
                 <v-col cols="3">
                   <v-row>{{ item.orderProducts[0].productName }}</v-row>
-                  <v-row v-if="item.orderProductCount"
+                  <v-row
+                    v-if="item.orderProductCount && item.orderProductCount >= 2"
                     >외 {{ item.orderProductCount - 1 }} 개</v-row
                   >
                   <v-row
                     v-if="
-                      item.productOptions && item.productOptions.length >= 1
+                      item.orderProducts[0].productOptions &&
+                      item.orderProducts[0].productOptions.length >= 1
                     "
-                    >{{ item.productOptions[0].optionName }}:
-                    {{ item.productOptions[0].optionValue }}</v-row
+                    >{{ item.orderProducts[0].productOptions[0].optionName }}:
+                    {{
+                      item.orderProducts[0].productOptions[0].optionValue
+                    }}</v-row
                   >
                   <v-row
                     v-if="
-                      item.productOptions && item.productOptions.length >= 2
+                      item.orderProducts[0].productOptions &&
+                      item.orderProducts[0].productOptions.length >= 2
                     "
-                    >{{ item.productOptions[1].optionName }}:
-                    {{ item.productOptions[1].optionValue }}</v-row
+                    >{{ item.orderProducts[0].productOptions[1].optionName }}:
+                    {{
+                      item.orderProducts[0].productOptions[1].optionValue
+                    }}</v-row
                   >
                 </v-col>
                 <v-col>
