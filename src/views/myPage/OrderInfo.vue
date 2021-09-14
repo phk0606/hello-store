@@ -92,6 +92,9 @@
                 </v-col>
                 <v-col>
                   <v-row>{{ item.productName }}</v-row>
+                  <v-row v-if="item.orderProductCount"
+                    >외 {{ item.orderProductCount - 1 }} 개</v-row
+                  >
                   <v-row
                     v-if="
                       item.productOptions && item.productOptions.length >= 1
@@ -110,19 +113,48 @@
                 <v-col>
                   <v-card>
                     <v-card-title>금액</v-card-title>
-                    <v-card-text>12000원</v-card-text>
+                    <v-card-text>{{ item.paymentPrice }}</v-card-text>
                   </v-card>
                 </v-col>
                 <v-col>
                   <v-card>
                     <v-card-title>결제 상태</v-card-title>
-                    <v-card-text>결제 완료</v-card-text>
+                    <v-card-text v-if="item.paymentStatus === 'BEFORE'"
+                      >결제 전</v-card-text
+                    >
+                    <v-card-text v-if="item.paymentStatus === 'FINISHED'"
+                      >결제 완료</v-card-text
+                    >
                   </v-card>
                 </v-col>
                 <v-col>
                   <v-card>
                     <v-card-title>주문/배송</v-card-title>
-                    <v-card-text><v-btn>배송중</v-btn></v-card-text>
+                    <v-card-text
+                      ><v-btn>
+                        <span v-if="item.orderStatus === 'BEFORE_CONFIRM'"
+                          >주문 확인 전</span
+                        >
+                        <span v-if="item.orderStatus === 'READY_SHIP'"
+                          >배송 준비 중</span
+                        >
+                        <span v-if="item.orderStatus === 'SHIPPING'"
+                          >배송 중</span
+                        >
+                        <span v-if="item.orderStatus === 'COMPLETE_SHIP'"
+                          >배송 완료</span
+                        >
+                        <span v-if="item.orderStatus === 'ORDER_CANCEL'"
+                          >주문 취소</span
+                        >
+                        /<span v-if="item.deliveryStatus === 'READY'"
+                          >배송 준비 중</span
+                        >
+                        <span v-if="item.deliveryStatus === 'COMP'"
+                          >배송 완료</span
+                        >
+                      </v-btn></v-card-text
+                    >
                   </v-card>
                 </v-col>
               </v-row>
@@ -131,55 +163,7 @@
         </v-data-table>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col cols="12">
-        <v-card>
-          <template>
-            <v-row>
-              <v-col cols="auto">
-                10. 주문 일시 2021-08-12 12:15:15 주문번호: 1454460561166
-              </v-col>
-              <v-col>
-                <v-btn>주문 상세 내역</v-btn>
-                <v-btn>주문 취소</v-btn>
-              </v-col>
-            </v-row>
-            <v-divider />
-            <v-row>
-              <v-col cols="auto">
-                <v-img
-                  max-width="100"
-                  src="https://image.brandi.me/cproduct/2021/07/26/SB000000000034658761_1627287656_image1_S.jpeg"
-                />
-              </v-col>
-              <v-col>
-                <v-row>자수 실크 린넨 브라우스</v-row>
-                <v-row>디자인: C형</v-row>
-                <v-row>색상: 블랙</v-row>
-              </v-col>
-              <v-col>
-                <v-card>
-                  <v-card-title>금액</v-card-title>
-                  <v-card-text>12000원</v-card-text>
-                </v-card>
-              </v-col>
-              <v-col>
-                <v-card>
-                  <v-card-title>결제 상태</v-card-title>
-                  <v-card-text>결제 완료</v-card-text>
-                </v-card>
-              </v-col>
-              <v-col>
-                <v-card>
-                  <v-card-title>주문/배송</v-card-title>
-                  <v-card-text><v-btn>배송중</v-btn></v-card-text>
-                </v-card>
-              </v-col>
-            </v-row>
-          </template>
-        </v-card>
-      </v-col>
-    </v-row>
+
     <v-row justify="center" style="text-align: center">
       <v-col cols="auto">
         <pagination
