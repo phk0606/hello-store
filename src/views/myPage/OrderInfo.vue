@@ -66,6 +66,7 @@
       <v-col cols="12">
         <v-data-table
           hide-default-footer
+          hide-default-header
           v-model="selected"
           :headers="headers"
           :items="orders"
@@ -74,23 +75,24 @@
           disable-sort
         >
           <template v-slot:[`item.orderId`]="{ item }">
-            <v-container>
-              <v-row>
-                <v-col>주문일시: {{ item.createdDate }}</v-col>
-                <v-col>주문번호: {{ item.orderId }}</v-col>
+            <v-container fluid>
+              <v-row align="center">
+                <v-col cols="auto">주문일시: {{ item.createdDate }}</v-col>
+                <v-col cols="auto">주문번호: {{ item.orderId }}</v-col>
                 <v-col
                   ><v-btn>주문 상세 내역</v-btn><v-btn>주문취소</v-btn></v-col
                 >
               </v-row>
-              <v-row>
-                <v-col>
+              <v-divider />
+              <v-row dense>
+                <v-col cols="2">
                   <v-img
                     class="mx-auto"
                     :src="'data:image/png;base64,' + item.image"
                     style="width: 100px; height: 100px"
                   />
                 </v-col>
-                <v-col>
+                <v-col cols="3">
                   <v-row>{{ item.productName }}</v-row>
                   <v-row v-if="item.orderProductCount"
                     >외 {{ item.orderProductCount - 1 }} 개</v-row
@@ -112,13 +114,17 @@
                 </v-col>
                 <v-col>
                   <v-card>
-                    <v-card-title>금액</v-card-title>
+                    <v-card-title class="blue-grey text-white justify-center"
+                      >금액</v-card-title
+                    >
                     <v-card-text>{{ item.paymentPrice }}</v-card-text>
                   </v-card>
                 </v-col>
                 <v-col>
                   <v-card>
-                    <v-card-title>결제 상태</v-card-title>
+                    <v-card-title class="blue-grey text-white justify-center"
+                      >결제 상태</v-card-title
+                    >
                     <v-card-text v-if="item.paymentStatus === 'BEFORE'"
                       >결제 전</v-card-text
                     >
@@ -129,7 +135,9 @@
                 </v-col>
                 <v-col>
                   <v-card>
-                    <v-card-title>주문/배송</v-card-title>
+                    <v-card-title class="blue-grey text-white justify-center"
+                      >주문/배송</v-card-title
+                    >
                     <v-card-text
                       ><v-btn>
                         <span v-if="item.orderStatus === 'BEFORE_CONFIRM'"
