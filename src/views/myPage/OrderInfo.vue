@@ -90,19 +90,43 @@
                     style="width: 100px; height: 100px"
                   />
                 </v-col>
+                <v-col>
+                  <v-row>{{ item.productName }}</v-row>
+                  <v-row
+                    v-if="
+                      item.productOptions && item.productOptions.length >= 1
+                    "
+                    >{{ item.productOptions[0].optionName }}:
+                    {{ item.productOptions[0].optionValue }}</v-row
+                  >
+                  <v-row
+                    v-if="
+                      item.productOptions && item.productOptions.length >= 2
+                    "
+                    >{{ item.productOptions[1].optionName }}:
+                    {{ item.productOptions[1].optionValue }}</v-row
+                  >
+                </v-col>
+                <v-col>
+                  <v-card>
+                    <v-card-title>금액</v-card-title>
+                    <v-card-text>12000원</v-card-text>
+                  </v-card>
+                </v-col>
+                <v-col>
+                  <v-card>
+                    <v-card-title>결제 상태</v-card-title>
+                    <v-card-text>결제 완료</v-card-text>
+                  </v-card>
+                </v-col>
+                <v-col>
+                  <v-card>
+                    <v-card-title>주문/배송</v-card-title>
+                    <v-card-text><v-btn>배송중</v-btn></v-card-text>
+                  </v-card>
+                </v-col>
               </v-row>
             </v-container>
-          </template>
-          <template v-slot:[`item.productName`]="{ item }">
-            <v-row>{{ item.productName }}</v-row>
-            <v-row v-if="item.productOptions && item.productOptions.length >= 1"
-              >{{ item.productOptions[0].optionName }}:
-              {{ item.productOptions[0].optionValue }}</v-row
-            >
-            <v-row v-if="item.productOptions && item.productOptions.length >= 2"
-              >{{ item.productOptions[1].optionName }}:
-              {{ item.productOptions[1].optionValue }}</v-row
-            >
           </template>
         </v-data-table>
       </v-col>
