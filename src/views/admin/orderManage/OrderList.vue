@@ -95,6 +95,20 @@
         </v-row>
         <v-divider />
         <v-row>
+          <v-col cols="8">
+            <template>
+              <v-tabs background-color="blue-grey" slider-color="red" dark>
+                <v-tab> 주문 확인 전 </v-tab>
+                <v-tab> 주문 확인 </v-tab>
+                <v-tab> 배송 준비 중 </v-tab>
+                <v-tab> 배송 중 </v-tab>
+                <v-tab> 배송 완료 </v-tab>
+                <v-tab> 주문 모두 보기 </v-tab>
+              </v-tabs>
+            </template>
+          </v-col>
+        </v-row>
+        <v-row>
           <v-col>
             <v-data-table
               hide-default-footer
@@ -143,6 +157,24 @@
             />
           </v-col>
         </v-row>
+        <v-row>
+          <v-col cols="2">
+            <v-select
+              label="항목 선택"
+              v-model="orderStatusSelected"
+              :items="orderStatus"
+              outlined
+              hide-details
+              dense
+              :menu-props="{ offsetY: true }"
+            />
+          </v-col>
+          <v-col cols="auto">
+            <v-btn color="indigo" dark @click="getProductsPageCondition(1)"
+              >주문 상태 변경</v-btn
+            >
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -177,6 +209,14 @@ export default {
         { text: '주문 상품', value: 'orderProduct' },
         { text: '주문자 아이디', value: 'orderUsername' },
         { text: '주문자 이름', value: 'ordername' },
+      ],
+      orderStatusSelected: null,
+      orderStatus: [
+        { text: '주문 확인 전', value: 'orderId' },
+        { text: '주문 확인', value: 'orderProduct' },
+        { text: '배송 준비 중', value: 'orderUsername' },
+        { text: '배송 중', value: 'ordername' },
+        { text: '배송 완료', value: 'ordername' },
       ],
       page: 1,
       records: 10,
