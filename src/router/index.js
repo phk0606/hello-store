@@ -95,7 +95,7 @@ const routes = [
           ),
       },
       {
-        path: 'order-detail-info',
+        path: 'order-detail-info/:orderId',
         name: 'my-page-order-detail-info',
         component: () =>
           import(

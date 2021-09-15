@@ -80,7 +80,9 @@
                 <v-col cols="auto">주문일시: {{ item.createdDate }}</v-col>
                 <v-col cols="auto">주문번호: {{ item.orderId }}</v-col>
                 <v-col
-                  ><v-btn>주문 상세 내역</v-btn><v-btn>주문취소</v-btn></v-col
+                  ><v-btn :to="`/my-page/order-detail-info/${item.orderId}`"
+                    >주문 상세 내역</v-btn
+                  ><v-btn>주문취소</v-btn></v-col
                 >
               </v-row>
               <v-divider />
