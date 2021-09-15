@@ -157,7 +157,7 @@
             />
           </v-col>
         </v-row>
-        <v-row>
+        <v-row align="center">
           <v-col cols="2">
             <v-select
               label="항목 선택"
