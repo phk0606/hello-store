@@ -134,6 +134,13 @@
               <template v-slot:[`item.createdDate`]="{ item }">
                 <v-row>{{ item.createdDate }}</v-row>
               </template>
+              <template v-slot:[`item.orderDetailInfo`]="{ item }">
+                <v-row
+                  ><v-btn :to="`/admin/order-detail-info/${item.orderId}`"
+                    >상세 보기</v-btn
+                  ></v-row
+                >
+              </template>
             </v-data-table>
           </v-col>
         </v-row>
@@ -235,6 +242,7 @@ export default {
         { text: '주문자(아이디)', align: 'center', value: 'name' },
         { text: '결제 금액', align: 'center', value: 'paymentPrice' },
         { text: '결제 상태', align: 'center', value: 'paymentStatusValue' },
+        { text: '상세 보기', align: 'center', value: 'orderDetailInfo' },
       ],
       contentList: [],
       date1: new Date(new Date().setDate(new Date().getDate() - 3))

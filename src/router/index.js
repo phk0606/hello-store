@@ -159,6 +159,14 @@ const routes = [
           ),
       },
       {
+        path: 'order-detail-info/:orderId',
+        name: 'admin-order-detail-info',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin-order-detail-info" */ '@/views/admin/orderManage/OrderDetailInfo'
+          ),
+      },
+      {
         path: 'order-cancel-list',
         name: 'order-cancel-list',
         component: () =>
