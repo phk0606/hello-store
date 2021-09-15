@@ -74,12 +74,8 @@
                 </v-btn>
               </template>
               <v-card class="mx-auto" max-width="344" outlined>
-                <v-list-item
-                  v-for="(item, index) in items3"
-                  :key="index"
-                  href="/shop"
-                >
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                <v-list-item href="/shop">
+                  <v-list-item-title />
                 </v-list-item>
               </v-card>
             </v-menu>
@@ -90,12 +86,8 @@
                 </v-btn>
               </template>
               <v-card class="mx-auto" max-width="344" outlined>
-                <v-list-item
-                  v-for="(item, index) in items3"
-                  :key="index"
-                  href="/shop"
-                >
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                <v-list-item href="/shop">
+                  <v-list-item-title />
                 </v-list-item>
               </v-card>
             </v-menu>
@@ -107,12 +99,8 @@
                 </v-btn>
               </template>
               <v-card class="mx-auto" max-width="344" outlined>
-                <v-list-item
-                  v-for="(item, index) in items3"
-                  :key="index"
-                  href="/shop"
-                >
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                <v-list-item href="/shop">
+                  <v-list-item-title />
                 </v-list-item>
               </v-card>
             </v-menu>
@@ -123,12 +111,8 @@
                 </v-btn>
               </template>
               <v-card class="mx-auto" max-width="344" outlined>
-                <v-list-item
-                  v-for="(item, index) in items3"
-                  :key="index"
-                  href="/shop"
-                >
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                <v-list-item href="/shop">
+                  <v-list-item-title />
                 </v-list-item>
               </v-card>
             </v-menu>

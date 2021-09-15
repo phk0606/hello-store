@@ -12,4 +12,8 @@ function getOrdersByUsername(data) {
   return order.get('/getOrdersByUsername', { params: data });
 }
 
-export { createOrder, getOrder, getOrdersByUsername };
+function getOrders(data) {
+  return order.get('/getOrders', { params: data });
+}
+
+export { createOrder, getOrder, getOrders, getOrdersByUsername };
