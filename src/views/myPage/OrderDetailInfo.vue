@@ -9,10 +9,12 @@
       <v-col>
         <v-card>
           <v-row>
-            <v-col cols="auto">주문번호: 11111111</v-col>
-            <v-col cols="">주문일: 2021-08-17 12:15:13</v-col>
+            <v-col cols="auto">주문번호: {{ orderId }}</v-col>
+            <v-col cols="">주문일: {{ orderCreatedDate }}</v-col>
             <v-spacer />
-            <v-col cols="">[주문 배송 상태]</v-col>
+            <v-col cols=""
+              >[주문 배송 상태]{{ orderStatus }}/{{ deliveryStatus }}</v-col
+            >
           </v-row>
         </v-card>
       </v-col>
@@ -61,10 +63,16 @@
         </v-data-table>
         <v-divider />
         <template>
-          <v-row>
-            <v-col cols="10"> 총 상품 금액 </v-col>
-            <v-col>{{ sumField('totalPrice') }}</v-col>
-          </v-row>
+          <v-container>
+            <v-row justify="end">
+              <v-col cols="auto"> 총 상품 금액 </v-col>
+              <v-col cols="auto">{{ sumField('salePrice') }}</v-col>
+              <v-col cols="auto"> 총 배송비 </v-col>
+              <v-col cols="auto">{{ sumField('shippingFee') }}</v-col>
+              <v-col cols="auto"> 총 결제 금액 </v-col>
+              <v-col cols="auto">{{ sumField('totalPrice') }}</v-col>
+            </v-row>
+          </v-container>
         </template>
       </v-col>
     </v-row>
@@ -72,19 +80,22 @@
       <v-col cols="8">
         <v-card ref="form">
           <v-card-title>주문자 정보</v-card-title>
-          <v-btn>수정</v-btn>
           <v-card-text>
             <v-container>
+              <v-row justify="end">
+                <v-col cols="auto">
+                  <v-btn>수정</v-btn>
+                </v-col>
+              </v-row>
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
                 <v-col
                   ><v-text-field
-                    value="홍길동"
+                    v-model="name"
                     hide-details
                     dense
                     solo-inverted
                     required
-                    readonly
                 /></v-col>
               </v-row>
               <v-row dense align="center">
@@ -97,25 +108,27 @@
                     value="01012341234"
                     counter="11"
                     required
-                    readonly
                 /></v-col>
               </v-row>
             </v-container>
           </v-card-text>
           <v-card-title>배송 정보</v-card-title>
-          <v-btn>수정</v-btn>
           <v-card-text>
             <v-container>
+              <v-row justify="end">
+                <v-col cols="auto">
+                  <v-btn>수정</v-btn>
+                </v-col>
+              </v-row>
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
                 <v-col
                   ><v-text-field
+                    v-model="recipientName"
                     hide-details
                     dense
                     required
                     solo-inverted
-                    value="홍길동"
-                    readonly
                 /></v-col>
               </v-row>
               <v-divider />
@@ -125,12 +138,11 @@
                 </v-col>
                 <v-col>
                   <v-text-field
+                    v-model="fullAddress"
                     hide-details
                     dense
                     required
                     solo-inverted
-                    value="경기도 수원시 장안구 천천동 123-12 105동 106호"
-                    readonly
                   />
                 </v-col>
               </v-row>
@@ -139,10 +151,10 @@
                 <v-col cols="2"><div class="subtitle-1">*연락처:</div></v-col>
                 <v-col
                   ><v-text-field
+                    v-model="recipientPhoneNumber"
                     hide-details
                     dense
                     solo-inverted
-                    value="01012341234"
                     counter="11"
                     required
                 /></v-col>
@@ -152,12 +164,11 @@
                 <v-col cols="2"><div class="subtitle-1">요청사항:</div></v-col>
                 <v-col
                   ><v-textarea
+                    v-model="requirement"
                     hide-details
                     dense
                     filled
                     no-resize
-                    value="빠른 배송 부탁합니다."
-                    readonly
                 /></v-col>
               </v-row>
             </v-container>
@@ -169,7 +180,7 @@
                 <v-col cols="2"><div class="subtitle-1">결제 금액:</div></v-col>
                 <v-col>
                   <v-text-field
-                    value="78500"
+                    v-model="paymentPrice"
                     hide-details
                     dense
                     required
@@ -182,7 +193,7 @@
                 <v-col cols="2"><div class="subtitle-1">배송료:</div></v-col>
                 <v-col>
                   <v-text-field
-                    value="2500"
+                    :value="sumField('shippingFee')"
                     hide-details
                     dense
                     required
@@ -197,7 +208,7 @@
                 >
                 <v-col>
                   <v-text-field
-                    value="1000"
+                    value=""
                     hide-details
                     dense
                     required
@@ -210,7 +221,7 @@
                 <v-col cols="2"><div class="subtitle-1">결제 방법:</div></v-col>
                 <v-col>
                   <v-text-field
-                    value="신용카드"
+                    v-model="paymentMethodType"
                     hide-details
                     dense
                     required
@@ -272,6 +283,9 @@ export default {
         }
         this.paymentMethodType = paymentMethodType;
         this.paymentPrice = data.paymentPrice;
+        this.orderCreatedDate = data.createdDate;
+        this.orderStatus = data.orderStatus;
+        this.deliveryStatus = data.deliveryStatus;
       } catch (error) {
         console.log(error);
       }
@@ -283,6 +297,17 @@ export default {
   },
   data() {
     return {
+      deliveryStatus: null,
+      orderStatus: null,
+      orderCreatedDate: null,
+      name: '',
+      phoneNumber: '',
+      requirement: '',
+      recipientName: '',
+      recipientPhoneNumber: '',
+      fullAddress: '',
+      paymentMethodType: '',
+      paymentPrice: '',
       orderId: '',
       headers: [
         { text: '번호', align: 'center', value: 'orderProductId' },
