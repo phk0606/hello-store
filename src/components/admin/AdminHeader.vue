@@ -91,9 +91,9 @@
               </template>
               <v-card class="mx-auto" max-width="344" outlined>
                 <v-list-item
-                  v-for="(item, index) in items3"
+                  v-for="(item, index) in productManageMenu"
                   :key="index"
-                  href="/shop"
+                  :to="item.to"
                 >
                   <v-list-item-title>{{ item.title }}</v-list-item-title>
                 </v-list-item>
@@ -179,11 +179,18 @@ export default {
         { text: 'Skirt', icon: 'mdi-flag' },
         { text: 'Dress', icon: 'mdi-flag' },
       ],
-      items3: [
-        { title: '공지사항', icon: 'mdi-clock' },
-        { title: '커뮤니티', icon: 'mdi-account' },
-        { title: '자주하는질문', icon: 'mdi-flag' },
-        { title: '상품문의', icon: 'mdi-flag' },
+      productManageMenu: [
+        { title: '상품 등록', icon: 'mdi-clock', to: '/admin/product-regist' },
+        {
+          title: '상품 리스트',
+          icon: 'mdi-account',
+          to: '/admin/product-list',
+        },
+        {
+          title: '카테고리 관리',
+          icon: 'mdi-flag',
+          to: '/admin/category-manage',
+        },
       ],
     };
   },
