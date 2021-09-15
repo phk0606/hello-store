@@ -26,8 +26,62 @@
           </v-col>
         </v-row>
 
-        <v-row dense align="center" justify="center">
-          <v-col cols="auto"> 상품명 </v-col>
+        <v-row dense align="center" justify="start">
+          <v-col cols="auto">주문일</v-col>
+          <v-col cols="2">
+            <v-menu
+              v-model="menu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="date1"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                />
+              </template>
+              <v-date-picker v-model="date1" @input="menu = false" />
+            </v-menu>
+          </v-col>
+          <v-col cols="2">
+            <v-menu
+              v-model="menu2"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="date2"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                />
+              </template>
+              <v-date-picker v-model="date2" @input="menu2 = false" />
+            </v-menu>
+          </v-col>
+          <v-col cols="auto"> 키워드 검색 </v-col>
+          <v-col cols="2">
+            <v-select
+              label="항목 선택"
+              v-model="searchSelected"
+              :items="searchKeyword"
+              outlined
+              hide-details
+              dense
+              :menu-props="{ offsetY: true }"
+            />
+          </v-col>
           <v-col cols="3">
             <v-text-field v-model="productName" dense hide-details outlined>
               <template v-slot:prepend> <v-card width="10" flat /></template>
@@ -116,15 +170,14 @@ export default {
   },
   data() {
     return {
-      productShowTypes: [''],
-      salePriceMin: '',
-      salePriceMax: '',
       productName: '',
-      category1Select: null,
-      category2Select: null,
-      category1: [],
-      category2: [],
-      detailSearchShowYn: false,
+      searchSelected: null,
+      searchKeyword: [
+        { text: '주문 번호', value: 'orderId' },
+        { text: '주문 상품', value: 'orderProduct' },
+        { text: '주문자 아이디', value: 'orderUsername' },
+        { text: '주문자 이름', value: 'ordername' },
+      ],
       page: 1,
       records: 10,
       perPage: 5,
@@ -144,8 +197,12 @@ export default {
         { text: '결제 상태', align: 'center', value: 'paymentStatus' },
       ],
       contentList: [],
-      date1: '',
-      date2: '',
+      date1: new Date(new Date().setDate(new Date().getDate() - 3))
+        .toISOString()
+        .substr(0, 10),
+      date2: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
       menu: false,
       menu2: false,
       items: [
