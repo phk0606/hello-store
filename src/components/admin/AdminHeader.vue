@@ -39,7 +39,7 @@
                 <v-list-item
                   v-for="(item, index) in orderManageMenu"
                   :key="index"
-                  href="/shop"
+                  :to="item.to"
                 >
                   <v-list-item-title>{{ item.title }}</v-list-item-title>
                 </v-list-item>
@@ -184,17 +184,17 @@ export default {
         {
           title: '주문 리스트',
           icon: 'mdi-clock',
-          to: '/admin/product-regist',
+          to: '/admin/order-list',
         },
         {
           title: '주문 취소 리스트',
           icon: 'mdi-account',
-          to: '/admin/product-list',
+          to: '/admin/order-cancel-list',
         },
         {
           title: '교환/환불 신청 리스트',
           icon: 'mdi-flag',
-          to: '/admin/category-manage',
+          to: '/admin/exchange-list',
         },
       ],
     };

@@ -150,6 +150,30 @@ const routes = [
             /* webpackChunkName: "category-manage" */ '@/views/admin/productManage/CategoryManage'
           ),
       },
+      {
+        path: 'order-list',
+        name: 'order-list',
+        component: () =>
+          import(
+            /* webpackChunkName: "order-list" */ '@/views/admin/orderManage/OrderList'
+          ),
+      },
+      {
+        path: 'order-cancel-list',
+        name: 'order-cancel-list',
+        component: () =>
+          import(
+            /* webpackChunkName: "order-cancel-list" */ '@/views/admin/orderManage/OrderCancelList'
+          ),
+      },
+      {
+        path: 'exchange-list',
+        name: 'exchange-list',
+        component: () =>
+          import(
+            /* webpackChunkName: "exchange-list" */ '@/views/admin/orderManage/ExchangeList'
+          ),
+      },
     ],
   },
 ];
