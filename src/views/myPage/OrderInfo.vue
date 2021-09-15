@@ -152,22 +152,19 @@
                         <span v-if="item.orderStatus === 'BEFORE_CONFIRM'"
                           >주문 확인 전</span
                         >
-                        <span v-if="item.orderStatus === 'READY_SHIP'"
-                          >배송 준비 중</span
-                        >
-                        <span v-if="item.orderStatus === 'SHIPPING'"
-                          >배송 중</span
-                        >
-                        <span v-if="item.orderStatus === 'COMPLETE_SHIP'"
-                          >배송 완료</span
+                        <span v-if="item.orderStatus === 'CONFIRM_ORDER'"
+                          >주문 확인 완료</span
                         >
                         <span v-if="item.orderStatus === 'ORDER_CANCEL'"
                           >주문 취소</span
                         >
-                        /<span v-if="item.deliveryStatus === 'READY'"
+                        /<span v-if="item.deliveryStatus === 'READY_SHIP'"
                           >배송 준비 중</span
                         >
-                        <span v-if="item.deliveryStatus === 'COMP'"
+                        <span v-if="item.deliveryStatus === 'SHIPPING'"
+                          >배송 중</span
+                        >
+                        <span v-if="item.deliveryStatus === 'COMPLETE_SHIP'"
                           >배송 완료</span
                         >
                       </v-btn></v-card-text
@@ -194,8 +191,8 @@
             },
           }"
           v-model="page"
-          :records="500"
-          :per-page="20"
+          :records="records"
+          :per-page="perPage"
           @paginate="myCallback"
         />
       </v-col>
@@ -232,6 +229,8 @@ export default {
       orders: [],
       selected: [],
       page: 1,
+      records: 10,
+      perPage: 6,
       date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
         .toISOString()
         .substr(0, 10),
@@ -250,7 +249,10 @@ export default {
         });
         console.log(data);
 
-        this.orders = data;
+        this.orders = data.content;
+        this.perPage = data.size;
+        this.records = data.totalElements;
+        this.page = data.pageable.pageNumber + 1;
       } catch (error) {
         console.log(error);
       }
