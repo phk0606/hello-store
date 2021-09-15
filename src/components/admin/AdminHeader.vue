@@ -5,7 +5,7 @@
         <v-col> <h2>Hello Store 관리</h2></v-col>
         <v-col cols="auto">
           <v-btn-toggle group dense>
-            <v-btn small value="left" class="mr-0" to="/authentication/sign-up"
+            <v-btn small value="left" class="mr-0" to="/"
               >이용자 화면 보기</v-btn
             >
             <v-btn
