@@ -13,7 +13,7 @@
             <v-col cols="">주문일: {{ orderCreatedDate }}</v-col>
             <v-spacer />
             <v-col cols=""
-              >[주문 배송 상태]{{ orderStatus }}/{{ deliveryStatus }}</v-col
+              >[주문 배송 상태]{{ orderDeliveryStatusValue }}</v-col
             >
           </v-row>
         </v-card>
@@ -284,8 +284,7 @@ export default {
         this.paymentMethodType = paymentMethodType;
         this.paymentPrice = data.paymentPrice;
         this.orderCreatedDate = data.createdDate;
-        this.orderStatus = data.orderStatus;
-        this.deliveryStatus = data.deliveryStatus;
+        this.orderDeliveryStatusValue = data.orderDeliveryStatusValue;
       } catch (error) {
         console.log(error);
       }
@@ -297,8 +296,7 @@ export default {
   },
   data() {
     return {
-      deliveryStatus: null,
-      orderStatus: null,
+      orderDeliveryStatusValue: null,
       orderCreatedDate: null,
       name: '',
       phoneNumber: '',

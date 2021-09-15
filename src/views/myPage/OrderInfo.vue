@@ -146,11 +146,7 @@
                     >
                     <v-card-text
                       ><v-btn>
-                        <span
-                          >{{ item.orderStatusValue }}/{{
-                            item.deliveryStatusValue
-                          }}</span
-                        >
+                        <span>{{ item.orderDeliveryStatusValue }}</span>
                       </v-btn></v-card-text
                     >
                   </v-card>
