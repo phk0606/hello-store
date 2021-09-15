@@ -52,9 +52,16 @@
               class="elevation-1"
               disable-sort
             >
+              <template v-slot:[`item.productName`]="{ item }">
+                <v-row>{{ item.orderProducts[0].productName }}</v-row>
+                <v-row
+                  v-if="item.orderProductCount && item.orderProductCount >= 2"
+                  >외 {{ item.orderProductCount - 1 }} 개</v-row
+                >
+              </template>
               <template v-slot:[`item.name`]="{ item }">
-                <v-row>{{ item.categoryName }}</v-row>
                 <v-row>{{ item.name }}</v-row>
+                <v-row>({{ item.username }})</v-row>
               </template>
               <template v-slot:[`item.createdDate`]="{ item }">
                 <v-row>{{ item.createdDate }}</v-row>
