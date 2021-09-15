@@ -45,6 +45,22 @@
                 </v-list-item>
               </v-card>
             </v-menu>
+            <v-menu open-on-hover offset-y>
+              <template v-slot:activator="{ on }">
+                <v-btn v-on="on">
+                  <span :class="font">상품 관리</span>
+                </v-btn>
+              </template>
+              <v-card class="mx-auto" max-width="344" outlined>
+                <v-list-item
+                  v-for="(item, index) in productManageMenu"
+                  :key="index"
+                  :to="item.to"
+                >
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item>
+              </v-card>
+            </v-menu>
             <v-btn href="/blog">
               <span :class="font">게시판 관리</span>
             </v-btn>
@@ -83,22 +99,7 @@
                 </v-list-item>
               </v-card>
             </v-menu>
-            <v-menu open-on-hover offset-y>
-              <template v-slot:activator="{ on }">
-                <v-btn v-on="on">
-                  <span :class="font">상품 관리</span>
-                </v-btn>
-              </template>
-              <v-card class="mx-auto" max-width="344" outlined>
-                <v-list-item
-                  v-for="(item, index) in productManageMenu"
-                  :key="index"
-                  :to="item.to"
-                >
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
-                </v-list-item>
-              </v-card>
-            </v-menu>
+
             <v-menu open-on-hover offset-y>
               <template v-slot:activator="{ on }">
                 <v-btn v-on="on">
