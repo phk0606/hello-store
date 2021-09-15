@@ -37,7 +37,7 @@
               </template>
               <v-card class="mx-auto" max-width="344" outlined>
                 <v-list-item
-                  v-for="(item, index) in items"
+                  v-for="(item, index) in orderManageMenu"
                   :key="index"
                   href="/shop"
                 >
@@ -165,20 +165,8 @@ export default {
     return {
       font: 'text-caption text-sm-body-2 text-md-body-1 text-lg-h6 text-xl-h4',
       drawer: false,
-      selectItems: ['Foo', 'Bar', 'Fizz', 'Buzz'],
-      items: [
-        { title: '헬로스토어 소개', icon: 'mdi-view-dashboard', to: '/' },
-        { title: '대표 인사말', icon: 'mdi-image', to: '/grid-system' },
-        { title: '찾아오시는 길', icon: 'mdi-image', to: '/grid-system' },
-      ],
       selectedItem: 1,
-      items2: [
-        { text: 'Outer', icon: 'mdi-clock' },
-        { text: 'Top', icon: 'mdi-account' },
-        { text: 'Bottom', icon: 'mdi-flag' },
-        { text: 'Skirt', icon: 'mdi-flag' },
-        { text: 'Dress', icon: 'mdi-flag' },
-      ],
+
       productManageMenu: [
         { title: '상품 등록', icon: 'mdi-clock', to: '/admin/product-regist' },
         {
@@ -188,6 +176,23 @@ export default {
         },
         {
           title: '카테고리 관리',
+          icon: 'mdi-flag',
+          to: '/admin/category-manage',
+        },
+      ],
+      orderManageMenu: [
+        {
+          title: '주문 리스트',
+          icon: 'mdi-clock',
+          to: '/admin/product-regist',
+        },
+        {
+          title: '주문 취소 리스트',
+          icon: 'mdi-account',
+          to: '/admin/product-list',
+        },
+        {
+          title: '교환/환불 신청 리스트',
           icon: 'mdi-flag',
           to: '/admin/category-manage',
         },
