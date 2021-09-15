@@ -136,12 +136,7 @@
                     <v-card-title class="blue-grey text-white justify-center"
                       >결제 상태</v-card-title
                     >
-                    <v-card-text v-if="item.paymentStatus === 'BEFORE'"
-                      >결제 전</v-card-text
-                    >
-                    <v-card-text v-if="item.paymentStatus === 'FINISHED'"
-                      >결제 완료</v-card-text
-                    >
+                    <v-card-text>{{ item.paymentStatusValue }}</v-card-text>
                   </v-card>
                 </v-col>
                 <v-col>
@@ -151,23 +146,10 @@
                     >
                     <v-card-text
                       ><v-btn>
-                        <span v-if="item.orderStatus === 'BEFORE_CONFIRM'"
-                          >주문 확인 전</span
-                        >
-                        <span v-if="item.orderStatus === 'CONFIRM_ORDER'"
-                          >주문 확인 완료</span
-                        >
-                        <span v-if="item.orderStatus === 'ORDER_CANCEL'"
-                          >주문 취소</span
-                        >
-                        /<span v-if="item.deliveryStatus === 'READY_SHIP'"
-                          >배송 준비 중</span
-                        >
-                        <span v-if="item.deliveryStatus === 'SHIPPING'"
-                          >배송 중</span
-                        >
-                        <span v-if="item.deliveryStatus === 'COMPLETE_SHIP'"
-                          >배송 완료</span
+                        <span
+                          >{{ item.orderStatusValue }}/{{
+                            item.deliveryStatusValue
+                          }}</span
                         >
                       </v-btn></v-card-text
                     >

@@ -234,7 +234,7 @@ export default {
         { text: '주문 상품', align: 'center', value: 'productName' },
         { text: '주문자(아이디)', align: 'center', value: 'name' },
         { text: '결제 금액', align: 'center', value: 'paymentPrice' },
-        { text: '결제 상태', align: 'center', value: 'paymentStatus' },
+        { text: '결제 상태', align: 'center', value: 'paymentStatusValue' },
       ],
       contentList: [],
       date1: new Date(new Date().setDate(new Date().getDate() - 3))

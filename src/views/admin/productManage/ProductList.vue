@@ -205,20 +205,8 @@
                 <v-row>({{ item.lastModifiedDate }})</v-row>
               </template>
               <template v-slot:[`item.productShowType`]="{ item }">
-                <v-row justify="center" v-if="item.productShowType === 'SHOW'">
-                  진열
-                </v-row>
-                <v-row
-                  justify="center"
-                  v-else-if="item.productShowType === 'HIDE'"
-                >
-                  숨김
-                </v-row>
-                <v-row
-                  justify="center"
-                  v-else-if="item.productShowType === 'SOLDOUT'"
-                >
-                  품절
+                <v-row justify="center">
+                  {{ item.productShowTypeValue }}
                 </v-row>
               </template>
               <template v-slot:[`item.modify`]="{ item }">
