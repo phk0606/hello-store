@@ -11,13 +11,13 @@
     <v-list dense>
       <v-list-item-group>
         <router-link to="/admin/order-list"
-          ><v-subheader>주문 리스트</v-subheader></router-link
+          ><v-subheader>주문 관리</v-subheader></router-link
         >
         <router-link to="/admin/order-cancel-list"
-          ><v-subheader>주문 취소 리스트</v-subheader></router-link
+          ><v-subheader>주문 취소 관리</v-subheader></router-link
         >
         <router-link to="/admin/exchange-list"
-          ><v-subheader>교환/환불 리스트</v-subheader></router-link
+          ><v-subheader>교환/환불 관리</v-subheader></router-link
         >
       </v-list-item-group>
     </v-list>

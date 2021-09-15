@@ -21,7 +21,7 @@
           <v-col>
             <v-chip label x-large color="white">
               <v-icon left> mdi-chevron-right-box </v-icon>
-              스타일 숍 상품 리스트
+              스타일 숍 주문 관리
             </v-chip>
           </v-col>
         </v-row>
@@ -335,17 +335,12 @@ export default {
       menu2: false,
       items: [
         {
-          text: '상품 관리',
+          text: '주문 관리',
           disabled: false,
           href: 'breadcrumbs_dashboard',
         },
         {
-          text: '상품 리스트',
-          disabled: false,
-          href: 'breadcrumbs_link_1',
-        },
-        {
-          text: '스타일 숍',
+          text: '스타일 숍 주문 관리',
           disabled: false,
           href: 'breadcrumbs_link_1',
         },
