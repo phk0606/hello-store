@@ -54,7 +54,7 @@
 
 <script>
 export default {
-  name: 'MyPageLeft',
+  name: 'AdminLeft',
   data: () => ({
     items: [
       { text: 'Outer', icon: 'mdi-clock' },
