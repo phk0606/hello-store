@@ -123,7 +123,7 @@ const routes = [
         name: 'product-regist',
         component: () =>
           import(
-            /* webpackChunkName: "product-regist" */ '@/views/admin/ProductRegist'
+            /* webpackChunkName: "product-regist" */ '@/views/admin/productManage/ProductRegist'
           ),
       },
       {
@@ -131,7 +131,7 @@ const routes = [
         name: 'product-modify',
         component: () =>
           import(
-            /* webpackChunkName: "product-modify" */ '@/views/admin/ProductModify'
+            /* webpackChunkName: "product-modify" */ '@/views/admin/productManage/ProductModify'
           ),
       },
       {
@@ -139,7 +139,7 @@ const routes = [
         name: 'product-list',
         component: () =>
           import(
-            /* webpackChunkName: "product-list" */ '@/views/admin/ProductList'
+            /* webpackChunkName: "product-list" */ '@/views/admin/productManage/ProductList'
           ),
       },
       {
@@ -147,7 +147,7 @@ const routes = [
         name: 'category-manage',
         component: () =>
           import(
-            /* webpackChunkName: "category-manage" */ '@/views/admin/CategoryManage'
+            /* webpackChunkName: "category-manage" */ '@/views/admin/productManage/CategoryManage'
           ),
       },
     ],

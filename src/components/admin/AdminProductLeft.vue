@@ -54,7 +54,7 @@
 
 <script>
 export default {
-  name: 'AdminLeft',
+  name: 'AdminProductLeft',
   data: () => ({
     items: [
       { text: 'Outer', icon: 'mdi-clock' },
