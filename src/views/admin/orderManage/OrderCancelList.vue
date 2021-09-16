@@ -70,7 +70,7 @@
               <v-date-picker v-model="date2" @input="menu2 = false" />
             </v-menu>
           </v-col>
-          <v-col cols="auto"> 키워드 검색 </v-col>
+          <v-col cols="auto" class="ml-5"> 키워드 검색 </v-col>
           <v-col cols="2">
             <v-select
               label="항목 선택"
@@ -82,7 +82,7 @@
               :menu-props="{ offsetY: true }"
             />
           </v-col>
-          <v-col cols="3">
+          <v-col cols="auto">
             <v-text-field v-model="productName" dense hide-details outlined>
               <template v-slot:prepend> <v-card width="10" flat /></template>
             </v-text-field>
