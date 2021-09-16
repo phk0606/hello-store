@@ -45,9 +45,17 @@
         </v-data-table>
         <v-divider />
         <template>
-          <v-row>
+          <!-- <v-row>
             <v-col cols="10"> 총 상품 금액 </v-col>
             <v-col>{{ sumField('totalPrice') }}</v-col>
+          </v-row> -->
+          <v-row justify="end">
+            <v-col cols="auto"> 총 상품 금액 </v-col>
+            <v-col cols="auto">{{ sumField('salePrice') }}</v-col>
+            <v-col cols="auto"> 총 배송비 </v-col>
+            <v-col cols="auto">{{ sumField('shippingFee') }}</v-col>
+            <v-col cols="auto"> 총 결제 금액 </v-col>
+            <v-col cols="auto">{{ sumField('totalPrice') }}</v-col>
           </v-row>
         </template>
       </v-col>
