@@ -25,7 +25,7 @@
             </v-chip>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row dense>
           <v-col>
             <v-chip label large color="white">
               <v-icon left> mdi-record </v-icon>
@@ -36,13 +36,58 @@
         <v-row>
           <v-col>
             <v-card>
-              <v-row>
+              <v-row justify="space-around">
+                <v-col cols="auto">주문일: {{ orderCreatedDate }}</v-col>
+                <v-col cols="auto">주문고객: {{ name }}({{ username }})</v-col>
                 <v-col cols="auto">주문번호: {{ orderId }}</v-col>
-                <v-col cols="">주문일: {{ orderCreatedDate }}</v-col>
-                <v-spacer />
-                <v-col cols=""
-                  >[주문 배송 상태]{{ orderDeliveryStatusValue }}</v-col
-                >
+              </v-row>
+              <v-row align="center">
+                <v-col cols="auto">결제 상태:</v-col>
+                <v-col cols="auto">
+                  <v-select
+                    label="항목 선택"
+                    v-model="paymentStatusSelected"
+                    :items="paymentStatus"
+                    outlined
+                    hide-details
+                    dense
+                    :menu-props="{ offsetY: true }"
+                /></v-col>
+                <v-col cols="auto">주문 처리 상태:</v-col>
+                <v-col cols="auto">
+                  <v-select
+                    label="항목 선택"
+                    v-model="orderStatusSelected"
+                    :items="orderStatus"
+                    outlined
+                    hide-details
+                    dense
+                    :menu-props="{ offsetY: true }"
+                /></v-col>
+                <v-col cols="auto"><v-btn>교환 진행</v-btn></v-col>
+              </v-row>
+              <v-row align="center">
+                <v-col cols="auto">운송장번호:</v-col>
+                <v-col cols="auto">
+                  <v-select
+                    label="택배 회사"
+                    v-model="paymentStatusSelected"
+                    :items="paymentStatus"
+                    outlined
+                    hide-details
+                    dense
+                    :menu-props="{ offsetY: true }"
+                /></v-col>
+                <v-col cols="auto"
+                  ><v-text-field
+                    placeholder="운송장번호 입력"
+                    hide-details
+                    dense
+                    solo-inverted
+                    required
+                /></v-col>
+                <v-col cols="auto"><v-btn>배송 조회</v-btn></v-col>
+                <v-col cols="auto"><v-btn>주문 취소 하기</v-btn></v-col>
               </v-row>
             </v-card>
           </v-col>
@@ -312,6 +357,7 @@ export default {
         });
         console.log(data);
         this.name = data.name;
+        this.username = data.username;
         this.phoneNumber = data.phoneNumber;
         this.orderProducts = data.orderProducts;
         this.requirement = data.requirement;
@@ -343,6 +389,20 @@ export default {
   },
   data() {
     return {
+      paymentStatusSelected: null,
+      paymentStatus: [
+        { text: '결제 전', value: 'BEFORE' },
+        { text: '결제 완료', value: 'FINISHED' },
+        { text: '결제 취소', value: 'CANCEL' },
+      ],
+      orderStatusSelected: null,
+      orderStatus: [
+        { text: '주문 확인 전', value: 'orderId' },
+        { text: '주문 확인', value: 'orderProduct' },
+        { text: '배송 준비 중', value: 'orderUsername' },
+        { text: '배송 중', value: 'ordername' },
+        { text: '배송 완료', value: 'ordername' },
+      ],
       items: [
         {
           text: '주문 관리',
@@ -363,6 +423,7 @@ export default {
       orderDeliveryStatusValue: null,
       orderCreatedDate: null,
       name: '',
+      username: '',
       phoneNumber: '',
       requirement: '',
       recipientName: '',
