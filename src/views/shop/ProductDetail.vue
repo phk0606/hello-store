@@ -79,7 +79,11 @@
           </v-card-text>
           <v-container>
             <v-row v-if="firstOptions[0].optionValue" dense align="center">
-              <v-col cols="auto"><div class="subtitle-1">옵션1:</div></v-col>
+              <v-col cols="auto"
+                ><div class="subtitle-1">
+                  {{ firstOptions[0].optionName }}:
+                </div></v-col
+              >
               <v-col>
                 <v-select
                   v-model="firstSelected"
@@ -96,7 +100,11 @@
               </v-col>
             </v-row>
             <v-row v-if="secondOptions[0].optionValue" dense align="center">
-              <v-col cols="auto"><div class="subtitle-1">옵션2:</div></v-col>
+              <v-col cols="auto"
+                ><div class="subtitle-1">
+                  {{ secondOptions[0].optionName }}:
+                </div></v-col
+              >
               <v-col>
                 <v-select
                   v-model="secondSelected"

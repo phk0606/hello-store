@@ -133,17 +133,66 @@
                 </v-container>
               </template>
               <template v-slot:[`item.productName`]="{ item }">
-                <v-row>상품명: {{ item.productName }}</v-row>
                 <v-row
-                  v-if="item.productOptions && item.productOptions.length >= 1"
-                  >{{ item.productOptions[0].optionName }}:
-                  {{ item.productOptions[0].optionValue }}</v-row
+                  ><v-col cols="auto">
+                    상품명: {{ item.productName }}</v-col
+                  ></v-row
                 >
+
                 <v-row
-                  v-if="item.productOptions && item.productOptions.length >= 2"
-                  >{{ item.productOptions[1].optionName }}:
-                  {{ item.productOptions[1].optionValue }}</v-row
+                  v-if="item.firstOptions && item.firstOptions[0].optionValue"
+                  dense
+                  align="center"
                 >
+                  <v-col cols="auto"
+                    ><div class="subtitle-1">
+                      {{ item.firstOptions[0].optionName }}:
+                    </div></v-col
+                  >
+                  <v-col>
+                    <v-select
+                      v-model="item.productOptions[0]"
+                      :items="item.firstOptions"
+                      item-text="optionValue"
+                      item-value="optionValue"
+                      hide-details
+                      outlined
+                      dense
+                      :menu-props="{ offsetY: true }"
+                      return-object
+                      @change="
+                        setFirstSelected(item.productOptions[0].optionValue)
+                      "
+                    />
+                  </v-col>
+                </v-row>
+                <v-row
+                  v-if="item.secondOptions && item.secondOptions[0].optionValue"
+                  dense
+                  align="center"
+                >
+                  <v-col cols="auto"
+                    ><div class="subtitle-1">
+                      {{ item.secondOptions[0].optionName }}:
+                    </div></v-col
+                  >
+                  <v-col>
+                    <v-select
+                      v-model="item.productOptions[1]"
+                      :items="item.secondOptions"
+                      item-text="optionValue"
+                      item-value="optionValue"
+                      hide-details
+                      outlined
+                      dense
+                      :menu-props="{ offsetY: true }"
+                      return-object
+                      @change="
+                        setFirstSelected(item.productOptions[0].optionValue)
+                      "
+                    />
+                  </v-col>
+                </v-row>
               </template>
             </v-data-table>
             <v-divider />
@@ -357,6 +406,14 @@ export default {
     AdminOrderLeft,
   },
   methods: {
+    setFirstSelected(selected) {
+      console.log(selected);
+      this.firstSelected = selected;
+    },
+    setSecondSelected(selected) {
+      console.log(selected);
+      this.secondSelected = selected;
+    },
     async getOrder(orderId) {
       try {
         const { data } = await getOrder({
@@ -396,6 +453,22 @@ export default {
   },
   data() {
     return {
+      firstOptions: [
+        {
+          optionGroupNumber: 1,
+          optionName: '',
+          optionValue: '',
+        },
+      ],
+      secondOptions: [
+        {
+          optionGroupNumber: 2,
+          optionName: '',
+          optionValue: '',
+        },
+      ],
+      firstSelected: null,
+      secondSelected: null,
       paymentStatusSelected: null,
       paymentStatus: [
         { text: '결제 전', value: 'BEFORE' },
