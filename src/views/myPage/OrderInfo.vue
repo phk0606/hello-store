@@ -15,14 +15,14 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
-              v-model="date"
+              v-model="orderDateA"
               prepend-icon="mdi-calendar"
               readonly
               v-bind="attrs"
               v-on="on"
             />
           </template>
-          <v-date-picker v-model="date" @input="menu = false" />
+          <v-date-picker v-model="orderDateA" @input="menu = false" />
         </v-menu>
       </v-col>
       <v-col cols="auto">
@@ -36,32 +36,33 @@
         >
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
-              v-model="date2"
+              v-model="orderDateB"
               prepend-icon="mdi-calendar"
               readonly
               v-bind="attrs"
               v-on="on"
             />
           </template>
-          <v-date-picker v-model="date" @input="menu2 = false" />
+          <v-date-picker v-model="orderDateB" @input="menu2 = false" />
         </v-menu>
       </v-col>
       <v-col cols="auto">
-        <v-btn>조회</v-btn>
+        <v-btn @click="getOrdersByPeriod">조회</v-btn>
       </v-col>
     </v-row>
     <v-row align="center" justify="center" dense>
       <v-col cols="auto">
-        <v-btn>당일</v-btn>
-        <v-btn class="ml-3">1주일</v-btn>
-        <v-btn class="ml-3">3주일</v-btn>
-        <v-btn class="ml-3">1개월</v-btn>
-        <v-btn class="ml-3">3개월</v-btn>
+        <v-btn @click="periodSet('today')">당일</v-btn>
+        <v-btn @click="periodSet('aWeekago')" class="ml-3">1주일</v-btn>
+        <v-btn @click="periodSet('threeWeekAgo')" class="ml-3">3주일</v-btn>
+        <v-btn @click="periodSet('aMonthAgo')" class="ml-3">1개월</v-btn>
+        <v-btn @click="periodSet('threeMonthAgo')" class="ml-3">3개월</v-btn>
       </v-col>
       <v-col cols="auto" class="ml-5">
         최근 1년 이내 주문 내역만 확인할 수 있습니다.
       </v-col>
     </v-row>
+    <v-divider />
     <v-row>
       <v-col cols="12">
         <v-data-table
@@ -198,32 +199,25 @@ export default {
   created() {
     const username = this.$store.state.username;
     this.getOrdersByUsername(username);
+    this.username = username;
   },
   components: {
     Pagination,
   },
   data() {
     return {
-      headers: [
-        { text: '번호', align: 'center', value: 'orderId' },
-        // { text: '이미지', align: 'center', sortable: false, value: 'image' },
-        // { text: '상품 정보', align: 'center', value: 'productName' },
-        // { text: '판매 가격', align: 'center', value: 'salePrice' },
-        // { text: '수량', align: 'center', value: 'quantity' },
-        // { text: '포인트', align: 'center', value: 'point' },
-        // { text: '배송비', align: 'center', value: 'shippingFee' },
-        // { text: '합계', align: 'center', value: 'totalPrice' },
-      ],
+      headers: [{ text: '번호', align: 'center', value: 'orderId' }],
       listImage: null,
       orders: [],
       selected: [],
       page: 1,
       records: 10,
       perPage: 6,
-      date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+      username: '',
+      orderDateA: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
         .toISOString()
         .substr(0, 10),
-      date2: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+      orderDateB: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
         .toISOString()
         .substr(0, 10),
       menu: false,
@@ -231,6 +225,67 @@ export default {
     };
   },
   methods: {
+    periodSet(period) {
+      const d = new Date();
+      const today = new Date(
+        Date.now() - new Date().getTimezoneOffset() * 60000,
+      )
+        .toISOString()
+        .substr(0, 10);
+      this.orderDateB = today;
+      if (period === 'today') {
+        this.orderDateA = today;
+      } else if (period === 'aWeekago') {
+        this.orderDateA = new Date(
+          d.getFullYear(),
+          d.getMonth(),
+          d.getDate() - 7,
+        )
+          .toISOString()
+          .substr(0, 10);
+      } else if (period === 'threeWeekAgo') {
+        this.orderDateA = new Date(
+          d.getFullYear(),
+          d.getMonth(),
+          d.getDate() - 21,
+        )
+          .toISOString()
+          .substr(0, 10);
+      } else if (period === 'aMonthAgo') {
+        this.orderDateA = new Date(
+          d.getFullYear(),
+          d.getMonth() - 1,
+          d.getDate(),
+        )
+          .toISOString()
+          .substr(0, 10);
+      } else if (period === 'threeMonthAgo') {
+        this.orderDateA = new Date(
+          d.getFullYear(),
+          d.getMonth() - 3,
+          d.getDate(),
+        )
+          .toISOString()
+          .substr(0, 10);
+      }
+    },
+    async getOrdersByPeriod() {
+      try {
+        const { data } = await getOrdersByUsername({
+          username: this.username,
+          orderDateA: this.orderDateA,
+          orderDateB: this.orderDateB,
+        });
+        console.log(data);
+
+        this.orders = data.content;
+        this.perPage = data.size;
+        this.records = data.totalElements;
+        this.page = data.pageable.pageNumber + 1;
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async getOrdersByUsername(username) {
       try {
         const { data } = await getOrdersByUsername({
