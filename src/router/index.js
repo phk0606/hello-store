@@ -103,6 +103,14 @@ const routes = [
           ),
       },
       {
+        path: 'exchange/:orderId',
+        name: 'my-page-exchange',
+        component: () =>
+          import(
+            /* webpackChunkName: "my-page-exchange" */ '@/views/myPage/Exchange'
+          ),
+      },
+      {
         path: 'cart',
         name: 'my-page-cart',
         component: () =>
