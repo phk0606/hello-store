@@ -50,7 +50,7 @@
       <v-row v-if="isUserLogin" justify="end" no-gutters>
         <v-col cols="auto">
           <v-btn-toggle group dense>
-            <v-btn small value="left" class="mr-0" to="/authentication/sign-up"
+            <v-btn small value="left" class="mr-0" to="/my-page/order-info"
               >주문 내역</v-btn
             >
             <v-btn
