@@ -96,12 +96,14 @@
                     dense
                     solo-inverted
                     required
+                    disabled
                 /></v-col>
               </v-row>
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">*연락처:</div></v-col>
                 <v-col
                   ><v-text-field
+                    v-model="phoneNumber"
                     hide-details
                     dense
                     solo-inverted
@@ -136,20 +138,6 @@
                 /></v-col>
               </v-row>
               <v-divider />
-              <!-- <v-row dense align="center">
-                <v-col cols="2">
-                  <div class="subtitle-1">*주소:</div>
-                </v-col>
-                <v-col>
-                  <v-text-field
-                    v-model="fullAddress"
-                    hide-details
-                    dense
-                    required
-                    solo-inverted
-                  />
-                </v-col>
-              </v-row> -->
               <Address
                 v-on:setAddress="setAddress"
                 v-on:setDetailAddress="setDetailAddress"
@@ -301,7 +289,7 @@ export default {
       } else {
         try {
           await modifyOrdererPhoneNumber({
-            username: this.username,
+            orderId: this.orderId,
             phoneNumber: this.phoneNumber,
           });
           //console.log(data);
@@ -326,7 +314,12 @@ export default {
             recipientName: this.recipientName,
             recipientPhoneNumber: this.recipientPhoneNumber,
             requirement: this.requirement,
-            address: '',
+            address: {
+              zoneCode: this.zonecode,
+              roadAddress: this.roadAddress,
+              address: this.address,
+              detailAddress: this.detailAddress,
+            },
           });
           //console.log(data);
         } catch (error) {
