@@ -95,7 +95,7 @@
         </v-row>
         <v-divider />
         <v-row>
-          <v-col cols="8">
+          <v-col cols="12">
             <template>
               <v-tabs background-color="blue-grey" slider-color="red" dark>
                 <v-tab> 주문 확인 전 </v-tab>

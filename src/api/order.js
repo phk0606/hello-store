@@ -24,6 +24,10 @@ function modifyDeliveryInfo(data) {
   return order.put('/modifyDeliveryInfo', data);
 }
 
+function orderCancel(data) {
+  return order.put('/orderCancel', data);
+}
+
 export {
   createOrder,
   getOrder,
@@ -31,4 +35,5 @@ export {
   getOrdersByUsername,
   modifyOrdererPhoneNumber,
   modifyDeliveryInfo,
+  orderCancel,
 };

@@ -84,8 +84,25 @@
                 <v-col cols="auto"
                   ><v-btn :to="`/my-page/order-detail-info/${item.orderId}`"
                     >주문 상세 내역</v-btn
-                  ><v-btn class="ml-3">주문취소</v-btn></v-col
-                >
+                  ><v-btn
+                    class="ml-3"
+                    @click="orderCancel(item.orderId)"
+                    v-if="
+                      item.orderDeliveryStatus === 'BEFORE_CONFIRM' ||
+                      item.orderDeliveryStatus === 'CONFIRM_ORDER'
+                    "
+                    >주문취소</v-btn
+                  >
+                  <v-btn
+                    class="ml-3"
+                    v-if="
+                      item.orderDeliveryStatus === 'READY_SHIP' ||
+                      item.orderDeliveryStatus === 'SHIPPING' ||
+                      item.orderDeliveryStatus === 'COMPLETE_SHIP'
+                    "
+                    >교환/환불</v-btn
+                  >
+                </v-col>
               </v-row>
               <v-divider />
               <v-row dense>
@@ -155,7 +172,7 @@
                       >주문/배송</v-card-title
                     >
                     <v-card-actions class="justify-center"
-                      ><v-btn>
+                      ><v-btn text>
                         {{ item.orderDeliveryStatusValue }}
                       </v-btn></v-card-actions
                     >
@@ -192,7 +209,7 @@
 
 <script>
 import Pagination from 'vue-pagination-2';
-import { getOrdersByUsername } from '@/api/order';
+import { getOrdersByUsername, orderCancel } from '@/api/order';
 
 export default {
   name: 'OrderInfo',
@@ -225,6 +242,18 @@ export default {
     };
   },
   methods: {
+    async orderCancel(orderId) {
+      try {
+        const { data } = await orderCancel({
+          orderId: orderId,
+        });
+        console.log(data);
+
+        this.getOrdersByUsername(this.username);
+      } catch (error) {
+        console.log(error);
+      }
+    },
     periodSet(period) {
       const d = new Date();
       const today = new Date(
