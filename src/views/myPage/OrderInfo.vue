@@ -2,9 +2,9 @@
   <v-container fluid>
     <h5>주문 내역</h5>
     <v-divider />
-    <v-row>
+    <v-row justify="center" align="center">
       <v-col cols="auto"> 주문 기간 </v-col>
-      <v-col>
+      <v-col cols="auto">
         <v-menu
           v-model="menu"
           :close-on-content-click="false"
@@ -26,7 +26,7 @@
           <v-date-picker v-model="date" @input="menu = false" />
         </v-menu>
       </v-col>
-      <v-col>
+      <v-col cols="auto">
         <v-menu
           v-model="menu2"
           :close-on-content-click="false"
@@ -48,19 +48,21 @@
           <v-date-picker v-model="date" @input="menu2 = false" />
         </v-menu>
       </v-col>
-      <v-col>
+      <v-col cols="auto">
         <v-btn>조회</v-btn>
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
+    <v-row align="center" justify="center" dense>
+      <v-col cols="auto">
         <v-btn>당일</v-btn>
-        <v-btn>1주일</v-btn>
-        <v-btn>3주일</v-btn>
-        <v-btn>1개월</v-btn>
-        <v-btn>3개월</v-btn>
+        <v-btn class="ml-3">1주일</v-btn>
+        <v-btn class="ml-3">3주일</v-btn>
+        <v-btn class="ml-3">1개월</v-btn>
+        <v-btn class="ml-3">3개월</v-btn>
       </v-col>
-      <v-col> 최근 1년 이내 주문 내역만 확인할 수 있습니다. </v-col>
+      <v-col cols="auto" class="ml-5">
+        최근 1년 이내 주문 내역만 확인할 수 있습니다.
+      </v-col>
     </v-row>
     <v-row>
       <v-col cols="12">
@@ -79,10 +81,11 @@
               <v-row align="center">
                 <v-col cols="auto">주문일시: {{ item.createdDate }}</v-col>
                 <v-col cols="auto">주문번호: {{ item.orderId }}</v-col>
-                <v-col
+                <v-spacer />
+                <v-col cols="auto"
                   ><v-btn :to="`/my-page/order-detail-info/${item.orderId}`"
                     >주문 상세 내역</v-btn
-                  ><v-btn>주문취소</v-btn></v-col
+                  ><v-btn class="ml-3">주문취소</v-btn></v-col
                 >
               </v-row>
               <v-divider />
@@ -96,7 +99,7 @@
                     style="width: 100px; height: 100px"
                   />
                 </v-col>
-                <v-col cols="3">
+                <v-col cols="3" align-self="center">
                   <v-row>{{ item.orderProducts[0].productName }}</v-row>
                   <v-row
                     v-if="item.orderProductCount && item.orderProductCount >= 2"
@@ -128,7 +131,11 @@
                     <v-card-title class="blue-grey text-white justify-center"
                       >금액</v-card-title
                     >
-                    <v-card-text>{{ item.paymentPrice }}</v-card-text>
+                    <v-card-actions class="justify-center"
+                      ><v-btn text>
+                        {{ item.paymentPrice }}</v-btn
+                      ></v-card-actions
+                    >
                   </v-card>
                 </v-col>
                 <v-col>
@@ -136,7 +143,11 @@
                     <v-card-title class="blue-grey text-white justify-center"
                       >결제 상태</v-card-title
                     >
-                    <v-card-text>{{ item.paymentStatusValue }}</v-card-text>
+                    <v-card-actions class="justify-center"
+                      ><v-btn text>{{
+                        item.paymentStatusValue
+                      }}</v-btn></v-card-actions
+                    >
                   </v-card>
                 </v-col>
                 <v-col>
@@ -144,10 +155,10 @@
                     <v-card-title class="blue-grey text-white justify-center"
                       >주문/배송</v-card-title
                     >
-                    <v-card-text
+                    <v-card-actions class="justify-center"
                       ><v-btn>
-                        <span>{{ item.orderDeliveryStatusValue }}</span>
-                      </v-btn></v-card-text
+                        {{ item.orderDeliveryStatusValue }}
+                      </v-btn></v-card-actions
                     >
                   </v-card>
                 </v-col>
