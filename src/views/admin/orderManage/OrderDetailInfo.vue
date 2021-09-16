@@ -33,66 +33,73 @@
             </v-chip>
           </v-col>
         </v-row>
-        <v-row>
-          <v-col>
-            <v-card>
-              <v-row justify="space-around">
-                <v-col cols="auto">주문일: {{ orderCreatedDate }}</v-col>
-                <v-col cols="auto">주문고객: {{ name }}({{ username }})</v-col>
-                <v-col cols="auto">주문번호: {{ orderId }}</v-col>
-              </v-row>
-              <v-row align="center">
-                <v-col cols="auto">결제 상태:</v-col>
-                <v-col cols="auto">
-                  <v-select
-                    label="항목 선택"
-                    v-model="paymentStatusSelected"
-                    :items="paymentStatus"
-                    outlined
-                    hide-details
-                    dense
-                    :menu-props="{ offsetY: true }"
-                /></v-col>
-                <v-col cols="auto">주문 처리 상태:</v-col>
-                <v-col cols="auto">
-                  <v-select
-                    label="항목 선택"
-                    v-model="orderStatusSelected"
-                    :items="orderStatus"
-                    outlined
-                    hide-details
-                    dense
-                    :menu-props="{ offsetY: true }"
-                /></v-col>
-                <v-col cols="auto"><v-btn>교환 진행</v-btn></v-col>
-              </v-row>
-              <v-row align="center">
-                <v-col cols="auto">운송장번호:</v-col>
-                <v-col cols="auto">
-                  <v-select
-                    label="택배 회사"
-                    v-model="paymentStatusSelected"
-                    :items="paymentStatus"
-                    outlined
-                    hide-details
-                    dense
-                    :menu-props="{ offsetY: true }"
-                /></v-col>
-                <v-col cols="auto"
-                  ><v-text-field
-                    placeholder="운송장번호 입력"
-                    hide-details
-                    dense
-                    solo-inverted
-                    required
-                /></v-col>
-                <v-col cols="auto"><v-btn>배송 조회</v-btn></v-col>
-                <v-col cols="auto"><v-btn>주문 취소 하기</v-btn></v-col>
-              </v-row>
+        <v-row dense>
+          <v-col cols="12">
+            <v-card outlined>
+              <v-container fluid>
+                <v-row>
+                  <v-col cols="3">주문일: {{ orderCreatedDate }}</v-col>
+                  <v-col cols="3">주문고객: {{ name }}({{ username }})</v-col>
+                  <v-col cols="auto">주문번호: {{ orderId }}</v-col>
+                </v-row>
+                <v-row align="center">
+                  <v-col cols="auto">결제 상태:</v-col>
+                  <v-col cols="3">
+                    <v-select
+                      class="ml-3"
+                      label="항목 선택"
+                      v-model="paymentStatusSelected"
+                      :items="paymentStatus"
+                      outlined
+                      hide-details
+                      dense
+                      :menu-props="{ offsetY: true }"
+                  /></v-col>
+                  <v-col cols="auto" class="ml-3">주문 처리 상태:</v-col>
+                  <v-col cols="3">
+                    <v-select
+                      label="항목 선택"
+                      v-model="orderStatusSelected"
+                      :items="orderStatus"
+                      outlined
+                      hide-details
+                      dense
+                      :menu-props="{ offsetY: true }"
+                  /></v-col>
+                  <v-spacer />
+                  <v-col cols="auto"
+                    ><v-btn class="mr-9">교환 진행</v-btn></v-col
+                  >
+                </v-row>
+                <v-row align="center">
+                  <v-col cols="auto">운송장번호:</v-col>
+                  <v-col cols="3">
+                    <v-select
+                      label="택배 회사"
+                      v-model="paymentStatusSelected"
+                      :items="paymentStatus"
+                      outlined
+                      hide-details
+                      dense
+                      :menu-props="{ offsetY: true }"
+                  /></v-col>
+                  <v-col cols="4"
+                    ><v-text-field
+                      placeholder="운송장번호 입력"
+                      hide-details
+                      dense
+                      solo-inverted
+                      required
+                  /></v-col>
+                  <v-col cols="auto"><v-btn>배송 조회</v-btn></v-col>
+                  <v-spacer />
+                  <v-col cols="auto"><v-btn>주문 취소 하기</v-btn></v-col>
+                </v-row>
+              </v-container>
             </v-card>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row dense>
           <v-col>
             <v-chip label large color="white">
               <v-icon left> mdi-record </v-icon>
@@ -154,7 +161,7 @@
             </template>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row dense>
           <v-col>
             <v-chip label large color="white">
               <v-icon left> mdi-record </v-icon>
@@ -162,7 +169,7 @@
             </v-chip>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row dense>
           <v-col cols="8">
             <v-card ref="form">
               <v-card-title>주문자 정보</v-card-title>
@@ -319,10 +326,10 @@
                     </v-col>
                   </v-row>
                   <v-divider />
-                  <v-row>
-                    <v-col>
+                  <v-row justify="center">
+                    <v-col cols="auto">
                       <v-btn>저장</v-btn>
-                      <v-btn>취소</v-btn>
+                      <v-btn color="ml-3">취소</v-btn>
                     </v-col>
                   </v-row>
                 </v-container>
