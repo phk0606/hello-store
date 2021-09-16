@@ -16,4 +16,19 @@ function getOrders(data) {
   return order.get('/getOrders', { params: data });
 }
 
-export { createOrder, getOrder, getOrders, getOrdersByUsername };
+function modifyOrdererPhoneNumber(data) {
+  return order.put('/modifyOrdererPhoneNumber', data);
+}
+
+function modifyDeliveryInfo(data) {
+  return order.put('/modifyDeliveryInfo', data);
+}
+
+export {
+  createOrder,
+  getOrder,
+  getOrders,
+  getOrdersByUsername,
+  modifyOrdererPhoneNumber,
+  modifyDeliveryInfo,
+};

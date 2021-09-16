@@ -95,6 +95,7 @@ export default {
   components: {
     VueDaumPostcode,
   },
+  props: ['zonecode', 'address', 'detailAddress'],
   methods: {
     onComplete(result) {
       //this.result = result;
@@ -113,10 +114,10 @@ export default {
     return {
       dialog: false,
       result: null,
-      zonecode: null,
-      address: null,
+      // zonecode: null,
+      // address: null,
       roadAddress: null,
-      detailAddress: null,
+      // detailAddress: null,
     };
   },
 };

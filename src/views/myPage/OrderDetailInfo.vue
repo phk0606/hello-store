@@ -79,7 +79,13 @@
             <v-container>
               <v-row align="center" justify="space-between">
                 <v-col cols="auto">주문자 정보</v-col>
-                <v-col cols="auto"><v-btn>수정</v-btn></v-col>
+                <v-col cols="auto"
+                  ><v-btn
+                    v-if="orderDeliveryStatus !== 'COMPLETE_SHIP'"
+                    @click="modifyPhoneNumber"
+                    >수정</v-btn
+                  ></v-col
+                >
               </v-row>
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
@@ -110,7 +116,13 @@
             <v-container>
               <v-row align="center" justify="space-between">
                 <v-col cols="auto">배송 정보</v-col>
-                <v-col cols="auto"><v-btn>수정</v-btn></v-col>
+                <v-col cols="auto"
+                  ><v-btn
+                    v-if="orderDeliveryStatus !== 'COMPLETE_SHIP'"
+                    @click="modifyDeliveryInfo"
+                    >수정</v-btn
+                  ></v-col
+                >
               </v-row>
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
@@ -124,7 +136,7 @@
                 /></v-col>
               </v-row>
               <v-divider />
-              <v-row dense align="center">
+              <!-- <v-row dense align="center">
                 <v-col cols="2">
                   <div class="subtitle-1">*주소:</div>
                 </v-col>
@@ -137,7 +149,14 @@
                     solo-inverted
                   />
                 </v-col>
-              </v-row>
+              </v-row> -->
+              <Address
+                v-on:setAddress="setAddress"
+                v-on:setDetailAddress="setDetailAddress"
+                :zonecode="zonecode"
+                :address="address"
+                :detailAddress="detailAddress"
+              />
               <v-divider />
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">*연락처:</div></v-col>
@@ -242,16 +261,79 @@
 </template>
 
 <script>
-import { getOrder } from '@/api/order';
+import Address from '@/components/Address';
+import {
+  getOrder,
+  modifyOrdererPhoneNumber,
+  modifyDeliveryInfo,
+} from '@/api/order';
 
 export default {
   name: 'OrderDetailInfo',
+  components: {
+    Address,
+  },
   created() {
     const orderId = this.$route.params.orderId;
     this.getOrder(orderId);
     this.orderId = orderId;
   },
   methods: {
+    setAddress(zonecode, roadAddress, address) {
+      // console.log(zonecode, roadAddress, address);
+      this.zonecode = zonecode;
+      this.roadAddress = roadAddress;
+      this.address = address;
+    },
+    setDetailAddress(detailAddress) {
+      // console.log(detailAddress);
+      this.detailAddress = detailAddress;
+    },
+    async modifyPhoneNumber() {
+      const orderDeliveryStatus = this.orderDeliveryStatus;
+      if (
+        orderDeliveryStatus === 'READY_SHIP' ||
+        orderDeliveryStatus === 'SHIPPING'
+      ) {
+        alert('배송 단계이므로 정보를 수정할 수 없습니다.');
+        return;
+      } else {
+        try {
+          await modifyOrdererPhoneNumber({
+            username: this.username,
+            phoneNumber: this.phoneNumber,
+          });
+          //console.log(data);
+        } catch (error) {
+          console.log(error.response);
+          // this.logMessage = error.response.data.message;
+        }
+      }
+    },
+    async modifyDeliveryInfo() {
+      const orderDeliveryStatus = this.orderDeliveryStatus;
+      if (
+        orderDeliveryStatus === 'READY_SHIP' ||
+        orderDeliveryStatus === 'SHIPPING'
+      ) {
+        alert('배송 단계이므로 정보를 수정할 수 없습니다.');
+        return;
+      } else {
+        try {
+          await modifyDeliveryInfo({
+            orderId: this.orderId,
+            recipientName: this.recipientName,
+            recipientPhoneNumber: this.recipientPhoneNumber,
+            requirement: this.requirement,
+            address: '',
+          });
+          //console.log(data);
+        } catch (error) {
+          console.log(error.response);
+          // this.logMessage = error.response.data.message;
+        }
+      }
+    },
     async getOrder(orderId) {
       try {
         const { data } = await getOrder({
@@ -259,13 +341,15 @@ export default {
         });
         console.log(data);
         this.name = data.name;
+        this.username = data.username;
         this.phoneNumber = data.phoneNumber;
         this.orderProducts = data.orderProducts;
         this.requirement = data.requirement;
         this.recipientName = data.recipientName;
         this.recipientPhoneNumber = data.recipientPhoneNumber;
-        this.fullAddress =
-          data.address.address + ' ' + data.address.detailAddress;
+        this.zonecode = data.address.zoneCode;
+        this.address = data.address.address;
+        this.detailAddress = data.address.detailAddress;
 
         let paymentMethodType = data.paymentMethodType;
         if (paymentMethodType === 'WITHOUT_BANKBOOK') {
@@ -279,6 +363,7 @@ export default {
         this.paymentPrice = data.paymentPrice;
         this.orderCreatedDate = data.createdDate;
         this.orderDeliveryStatusValue = data.orderDeliveryStatusValue;
+        this.orderDeliveryStatus = data.orderDeliveryStatus;
       } catch (error) {
         console.log(error);
       }
@@ -290,9 +375,15 @@ export default {
   },
   data() {
     return {
+      zonecode: '',
+      roadAddress: '',
+      address: '',
+      detailAddress: '',
       orderDeliveryStatusValue: null,
+      orderDeliveryStatus: null,
       orderCreatedDate: null,
       name: '',
+      username: '',
       phoneNumber: '',
       requirement: '',
       recipientName: '',
