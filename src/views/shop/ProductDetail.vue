@@ -266,7 +266,7 @@ export default {
         const { data } = await addCartProduct({
           productId: this.productId,
           quantity: this.quantity,
-          cartProductOptions: [
+          productOptions: [
             {
               optionGroupNumber: 1,
               optionName: this.firstSelected.optionName,
