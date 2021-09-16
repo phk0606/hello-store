@@ -21,13 +21,67 @@
           <v-col>
             <v-chip label x-large color="white">
               <v-icon left> mdi-chevron-right-box </v-icon>
-              스타일 숍 상품 리스트
+              교환/환불 신청 리스트
             </v-chip>
           </v-col>
         </v-row>
 
-        <v-row dense align="center" justify="center">
-          <v-col cols="auto"> 상품명 </v-col>
+        <v-row dense align="center" justify="start">
+          <v-col cols="auto">신청일</v-col>
+          <v-col cols="2">
+            <v-menu
+              v-model="menu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="date1"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                />
+              </template>
+              <v-date-picker v-model="date1" @input="menu = false" />
+            </v-menu>
+          </v-col>
+          <v-col cols="2">
+            <v-menu
+              v-model="menu2"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="date2"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                />
+              </template>
+              <v-date-picker v-model="date2" @input="menu2 = false" />
+            </v-menu>
+          </v-col>
+          <v-col cols="auto"> 키워드 검색 </v-col>
+          <v-col cols="2">
+            <v-select
+              label="항목 선택"
+              v-model="searchSelected"
+              :items="searchKeyword"
+              outlined
+              hide-details
+              dense
+              :menu-props="{ offsetY: true }"
+            />
+          </v-col>
           <v-col cols="3">
             <v-text-field v-model="productName" dense hide-details outlined>
               <template v-slot:prepend> <v-card width="10" flat /></template>
@@ -38,139 +92,17 @@
               >검색</v-btn
             >
           </v-col>
-          <v-col cols="auto">
-            <v-btn small text @click="detailSearchShow">상세 검색</v-btn>
-          </v-col>
         </v-row>
-        <transition name="fade">
-          <v-row>
-            <v-card v-show="detailSearchShowYn">
-              <v-container>
-                <v-row dense align="center" justify="center">
-                  <v-col cols="auto">카테고리 선택</v-col>
-                  <v-col cols="2">
-                    <v-select
-                      label="카테고리 선택"
-                      v-model="category1Select"
-                      :items="category1"
-                      outlined
-                      hide-details
-                      dense
-                      @change="changeCategory"
-                      :menu-props="{ offsetY: true }"
-                    />
-                  </v-col>
-
-                  <v-col cols="3">
-                    <v-select
-                      v-model="category2Select"
-                      :items="category2"
-                      label="카테고리 선택"
-                      outlined
-                      hide-details
-                      dense
-                      :menu-props="{ offsetY: true }"
-                    />
-                  </v-col>
-                  <v-col cols="auto" class="ml-5">판매 가격</v-col>
-                  <v-col cols="2">
-                    <v-text-field
-                      v-model="salePriceMin"
-                      dense
-                      hide-details
-                      outlined
-                      suffix="원"
-                    />
-                  </v-col>
-                  <v-col cols="auto">~</v-col>
-                  <v-col cols="2">
-                    <v-text-field
-                      v-model="salePriceMax"
-                      dense
-                      hide-details
-                      outlined
-                      suffix="원"
-                    />
-                  </v-col>
-                </v-row>
-                <v-row dense align="center" justify="center">
-                  <v-col cols="auto">상품 등록일</v-col>
-                  <v-col cols="2">
-                    <v-menu
-                      v-model="menu"
-                      :close-on-content-click="false"
-                      :nudge-right="40"
-                      transition="scale-transition"
-                      offset-y
-                      min-width="auto"
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
-                          v-model="date1"
-                          prepend-icon="mdi-calendar"
-                          readonly
-                          v-bind="attrs"
-                          v-on="on"
-                        />
-                      </template>
-                      <v-date-picker v-model="date1" @input="menu = false" />
-                    </v-menu>
-                  </v-col>
-                  <v-col cols="2">
-                    <v-menu
-                      v-model="menu2"
-                      :close-on-content-click="false"
-                      :nudge-right="40"
-                      transition="scale-transition"
-                      offset-y
-                      min-width="auto"
-                    >
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-text-field
-                          v-model="date2"
-                          prepend-icon="mdi-calendar"
-                          readonly
-                          v-bind="attrs"
-                          v-on="on"
-                        />
-                      </template>
-                      <v-date-picker v-model="date2" @input="menu2 = false" />
-                    </v-menu>
-                  </v-col>
-                  <v-col cols="auto" class="ml-5">진열 여부</v-col>
-                  <v-col cols="auto" class="d-flex">
-                    <v-checkbox
-                      v-model="productShowTypes"
-                      value="SHOW"
-                      dense
-                      hide-details
-                      label="진열"
-                      class="mr-2"
-                    />
-                    <v-checkbox
-                      v-model="productShowTypes"
-                      value="SOLDOUT"
-                      dense
-                      hide-details
-                      label="품절"
-                      class="mr-2"
-                    />
-                    <v-checkbox
-                      v-model="productShowTypes"
-                      value="HIDE"
-                      dense
-                      hide-details
-                      label="숨김"
-                    />
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-card>
-          </v-row>
-        </transition>
         <v-divider />
         <v-row>
-          <v-col>총 등록 상품: 0000개/검색된 상품: 0000개</v-col>
+          <v-col cols="12">
+            <template>
+              <v-tabs background-color="blue-grey" slider-color="red" dark>
+                <v-tab> 처리 전 </v-tab>
+                <v-tab> 처리 완료 </v-tab>
+              </v-tabs>
+            </template>
+          </v-col>
         </v-row>
         <v-row>
           <v-col>
@@ -184,47 +116,24 @@
               class="elevation-1"
               disable-sort
             >
-              <template v-slot:[`item.image`]="{ item }">
-                <v-container>
-                  <v-row>
-                    <v-col>
-                      <v-img
-                        :src="'data:image/png;base64,' + item.image"
-                        style="width: 100px; height: 100px"
-                      />
-                    </v-col>
-                  </v-row>
-                </v-container>
+              <template v-slot:[`item.productName`]="{ item }">
+                <v-row>{{ item.orderProducts[0].productName }}</v-row>
+                <v-row
+                  v-if="item.orderProductCount && item.orderProductCount >= 2"
+                  >외 {{ item.orderProductCount - 1 }} 개</v-row
+                >
               </template>
               <template v-slot:[`item.name`]="{ item }">
-                <v-row>{{ item.categoryName }}</v-row>
                 <v-row>{{ item.name }}</v-row>
+                <v-row>({{ item.username }})</v-row>
               </template>
               <template v-slot:[`item.createdDate`]="{ item }">
                 <v-row>{{ item.createdDate }}</v-row>
-                <v-row>({{ item.lastModifiedDate }})</v-row>
               </template>
-              <template v-slot:[`item.productShowType`]="{ item }">
-                <v-row justify="center" v-if="item.productShowType === 'SHOW'">
-                  진열
-                </v-row>
+              <template v-slot:[`item.orderDetailInfo`]="{ item }">
                 <v-row
-                  justify="center"
-                  v-else-if="item.productShowType === 'HIDE'"
-                >
-                  숨김
-                </v-row>
-                <v-row
-                  justify="center"
-                  v-else-if="item.productShowType === 'SOLDOUT'"
-                >
-                  품절
-                </v-row>
-              </template>
-              <template v-slot:[`item.modify`]="{ item }">
-                <v-row
-                  ><v-btn :to="`/admin/product-modify/${item.productId}`"
-                    >수정</v-btn
+                  ><v-btn :to="`/admin/order-detail-info/${item.orderId}`"
+                    >상세 보기</v-btn
                   ></v-row
                 >
               </template>
@@ -251,17 +160,10 @@
             />
           </v-col>
         </v-row>
-        <v-row>
-          <v-col>
-            <v-btn class="mr-5" @click="removeProducts">삭제</v-btn>
-            <v-btn class="mr-5" @click="modifyProductShowType('SHOW')"
-              >진열</v-btn
-            >
-            <v-btn class="mr-5" @click="modifyProductShowType('HIDE')"
-              >숨김</v-btn
-            >
-            <v-btn class="mr-5" @click="modifyProductShowType('SOLDOUT')"
-              >품절</v-btn
+        <v-row align="center">
+          <v-col cols="auto">
+            <v-btn color="indigo" dark @click="getProductsPageCondition(1)"
+              >처리 완료로 이동</v-btn
             >
           </v-col>
         </v-row>
@@ -273,20 +175,13 @@
 <script>
 import AdminOrderLeft from '@/components/admin/AdminOrderLeft.vue';
 import Pagination from 'vue-pagination-2';
-import {
-  //getProductsPage,
-  getProductsPageCondition,
-  removeProducts,
-  modifyProductShowType,
-} from '@/api/product';
-import { getCategory } from '@/api/category';
+import { getOrders } from '@/api/order';
 
 export default {
   created() {
     // this.getProducts();
     //this.getProductsPage(1);
-    this.getProductsPageCondition(1);
-    this.getCategory();
+    this.getOrders();
   },
   components: {
     Pagination,
@@ -299,53 +194,57 @@ export default {
   },
   data() {
     return {
-      productShowTypes: [''],
-      salePriceMin: '',
-      salePriceMax: '',
       productName: '',
-      category1Select: null,
-      category2Select: null,
-      category1: [],
-      category2: [],
-      detailSearchShowYn: false,
+      searchSelected: null,
+      searchKeyword: [
+        { text: '주문 번호', value: 'orderId' },
+        { text: '주문 상품', value: 'orderProduct' },
+        { text: '주문자 아이디', value: 'orderUsername' },
+        { text: '주문자 이름', value: 'ordername' },
+      ],
+      orderStatusSelected: null,
+      orderStatus: [
+        { text: '주문 확인 전', value: 'orderId' },
+        { text: '주문 확인', value: 'orderProduct' },
+        { text: '배송 준비 중', value: 'orderUsername' },
+        { text: '배송 중', value: 'ordername' },
+        { text: '배송 완료', value: 'ordername' },
+      ],
       page: 1,
       records: 10,
       perPage: 5,
       selected: [],
       headers: [
         {
-          text: '번호',
+          text: '주문 번호',
           align: 'center',
           sortable: false,
-          value: 'productId',
+          value: 'orderId',
         },
-        { text: '이미지', align: 'center', sortable: false, value: 'image' },
-        { text: '카테고리와 상품명', align: 'center', value: 'name' },
-        { text: '판매 가격(적립금)', align: 'center', value: 'salePrice' },
-        { text: '진열상태', align: 'center', value: 'productShowType' },
-        { text: '등록일(수정일)', align: 'center', value: 'createdDate' },
-        { text: '아이디', align: 'center', value: 'createBy' },
-        { text: '조회수', align: 'center', value: 'clickCount' },
-        { text: '수정', align: 'center', value: 'modify' },
+        { text: '주문 일시', align: 'center', value: 'createdDate' },
+        { text: '주문 취소일시', align: 'center', value: 'createdDate' },
+        { text: '주문 상품', align: 'center', value: 'productName' },
+        { text: '주문자(아이디)', align: 'center', value: 'name' },
+        { text: '결제 방법', align: 'center', value: 'paymentPrice' },
+        { text: '결제 금액', align: 'center', value: 'paymentPrice' },
       ],
       contentList: [],
-      date1: '',
-      date2: '',
+      date1: new Date(new Date().setDate(new Date().getDate() - 3))
+        .toISOString()
+        .substr(0, 10),
+      date2: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
       menu: false,
       menu2: false,
       items: [
         {
-          text: '상품 관리',
+          text: '주문 관리',
           disabled: false,
           href: 'breadcrumbs_dashboard',
         },
         {
-          text: '상품 리스트',
-          disabled: false,
-          href: 'breadcrumbs_link_1',
-        },
-        {
-          text: '스타일 숍',
+          text: '교환/환불',
           disabled: false,
           href: 'breadcrumbs_link_1',
         },
@@ -353,96 +252,16 @@ export default {
     };
   },
   methods: {
-    changeCategory() {
-      this.getCategory();
-    },
-    async getCategory() {
-      const { data } = await getCategory({
-        parentId: this.category1Select,
-      });
-      if (this.category1Select == null) {
-        this.category1 = data;
-      } else {
-        this.category2 = data;
-        this.category2Select = null;
-        console.log(data);
-        //this.category2Select = data[0].value;
-      }
-    },
-    async modifyProductShowType(productShowType) {
-      const products = this.selected;
-      const productIds = [];
-
-      for (const key in products) {
-        const productId = products[key].productId;
-        console.log(productId);
-        productIds.push(productId);
-      }
-      try {
-        await modifyProductShowType({
-          productIds,
-          productShowType: productShowType,
-        });
-        //console.log(data);
-        this.getProductsPageCondition(1);
-      } catch (error) {
-        console.log(error.response);
-        // this.logMessage = error.response.data.message;
-      }
-    },
-    async removeProducts() {
-      const products = this.selected;
-      const productIds = [];
-
-      for (const key in products) {
-        const productId = products[key].productId;
-        console.log(productId);
-        productIds.push(productId);
-      }
-      try {
-        await removeProducts({
-          productIds,
-        });
-        //console.log(data);
-        this.getProductsPageCondition(1);
-      } catch (error) {
-        console.log(error.response.data.message);
-        this.logMessage = error.response.data.message;
-      }
-    },
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
       this.getProductsPageCondition(page);
     },
-    detailSearchShow() {
-      this.detailSearchShowYn = !this.detailSearchShowYn;
-      if (this.detailSearchShowYn) {
-        this.date1 = new Date(new Date().setDate(new Date().getDate() - 3))
-          .toISOString()
-          .substr(0, 10);
-        this.date2 = new Date(
-          Date.now() - new Date().getTimezoneOffset() * 60000,
-        )
-          .toISOString()
-          .substr(0, 10);
-      } else {
-        this.date1 = '';
-        this.date2 = '';
-      }
-    },
-    async getProductsPageCondition(page) {
+
+    async getOrders(page) {
       try {
-        const { data } = await getProductsPageCondition({
+        const { data } = await getOrders({
           page: page - 1,
           size: this.perPage,
-          productName: this.productName,
-          firstCategoryId:
-            this.category1Select === null ? '' : this.category1Select,
-          secondCategoryId:
-            this.category2Select === null ? '' : this.category2Select,
-          salePriceMin: this.salePriceMin,
-          salePriceMax: this.salePriceMax,
-          productShowTypes: this.productShowTypes.join(','),
 
           productRegistryDateA: this.date1,
           productRegistryDateB: this.date2,
