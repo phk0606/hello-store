@@ -154,6 +154,7 @@
                 v-on:setAddress="setAddress"
                 v-on:setDetailAddress="setDetailAddress"
                 :zonecode="zonecode"
+                :roadAddress="roadAddress"
                 :address="address"
                 :detailAddress="detailAddress"
               />
@@ -348,6 +349,7 @@ export default {
         this.recipientName = data.recipientName;
         this.recipientPhoneNumber = data.recipientPhoneNumber;
         this.zonecode = data.address.zoneCode;
+        this.roadAddress = data.address.roadAddress;
         this.address = data.address.address;
         this.detailAddress = data.address.detailAddress;
 
@@ -388,7 +390,6 @@ export default {
       requirement: '',
       recipientName: '',
       recipientPhoneNumber: '',
-      fullAddress: '',
       paymentMethodType: '',
       paymentPrice: '',
       orderId: '',

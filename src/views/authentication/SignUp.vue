@@ -191,7 +191,8 @@ export default {
           name: this.name,
           phoneNumber: this.phoneNumber,
           zoneCode: this.zonecode,
-          address: this.roadAddress,
+          roadAddress: this.roadAddress,
+          address: this.address,
           detailAddress: this.detailAddress,
         };
 

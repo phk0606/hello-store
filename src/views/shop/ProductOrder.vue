@@ -415,6 +415,7 @@ export default {
           requirement: this.requirement,
           address: {
             zoneCode: this.zonecode,
+            roadAddress: this.roadAddress,
             address: this.address,
             detailAddress: this.detailAddress,
           },
