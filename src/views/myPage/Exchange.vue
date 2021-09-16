@@ -7,7 +7,7 @@
     </v-row>
 
     <v-row>
-      <v-col cols="8">
+      <v-col>
         <v-card ref="form">
           <v-card-title>
             <v-container>
@@ -17,7 +17,7 @@
                 >
                 <v-col
                   ><v-text-field
-                    v-model="name"
+                    label="상품명"
                     hide-details
                     dense
                     solo-inverted
@@ -25,140 +25,84 @@
                     disabled
                 /></v-col>
               </v-row>
+              <v-divider />
               <v-row dense align="center">
                 <v-col cols="2"
                   ><div class="subtitle-1">교환 환불 선택</div></v-col
                 >
                 <v-col
-                  ><v-text-field
-                    v-model="phoneNumber"
-                    hide-details
-                    dense
-                    solo-inverted
-                    value="01012341234"
-                    counter="11"
-                    required
-                /></v-col>
+                  ><v-radio-group v-model="showRadio" dense row hide-details>
+                    <v-radio value="SHOW" label="교환" />
+                    <v-radio
+                      class="mr-0"
+                      value="HIDE"
+                      label="환불"
+                    /> </v-radio-group
+                ></v-col>
               </v-row>
+              <v-divider />
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">사유 선택</div></v-col>
                 <v-col
-                  ><v-text-field
-                    v-model="phoneNumber"
-                    hide-details
-                    dense
-                    solo-inverted
-                    value="01012341234"
-                    counter="11"
-                    required
-                /></v-col>
+                  ><v-radio-group v-model="showRadio" dense row hide-details>
+                    <v-radio value="SHOW" label="색상/사이즈 변경" />
+                    <v-radio class="mr-0" value="HIDE" label="단순 변심" />
+                    <v-radio class="mr-0" value="HIDE" label="제품 파손" />
+                    <v-radio class="mr-0" value="HIDE" label="오배송" />
+                    <v-radio value="HIDE" label="기타" /> </v-radio-group
+                ></v-col>
               </v-row>
-            </v-container>
-          </v-card-title>
-          <v-card-title>
-            <v-container>
+              <v-divider />
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">내용 작성:</div></v-col>
                 <v-col
-                  ><v-textarea
-                    v-model="requirement"
-                    hide-details
-                    dense
-                    filled
-                    no-resize
+                  ><v-textarea hide-details dense filled no-resize
                 /></v-col>
               </v-row>
-            </v-container>
-          </v-card-title>
-          <v-card-title>
-            <v-container>
-              <v-row align="center" justify="space-between">
-                <v-col cols="auto">결제 정보</v-col>
-              </v-row>
-              <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">결제 금액:</div></v-col>
-                <v-col>
-                  <v-text-field
-                    v-model="paymentPrice"
-                    hide-details
-                    dense
-                    required
-                    solo-inverted
-                    readonly
-                  />
-                </v-col>
-              </v-row>
-              <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">배송료:</div></v-col>
-                <v-col>
-                  <v-text-field
-                    :value="sumField('shippingFee')"
-                    hide-details
-                    dense
-                    required
-                    solo-inverted
-                    readonly
-                  />
-                </v-col>
-              </v-row>
-              <v-row dense align="center">
+              <v-divider />
+              <v-row>
                 <v-col cols="2"
-                  ><div class="subtitle-1">사용포인트:</div></v-col
+                  ><div class="subtitle-1">이미지 업로드:</div></v-col
                 >
                 <v-col>
-                  <v-text-field
-                    value=""
-                    hide-details
+                  <v-file-input
                     dense
-                    required
-                    solo-inverted
-                    readonly
+                    v-model="image1"
+                    show-size
+                    accept="image/png, image/jpeg, image/bmp"
                   />
-                </v-col>
-              </v-row>
-              <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">결제 방법:</div></v-col>
-                <v-col>
-                  <v-text-field
-                    v-model="paymentMethodType"
-                    hide-details
+                  <v-file-input
                     dense
-                    required
-                    solo-inverted
-                    readonly
+                    v-model="image1"
+                    show-size
+                    accept="image/png, image/jpeg, image/bmp"
+                  />
+                  <v-file-input
+                    dense
+                    v-model="image1"
+                    show-size
+                    accept="image/png, image/jpeg, image/bmp"
                   />
                 </v-col>
               </v-row>
               <v-divider />
-              <v-row>
-                <v-col class="d-flex justify-space-around">
-                  <v-btn to="/style-shop/order-complete">목록</v-btn>
-
-                  <v-btn>확인</v-btn>
-                  <v-btn
-                    class="ml-3"
-                    @click="orderCancel(orderId)"
-                    v-if="
-                      orderDeliveryStatus === 'BEFORE_CONFIRM' ||
-                      orderDeliveryStatus === 'CONFIRM_ORDER'
-                    "
-                    >주문취소</v-btn
-                  >
-                  <v-btn
-                    class="ml-3"
-                    v-if="
-                      orderDeliveryStatus === 'READY_SHIP' ||
-                      orderDeliveryStatus === 'SHIPPING' ||
-                      orderDeliveryStatus === 'COMPLETE_SHIP'
-                    "
-                    >교환/환불</v-btn
-                  >
+              <v-row dense align="center">
+                <v-col cols="2"
+                  ><div class="subtitle-1">배송비 결제:</div></v-col
+                >
+                <v-col>
+                  {배송비} 원 ※ 교환/환불 사유가 '사이즈, 색상 변경'. '단순
+                  변심'의 경우 배송비를 고객님께서 부담하셔야 하므로, [교환/환불
+                  신청하기] 클릭 시 배송비 결제가 진행됩니다.
                 </v-col>
               </v-row>
             </v-container>
           </v-card-title>
         </v-card>
       </v-col>
+    </v-row>
+    <v-row justify="end">
+      <v-col cols="auto"><v-btn>신청하기</v-btn></v-col>
     </v-row>
   </v-container>
 </template>
