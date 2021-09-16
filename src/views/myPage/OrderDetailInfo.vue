@@ -238,7 +238,24 @@
                   <v-btn to="/style-shop/order-complete">목록</v-btn>
 
                   <v-btn>확인</v-btn>
-                  <v-btn>주문 취소</v-btn>
+                  <v-btn
+                    class="ml-3"
+                    @click="orderCancel(orderId)"
+                    v-if="
+                      orderDeliveryStatus === 'BEFORE_CONFIRM' ||
+                      orderDeliveryStatus === 'CONFIRM_ORDER'
+                    "
+                    >주문취소</v-btn
+                  >
+                  <v-btn
+                    class="ml-3"
+                    v-if="
+                      orderDeliveryStatus === 'READY_SHIP' ||
+                      orderDeliveryStatus === 'SHIPPING' ||
+                      orderDeliveryStatus === 'COMPLETE_SHIP'
+                    "
+                    >교환/환불</v-btn
+                  >
                 </v-col>
               </v-row>
             </v-container>
