@@ -7,16 +7,13 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-card>
-          <v-row>
-            <v-col cols="auto">주문번호: {{ orderId }}</v-col>
-            <v-col cols="">주문일: {{ orderCreatedDate }}</v-col>
-            <v-spacer />
-            <v-col cols=""
-              >[주문 배송 상태]{{ orderDeliveryStatusValue }}</v-col
-            >
-          </v-row>
-        </v-card>
+        <v-row>
+          <v-col cols="auto">주문번호: {{ orderId }}</v-col>
+          <v-col cols="auto">주문일: {{ orderCreatedDate }}</v-col>
+          <v-spacer />
+          <v-col cols="auto">[주문 배송 상태]</v-col
+          ><v-col cols="auto">{{ orderDeliveryStatusValue }}</v-col>
+        </v-row>
       </v-col>
     </v-row>
     <v-row>
@@ -32,7 +29,6 @@
           :headers="headers"
           :items="orderProducts"
           item-key="orderProductId"
-          show-select
           class="elevation-1"
           disable-sort
         >
@@ -79,13 +75,11 @@
     <v-row>
       <v-col cols="8">
         <v-card ref="form">
-          <v-card-title>주문자 정보</v-card-title>
-          <v-card-text>
+          <v-card-title>
             <v-container>
-              <v-row justify="end">
-                <v-col cols="auto">
-                  <v-btn>수정</v-btn>
-                </v-col>
+              <v-row align="center" justify="space-between">
+                <v-col cols="auto">주문자 정보</v-col>
+                <v-col cols="auto"><v-btn>수정</v-btn></v-col>
               </v-row>
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
@@ -111,14 +105,12 @@
                 /></v-col>
               </v-row>
             </v-container>
-          </v-card-text>
-          <v-card-title>배송 정보</v-card-title>
-          <v-card-text>
+          </v-card-title>
+          <v-card-title>
             <v-container>
-              <v-row justify="end">
-                <v-col cols="auto">
-                  <v-btn>수정</v-btn>
-                </v-col>
+              <v-row align="center" justify="space-between">
+                <v-col cols="auto">배송 정보</v-col>
+                <v-col cols="auto"><v-btn>수정</v-btn></v-col>
               </v-row>
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
@@ -172,10 +164,12 @@
                 /></v-col>
               </v-row>
             </v-container>
-          </v-card-text>
-          <v-card-title>결제 정보</v-card-title>
-          <v-card-text>
+          </v-card-title>
+          <v-card-title>
             <v-container>
+              <v-row align="center" justify="space-between">
+                <v-col cols="auto">결제 정보</v-col>
+              </v-row>
               <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">결제 금액:</div></v-col>
                 <v-col>
@@ -240,7 +234,7 @@
                 </v-col>
               </v-row>
             </v-container>
-          </v-card-text>
+          </v-card-title>
         </v-card>
       </v-col>
     </v-row>

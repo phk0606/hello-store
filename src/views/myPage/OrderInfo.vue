@@ -16,7 +16,6 @@
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
               v-model="date"
-              label="Picker without buttons"
               prepend-icon="mdi-calendar"
               readonly
               v-bind="attrs"
@@ -38,7 +37,6 @@
           <template v-slot:activator="{ on, attrs }">
             <v-text-field
               v-model="date2"
-              label="Picker without buttons"
               prepend-icon="mdi-calendar"
               readonly
               v-bind="attrs"
