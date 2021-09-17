@@ -524,7 +524,12 @@ export default {
       headers: [
         { text: '번호', align: 'center', value: 'orderProductId' },
         { text: '이미지', align: 'center', sortable: false, value: 'image' },
-        { text: '상품 정보', align: 'center', value: 'productName' },
+        {
+          text: '상품 정보',
+          align: 'center',
+          value: 'productName',
+          width: '30%',
+        },
         { text: '판매 가격', align: 'center', value: 'salePrice' },
         { text: '수량', align: 'center', value: 'quantity' },
         { text: '포인트', align: 'center', value: 'point' },
