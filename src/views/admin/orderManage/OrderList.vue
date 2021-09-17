@@ -83,12 +83,12 @@
             />
           </v-col>
           <v-col cols="auto">
-            <v-text-field v-model="productName" dense hide-details outlined>
+            <v-text-field v-model="searchText" dense hide-details outlined>
               <template v-slot:prepend> <v-card width="10" flat /></template>
             </v-text-field>
           </v-col>
           <v-col cols="auto">
-            <v-btn color="indigo" dark @click="getOrders">검색</v-btn>
+            <v-btn color="indigo" dark @click="getOrders(1)">검색</v-btn>
           </v-col>
         </v-row>
         <v-divider />
@@ -219,19 +219,20 @@ export default {
       ],
       productName: '',
       searchSelected: null,
+      searchText: '',
       searchKeyword: [
         { text: '주문 번호', value: 'orderId' },
-        { text: '주문 상품', value: 'orderProduct' },
-        { text: '주문자 아이디', value: 'orderUsername' },
-        { text: '주문자 이름', value: 'ordername' },
+        { text: '주문 상품', value: 'productName' },
+        { text: '주문자 아이디', value: 'ordererId' },
+        { text: '주문자 이름', value: 'ordererName' },
       ],
       orderDeliveryStatusSelected: null,
       orderDeliveryStatus: [
-        { text: '주문 확인 전', value: 'orderId' },
-        { text: '주문 확인', value: 'orderProduct' },
-        { text: '배송 준비 중', value: 'orderUsername' },
-        { text: '배송 중', value: 'ordername' },
-        { text: '배송 완료', value: 'ordername' },
+        { text: '주문 확인 전', value: 'BEFORE_CONFIRM' },
+        { text: '주문 확인', value: 'CONFIRM_ORDER' },
+        { text: '배송 준비 중', value: 'READY_SHIP' },
+        { text: '배송 중', value: 'SHIPPING' },
+        { text: '배송 완료', value: 'COMPLETE_SHIP' },
       ],
       page: 1,
       records: 10,
@@ -283,6 +284,7 @@ export default {
 
     async getOrders(page, tabValue) {
       console.log(tabValue);
+      console.log(this.searchSelected);
       try {
         const { data } = await getOrders({
           page: page - 1,
@@ -291,6 +293,7 @@ export default {
           orderDateA: this.date1,
           orderDateB: this.date2,
           orderDeliveryStatus: tabValue,
+          [this.searchSelected]: this.searchText,
         });
         this.contentList = data.content;
         this.perPage = data.size;
