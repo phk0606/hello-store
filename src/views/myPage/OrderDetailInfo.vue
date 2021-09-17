@@ -272,6 +272,7 @@ import {
   getOrder,
   modifyOrdererPhoneNumber,
   modifyDeliveryInfo,
+  orderCancel,
 } from '@/api/order';
 
 export default {
@@ -343,6 +344,18 @@ export default {
           console.log(error.response);
           // this.logMessage = error.response.data.message;
         }
+      }
+    },
+    async orderCancel(orderId) {
+      try {
+        const { data } = await orderCancel({
+          orderId: orderId,
+        });
+        console.log(data);
+
+        this.getOrder(orderId);
+      } catch (error) {
+        console.log(error);
       }
     },
     async getOrder(orderId) {

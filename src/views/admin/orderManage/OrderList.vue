@@ -88,22 +88,26 @@
             </v-text-field>
           </v-col>
           <v-col cols="auto">
-            <v-btn color="indigo" dark @click="getProductsPageCondition(1)"
-              >검색</v-btn
-            >
+            <v-btn color="indigo" dark @click="getOrders">검색</v-btn>
           </v-col>
         </v-row>
         <v-divider />
         <v-row>
           <v-col cols="12">
             <template>
-              <v-tabs background-color="blue-grey" slider-color="red" dark>
-                <v-tab> 주문 확인 전 </v-tab>
-                <v-tab> 주문 확인 </v-tab>
-                <v-tab> 배송 준비 중 </v-tab>
-                <v-tab> 배송 중 </v-tab>
-                <v-tab> 배송 완료 </v-tab>
-                <v-tab> 주문 모두 보기 </v-tab>
+              <v-tabs
+                v-model="selectedTab"
+                background-color="blue-grey"
+                slider-color="red"
+                dark
+              >
+                <v-tab
+                  v-for="tab of tabs"
+                  :key="tab.value"
+                  @click="getOrders(1, tab.value)"
+                >
+                  {{ tab.text }}
+                </v-tab>
               </v-tabs>
             </template>
           </v-col>
@@ -168,8 +172,8 @@
           <v-col cols="2">
             <v-select
               label="항목 선택"
-              v-model="orderStatusSelected"
-              :items="orderStatus"
+              v-model="orderDeliveryStatusSelected"
+              :items="orderDeliveryStatus"
               outlined
               hide-details
               dense
@@ -202,13 +206,17 @@ export default {
     Pagination,
     AdminOrderLeft,
   },
-  computed: {
-    // itemsWithSno() {
-    //   return this.contentList.map((d, index) => ({ ...d, sno: index + 1 }));
-    // },
-  },
+
   data() {
     return {
+      selectedTab: 'BEFORE_CONFIRM',
+      tabs: [
+        { value: 'BEFORE_CONFIRM', text: '주문 확인 전' },
+        { value: 'CONFIRM_ORDER', text: '주문 확인' },
+        { value: 'READY_SHIP', text: '배송 준비 중' },
+        { value: 'SHIPPING', text: '배송 중' },
+        { value: 'COMPLETE_SHIP', text: '배송 완료' },
+      ],
       productName: '',
       searchSelected: null,
       searchKeyword: [
@@ -217,8 +225,8 @@ export default {
         { text: '주문자 아이디', value: 'orderUsername' },
         { text: '주문자 이름', value: 'ordername' },
       ],
-      orderStatusSelected: null,
-      orderStatus: [
+      orderDeliveryStatusSelected: null,
+      orderDeliveryStatus: [
         { text: '주문 확인 전', value: 'orderId' },
         { text: '주문 확인', value: 'orderProduct' },
         { text: '배송 준비 중', value: 'orderUsername' },
@@ -270,17 +278,19 @@ export default {
   methods: {
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
-      this.getProductsPageCondition(page);
+      this.getOrders(page);
     },
 
-    async getOrders(page) {
+    async getOrders(page, tabValue) {
+      console.log(tabValue);
       try {
         const { data } = await getOrders({
           page: page - 1,
           size: this.perPage,
 
-          productRegistryDateA: this.date1,
-          productRegistryDateB: this.date2,
+          orderDateA: this.date1,
+          orderDateB: this.date2,
+          orderDeliveryStatus: tabValue,
         });
         this.contentList = data.content;
         this.perPage = data.size;

@@ -91,7 +91,11 @@
                   /></v-col>
                   <v-col cols="auto"><v-btn>배송 조회</v-btn></v-col>
                   <v-spacer />
-                  <v-col cols="auto"><v-btn>주문 취소 하기</v-btn></v-col>
+                  <v-col cols="auto"
+                    ><v-btn @click="orderCancel(orderId)"
+                      >주문 취소 하기</v-btn
+                    ></v-col
+                  >
                 </v-row>
               </v-container>
             </v-card>
@@ -399,7 +403,7 @@
 </template>
 
 <script>
-import { getOrder } from '@/api/order';
+import { getOrder, orderCancel } from '@/api/order';
 import AdminOrderLeft from '@/components/admin/AdminOrderLeft.vue';
 
 export default {
@@ -413,6 +417,18 @@ export default {
     AdminOrderLeft,
   },
   methods: {
+    async orderCancel(orderId) {
+      try {
+        const { data } = await orderCancel({
+          orderId: orderId,
+        });
+        console.log(data);
+
+        this.getOrder(orderId);
+      } catch (error) {
+        console.log(error);
+      }
+    },
     setFirstSelected(selected) {
       console.log(selected);
       this.firstSelected = selected;
@@ -480,7 +496,6 @@ export default {
       orderDeliveryStatus: [
         { text: '주문 확인 전', value: 'BEFORE_CONFIRM' },
         { text: '주문 확인', value: 'CONFIRM_ORDER' },
-        { text: '주문 취소', value: 'ORDER_CANCEL' },
         { text: '배송 준비 중', value: 'READY_SHIP' },
         { text: '배송 중', value: 'SHIPPING' },
         { text: '배송 완료', value: 'COMPLETE_SHIP' },
