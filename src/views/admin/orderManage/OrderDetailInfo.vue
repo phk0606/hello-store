@@ -55,12 +55,12 @@
                       dense
                       :menu-props="{ offsetY: true }"
                   /></v-col>
-                  <v-col cols="auto" class="ml-3">주문 처리 상태:</v-col>
+                  <v-col cols="auto" class="ml-3">주문 상태:</v-col>
                   <v-col cols="3">
                     <v-select
                       label="항목 선택"
-                      v-model="orderStatusSelected"
-                      :items="orderStatus"
+                      v-model="orderDeliveryStatusSelected"
+                      :items="orderDeliveryStatus"
                       outlined
                       hide-details
                       dense
@@ -76,8 +76,6 @@
                   <v-col cols="3">
                     <v-select
                       label="택배 회사"
-                      v-model="paymentStatusSelected"
-                      :items="paymentStatus"
                       outlined
                       hide-details
                       dense
@@ -439,18 +437,12 @@ export default {
         this.fullAddress =
           data.address.address + ' ' + data.address.detailAddress;
 
-        let paymentMethodType = data.paymentMethodType;
-        if (paymentMethodType === 'WITHOUT_BANKBOOK') {
-          paymentMethodType = '무통장 입금';
-        } else if (paymentMethodType === 'CREDIT_CARD') {
-          paymentMethodType = '카드 결제';
-        } else if (paymentMethodType === 'ACCOUNT_TRANSFER') {
-          paymentMethodType = '계좌 이체';
-        }
-        this.paymentMethodType = paymentMethodType;
+        this.paymentMethodType = data.paymentMethodTypeValue;
         this.paymentPrice = data.paymentPrice;
         this.orderCreatedDate = data.createdDate;
         this.orderDeliveryStatusValue = data.orderDeliveryStatusValue;
+        this.paymentStatusSelected = data.paymentStatus;
+        this.orderDeliveryStatusSelected = data.orderDeliveryStatus;
       } catch (error) {
         console.log(error);
       }
@@ -484,13 +476,14 @@ export default {
         { text: '결제 완료', value: 'FINISHED' },
         { text: '결제 취소', value: 'CANCEL' },
       ],
-      orderStatusSelected: null,
-      orderStatus: [
-        { text: '주문 확인 전', value: 'orderId' },
-        { text: '주문 확인', value: 'orderProduct' },
-        { text: '배송 준비 중', value: 'orderUsername' },
-        { text: '배송 중', value: 'ordername' },
-        { text: '배송 완료', value: 'ordername' },
+      orderDeliveryStatusSelected: null,
+      orderDeliveryStatus: [
+        { text: '주문 확인 전', value: 'BEFORE_CONFIRM' },
+        { text: '주문 확인', value: 'CONFIRM_ORDER' },
+        { text: '주문 취소', value: 'ORDER_CANCEL' },
+        { text: '배송 준비 중', value: 'READY_SHIP' },
+        { text: '배송 중', value: 'SHIPPING' },
+        { text: '배송 완료', value: 'COMPLETE_SHIP' },
       ],
       items: [
         {

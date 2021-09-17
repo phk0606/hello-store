@@ -362,16 +362,7 @@ export default {
         this.roadAddress = data.address.roadAddress;
         this.address = data.address.address;
         this.detailAddress = data.address.detailAddress;
-
-        let paymentMethodType = data.paymentMethodType;
-        if (paymentMethodType === 'WITHOUT_BANKBOOK') {
-          paymentMethodType = '무통장 입금';
-        } else if (paymentMethodType === 'CREDIT_CARD') {
-          paymentMethodType = '카드 결제';
-        } else if (paymentMethodType === 'ACCOUNT_TRANSFER') {
-          paymentMethodType = '계좌 이체';
-        }
-        this.paymentMethodType = paymentMethodType;
+        this.paymentMethodType = data.paymentMethodTypeValue;
         this.paymentPrice = data.paymentPrice;
         this.orderCreatedDate = data.createdDate;
         this.orderDeliveryStatusValue = data.orderDeliveryStatusValue;
