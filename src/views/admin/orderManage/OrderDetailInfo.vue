@@ -133,66 +133,75 @@
                 </v-container>
               </template>
               <template v-slot:[`item.productName`]="{ item }">
-                <v-row
-                  ><v-col cols="auto">
-                    상품명: {{ item.productName }}</v-col
-                  ></v-row
-                >
+                <v-container>
+                  <v-row dense
+                    ><v-col cols="3" class="pr-0">
+                      <div class="text-right">상품명:</div></v-col
+                    >
+                    <v-col
+                      ><div class="text-left">
+                        {{ item.productName }}
+                      </div></v-col
+                    ></v-row
+                  >
 
-                <v-row
-                  v-if="item.firstOptions && item.firstOptions[0].optionValue"
-                  dense
-                  align="center"
-                >
-                  <v-col cols="auto"
-                    ><div class="subtitle-1">
-                      {{ item.firstOptions[0].optionName }}:
-                    </div></v-col
+                  <v-row
+                    v-if="item.firstOptions && item.firstOptions[0].optionValue"
+                    dense
+                    align="center"
                   >
-                  <v-col>
-                    <v-select
-                      v-model="item.productOptions[0]"
-                      :items="item.firstOptions"
-                      item-text="optionValue"
-                      item-value="optionValue"
-                      hide-details
-                      outlined
-                      dense
-                      :menu-props="{ offsetY: true }"
-                      return-object
-                      @change="
-                        setFirstSelected(item.productOptions[0].optionValue)
-                      "
-                    />
-                  </v-col>
-                </v-row>
-                <v-row
-                  v-if="item.secondOptions && item.secondOptions[0].optionValue"
-                  dense
-                  align="center"
-                >
-                  <v-col cols="auto"
-                    ><div class="subtitle-1">
-                      {{ item.secondOptions[0].optionName }}:
-                    </div></v-col
+                    <v-col cols="3"
+                      ><div class="text-right">
+                        {{ item.firstOptions[0].optionName }}:
+                      </div></v-col
+                    >
+                    <v-col>
+                      <v-select
+                        v-model="item.productOptions[0]"
+                        :items="item.firstOptions"
+                        item-text="optionValue"
+                        item-value="optionValue"
+                        hide-details
+                        outlined
+                        dense
+                        :menu-props="{ offsetY: true }"
+                        return-object
+                        @change="
+                          setFirstSelected(item.productOptions[0].optionValue)
+                        "
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row
+                    v-if="
+                      item.secondOptions && item.secondOptions[0].optionValue
+                    "
+                    dense
+                    align="center"
                   >
-                  <v-col>
-                    <v-select
-                      v-model="item.productOptions[1]"
-                      :items="item.secondOptions"
-                      item-text="optionValue"
-                      item-value="optionValue"
-                      hide-details
-                      outlined
-                      dense
-                      :menu-props="{ offsetY: true }"
-                      return-object
-                      @change="
-                        setFirstSelected(item.productOptions[0].optionValue)
-                      "
-                    />
-                  </v-col>
-                </v-row>
+                    <v-col cols="3"
+                      ><div class="text-right">
+                        {{ item.secondOptions[0].optionName }}:
+                      </div></v-col
+                    >
+                    <v-col>
+                      <v-select
+                        v-model="item.productOptions[1]"
+                        :items="item.secondOptions"
+                        item-text="optionValue"
+                        item-value="optionValue"
+                        hide-details
+                        outlined
+                        dense
+                        :menu-props="{ offsetY: true }"
+                        return-object
+                        @change="
+                          setFirstSelected(item.productOptions[0].optionValue)
+                        "
+                      />
+                    </v-col>
+                  </v-row>
+                </v-container>
               </template>
             </v-data-table>
             <v-divider />
