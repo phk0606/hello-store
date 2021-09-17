@@ -96,7 +96,7 @@
           <v-col cols="12">
             <template>
               <v-tabs
-                v-model="selectedTab"
+                v-model="activeTab"
                 background-color="blue-grey"
                 slider-color="red"
                 dark
@@ -119,7 +119,7 @@
               v-model="selected"
               :headers="headers"
               :items="contentList"
-              item-key="productId"
+              item-key="orderId"
               show-select
               class="elevation-1"
               disable-sort
@@ -181,7 +181,7 @@
             />
           </v-col>
           <v-col cols="auto">
-            <v-btn color="indigo" dark @click="getProductsPageCondition(1)"
+            <v-btn color="indigo" dark @click="modifyOrderDeliveryStatus"
               >주문 상태 변경</v-btn
             >
           </v-col>
@@ -194,13 +194,12 @@
 <script>
 import AdminOrderLeft from '@/components/admin/AdminOrderLeft.vue';
 import Pagination from 'vue-pagination-2';
-import { getOrders } from '@/api/order';
+import { getOrders, modifyOrderDeliveryStatus } from '@/api/order';
 
 export default {
   created() {
-    // this.getProducts();
-    //this.getProductsPage(1);
-    this.getOrders();
+    console.log(this.activeTab);
+    this.getOrders(1, this.tabs[0].value);
   },
   components: {
     Pagination,
@@ -209,7 +208,7 @@ export default {
 
   data() {
     return {
-      selectedTab: 'BEFORE_CONFIRM',
+      activeTab: 0,
       tabs: [
         { value: 'BEFORE_CONFIRM', text: '주문 확인 전' },
         { value: 'CONFIRM_ORDER', text: '주문 확인' },
@@ -279,12 +278,34 @@ export default {
   methods: {
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
-      this.getOrders(page);
+      this.getOrders(page, this.tabs[this.activeTab].value);
     },
+    async modifyOrderDeliveryStatus() {
+      const orders = this.selected;
+      const orderIds = [];
 
+      for (const key in orders) {
+        const orderId = orders[key].orderId;
+        console.log(orderId);
+        orderIds.push(orderId);
+      }
+
+      try {
+        const { data } = await modifyOrderDeliveryStatus({
+          orderIds: orderIds,
+          orderDeliveryStatus: this.orderDeliveryStatusSelected,
+        });
+
+        console.log(data);
+        this.getOrders(1, this.tabs[0].value);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
     async getOrders(page, tabValue) {
-      console.log(tabValue);
       console.log(this.searchSelected);
+      console.log(tabValue);
       try {
         const { data } = await getOrders({
           page: page - 1,
@@ -300,6 +321,7 @@ export default {
         this.records = data.totalElements;
         this.page = data.pageable.pageNumber + 1;
         console.log(data);
+        this.activeTab = 0;
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;
