@@ -67,14 +67,17 @@
                     >
                       <template v-slot:activator="{ on, attrs }">
                         <v-text-field
-                          v-model="date1"
+                          v-model="userJoinDateA"
                           prepend-icon="mdi-calendar"
                           readonly
                           v-bind="attrs"
                           v-on="on"
                         />
                       </template>
-                      <v-date-picker v-model="date1" @input="menu = false" />
+                      <v-date-picker
+                        v-model="userJoinDateA"
+                        @input="menu = false"
+                      />
                     </v-menu>
                   </v-col>
                   <v-col cols="2">
@@ -88,14 +91,17 @@
                     >
                       <template v-slot:activator="{ on, attrs }">
                         <v-text-field
-                          v-model="date2"
+                          v-model="userJoinDateB"
                           prepend-icon="mdi-calendar"
                           readonly
                           v-bind="attrs"
                           v-on="on"
                         />
                       </template>
-                      <v-date-picker v-model="date2" @input="menu2 = false" />
+                      <v-date-picker
+                        v-model="userJoinDateB"
+                        @input="menu2 = false"
+                      />
                     </v-menu>
                   </v-col>
                   <v-col cols="auto" class="ml-5">구매 금액</v-col>
@@ -239,8 +245,10 @@ export default {
         { text: '적립 포인트', align: 'center', value: 'point' },
       ],
       userList: [],
-      date1: '',
-      date2: '',
+      userJoinDateA: '',
+      userJoinDateB: '',
+      purchasePriceMin: '',
+      purchasePriceMax: '',
       menu: false,
       menu2: false,
       items: [
@@ -263,6 +271,12 @@ export default {
         activated: true,
         page: page - 1,
         size: this.perPage,
+        name: this.name,
+        userJoinDateA: this.userJoinDateA,
+        userJoinDateB: this.userJoinDateB,
+        purchasePriceMin: this.purchasePriceMin,
+        purchasePriceMax: this.purchasePriceMax,
+        [this.searchSelected]: this.searchText,
       });
       this.userList = data.content;
       this.perPage = data.size;
