@@ -61,11 +61,24 @@
                 </v-list-item>
               </v-card>
             </v-menu>
+            <v-menu open-on-hover offset-y>
+              <template v-slot:activator="{ on }">
+                <v-btn v-on="on">
+                  <span :class="font">회원 관리</span>
+                </v-btn>
+              </template>
+              <v-card class="mx-auto" max-width="344" outlined>
+                <v-list-item
+                  v-for="(item, index) in userManageMenu"
+                  :key="index"
+                  :to="item.to"
+                >
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item>
+              </v-card>
+            </v-menu>
             <v-btn href="/blog">
               <span :class="font">게시판 관리</span>
-            </v-btn>
-            <v-btn href="/blog">
-              <span :class="font">회원 관리</span>
             </v-btn>
             <v-menu open-on-hover offset-y>
               <template v-slot:activator="{ on }">
@@ -180,6 +193,29 @@ export default {
           title: '교환/환불 신청 리스트',
           icon: 'mdi-flag',
           to: '/admin/exchange-list',
+        },
+      ],
+      userManageMenu: [
+        { title: '회원 리스트', icon: 'mdi-clock', to: '/admin/user-list' },
+        {
+          title: '탈퇴 회원 리스트',
+          icon: 'mdi-account',
+          to: '/admin/product-list',
+        },
+        {
+          title: '메일 관리',
+          icon: 'mdi-flag',
+          to: '/admin/category-manage',
+        },
+        {
+          title: 'SMS 관리',
+          icon: 'mdi-flag',
+          to: '/admin/category-manage',
+        },
+        {
+          title: '대용량 메일 발송',
+          icon: 'mdi-flag',
+          to: '/admin/category-manage',
         },
       ],
     };

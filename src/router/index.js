@@ -190,6 +190,14 @@ const routes = [
             /* webpackChunkName: "exchange-list" */ '@/views/admin/orderManage/ExchangeList'
           ),
       },
+      {
+        path: 'user-list',
+        name: 'user-list',
+        component: () =>
+          import(
+            /* webpackChunkName: "exchange-list" */ '@/views/admin/userManage/UserList'
+          ),
+      },
     ],
   },
 ];
