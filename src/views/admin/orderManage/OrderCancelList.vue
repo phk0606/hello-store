@@ -215,7 +215,7 @@ export default {
     return {
       activeTab: 0,
       tabs: [
-        { value: 'CANCEL', text: '결제 취소 전' },
+        { value: 'CANCEL_BEFORE', text: '결제 취소 전' },
         { value: 'CANCEL_FINISHED', text: '결제 취소 완료' },
       ],
       productName: '',
@@ -315,7 +315,7 @@ export default {
 
           orderDateA: this.date1,
           orderDateB: this.date2,
-          // orderDeliveryStatus: tabValue,
+          paymentStatus: tabValue,
           [this.searchSelected]: this.searchText,
         });
         this.contentList = data.content;
