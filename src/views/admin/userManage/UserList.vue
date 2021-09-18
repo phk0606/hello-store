@@ -200,7 +200,7 @@ import { getUsers } from '@/api/user';
 
 export default {
   created() {
-    this.getUsers();
+    this.getUsers(1);
   },
   components: {
     Pagination,
@@ -258,15 +258,20 @@ export default {
     };
   },
   methods: {
-    async getUsers() {
+    async getUsers(page) {
       const { data } = await getUsers({
         activated: true,
+        page: page - 1,
+        size: this.perPage,
       });
-      this.userList = data;
+      this.userList = data.content;
+      this.perPage = data.size;
+      this.records = data.totalElements;
+      this.page = data.pageable.pageNumber + 1;
     },
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
-      // this.getProductsPageCondition(page);
+      this.getUsers(page);
     },
     detailSearchShow() {
       this.detailSearchShowYn = !this.detailSearchShowYn;
