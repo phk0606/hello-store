@@ -5,8 +5,8 @@ function getUser(data) {
   return user.get(`/${data.username}`);
 }
 
-function getUsers() {
-  return user.get('/getUsers');
+function getUsers(data) {
+  return user.get('/getUsers', { params: data });
 }
 
 export { getUser, getUsers };

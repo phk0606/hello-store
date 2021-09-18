@@ -259,7 +259,9 @@ export default {
   },
   methods: {
     async getUsers() {
-      const { data } = await getUsers({});
+      const { data } = await getUsers({
+        activated: true,
+      });
       this.userList = data;
     },
     myCallback: function (page) {
