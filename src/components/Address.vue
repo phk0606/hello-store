@@ -74,7 +74,7 @@
         <v-row dense align="center">
           <v-col
             ><v-text-field
-              v-model="detailAddress"
+              :value="detailAddress"
               placeholder="상세 주소"
               hide-details
               dense
@@ -99,25 +99,31 @@ export default {
   methods: {
     onComplete(result) {
       //this.result = result;
-      this.zonecode = result.zonecode;
-      this.roadAddress = result.roadAddress;
-      this.address = result.address;
+      this.childZonecode = result.zonecode;
+      this.childRoadAddress = result.roadAddress;
+      this.childAddress = result.address;
       this.dialog = false;
 
-      this.$emit('setAddress', this.zonecode, this.roadAddress, this.address);
+      this.$emit(
+        'setAddress',
+        this.childZonecode,
+        this.childRoadAddress,
+        this.childAddress,
+      );
     },
-    setDetailAddress() {
-      this.$emit('setDetailAddress', this.detailAddress);
+    setDetailAddress(value) {
+      console.log(value);
+      this.$emit('setDetailAddress', value);
     },
   },
   data() {
     return {
       dialog: false,
       result: null,
-      // zonecode: null,
-      // address: null,
-      // roadAddress: null,
-      // detailAddress: null,
+      childZonecode: null,
+      childAddress: null,
+      childRoadAddress: null,
+      // childDetailAddress: null,
     };
   },
 };

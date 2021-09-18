@@ -105,6 +105,10 @@
                 <Address
                   v-on:setAddress="setAddress"
                   v-on:setDetailAddress="setDetailAddress"
+                  :zonecode="zonecode"
+                  :roadAddress="roadAddress"
+                  :address="address"
+                  :detailAddress="detailAddress"
                 />
 
                 <v-btn

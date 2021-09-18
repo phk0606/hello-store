@@ -5,4 +5,8 @@ function getUser(data) {
   return user.get(`/${data.username}`);
 }
 
-export { getUser };
+function getUsers() {
+  return user.get('/getUsers');
+}
+
+export { getUser, getUsers };
