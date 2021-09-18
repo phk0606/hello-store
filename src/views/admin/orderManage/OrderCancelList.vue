@@ -168,6 +168,11 @@
             />
           </v-col>
         </v-row>
+        <v-row>
+          <v-col cols="auto">
+            <v-btn color="deep-orange darken-1" dark>결제 취소 완료 처리</v-btn>
+          </v-col>
+        </v-row>
         <v-row align="center">
           <v-col cols="2">
             <v-select
