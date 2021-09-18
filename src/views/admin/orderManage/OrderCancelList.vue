@@ -83,23 +83,31 @@
             />
           </v-col>
           <v-col cols="auto">
-            <v-text-field v-model="productName" dense hide-details outlined>
+            <v-text-field v-model="searchText" dense hide-details outlined>
               <template v-slot:prepend> <v-card width="10" flat /></template>
             </v-text-field>
           </v-col>
           <v-col cols="auto">
-            <v-btn color="indigo" dark @click="getProductsPageCondition(1)"
-              >검색</v-btn
-            >
+            <v-btn color="indigo" dark @click="getOrders(1)">검색</v-btn>
           </v-col>
         </v-row>
         <v-divider />
         <v-row>
           <v-col cols="12">
             <template>
-              <v-tabs background-color="blue-grey" slider-color="red" dark>
-                <v-tab> 결제 취소 전 </v-tab>
-                <v-tab> 결제 취소 완료 </v-tab>
+              <v-tabs
+                v-model="activeTab"
+                background-color="blue-grey"
+                slider-color="red"
+                dark
+              >
+                <v-tab
+                  v-for="tab of tabs"
+                  :key="tab.value"
+                  @click="getOrders(1, tab.value)"
+                >
+                  {{ tab.text }}
+                </v-tab>
               </v-tabs>
             </template>
           </v-col>
@@ -111,7 +119,7 @@
               v-model="selected"
               :headers="headers"
               :items="contentList"
-              item-key="productId"
+              item-key="orderId"
               show-select
               class="elevation-1"
               disable-sort
@@ -161,9 +169,20 @@
           </v-col>
         </v-row>
         <v-row align="center">
+          <v-col cols="2">
+            <v-select
+              label="항목 선택"
+              v-model="orderDeliveryStatusSelected"
+              :items="orderDeliveryStatus"
+              outlined
+              hide-details
+              dense
+              :menu-props="{ offsetY: true }"
+            />
+          </v-col>
           <v-col cols="auto">
-            <v-btn color="indigo" dark @click="getProductsPageCondition(1)"
-              >결제 취소 완료 처리</v-btn
+            <v-btn color="indigo" dark @click="modifyOrderDeliveryStatus"
+              >주문 상태 변경</v-btn
             >
           </v-col>
         </v-row>
@@ -175,40 +194,41 @@
 <script>
 import AdminOrderLeft from '@/components/admin/AdminOrderLeft.vue';
 import Pagination from 'vue-pagination-2';
-import { getOrders } from '@/api/order';
+import { getOrders, modifyOrderDeliveryStatus } from '@/api/order';
 
 export default {
   created() {
-    // this.getProducts();
-    //this.getProductsPage(1);
-    this.getOrders();
+    console.log(this.activeTab);
+    this.getOrders(1, this.tabs[0].value);
   },
   components: {
     Pagination,
     AdminOrderLeft,
   },
-  computed: {
-    // itemsWithSno() {
-    //   return this.contentList.map((d, index) => ({ ...d, sno: index + 1 }));
-    // },
-  },
+
   data() {
     return {
+      activeTab: 0,
+      tabs: [
+        { value: 'CANCEL', text: '결제 취소 전' },
+        { value: 'CANCEL_FINISHED', text: '결제 취소 완료' },
+      ],
       productName: '',
       searchSelected: null,
+      searchText: '',
       searchKeyword: [
         { text: '주문 번호', value: 'orderId' },
-        { text: '주문 상품', value: 'orderProduct' },
-        { text: '주문자 아이디', value: 'orderUsername' },
-        { text: '주문자 이름', value: 'ordername' },
+        { text: '주문 상품', value: 'productName' },
+        { text: '주문자 아이디', value: 'ordererId' },
+        { text: '주문자 이름', value: 'ordererName' },
       ],
-      orderStatusSelected: null,
-      orderStatus: [
-        { text: '주문 확인 전', value: 'orderId' },
-        { text: '주문 확인', value: 'orderProduct' },
-        { text: '배송 준비 중', value: 'orderUsername' },
-        { text: '배송 중', value: 'ordername' },
-        { text: '배송 완료', value: 'ordername' },
+      orderDeliveryStatusSelected: null,
+      orderDeliveryStatus: [
+        { text: '주문 확인 전', value: 'BEFORE_CONFIRM' },
+        { text: '주문 확인', value: 'CONFIRM_ORDER' },
+        { text: '배송 준비 중', value: 'READY_SHIP' },
+        { text: '배송 중', value: 'SHIPPING' },
+        { text: '배송 완료', value: 'COMPLETE_SHIP' },
       ],
       page: 1,
       records: 10,
@@ -222,11 +242,12 @@ export default {
           value: 'orderId',
         },
         { text: '주문 일시', align: 'center', value: 'createdDate' },
-        { text: '주문 취소일시', align: 'center', value: 'createdDate' },
+        { text: '주문 취소 일시', align: 'center', value: 'orderCancelDate' },
         { text: '주문 상품', align: 'center', value: 'productName' },
         { text: '주문자(아이디)', align: 'center', value: 'name' },
-        { text: '결제 방법', align: 'center', value: 'paymentPrice' },
+        { text: '결제 방법', align: 'center', value: 'paymentMethodTypeValue' },
         { text: '결제 금액', align: 'center', value: 'paymentPrice' },
+        { text: '결제 상태', align: 'center', value: 'paymentStatusValue' },
       ],
       contentList: [],
       date1: new Date(new Date().setDate(new Date().getDate() - 3))
@@ -254,23 +275,50 @@ export default {
   methods: {
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
-      this.getProductsPageCondition(page);
+      this.getOrders(page, this.tabs[this.activeTab].value);
     },
+    async modifyOrderDeliveryStatus() {
+      const orders = this.selected;
+      const orderIds = [];
 
-    async getOrders(page) {
+      for (const key in orders) {
+        const orderId = orders[key].orderId;
+        console.log(orderId);
+        orderIds.push(orderId);
+      }
+
+      try {
+        const { data } = await modifyOrderDeliveryStatus({
+          orderIds: orderIds,
+          orderDeliveryStatus: this.orderDeliveryStatusSelected,
+        });
+
+        console.log(data);
+        this.getOrders(1, this.tabs[0].value);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
+    async getOrders(page, tabValue) {
+      console.log(this.searchSelected);
+      console.log(tabValue);
       try {
         const { data } = await getOrders({
           page: page - 1,
           size: this.perPage,
 
-          productRegistryDateA: this.date1,
-          productRegistryDateB: this.date2,
+          orderDateA: this.date1,
+          orderDateB: this.date2,
+          // orderDeliveryStatus: tabValue,
+          [this.searchSelected]: this.searchText,
         });
         this.contentList = data.content;
         this.perPage = data.size;
         this.records = data.totalElements;
         this.page = data.pageable.pageNumber + 1;
         console.log(data);
+        this.activeTab = 0;
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;

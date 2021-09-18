@@ -298,6 +298,7 @@ export default {
 
         console.log(data);
         this.getOrders(1, this.tabs[0].value);
+        this.activeTab = 0;
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;
@@ -321,7 +322,7 @@ export default {
         this.records = data.totalElements;
         this.page = data.pageable.pageNumber + 1;
         console.log(data);
-        this.activeTab = 0;
+        // this.activeTab = 0;
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;
