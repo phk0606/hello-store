@@ -28,6 +28,10 @@ function modifyOrderDeliveryStatus(data) {
   return order.put('/modifyOrderDeliveryStatus', data);
 }
 
+function modifyPaymentStatus(data) {
+  return order.put('/modifyPaymentStatus', data);
+}
+
 function orderCancel(data) {
   return order.put('/orderCancel', data);
 }
@@ -41,4 +45,5 @@ export {
   modifyDeliveryInfo,
   orderCancel,
   modifyOrderDeliveryStatus,
+  modifyPaymentStatus,
 };

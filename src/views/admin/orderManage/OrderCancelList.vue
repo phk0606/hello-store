@@ -170,7 +170,9 @@
         </v-row>
         <v-row>
           <v-col cols="auto">
-            <v-btn color="brown darken-2" dark>결제 취소 완료 처리</v-btn>
+            <v-btn @click="modifyPaymentStatus" color="brown darken-2" dark
+              >{{ tabs[activeTab === 0 ? 1 : 0].text }} 처리</v-btn
+            >
           </v-col>
         </v-row>
         <v-row align="center">
@@ -199,7 +201,11 @@
 <script>
 import AdminOrderLeft from '@/components/admin/AdminOrderLeft.vue';
 import Pagination from 'vue-pagination-2';
-import { getOrders, modifyOrderDeliveryStatus } from '@/api/order';
+import {
+  getOrders,
+  modifyOrderDeliveryStatus,
+  modifyPaymentStatus,
+} from '@/api/order';
 
 export default {
   created() {
@@ -282,6 +288,30 @@ export default {
       console.log(`Page ${page} was selected. Do something about it`);
       this.getOrders(page, this.tabs[this.activeTab].value);
     },
+    async modifyPaymentStatus() {
+      const orders = this.selected;
+      const orderIds = [];
+
+      for (const key in orders) {
+        const orderId = orders[key].orderId;
+        console.log(orderId);
+        orderIds.push(orderId);
+      }
+
+      try {
+        const { data } = await modifyPaymentStatus({
+          orderIds: orderIds,
+          paymentStatus:
+            this.activeTab === 0 ? this.tabs[1].value : this.tabs[0].value,
+        });
+
+        console.log(data);
+        this.getOrders(1, this.tabs[this.activeTab].value);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
     async modifyOrderDeliveryStatus() {
       const orders = this.selected;
       const orderIds = [];
@@ -299,7 +329,7 @@ export default {
         });
 
         console.log(data);
-        this.getOrders(1, this.tabs[0].value);
+        this.getOrders(1, this.tabs[this.activeTab].value);
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;
@@ -308,6 +338,7 @@ export default {
     async getOrders(page, tabValue) {
       console.log(this.searchSelected);
       console.log(tabValue);
+      console.log(this.activeTab);
       try {
         const { data } = await getOrders({
           page: page - 1,
