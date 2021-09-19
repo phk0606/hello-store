@@ -11,7 +11,7 @@
     <v-list dense>
       <v-list-item-group>
         <v-subheader>공지 사항</v-subheader>
-        <v-list-item to="/admin/style-shop-list-notice">
+        <v-list-item to="/admin/style-shop-notice">
           <v-icon>mdi-menu-right</v-icon>
           <v-list-item-content>
             <v-list-item-title>스타일 숍 공지</v-list-item-title>

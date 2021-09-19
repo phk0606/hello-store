@@ -207,11 +207,11 @@ const routes = [
           ),
       },
       {
-        path: 'style-shop-list-notice',
-        name: 'admin-style-shop-list-notice',
+        path: 'style-shop-notice',
+        name: 'admin-style-shop-notice',
         component: () =>
           import(
-            /* webpackChunkName: "admin-stype-shop-list-notice" */ '@/views/admin/boardManage/StyleShopListNotice'
+            /* webpackChunkName: "admin-stype-shop-list-notice" */ '@/views/admin/boardManage/StyleShopNotice'
           ),
       },
       {

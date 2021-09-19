@@ -235,7 +235,7 @@ export default {
         {
           title: '스타일 숍 공지',
           icon: 'mdi-clock',
-          to: '/admin/style-shop-list-notice',
+          to: '/admin/style-shop-notice',
         },
         {
           title: '고객 센터 공지',

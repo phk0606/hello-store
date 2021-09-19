@@ -21,7 +21,7 @@
           <v-col>
             <v-chip label x-large color="white">
               <v-icon left> mdi-chevron-right-box </v-icon>
-              스타일 숍 리스트 공지
+              스타일 숍 공지
             </v-chip>
           </v-col>
         </v-row>
