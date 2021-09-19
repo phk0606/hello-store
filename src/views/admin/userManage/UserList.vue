@@ -119,7 +119,7 @@
         </transition>
         <v-divider />
         <v-row>
-          <v-col>총 등록 상품: 0000개/검색된 상품: 0000개</v-col>
+          <v-col>검색 결과: 0000건</v-col>
         </v-row>
         <v-row>
           <v-col>
