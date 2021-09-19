@@ -77,9 +77,22 @@
                 </v-list-item>
               </v-card>
             </v-menu>
-            <v-btn href="/blog">
-              <span :class="font">게시판 관리</span>
-            </v-btn>
+            <v-menu open-on-hover offset-y>
+              <template v-slot:activator="{ on }">
+                <v-btn v-on="on">
+                  <span :class="font">게시판 관리</span>
+                </v-btn>
+              </template>
+              <v-card class="mx-auto" max-width="344" outlined>
+                <v-list-item
+                  v-for="(item, index) in boardManageMenu"
+                  :key="index"
+                  :to="item.to"
+                >
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                </v-list-item>
+              </v-card>
+            </v-menu>
             <v-menu open-on-hover offset-y>
               <template v-slot:activator="{ on }">
                 <v-btn v-on="on">
@@ -214,6 +227,58 @@ export default {
         },
         {
           title: '대용량 메일 발송',
+          icon: 'mdi-flag',
+          to: '/admin/category-manage',
+        },
+      ],
+      boardManageMenu: [
+        {
+          title: '스타일 숍 공지',
+          icon: 'mdi-clock',
+          to: '/admin/style-shop-list-notice',
+        },
+        {
+          title: '고객 센터 공지',
+          icon: 'mdi-account',
+          to: '/admin/product-list',
+        },
+        {
+          title: '커뮤니티',
+          icon: 'mdi-flag',
+          to: '/admin/category-manage',
+        },
+        {
+          title: '상품 문의',
+          icon: 'mdi-flag',
+          to: '/admin/category-manage',
+        },
+        {
+          title: '1:1 문의',
+          icon: 'mdi-flag',
+          to: '/admin/category-manage',
+        },
+        {
+          title: '상품평',
+          icon: 'mdi-flag',
+          to: '/admin/category-manage',
+        },
+        {
+          title: '자주 하는 질문',
+          icon: 'mdi-flag',
+          to: '/admin/category-manage',
+        },
+        {
+          title: '이벤트',
+          icon: 'mdi-flag',
+          to: '/admin/category-manage',
+        },
+        {
+          title: '허위 상품 접수',
+          icon: 'mdi-flag',
+          to: '/admin/category-manage',
+        },
+        {
+          title: '게시판 카테고리 관리',
           icon: 'mdi-flag',
           to: '/admin/category-manage',
         },

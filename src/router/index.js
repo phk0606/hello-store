@@ -206,6 +206,14 @@ const routes = [
             /* webpackChunkName: "admin-user-detail-info" */ '@/views/admin/userManage/UserDetailInfo'
           ),
       },
+      {
+        path: 'style-shop-list-notice',
+        name: 'admin-style-shop-list-notice',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin-stype-shop-list-notice" */ '@/views/admin/boardManage/StyleShopListNotice'
+          ),
+      },
     ],
   },
 ];

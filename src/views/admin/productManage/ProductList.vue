@@ -189,7 +189,7 @@
                   <v-row>
                     <v-col>
                       <v-img
-                        :src="'data:image/png;base64,' + item.image"
+                        :src="`${imageUrl}${item.fileName}`"
                         style="width: 100px; height: 100px"
                       />
                     </v-col>
@@ -287,6 +287,7 @@ export default {
   },
   data() {
     return {
+      imageUrl: process.env.VUE_APP_IMAGE_URL,
       productShowTypes: [''],
       salePriceMin: '',
       salePriceMax: '',

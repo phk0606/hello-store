@@ -59,7 +59,7 @@
           <v-img
             class="white--text align-end"
             height="200px"
-            :src="'data:image/png;base64,' + content.image"
+            :src="`${imageUrl}${content.fileName}`"
           >
             <!-- <v-card-title>Top 10 Australian beaches</v-card-title> -->
           </v-img>
@@ -146,6 +146,7 @@ export default {
   },
   data() {
     return {
+      imageUrl: process.env.VUE_APP_IMAGE_URL,
       productProperty: null,
       contentList: null,
       page: 1,
