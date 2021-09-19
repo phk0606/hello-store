@@ -5,6 +5,10 @@ function getCategories() {
   return instance.get('/getCategories');
 }
 
+function getChildCategories() {
+  return instance.get('/getChildCategories');
+}
+
 function getCategory(data) {
   return instance.get('/getCategory', { params: data });
 }
@@ -23,6 +27,7 @@ function deleteCategory(data) {
 
 export {
   getCategories,
+  getChildCategories,
   getCategory,
   createCategory,
   modifyCategory,

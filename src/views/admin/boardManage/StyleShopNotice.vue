@@ -27,25 +27,28 @@
         </v-row>
 
         <v-row dense align="center" justify="start">
-          <v-col cols="2">
+          <v-col cols="3">
             <v-select
               label="카테고리 선택"
               v-model="categorySelected"
               :items="categoryItems"
+              item-text="name"
+              item-value="id"
               outlined
               hide-details
               dense
               :menu-props="{ offsetY: true }"
+              @change="getCategoryNotice"
             />
           </v-col>
         </v-row>
-        <v-row dense>
+        <v-row>
           <v-col cols="10">
             <v-textarea
               rows="5"
               outlined
               hide-details
-              v-model="styleShopListNotice"
+              v-model="categoryNotice"
               label="공지 내용"
               :counter="10"
             />
@@ -58,7 +61,7 @@
         <v-divider />
         <v-row dense>
           <v-col cols="10">
-            <v-btn>저장</v-btn>
+            <v-btn @click="mergeNoticeContent">저장</v-btn>
           </v-col>
         </v-row>
       </v-col>
@@ -68,19 +71,22 @@
 
 <script>
 import AdminBoardLeft from '@/components/admin/AdminBoardLeft.vue';
-import { getStyleShopListNotice } from '@/api/board';
-import { getCategory } from '@/api/category';
+import { getCategoryNotice, mergeNoticeContent } from '@/api/board';
+import { getChildCategories } from '@/api/category';
 
 export default {
   name: 'admin-style-shop-list-notice',
-  created() {},
+  created() {
+    this.getChildCategories();
+  },
   components: {
     AdminBoardLeft,
   },
 
   data() {
     return {
-      styleShopListNotice: '',
+      id: '',
+      categoryNotice: '',
       categorySelected: null,
       categoryItems: [],
       items: [
@@ -103,27 +109,34 @@ export default {
     };
   },
   methods: {
-    async getCategory() {
-      const { data } = await getCategory({
-        parentId: this.category1Select,
-      });
-      if (this.category1Select == null) {
-        this.category1 = data;
-      } else {
-        this.category2 = data;
-        this.category2Select = null;
-        console.log(data);
-        //this.category2Select = data[0].value;
+    async getChildCategories() {
+      const { data } = await getChildCategories({});
+      // console.log(data);
+      this.categoryItems = data;
+    },
+    async mergeNoticeContent() {
+      try {
+        const response = await mergeNoticeContent({
+          id: this.id,
+          categoryId: this.categorySelected,
+          content: this.categoryNotice,
+        });
+        this.getCategoryNotice();
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
       }
     },
-    async getStyleShopListNotice() {
+    async getCategoryNotice() {
+      console.log(this.categorySelected);
       try {
-        const { data } = await getStyleShopListNotice({
-          category: this.categorySelected,
+        const { data } = await getCategoryNotice({
+          categoryId: this.categorySelected,
         });
-
         console.log(data);
-        // this.activeTab = 0;
+        this.categoryNotice = data.content;
+        this.id = data.id;
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;

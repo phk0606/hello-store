@@ -1,8 +1,12 @@
 import { board } from './index';
 
-function getStyleShopListNotice(data) {
+function getCategoryNotice(data) {
   console.log(data.username);
-  return board.get(`/${data.username}`);
+  return board.get('/getCategoryNotice', { params: data });
 }
 
-export { getStyleShopListNotice };
+function mergeNoticeContent(data) {
+  return board.post('/mergeNoticeContent', data);
+}
+
+export { getCategoryNotice, mergeNoticeContent };
