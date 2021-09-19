@@ -10,10 +10,19 @@
 
     <v-list dense>
       <v-list-item-group>
-        <router-link to="/admin/user-list"
-          ><v-subheader>공지 사항</v-subheader></router-link
-        >
-        <v-treeview dense activatable color="warning" :items="menus" />
+        <v-subheader>공지 사항</v-subheader>
+        <v-list-item to="/admin/style-shop-list-notice">
+          <v-icon>mdi-menu-right</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>스타일 숍 공지</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/admin/notice-list">
+          <v-icon>mdi-menu-right</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>고객 센터 공지</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <router-link to="/admin/product-regist"
           ><v-subheader>커뮤니티</v-subheader></router-link
         >
@@ -46,12 +55,7 @@
 <script>
 export default {
   name: 'AdminProductLeft',
-  data: () => ({
-    items: [
-      { text: '스타일 숍 공지', icon: 'mdi-clock' },
-      { text: '고객 센터 공지', icon: 'mdi-account' },
-    ],
-  }),
+  data: () => ({}),
 };
 </script>
 

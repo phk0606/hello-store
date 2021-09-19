@@ -240,7 +240,7 @@ export default {
         {
           title: '고객 센터 공지',
           icon: 'mdi-account',
-          to: '/admin/product-list',
+          to: '/admin/notice-list',
         },
         {
           title: '커뮤니티',

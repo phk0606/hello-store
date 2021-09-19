@@ -21,13 +21,6 @@ export default {
     },
   },
   data: () => ({
-    items: [
-      { text: 'Outer', icon: 'mdi-clock' },
-      { text: 'Top', icon: 'mdi-account' },
-      { text: 'Bottom', icon: 'mdi-flag' },
-      { text: 'Skirt', icon: 'mdi-flag' },
-      { text: 'Dress', icon: 'mdi-flag' },
-    ],
     menus: [],
     model: 1,
   }),
