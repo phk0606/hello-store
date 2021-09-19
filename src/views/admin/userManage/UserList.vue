@@ -133,34 +133,10 @@
               class="elevation-1"
               disable-sort
             >
-              <template v-slot:[`item.image`]="{ item }">
-                <v-container>
-                  <v-row>
-                    <v-col>
-                      <v-img
-                        :src="'data:image/png;base64,' + item.image"
-                        style="width: 100px; height: 100px"
-                      />
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </template>
-              <template v-slot:[`item.name`]="{ item }">
-                <v-row>{{ item.categoryName }}</v-row>
-                <v-row>{{ item.name }}</v-row>
-              </template>
-              <template v-slot:[`item.createdDate`]="{ item }">
-                <v-row>{{ item.createdDate }}</v-row>
-              </template>
-              <template v-slot:[`item.productShowType`]="{ item }">
-                <v-row justify="center">
-                  {{ item.productShowTypeValue }}
-                </v-row>
-              </template>
-              <template v-slot:[`item.modify`]="{ item }">
-                <v-row
-                  ><v-btn :to="`/admin/product-modify/${item.productId}`"
-                    >수정</v-btn
+              <template v-slot:[`item.userDetailInfo`]="{ item }">
+                <v-row justify="center"
+                  ><v-btn :to="`/admin/user-detail-info/${item.username}`"
+                    >상세 보기</v-btn
                   ></v-row
                 >
               </template>
@@ -243,6 +219,7 @@ export default {
         { text: '아이디', align: 'center', value: 'username' },
         { text: '구매금액', align: 'center', value: 'purchasePrice' },
         { text: '적립 포인트', align: 'center', value: 'point' },
+        { text: '상세 보기', align: 'center', value: 'userDetailInfo' },
       ],
       userList: [],
       userJoinDateA: '',

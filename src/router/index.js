@@ -198,6 +198,14 @@ const routes = [
             /* webpackChunkName: "exchange-list" */ '@/views/admin/userManage/UserList'
           ),
       },
+      {
+        path: 'user-detail-info/:username',
+        name: 'admin-user-detail-info',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin-user-detail-info" */ '@/views/admin/userManage/UserDetailInfo'
+          ),
+      },
     ],
   },
 ];

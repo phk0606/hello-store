@@ -10,7 +10,7 @@
 
     <v-list dense>
       <v-list-item-group>
-        <router-link to="/admin/product-regist"
+        <router-link to="/admin/user-list"
           ><v-subheader>회원 리스트</v-subheader></router-link
         >
         <router-link to="/admin/product-regist"
