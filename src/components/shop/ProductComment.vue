@@ -263,7 +263,7 @@
         </v-card>
       </v-expansion-panel>
     </v-expansion-panels>
-    <v-container>
+    <!-- <v-container>
       <v-row justify="center" class="pt-2" style="text-align: center">
         <v-col cols="auto">
           <pagination
@@ -283,12 +283,12 @@
           />
         </v-col>
       </v-row>
-    </v-container>
+    </v-container> -->
   </div>
 </template>
 
 <script>
-import Pagination from 'vue-pagination-2';
+// import Pagination from 'vue-pagination-2';
 export default {
   data() {
     return {
@@ -304,7 +304,7 @@ export default {
     };
   },
   components: {
-    Pagination,
+    // Pagination,
   },
   methods: {
     replyRegistShow(index) {

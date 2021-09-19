@@ -260,7 +260,7 @@ export default {
         {
           title: '상품평',
           icon: 'mdi-flag',
-          to: '/admin/category-manage',
+          to: '/admin/product-comment-list',
         },
         {
           title: '자주 하는 질문',

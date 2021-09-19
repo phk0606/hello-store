@@ -32,7 +32,7 @@
         <router-link to="/admin/product-regist"
           ><v-subheader>1:1 문의</v-subheader></router-link
         >
-        <router-link to="/admin/product-regist"
+        <router-link to="/admin/product-comment-list"
           ><v-subheader>상품평</v-subheader></router-link
         >
         <router-link to="/admin/product-regist"
