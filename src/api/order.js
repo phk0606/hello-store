@@ -12,6 +12,10 @@ function getOrdersByUsername(data) {
   return order.get('/getOrdersByUsername', { params: data });
 }
 
+function getOrderProductsByUsername(data) {
+  return order.get('/getOrderProductsByUsername', { params: data });
+}
+
 function getOrders(data) {
   return order.get('/getOrders', { params: data });
 }
@@ -41,6 +45,7 @@ export {
   getOrder,
   getOrders,
   getOrdersByUsername,
+  getOrderProductsByUsername,
   modifyOrdererPhoneNumber,
   modifyDeliveryInfo,
   orderCancel,

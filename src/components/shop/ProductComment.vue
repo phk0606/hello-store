@@ -19,17 +19,27 @@
               </v-card-title>
               <v-card-text>
                 <v-container>
-                  <v-row>
+                  <v-row align="center">
                     <v-col cols="6">
                       <v-select
-                        :items="items"
+                        :items="purchasedProducts"
                         label="구매한 상품을 선택하세요."
                         hide-details
                         outlined
                         dense
                         :menu-props="{ offsetY: true }"
-                      />
+                      >
+                        <template slot="selection" slot-scope="data">
+                          {{ data.item.orderId }}, {{ data.item.createdDate }},
+                          {{ data.item.productName }}
+                        </template>
+                        <template slot="item" slot-scope="data">
+                          {{ data.item.orderId }}, {{ data.item.createdDate }},
+                          {{ data.item.productName }}
+                        </template>
+                      </v-select>
                     </v-col>
+                    <v-col>(1개월 이내 구매 상품)</v-col>
                   </v-row>
                   <v-row>
                     <v-col>
@@ -289,7 +299,12 @@
 
 <script>
 // import Pagination from 'vue-pagination-2';
+import { getOrderProductsByUsername } from '@/api/order';
+
 export default {
+  created() {
+    this.getOrderProductsByUsername();
+  },
   data() {
     return {
       url: null,
@@ -300,13 +315,25 @@ export default {
       panelItems: 5,
       rating: 4,
       dialog: false,
-      items: ['Foo', 'Bar', 'Fizz', 'Buzz'],
+      purchasedProducts: [],
     };
   },
   components: {
     // Pagination,
   },
   methods: {
+    async getOrderProductsByUsername() {
+      try {
+        const { data } = await getOrderProductsByUsername({
+          username: this.$store.state.username,
+        });
+        console.log(data);
+        this.purchasedProducts = data;
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
     replyRegistShow(index) {
       console.log(index);
       this.$refs.replyRegistRow[index].style.display = 'flex';
