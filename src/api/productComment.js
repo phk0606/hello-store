@@ -8,4 +8,8 @@ function createProductComment(data) {
   });
 }
 
-export { createProductComment };
+function getProductComments(data) {
+  return productComment.get('/getProductComments', { params: data });
+}
+
+export { createProductComment, getProductComments };

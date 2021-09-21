@@ -186,47 +186,37 @@
       </v-row>
     </v-container>
     <v-expansion-panels>
-      <v-expansion-panel v-for="(item, i) in panelItems" :key="i">
+      <v-expansion-panel v-for="(content, i) in contents" :key="i">
         <v-expansion-panel-header>
           <v-row>
             <v-col cols="2">
-              <v-img
-                src="//app-storage-edge-006.cafe24.com/bannermanage2/rooseoin0/2021/05/06/f0f36a4d1d86e805e2efd73894865765.jpg"
-                max-width="120"
-              />
+              <v-img :src="`${imageUrl}${content.fileName}`" max-width="120" />
             </v-col>
             <v-col cols="7">
               <v-row>
                 <v-col cols="7" class="d-flex">
-                  <div class="pr-2">2021-08-17 12:30:02</div>
+                  <div class="pr-2">{{ content.createdDate }}</div>
 
-                  <div>phk0606</div>
+                  <div>{{ content.username }}</div>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col>
                   <div>
-                    사진과 다르게 색감이 좋으며, 입었을 때 스판 원단으로
-                    불편함이 없어요! 친절한 상담, 빠른 배송 감사합니다
+                    {{ content.content }}
                   </div>
                 </v-col>
               </v-row>
             </v-col>
             <v-col cols="2" align-self="center">
-              <v-rating v-model="rating" color="indigo" small />
+              <v-rating :value="content.grade" color="indigo" small readonly />
             </v-col>
           </v-row>
         </v-expansion-panel-header>
 
         <v-expansion-panel-content>
           <v-row>
-            <v-col cols="2">
-              <v-img
-                src="//app-storage-edge-006.cafe24.com/bannermanage2/rooseoin0/2021/05/06/f0f36a4d1d86e805e2efd73894865765.jpg"
-                max-width="150"
-              />
-            </v-col>
-            <v-col cols="8">
+            <v-col cols="10">
               <v-row>
                 <v-col>
                   <div>
@@ -304,7 +294,7 @@
         </v-card>
       </v-expansion-panel>
     </v-expansion-panels>
-    <!-- <v-container>
+    <v-container>
       <v-row justify="center" class="pt-2" style="text-align: center">
         <v-col cols="auto">
           <pagination
@@ -324,27 +314,32 @@
           />
         </v-col>
       </v-row>
-    </v-container> -->
+    </v-container>
   </div>
 </template>
 
 <script>
-// import Pagination from 'vue-pagination-2';
+import Pagination from 'vue-pagination-2';
 import { getOrderProductsByUsername } from '@/api/order';
-import { createProductComment } from '@/api/productComment';
+import { createProductComment, getProductComments } from '@/api/productComment';
 
 export default {
   created() {
+    this.productId = this.$route.params.productId;
     this.getOrderProductsByUsername();
+    this.getProductComments();
   },
   data() {
     return {
+      imageUrl: process.env.VUE_APP_IMAGE_URL,
+      productId: null,
       url: null,
       image: null,
       gradeRadios: '5',
+      contents: null,
       content: null,
       page: 1,
-      panelItems: 5,
+      panelItems: 1,
       rating: 4,
       dialog: false,
       purchasedProducts: [],
@@ -352,9 +347,20 @@ export default {
     };
   },
   components: {
-    // Pagination,
+    Pagination,
   },
   methods: {
+    async getProductComments() {
+      try {
+        const { data } = await getProductComments({
+          productId: this.productId,
+        });
+        this.contents = data;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async createProductComment() {
       try {
         const formData = new FormData();
@@ -365,8 +371,9 @@ export default {
 
         const productCommentDto = {
           username: this.$store.state.username,
-          productId: this.purchasedProductSelected.productId,
+          orderProductId: this.purchasedProductSelected.orderProductId,
           content: this.content,
+          grade: this.gradeRadios,
         };
 
         formData.append(
