@@ -64,8 +64,8 @@
                   </v-row>
                   <v-row dense>
                     <v-col>
-                      <v-card>
-                        <v-card-text>
+                      <v-card flat>
+                        <v-card-text class="pa-0">
                           <v-radio-group dense hide-details v-model="radios">
                             <v-row>
                               <v-col> 평점 </v-col>
