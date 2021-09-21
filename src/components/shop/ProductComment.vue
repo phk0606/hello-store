@@ -54,7 +54,7 @@
                         <v-textarea
                           rows="3"
                           outlined
-                          v-model="productComment"
+                          v-model="content"
                           label="상품평"
                           :counter="10"
                           :error-messages="errors"
@@ -66,7 +66,11 @@
                     <v-col>
                       <v-card flat>
                         <v-card-text class="pa-0">
-                          <v-radio-group dense hide-details v-model="radios">
+                          <v-radio-group
+                            dense
+                            hide-details
+                            v-model="gradeRadios"
+                          >
                             <v-row>
                               <v-col> 평점 </v-col>
                             </v-row>
@@ -169,7 +173,7 @@
                   color="blue darken-1"
                   text
                   @click="
-                    save();
+                    createProductComment();
                     dialog = false;
                   "
                 >
@@ -327,6 +331,7 @@
 <script>
 // import Pagination from 'vue-pagination-2';
 import { getOrderProductsByUsername } from '@/api/order';
+import { createProductComment } from '@/api/productComment';
 
 export default {
   created() {
@@ -336,8 +341,8 @@ export default {
     return {
       url: null,
       image: null,
-      radios: '5',
-      productComment: null,
+      gradeRadios: '5',
+      content: null,
       page: 1,
       panelItems: 5,
       rating: 4,
@@ -350,8 +355,34 @@ export default {
     // Pagination,
   },
   methods: {
-    save() {
-      console.log(this.purchasedProductSelected);
+    async createProductComment() {
+      try {
+        const formData = new FormData();
+
+        if (this.image != null) {
+          formData.append('productCommentImages', this.image);
+        }
+
+        const productCommentDto = {
+          username: this.$store.state.username,
+          productId: this.purchasedProductSelected.productId,
+          content: this.content,
+        };
+
+        formData.append(
+          'productCommentDto',
+          new Blob([JSON.stringify(productCommentDto)], {
+            type: 'application/json',
+          }),
+        );
+
+        const response = await createProductComment(formData);
+
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
     },
     async getOrderProductsByUsername() {
       try {
