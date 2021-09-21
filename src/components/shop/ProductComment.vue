@@ -232,8 +232,23 @@
               </v-row>
             </v-col>
             <v-col cols="1" class="d-flex">
-              <v-btn outlined small color="purple" class="mr-2"> 수정 </v-btn>
-              <v-btn outlined small color="red"> 삭제 </v-btn>
+              <v-btn
+                @click="modifyProductComment(i)"
+                outlined
+                small
+                color="purple"
+                class="mr-2"
+              >
+                수정
+              </v-btn>
+              <v-btn
+                @click="removeProductComment(i)"
+                outlined
+                small
+                color="red"
+              >
+                삭제
+              </v-btn>
             </v-col>
           </v-row>
         </v-expansion-panel-content>
@@ -353,6 +368,8 @@ import {
   createProductCommentReply,
   getProductComments,
   getProductCommentReplyList,
+  modifyProductComment,
+  removeProductComment,
 } from '@/api/productComment';
 
 export default {
@@ -385,6 +402,29 @@ export default {
     Pagination,
   },
   methods: {
+    async removeProductComment(index) {
+      try {
+        await removeProductComment({
+          productCommentId: this.contents[index].productCommentId,
+        });
+        //console.log(data);
+        this.getProductComments(1);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async modifyProductComment(index) {
+      try {
+        const { data } = await modifyProductComment({
+          productCommentId: this.contents[index].productCommentId,
+          content: this.contents[index].content,
+        });
+        console.log(data);
+        this.getProductComments(1);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async getProductCommentReplies(index) {
       try {
         const { data } = await getProductCommentReplyList({

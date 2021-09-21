@@ -20,9 +20,19 @@ function getProductCommentReplyList(data) {
   return productComment.get('/getProductCommentReplyList', { params: data });
 }
 
+function modifyProductComment(data) {
+  return productComment.put('/modifyProductComment', data);
+}
+
+function removeProductComment(data) {
+  return productComment.delete('/removeProductComment', { data });
+}
+
 export {
   createProductComment,
   getProductComments,
   createProductCommentReply,
   getProductCommentReplyList,
+  modifyProductComment,
+  removeProductComment,
 };
