@@ -20,8 +20,9 @@
               <v-card-text>
                 <v-container>
                   <v-row align="center">
-                    <v-col cols="6">
+                    <v-col cols="12">
                       <v-select
+                        v-model="purchasedProductSelected"
                         :items="purchasedProducts"
                         label="구매한 상품을 선택하세요."
                         hide-details
@@ -30,15 +31,17 @@
                         :menu-props="{ offsetY: true }"
                       >
                         <template slot="selection" slot-scope="data">
-                          {{ data.item.orderId }}, {{ data.item.createdDate }},
-                          {{ data.item.productName }}
+                          {{ data.item.productName }} (주문일:
+                          {{ data.item.createdDate }})
                         </template>
                         <template slot="item" slot-scope="data">
-                          {{ data.item.orderId }}, {{ data.item.createdDate }},
-                          {{ data.item.productName }}
+                          {{ data.item.productName }} (주문일:
+                          {{ data.item.createdDate }})
                         </template>
                       </v-select>
                     </v-col>
+                  </v-row>
+                  <v-row dense>
                     <v-col>(1개월 이내 구매 상품)</v-col>
                   </v-row>
                   <v-row>
@@ -143,10 +146,17 @@
               <v-card-actions>
                 <v-spacer />
                 <v-btn color="blue darken-1" text @click="dialog = false">
-                  Close
+                  닫기
                 </v-btn>
-                <v-btn color="blue darken-1" text @click="dialog = false">
-                  Save
+                <v-btn
+                  color="blue darken-1"
+                  text
+                  @click="
+                    save();
+                    dialog = false;
+                  "
+                >
+                  저장
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -316,12 +326,16 @@ export default {
       rating: 4,
       dialog: false,
       purchasedProducts: [],
+      purchasedProductSelected: null,
     };
   },
   components: {
     // Pagination,
   },
   methods: {
+    save() {
+      console.log(this.purchasedProductSelected);
+    },
     async getOrderProductsByUsername() {
       try {
         const { data } = await getOrderProductsByUsername({
