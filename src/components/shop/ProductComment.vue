@@ -62,74 +62,91 @@
                       </validation-provider>
                     </v-col>
                   </v-row>
-                  <v-row>
-                    <v-card>
-                      <v-card-title>평점</v-card-title>
-                      <v-card-text>
-                        <v-radio-group dense hide-details v-model="radios" row>
-                          <v-radio value="1">
-                            <template v-slot:label>
-                              매우 만족
-                              <v-rating
-                                background-color="indigo lighten-3"
-                                color="indigo"
-                                small
-                                readonly
-                                :value="5"
-                              />
-                            </template>
-                          </v-radio>
-                          <v-radio value="2">
-                            <template v-slot:label>
-                              만족
-                              <v-rating
-                                background-color="indigo lighten-3"
-                                color="indigo"
-                                small
-                                readonly
-                                :value="4"
-                              />
-                            </template>
-                          </v-radio>
-                          <v-radio value="3">
-                            <template v-slot:label>
-                              보통
-                              <v-rating
-                                background-color="indigo lighten-3"
-                                color="indigo"
-                                small
-                                readonly
-                                :value="3"
-                              />
-                            </template>
-                          </v-radio>
-                          <v-radio value="4">
-                            <template v-slot:label>
-                              불만
-                              <v-rating
-                                background-color="indigo lighten-3"
-                                color="indigo"
-                                small
-                                readonly
-                                :value="2"
-                              />
-                            </template>
-                          </v-radio>
-                          <v-radio value="5">
-                            <template v-slot:label>
-                              매우불만
-                              <v-rating
-                                background-color="indigo lighten-3"
-                                color="indigo"
-                                small
-                                readonly
-                                :value="1"
-                              />
-                            </template>
-                          </v-radio>
-                        </v-radio-group>
-                      </v-card-text>
-                    </v-card>
+                  <v-row dense>
+                    <v-col>
+                      <v-card>
+                        <v-card-text>
+                          <v-radio-group dense hide-details v-model="radios">
+                            <v-row>
+                              <v-col> 평점 </v-col>
+                            </v-row>
+                            <v-row dense align="center">
+                              <v-col cols="auto">
+                                <v-radio value="5" />
+                              </v-col>
+                              <v-col cols="2"> 매우 만족 </v-col>
+                              <v-col>
+                                <v-rating
+                                  background-color="indigo lighten-3"
+                                  color="indigo"
+                                  small
+                                  readonly
+                                  :value="5"
+                                />
+                              </v-col>
+                            </v-row>
+                            <v-row dense align="center"
+                              ><v-col cols="auto">
+                                <v-radio value="4" />
+                              </v-col>
+                              <v-col cols="2"> 만족 </v-col>
+                              <v-col>
+                                <v-rating
+                                  background-color="indigo lighten-3"
+                                  color="indigo"
+                                  small
+                                  readonly
+                                  :value="4"
+                                /> </v-col
+                            ></v-row>
+                            <v-row dense align="center"
+                              ><v-col cols="auto">
+                                <v-radio value="3" />
+                              </v-col>
+                              <v-col cols="2"> 보통 </v-col>
+                              <v-col>
+                                <v-rating
+                                  background-color="indigo lighten-3"
+                                  color="indigo"
+                                  small
+                                  readonly
+                                  :value="3"
+                                /> </v-col
+                            ></v-row>
+                            <v-row dense align="center">
+                              <v-col cols="auto">
+                                <v-radio value="2" />
+                              </v-col>
+                              <v-col cols="2"> 불만 </v-col>
+                              <v-col>
+                                <v-rating
+                                  background-color="indigo lighten-3"
+                                  color="indigo"
+                                  small
+                                  readonly
+                                  :value="2"
+                                />
+                              </v-col>
+                            </v-row>
+                            <v-row dense align="center">
+                              <v-col cols="auto">
+                                <v-radio value="1" />
+                              </v-col>
+                              <v-col cols="2"> 매우불만 </v-col>
+                              <v-col>
+                                <v-rating
+                                  background-color="indigo lighten-3"
+                                  color="indigo"
+                                  small
+                                  readonly
+                                  :value="1"
+                                />
+                              </v-col>
+                            </v-row>
+                          </v-radio-group>
+                        </v-card-text>
+                      </v-card>
+                    </v-col>
                   </v-row>
                   <v-row>
                     <v-file-input
@@ -319,7 +336,7 @@ export default {
     return {
       url: null,
       image: null,
-      radios: 'Duckduckgo',
+      radios: '5',
       productComment: null,
       page: 1,
       panelItems: 5,
