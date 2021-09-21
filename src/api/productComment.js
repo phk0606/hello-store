@@ -8,8 +8,21 @@ function createProductComment(data) {
   });
 }
 
+function createProductCommentReply(data) {
+  return productComment.post('/createProductCommentReply', data);
+}
+
 function getProductComments(data) {
   return productComment.get('/getProductComments', { params: data });
 }
 
-export { createProductComment, getProductComments };
+function getProductCommentReplyList(data) {
+  return productComment.get('/getProductCommentReplyList', { params: data });
+}
+
+export {
+  createProductComment,
+  getProductComments,
+  createProductCommentReply,
+  getProductCommentReplyList,
+};

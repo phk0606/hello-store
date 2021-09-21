@@ -240,7 +240,7 @@
         <v-card flat>
           <v-row align="center">
             <v-col cols="2">
-              <v-btn text @click.prevent="replistShowToggle(i)"
+              <v-btn text @click.prevent="replyListShowToggle(i)"
                 >작성된 댓글({{ content.replyCount }})</v-btn
               >
             </v-col>
@@ -274,28 +274,50 @@
               <v-spacer />
             </v-col>
             <v-col cols="7">
-              <v-textarea outlined hide-details rows="1" />
+              <v-textarea
+                v-model="content.replyRegistContent"
+                outlined
+                hide-details
+                rows="1"
+              />
             </v-col>
             <v-col cols="4">
-              <v-btn dark color="deep-purple darken-3" class="mr-2">
+              <v-btn
+                @click="createReply(i)"
+                dark
+                color="deep-purple darken-3"
+                class="mr-2"
+              >
                 등록
               </v-btn>
             </v-col>
           </v-row>
-          <v-row ref="replyListRow" v-show="false" class="mt-0">
-            <v-col cols="1">
-              <v-spacer />
-            </v-col>
-            <v-col cols="10">
-              <v-card flat>
-                <v-card-subtitle> admin 2017-01-01 16:10 </v-card-subtitle>
-                <v-card-text>
-                  안녕하세요 고객님 저희 쇼핑몰을 이용해 주셔서 감사합니다.
-                  앞으로 더욱 노력하겠습니다.
-                </v-card-text>
-              </v-card>
-            </v-col>
-          </v-row>
+          <div v-show="false" ref="replyList">
+            <v-row
+              v-for="(productCommentReply, j) in content.productCommentReplies"
+              :key="j"
+              dense
+              align="center"
+            >
+              <v-col cols="1">
+                <v-spacer />
+              </v-col>
+              <v-col cols="auto">
+                <v-icon>mdi-arrow-right-bottom</v-icon>
+              </v-col>
+              <v-col cols="auto">
+                <v-card flat>
+                  <v-card-subtitle>
+                    {{ productCommentReply.username }}
+                    {{ productCommentReply.createdDate }}
+                  </v-card-subtitle>
+                  <v-card-text>
+                    {{ productCommentReply.content }}
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+          </div>
         </v-card>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -326,7 +348,12 @@
 <script>
 import Pagination from 'vue-pagination-2';
 import { getOrderProductsByUsername } from '@/api/order';
-import { createProductComment, getProductComments } from '@/api/productComment';
+import {
+  createProductComment,
+  createProductCommentReply,
+  getProductComments,
+  getProductCommentReplyList,
+} from '@/api/productComment';
 
 export default {
   created() {
@@ -336,6 +363,7 @@ export default {
   },
   data() {
     return {
+      replyRegistContent: [],
       imageUrl: process.env.VUE_APP_IMAGE_URL,
       productId: null,
       url: null,
@@ -357,6 +385,38 @@ export default {
     Pagination,
   },
   methods: {
+    async getProductCommentReplies(index) {
+      try {
+        const { data } = await getProductCommentReplyList({
+          productCommentId: this.contents[index].productCommentId,
+        });
+        console.log(data);
+        this.contents[index].productCommentReplies = data;
+        this.contents[index].replyCount = data.length;
+        this.contents[index].replyRegistContent = '';
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async createReply(index) {
+      try {
+        const replyRegistContent = this.contents[index].replyRegistContent;
+        const productCommentId = this.contents[index].productCommentId;
+        console.log(replyRegistContent);
+        const replyDto = {
+          productCommentId: productCommentId,
+          content: replyRegistContent,
+          username: this.$store.state.username,
+        };
+        const response = await createProductCommentReply(replyDto);
+
+        console.log(response);
+        this.getProductCommentReplies(index);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
     async getProductComments(page) {
       try {
         const { data } = await getProductComments({
@@ -424,11 +484,11 @@ export default {
       console.log(index);
       this.$refs.replyRegistRow[index].style.display = 'none';
     },
-    replistShowToggle(index) {
-      if (this.$refs.replyListRow[index].style.display === 'none') {
-        this.$refs.replyListRow[index].style.display = 'flex';
+    replyListShowToggle(index) {
+      if (this.$refs.replyList[index].style.display === 'none') {
+        this.$refs.replyList[index].style.display = 'block';
       } else {
-        this.$refs.replyListRow[index].style.display = 'none';
+        this.$refs.replyList[index].style.display = 'none';
       }
     },
     myCallback: function (page) {
