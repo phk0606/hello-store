@@ -215,13 +215,18 @@
         </v-expansion-panel-header>
 
         <v-expansion-panel-content>
-          <v-row>
+          <v-row align="center">
             <v-col cols="10">
               <v-row>
                 <v-col>
                   <div>
-                    사진과 다르게 색감이 좋으며, 입었을 때 스판 원단으로
-                    불편함이 없어요! 친절한 상담, 빠른 배송 감사합니다
+                    <v-text-field
+                      v-model="content.content"
+                      hide-details
+                      dense
+                      required
+                      solo-inverted
+                    />
                   </div>
                 </v-col>
               </v-row>
@@ -236,7 +241,7 @@
           <v-row align="center">
             <v-col cols="2">
               <v-btn text @click.prevent="replistShowToggle(i)"
-                >작성된 댓글(1)</v-btn
+                >작성된 댓글({{ content.replyCount }})</v-btn
               >
             </v-col>
             <v-col>
@@ -308,8 +313,8 @@
               },
             }"
             v-model="page"
-            :records="40"
-            :per-page="20"
+            :records="records"
+            :per-page="perPage"
             @paginate="myCallback"
           />
         </v-col>
@@ -327,7 +332,7 @@ export default {
   created() {
     this.productId = this.$route.params.productId;
     this.getOrderProductsByUsername();
-    this.getProductComments();
+    this.getProductComments(1);
   },
   data() {
     return {
@@ -339,6 +344,8 @@ export default {
       contents: null,
       content: null,
       page: 1,
+      records: 10,
+      perPage: 5,
       panelItems: 1,
       rating: 4,
       dialog: false,
@@ -350,12 +357,18 @@ export default {
     Pagination,
   },
   methods: {
-    async getProductComments() {
+    async getProductComments(page) {
       try {
         const { data } = await getProductComments({
+          page: page - 1,
+          size: this.perPage,
+
           productId: this.productId,
         });
-        this.contents = data;
+        this.contents = data.content;
+        this.perPage = data.size;
+        this.records = data.totalElements;
+        this.page = data.pageable.pageNumber + 1;
         console.log(data);
       } catch (error) {
         console.error(error);
@@ -420,6 +433,7 @@ export default {
     },
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
+      this.getProductComments(page);
     },
     Preview_image(e) {
       if (e !== null) {
