@@ -86,7 +86,6 @@
                             rows="3"
                             outlined
                             :counter="100"
-                            :error-messages="errors"
                           />
                           <v-btn
                             @click="modifyQuestion(i)"
@@ -114,7 +113,6 @@
                             rows="3"
                             outlined
                             :counter="100"
-                            :error-messages="errors"
                           />
                           <v-btn
                             @click="modifyAnswer(i)"
@@ -165,20 +163,13 @@
                                   <v-container>
                                     <v-row>
                                       <v-col>
-                                        <validation-provider
-                                          name="ProductComment"
-                                          v-slot="{ errors }"
-                                          rules="required|max:10"
-                                        >
-                                          <v-textarea
-                                            v-model="content.answerContent"
-                                            rows="3"
-                                            outlined
-                                            label="답변"
-                                            :counter="100"
-                                            :error-messages="errors"
-                                          />
-                                        </validation-provider>
+                                        <v-textarea
+                                          v-model="content.answer"
+                                          rows="3"
+                                          outlined
+                                          label="답변"
+                                          :counter="100"
+                                        />
                                       </v-col>
                                     </v-row>
                                   </v-container>
@@ -198,7 +189,7 @@
                                     @click="
                                       createProductAnswer(
                                         content.productQuestionId,
-                                        content.answerContent,
+                                        content.answer,
                                       );
                                       dialog = false;
                                     "
@@ -443,6 +434,7 @@ export default {
         const response = await createProductAnswer(productQnADto);
 
         console.log(response);
+        this.getProductQnA(1);
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;
