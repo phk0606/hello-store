@@ -28,6 +28,14 @@ function removeProductComment(data) {
   return productComment.delete('/removeProductComment', { data });
 }
 
+function modifyProductCommentReply(data) {
+  return productComment.put('/modifyProductCommentReply', data);
+}
+
+function removeProductCommentReply(data) {
+  return productComment.delete('/removeProductCommentReply', { data });
+}
+
 export {
   createProductComment,
   getProductComments,
@@ -35,4 +43,6 @@ export {
   getProductCommentReplyList,
   modifyProductComment,
   removeProductComment,
+  modifyProductCommentReply,
+  removeProductCommentReply,
 };

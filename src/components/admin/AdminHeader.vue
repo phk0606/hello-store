@@ -245,7 +245,7 @@ export default {
         {
           title: '커뮤니티',
           icon: 'mdi-flag',
-          to: '/admin/category-manage',
+          to: '/admin/community-list',
         },
         {
           title: '상품 문의',

@@ -23,7 +23,7 @@
             <v-list-item-title>고객 센터 공지</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <router-link to="/admin/product-regist"
+        <router-link to="/admin/community-list"
           ><v-subheader>커뮤니티</v-subheader></router-link
         >
         <router-link to="/admin/product-regist"

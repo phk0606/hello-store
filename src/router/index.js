@@ -239,6 +239,14 @@ const routes = [
           ),
       },
       {
+        path: 'community-list',
+        name: 'admin-community-list',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin-community-list" */ '@/views/admin/boardManage/CommunityList'
+          ),
+      },
+      {
         path: 'product-comment-list',
         name: 'admin-product-comment-list',
         component: () =>

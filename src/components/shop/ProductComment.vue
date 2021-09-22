@@ -328,6 +328,23 @@
                   </v-card-subtitle>
                   <v-card-text>
                     {{ productCommentReply.content }}
+                    <v-btn
+                      @click="modifyProductCommentReply(i, j)"
+                      outlined
+                      small
+                      color="purple"
+                      class="mr-2"
+                    >
+                      수정
+                    </v-btn>
+                    <v-btn
+                      @click="removeProductCommentReply(i, j)"
+                      outlined
+                      small
+                      color="red"
+                    >
+                      삭제
+                    </v-btn>
                   </v-card-text>
                 </v-card>
               </v-col>
@@ -370,6 +387,8 @@ import {
   getProductCommentReplyList,
   modifyProductComment,
   removeProductComment,
+  modifyProductCommentReply,
+  removeProductCommentReply,
 } from '@/api/productComment';
 
 export default {
@@ -402,6 +421,31 @@ export default {
     Pagination,
   },
   methods: {
+    async removeProductCommentReply(i, j) {
+      try {
+        await removeProductCommentReply({
+          productCommentReplyId:
+            this.contents[i].productCommentReplies[j].productCommentReplyId,
+        });
+        //console.log(data);
+        this.getProductComments(1);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async modifyProductCommentReply(i, j) {
+      try {
+        const { data } = await modifyProductCommentReply({
+          productCommentReplyId:
+            this.contents[i].productCommentReplies[j].productCommentReplyId,
+          content: this.contents[i].productCommentReplies[j].content,
+        });
+        console.log(data);
+        this.getProductComments(1);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async removeProductComment(index) {
       try {
         await removeProductComment({

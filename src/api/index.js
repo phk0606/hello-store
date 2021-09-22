@@ -24,6 +24,7 @@ export const styleShopNotice = createInstanceWithAuth('/styleShopNotice');
 export const productComment = createInstanceWithAuth('/productComment');
 export const productQnA = createInstanceWithAuth('/productQnA');
 export const notice = createInstanceWithAuth('/notice');
+export const community = createInstanceWithAuth('/community');
 
 export const posts = createInstanceWithAuth('posts');
 
