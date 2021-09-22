@@ -1,21 +1,21 @@
 <template>
   <div>
     <v-expansion-panels>
-      <v-expansion-panel v-for="(item, i) in panelItems" :key="i">
+      <v-expansion-panel v-for="(content, i) in contents" :key="i">
         <v-expansion-panel-header>
           <v-row>
             <v-col cols="auto">
-              {{ i }}
+              {{ content.productQuestionId }}
             </v-col>
             <v-col cols="6">
-              <div>색상이 2가지 뿐인데요. 다른 색은 없는 것인가요?...</div>
+              <div>{{ content.questionContent }}</div>
             </v-col>
 
             <v-col cols="2">
-              <div>phk0606</div>
+              <div>{{ content.questionUsername }}</div>
             </v-col>
             <v-col cols="auto" class="d-flex">
-              <div class="pr-2">2021-08-17 12:30:02</div>
+              <div class="pr-2">{{ content.questionCreatedDate }}</div>
             </v-col>
           </v-row>
         </v-expansion-panel-header>
@@ -23,9 +23,9 @@
         <v-expansion-panel-content>
           <v-row>
             <v-col cols="7">
-              <div>Q. 색상이 2가지 뿐인데요. 다른 색은 없는 것인가요?...</div>
+              <div>Q. {{ content.questionContent }}</div>
 
-              <div>A. 관리자에서 등록한 답변</div>
+              <div>A. {{ content.answerContent }}</div>
             </v-col>
             <v-col cols="1" class="d-flex">
               <v-btn outlined small color="purple" class="mr-2"> 수정 </v-btn>
@@ -36,8 +36,17 @@
         <v-card flat>
           <v-row align="center">
             <v-col cols="1" />
-            <v-col cols="6">
-              답변 여부 : 답변 준비중 입니다. 신속하게 답변 드리겠습니다.
+            <v-col cols="6" v-if="content.answerContent">
+              {{ content.answerContent }}
+            </v-col>
+            <v-col cols="6" v-else>
+              답변 준비중입니다. 신속하게 답변 드리겠습니다.
+            </v-col>
+            <v-col cols="2">
+              <div>{{ content.answerUsername }}</div>
+            </v-col>
+            <v-col cols="auto" class="d-flex">
+              <div class="pr-2">{{ content.answerCreatedDate }}</div>
             </v-col>
           </v-row>
           <v-row
@@ -89,8 +98,8 @@
               },
             }"
             v-model="page"
-            :records="40"
-            :per-page="20"
+            :records="records"
+            :per-page="perPage"
             @paginate="myCallback"
           />
         </v-col>
@@ -101,6 +110,7 @@
       <v-row align="center">
         <v-col cols="10">
           <v-textarea
+            v-model="productQuestion"
             outlined
             rows="3"
             hide-details
@@ -111,7 +121,7 @@
           />
         </v-col>
         <v-col>
-          <v-btn large>등록</v-btn>
+          <v-btn @click="createProductQuestion" large>등록</v-btn>
         </v-col>
       </v-row>
     </v-container>
@@ -120,18 +130,61 @@
 
 <script>
 import Pagination from 'vue-pagination-2';
+import { createProductQuestion, getProductQnA } from '@/api/productQnA';
 
 export default {
+  created() {
+    this.productId = this.$route.params.productId;
+    this.getProductQnA(1);
+  },
   data() {
     return {
+      contents: null,
+      productId: '',
+      productQuestion: '',
       panelItems: 5,
       page: 1,
+      records: 10,
+      perPage: 5,
     };
   },
   components: {
     Pagination,
   },
   methods: {
+    async getProductQnA(page) {
+      try {
+        const { data } = await getProductQnA({
+          page: page - 1,
+          size: this.perPage,
+
+          productId: this.productId,
+        });
+        this.contents = data.content;
+        this.perPage = data.size;
+        this.records = data.totalElements;
+        this.page = data.pageable.pageNumber + 1;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async createProductQuestion() {
+      try {
+        const productQnADto = {
+          questionUsername: this.$store.state.username,
+          questionContent: this.productQuestion,
+          productId: this.productId,
+        };
+
+        const response = await createProductQuestion(productQnADto);
+
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
     },
