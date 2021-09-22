@@ -230,6 +230,14 @@ const routes = [
             /* webpackChunkName: "admin-product-comment-list" */ '@/views/admin/boardManage/ProductCommentList'
           ),
       },
+      {
+        path: 'product-qna-list',
+        name: 'admin-product-qna-list',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin-product-qna-list" */ '@/views/admin/boardManage/ProductQnAList'
+          ),
+      },
     ],
   },
 ];

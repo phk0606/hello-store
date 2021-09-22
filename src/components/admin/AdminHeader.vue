@@ -250,7 +250,7 @@ export default {
         {
           title: '상품 문의',
           icon: 'mdi-flag',
-          to: '/admin/category-manage',
+          to: '/admin/product-qna-list',
         },
         {
           title: '1:1 문의',

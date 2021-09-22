@@ -142,7 +142,6 @@ export default {
       contents: null,
       productId: '',
       productQuestion: '',
-      panelItems: 5,
       page: 1,
       records: 10,
       perPage: 5,
