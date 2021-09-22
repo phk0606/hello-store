@@ -39,7 +39,7 @@
         <v-row>
           <v-col cols="auto">제목</v-col>
           <v-col cols="auto">
-            <v-text-field v-model="searchText" dense hide-details outlined />
+            <v-text-field v-model="noticeTitle" dense hide-details outlined />
           </v-col>
         </v-row>
 
@@ -50,7 +50,7 @@
         </v-row>
         <v-row>
           <v-col cols="auto">
-            <v-btn @click.prevent="createProduct">등록</v-btn>
+            <v-btn @click="createNotice">등록</v-btn>
           </v-col>
           <v-col>
             <v-btn>취소</v-btn>
@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import { createNotice } from '@/api/notice';
 import AdminBoardLeft from '@/components/admin/AdminBoardLeft.vue';
 import {
   TiptapVuetify,
@@ -88,8 +89,29 @@ export default {
     AdminBoardLeft,
     TiptapVuetify,
   },
+  methods: {
+    async createNotice() {
+      try {
+        const noticeDto = {
+          title: this.noticeTitle,
+          content: this.noticeContent,
+          important: this.importantNotice,
+        };
+
+        const response = await createNotice(noticeDto);
+
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
+  },
   data() {
     return {
+      importantNotice: false,
+      noticeTitle: '',
+      noticeContent: '',
       extensions: [
         History,
         Image,

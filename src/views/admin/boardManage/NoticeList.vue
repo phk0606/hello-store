@@ -44,7 +44,7 @@
             </v-text-field>
           </v-col>
           <v-col cols="auto">
-            <v-btn color="indigo" dark @click="getOrders(1)">검색</v-btn>
+            <v-btn color="indigo" dark @click="getNotices(1)">검색</v-btn>
           </v-col>
         </v-row>
         <v-divider />
@@ -54,12 +54,20 @@
               hide-default-footer
               v-model="selected"
               :headers="headers"
-              :items="contentList"
+              :items="contents"
               item-key="orderId"
               show-select
               class="elevation-1"
               disable-sort
-            />
+            >
+              <template v-slot:[`item.noticeDetail`]="{ item }">
+                <v-row
+                  ><v-btn :to="`/admin/notice-detail/${item.noticeId}`"
+                    >상세 보기</v-btn
+                  ></v-row
+                >
+              </template>
+            </v-data-table>
           </v-col>
         </v-row>
         <v-row justify="center" style="text-align: center">
@@ -93,16 +101,18 @@
 </template>
 
 <script>
+import { getNotices } from '@/api/notice';
 import AdminBoardLeft from '@/components/admin/AdminBoardLeft.vue';
 import Pagination from 'vue-pagination-2';
 
 export default {
-  created() {},
+  created() {
+    this.getNotices(1);
+  },
   components: {
     Pagination,
     AdminBoardLeft,
   },
-
   data() {
     return {
       searchSelected: null,
@@ -122,12 +132,13 @@ export default {
           text: '번호',
           align: 'center',
           sortable: false,
-          value: 'orderId',
+          value: 'noticeId',
         },
-        { text: '제목', align: 'center', sortable: false, value: 'image' },
+        { text: '제목', align: 'center', sortable: false, value: 'title' },
         { text: '작성일', align: 'center', value: 'createdDate' },
+        { text: '상세보기', align: 'center', value: 'noticeDetail' },
       ],
-      contentList: [],
+      contents: [],
       items: [
         {
           text: '게시판 관리',
@@ -143,8 +154,24 @@ export default {
     };
   },
   methods: {
+    async getNotices(page) {
+      try {
+        const { data } = await getNotices({
+          page: page - 1,
+          size: this.perPage,
+        });
+        this.contents = data.content;
+        this.perPage = data.size;
+        this.records = data.totalElements;
+        this.page = data.pageable.pageNumber + 1;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
+      this.getNotices(page);
     },
   },
 };
