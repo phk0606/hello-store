@@ -79,97 +79,136 @@
                   <v-container>
                     <v-row>
                       <v-col cols="7">
-                        <v-row>Q. {{ content.questionContent }}</v-row>
+                        <v-row
+                          >Q.
+                          <v-textarea
+                            v-model="content.questionContent"
+                            rows="3"
+                            outlined
+                            :counter="100"
+                            :error-messages="errors"
+                          />
+                          <v-btn
+                            @click="modifyQuestion(i)"
+                            outlined
+                            small
+                            color="purple"
+                            class="mr-2"
+                          >
+                            수정
+                          </v-btn>
+                          <v-btn
+                            @click="removeQuestion(i)"
+                            outlined
+                            small
+                            color="red"
+                          >
+                            삭제
+                          </v-btn>
+                        </v-row>
 
                         <v-row v-if="content.answerContent">
-                          A. {{ content.answerContent }}
-                        </v-row>
-                        <v-row v-else>A. 등록된 답변이 없습니다.</v-row>
-                      </v-col>
-                      <v-col cols="">
-                        <v-row>
-                          <v-btn outlined small color="purple" class="mr-2">
-                            수정
-                          </v-btn>
-                          <v-btn outlined small color="red"> 삭제 </v-btn>
-                        </v-row>
-                        <v-row>
-                          <v-btn outlined small color="purple" class="mr-2">
-                            수정
-                          </v-btn>
-                          <v-btn outlined small color="red"> 삭제 </v-btn>
-
-                          <v-dialog
-                            v-model="dialog"
-                            persistent
-                            max-width="600px"
+                          A.
+                          <v-textarea
+                            v-model="content.answerContent"
+                            rows="3"
+                            outlined
+                            :counter="100"
+                            :error-messages="errors"
+                          />
+                          <v-btn
+                            @click="modifyAnswer(i)"
+                            outlined
+                            small
+                            color="purple"
+                            class="mr-2"
                           >
-                            <template v-slot:activator="{ on, attrs }">
-                              <v-btn
-                                color="purple"
-                                small
-                                dark
-                                v-bind="attrs"
-                                v-on="on"
-                              >
-                                답변하기
-                              </v-btn>
-                            </template>
-                            <v-card>
-                              <v-card-title>
-                                <span class="text-h5"
-                                  ><v-icon large color="indigo">
-                                    mdi-lead-pencil </v-icon
-                                  >상품 문의 답변/수정 하기</span
-                                >
-                              </v-card-title>
-                              <v-card-text>
-                                <v-container>
-                                  <v-row>
-                                    <v-col>
-                                      <validation-provider
-                                        name="ProductComment"
-                                        v-slot="{ errors }"
-                                        rules="required|max:10"
-                                      >
-                                        <v-textarea
-                                          v-model="content.answerContent"
-                                          rows="3"
-                                          outlined
-                                          label="답변"
-                                          :counter="100"
-                                          :error-messages="errors"
-                                        />
-                                      </validation-provider>
-                                    </v-col>
-                                  </v-row>
-                                </v-container>
-                              </v-card-text>
-                              <v-card-actions>
-                                <v-spacer />
+                            수정
+                          </v-btn>
+                          <v-btn
+                            @click="removeAnswer(i)"
+                            outlined
+                            small
+                            color="red"
+                          >
+                            삭제
+                          </v-btn>
+                        </v-row>
+                        <v-row v-else>
+                          <v-col> A. 등록된 답변이 없습니다. </v-col>
+                          <v-col cols="">
+                            <v-dialog
+                              v-model="dialog"
+                              persistent
+                              max-width="600px"
+                            >
+                              <template v-slot:activator="{ on, attrs }">
                                 <v-btn
-                                  color="blue darken-1"
-                                  text
-                                  @click="dialog = false"
+                                  color="purple"
+                                  small
+                                  dark
+                                  v-bind="attrs"
+                                  v-on="on"
                                 >
-                                  닫기
+                                  답변하기
                                 </v-btn>
-                                <v-btn
-                                  color="blue darken-1"
-                                  text
-                                  @click="
-                                    createProductAnswer(
-                                      content.productQuestionId,
-                                      content.answerContent,
-                                    );
-                                    dialog = false;
-                                  "
-                                >
-                                  저장
-                                </v-btn>
-                              </v-card-actions>
-                            </v-card>
-                          </v-dialog>
+                              </template>
+                              <v-card>
+                                <v-card-title>
+                                  <span class="text-h5"
+                                    ><v-icon large color="indigo">
+                                      mdi-lead-pencil </v-icon
+                                    >상품 문의 답변/수정 하기</span
+                                  >
+                                </v-card-title>
+                                <v-card-text>
+                                  <v-container>
+                                    <v-row>
+                                      <v-col>
+                                        <validation-provider
+                                          name="ProductComment"
+                                          v-slot="{ errors }"
+                                          rules="required|max:10"
+                                        >
+                                          <v-textarea
+                                            v-model="content.answerContent"
+                                            rows="3"
+                                            outlined
+                                            label="답변"
+                                            :counter="100"
+                                            :error-messages="errors"
+                                          />
+                                        </validation-provider>
+                                      </v-col>
+                                    </v-row>
+                                  </v-container>
+                                </v-card-text>
+                                <v-card-actions>
+                                  <v-spacer />
+                                  <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="dialog = false"
+                                  >
+                                    닫기
+                                  </v-btn>
+                                  <v-btn
+                                    color="blue darken-1"
+                                    text
+                                    @click="
+                                      createProductAnswer(
+                                        content.productQuestionId,
+                                        content.answerContent,
+                                      );
+                                      dialog = false;
+                                    "
+                                  >
+                                    저장
+                                  </v-btn>
+                                </v-card-actions>
+                              </v-card>
+                            </v-dialog>
+                          </v-col>
                         </v-row>
                       </v-col>
                     </v-row>
@@ -205,22 +244,6 @@
                       <v-btn dark color="deep-purple darken-3" class="mr-2">
                         등록
                       </v-btn>
-                    </v-col>
-                  </v-row>
-                  <v-row ref="replyListRow" v-show="false" class="mt-0">
-                    <v-col cols="1">
-                      <v-spacer />
-                    </v-col>
-                    <v-col cols="10">
-                      <v-card flat>
-                        <v-card-subtitle>
-                          admin 2017-01-01 16:10
-                        </v-card-subtitle>
-                        <v-card-text>
-                          안녕하세요 고객님 저희 쇼핑몰을 이용해 주셔서
-                          감사합니다. 앞으로 더욱 노력하겠습니다.
-                        </v-card-text>
-                      </v-card>
                     </v-col>
                   </v-row>
                 </v-card>
@@ -282,6 +305,10 @@ import {
   createProductQuestion,
   getProductQnA,
   createProductAnswer,
+  removeQuestion,
+  modifyQuestion,
+  removeAnswer,
+  modifyAnswer,
 } from '@/api/productQnA';
 
 export default {
@@ -327,6 +354,52 @@ export default {
     };
   },
   methods: {
+    async removeQuestion(index) {
+      try {
+        await removeQuestion({
+          productQuestionId: this.contents[index].productQuestionId,
+        });
+        //console.log(data);
+        this.getProductQnA(1);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async modifyQuestion(index) {
+      try {
+        const { data } = await modifyQuestion({
+          productQuestionId: this.contents[index].productQuestionId,
+          questionContent: this.contents[index].questionContent,
+        });
+        console.log(data);
+        this.getProductQnA(1);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async removeAnswer(index) {
+      try {
+        await removeAnswer({
+          productQuestionId: this.contents[index].productQuestionId,
+        });
+        //console.log(data);
+        this.getProductQnA(1);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async modifyAnswer(index) {
+      try {
+        const { data } = await modifyAnswer({
+          productQuestionId: this.contents[index].productQuestionId,
+          answerContent: this.contents[index].answerContent,
+        });
+        console.log(data);
+        this.getProductQnA(1);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async getProductQnA(page) {
       try {
         const { data } = await getProductQnA({

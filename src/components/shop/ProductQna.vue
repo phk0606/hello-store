@@ -67,20 +67,6 @@
               </v-btn>
             </v-col>
           </v-row>
-          <v-row ref="replyListRow" v-show="false" class="mt-0">
-            <v-col cols="1">
-              <v-spacer />
-            </v-col>
-            <v-col cols="10">
-              <v-card flat>
-                <v-card-subtitle> admin 2017-01-01 16:10 </v-card-subtitle>
-                <v-card-text>
-                  안녕하세요 고객님 저희 쇼핑몰을 이용해 주셔서 감사합니다.
-                  앞으로 더욱 노력하겠습니다.
-                </v-card-text>
-              </v-card>
-            </v-col>
-          </v-row>
         </v-card>
       </v-expansion-panel>
     </v-expansion-panels>
