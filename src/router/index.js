@@ -231,6 +231,14 @@ const routes = [
           ),
       },
       {
+        path: 'notice-detail/:noticeId',
+        name: 'admin-notice-detail',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin-notice-detail" */ '@/views/admin/boardManage/NoticeDetail'
+          ),
+      },
+      {
         path: 'product-comment-list',
         name: 'admin-product-comment-list',
         component: () =>

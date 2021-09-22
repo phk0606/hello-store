@@ -8,4 +8,8 @@ function getNotices(data) {
   return notice.get('/getNotices', { params: data });
 }
 
-export { createNotice, getNotices };
+function getNotice(data) {
+  return notice.get('/getNotice', { params: data });
+}
+
+export { createNotice, getNotices, getNotice };
