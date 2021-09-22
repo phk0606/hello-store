@@ -27,19 +27,24 @@
         </v-row>
 
         <v-row dense align="center" justify="start">
-          <v-col cols="2">
-            <v-select
-              label="항목 선택"
-              v-model="searchSelected"
-              :items="searchKeyword"
-              outlined
-              hide-details
+          <v-col cols="3">
+            <v-checkbox
+              v-model="noAnswers"
+              value="SHOW"
               dense
-              :menu-props="{ offsetY: true }"
+              hide-details
+              label="답변 없는 문의만 보기"
+              class="mr-2"
             />
           </v-col>
           <v-col cols="auto">
-            <v-text-field v-model="searchText" dense hide-details outlined>
+            <v-text-field
+              v-model="searchText"
+              dense
+              hide-details
+              outlined
+              placeholder="예) 주문 취소"
+            >
               <template v-slot:prepend> <v-card width="10" flat /></template>
             </v-text-field>
           </v-col>
@@ -290,6 +295,7 @@ export default {
 
   data() {
     return {
+      noAnswers: null,
       dialog: false,
       contents: null,
       productId: '',
