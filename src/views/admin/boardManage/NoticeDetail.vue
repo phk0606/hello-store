@@ -50,10 +50,12 @@
         </v-row>
         <v-row>
           <v-col cols="auto">
-            <!-- <v-btn @click="createNotice">등록</v-btn> -->
+            <v-btn to="/admin/notice-list">목록 보기</v-btn>
           </v-col>
           <v-col>
-            <v-btn>취소</v-btn>
+            <v-btn>글쓰기</v-btn>
+            <v-btn @click="modifyNotice">수정</v-btn>
+            <v-btn @click="removeNotice">삭제</v-btn>
           </v-col>
         </v-row>
       </v-col>
@@ -62,7 +64,7 @@
 </template>
 
 <script>
-import { getNotice } from '@/api/notice';
+import { getNotice, modifyNotice, removeNotice } from '@/api/notice';
 import AdminBoardLeft from '@/components/admin/AdminBoardLeft.vue';
 import {
   TiptapVuetify,
@@ -107,22 +109,37 @@ export default {
         console.error(error);
       }
     },
-    // async createNotice() {
-    //   try {
-    //     const noticeDto = {
-    //       title: this.noticeTitle,
-    //       content: this.noticeContent,
-    //       important: this.importantNotice,
-    //     };
+    async modifyNotice() {
+      try {
+        const noticeDto = {
+          noticeId: this.noticeId,
+          title: this.noticeTitle,
+          content: this.noticeContent,
+          important: this.importantNotice,
+        };
 
-    //     const response = await createNotice(noticeDto);
+        const response = await modifyNotice(noticeDto);
 
-    //     console.log(response);
-    //   } catch (error) {
-    //     console.log(error);
-    //     // this.logMessage = error.response.data.message;
-    //   }
-    // },
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
+    async removeNotice() {
+      try {
+        const noticeDto = {
+          noticeId: this.noticeId,
+        };
+
+        const response = await removeNotice(noticeDto);
+
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
   },
   data() {
     return {

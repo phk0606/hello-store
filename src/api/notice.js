@@ -12,4 +12,12 @@ function getNotice(data) {
   return notice.get('/getNotice', { params: data });
 }
 
-export { createNotice, getNotices, getNotice };
+function modifyNotice(data) {
+  return notice.put('/modifyNotice', data);
+}
+
+function removeNotice(data) {
+  return notice.delete('/removeNotice', { data });
+}
+
+export { createNotice, getNotices, getNotice, modifyNotice, removeNotice };
