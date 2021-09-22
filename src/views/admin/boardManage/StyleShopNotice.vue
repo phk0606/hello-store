@@ -71,7 +71,7 @@
 
 <script>
 import AdminBoardLeft from '@/components/admin/AdminBoardLeft.vue';
-import { getCategoryNotice, mergeNoticeContent } from '@/api/board';
+import { getCategoryNotice, mergeNoticeContent } from '@/api/styleShopNotice';
 import { getChildCategories } from '@/api/category';
 
 export default {

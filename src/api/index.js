@@ -20,9 +20,10 @@ export const admin = createInstanceWithAuth('/admin');
 export const user = createInstanceWithAuth('/user');
 export const order = createInstanceWithAuth('/order');
 export const cart = createInstanceWithAuth('/cart');
-export const board = createInstanceWithAuth('/board');
+export const styleShopNotice = createInstanceWithAuth('/styleShopNotice');
 export const productComment = createInstanceWithAuth('/productComment');
 export const productQnA = createInstanceWithAuth('/productQnA');
+export const notice = createInstanceWithAuth('/notice');
 
 export const posts = createInstanceWithAuth('posts');
 

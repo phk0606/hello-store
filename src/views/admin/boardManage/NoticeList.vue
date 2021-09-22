@@ -84,7 +84,7 @@
         </v-row>
         <v-row align="center">
           <v-col cols="auto">
-            <v-btn color="indigo" dark>글쓰기</v-btn>
+            <v-btn to="/admin/notice-regist" color="indigo" dark>글쓰기</v-btn>
           </v-col>
         </v-row>
       </v-col>

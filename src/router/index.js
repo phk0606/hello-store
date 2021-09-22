@@ -223,6 +223,14 @@ const routes = [
           ),
       },
       {
+        path: 'notice-regist',
+        name: 'admin-notice-regist',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin-notice-regist" */ '@/views/admin/boardManage/NoticeRegist'
+          ),
+      },
+      {
         path: 'product-comment-list',
         name: 'admin-product-comment-list',
         component: () =>
