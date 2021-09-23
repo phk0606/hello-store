@@ -53,7 +53,7 @@
             <v-btn @click="createNotice">등록</v-btn>
           </v-col>
           <v-col>
-            <v-btn>취소</v-btn>
+            <v-btn to="/admin/notice-list">취소</v-btn>
           </v-col>
         </v-row>
       </v-col>

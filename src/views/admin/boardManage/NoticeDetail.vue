@@ -36,14 +36,14 @@
             />
           </v-col>
         </v-row>
-        <v-row>
+        <v-row align="center">
           <v-col cols="auto">제목</v-col>
           <v-col cols="auto">
             <v-text-field v-model="noticeTitle" dense hide-details outlined />
           </v-col>
         </v-row>
 
-        <v-row dense>
+        <v-row>
           <v-col>
             <tiptap-vuetify v-model="noticeContent" :extensions="extensions" />
           </v-col>
@@ -53,8 +53,10 @@
             <v-btn to="/admin/notice-list">목록 보기</v-btn>
           </v-col>
           <v-col>
-            <v-btn>글쓰기</v-btn>
-            <v-btn @click="modifyNotice">수정</v-btn>
+            <v-btn to="/admin/notice-regist" color="indigo" dark class="mr-3"
+              >글쓰기</v-btn
+            >
+            <v-btn @click="modifyNotice" class="mr-3">수정</v-btn>
             <v-btn @click="removeNotice">삭제</v-btn>
           </v-col>
         </v-row>

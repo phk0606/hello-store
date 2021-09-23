@@ -29,9 +29,10 @@
         <v-row dense align="center" justify="start">
           <v-col cols="2">
             <v-select
-              label="항목 선택"
+              label="제목 + 내용"
               v-model="searchSelected"
               :items="searchKeyword"
+              clearable
               outlined
               hide-details
               dense
@@ -56,12 +57,24 @@
               :headers="headers"
               :items="contents"
               item-key="orderId"
-              show-select
               class="elevation-1"
               disable-sort
             >
+              <template v-slot:[`item.noticeId`]="{ item }">
+                <v-row v-if="item.important" justify="center"
+                  ><v-chip color="pink" label text-color="white"
+                    >중요</v-chip
+                  ></v-row
+                >
+                <v-row v-else justify="center">{{ item.noticeId }}</v-row>
+              </template>
+              <template v-slot:[`item.title`]="{ item }">
+                <v-row justify="left">
+                  {{ item.title }}
+                </v-row>
+              </template>
               <template v-slot:[`item.noticeDetail`]="{ item }">
-                <v-row
+                <v-row justify="center"
                   ><v-btn :to="`/admin/notice-detail/${item.noticeId}`"
                     >상세 보기</v-btn
                   ></v-row
@@ -118,10 +131,8 @@ export default {
       searchSelected: null,
       searchText: '',
       searchKeyword: [
-        { text: '주문 번호', value: 'orderId' },
-        { text: '주문 상품', value: 'productName' },
-        { text: '주문자 아이디', value: 'ordererId' },
-        { text: '주문자 이름', value: 'ordererName' },
+        { text: '제목', value: 'title' },
+        { text: '내용', value: 'content' },
       ],
       page: 1,
       records: 10,
@@ -155,10 +166,12 @@ export default {
   },
   methods: {
     async getNotices(page) {
+      console.log(this.searchSelected);
       try {
         const { data } = await getNotices({
           page: page - 1,
           size: this.perPage,
+          [this.searchSelected]: this.searchText,
         });
         this.contents = data.content;
         this.perPage = data.size;
