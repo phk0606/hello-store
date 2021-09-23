@@ -30,6 +30,7 @@
           <v-col cols="auto">
             <v-text-field v-model="title" dense hide-details outlined />
           </v-col>
+          <v-col> {{ createdBy }} {{ createdDate }} </v-col>
         </v-row>
 
         <v-row>
@@ -238,6 +239,8 @@ export default {
         this.content = data.content;
         this.title = data.title;
         this.replies = data.replies;
+        this.createdBy = data.createdBy;
+        this.createdDate = data.createdDate;
         this.replyCount = data.replyCount;
         console.log(data);
       } catch (error) {
@@ -278,6 +281,8 @@ export default {
   },
   data() {
     return {
+      createdBy: '',
+      createdDate: '',
       replyCount: '',
       replies: [],
       replyRegistContent: '',
