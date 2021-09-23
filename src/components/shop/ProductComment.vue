@@ -42,7 +42,9 @@
                     </v-col>
                   </v-row>
                   <v-row dense>
-                    <v-col>(1개월 이내 구매 상품)</v-col>
+                    <v-col
+                      >(1개월 이내 구매 상품, 상품당 1회만 작성 가능.)</v-col
+                    >
                   </v-row>
                   <v-row>
                     <v-col>
@@ -535,7 +537,7 @@ export default {
 
         const productCommentDto = {
           username: this.$store.state.username,
-          productId: this.purchasedProductSelected.orderProductId,
+          productId: this.purchasedProductSelected.productId,
           content: this.content,
           grade: this.gradeRadios,
         };
@@ -548,8 +550,8 @@ export default {
         );
 
         const response = await createProductComment(formData);
-
         console.log(response);
+        this.getProductComments(1);
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;
