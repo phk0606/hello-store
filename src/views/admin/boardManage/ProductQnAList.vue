@@ -37,7 +37,7 @@
               class="mr-2"
             />
           </v-col>
-          <v-col cols="auto">
+          <v-col cols="4">
             <v-text-field
               v-model="searchText"
               dense
