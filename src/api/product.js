@@ -12,6 +12,10 @@ function getProductById(data) {
   return admin.get('/getProductById', { params: data });
 }
 
+function getProductsByCategoryId(data) {
+  return admin.get('/getProductsByCategoryId', { params: data });
+}
+
 function getProductsPageCondition(data) {
   return admin.get('/getProductsPageCondition', { params: data });
 }
@@ -39,4 +43,5 @@ export {
   removeProducts,
   modifyProduct,
   modifyProductShowType,
+  getProductsByCategoryId,
 };

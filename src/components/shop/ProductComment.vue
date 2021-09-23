@@ -320,31 +320,38 @@
               <v-col cols="auto">
                 <v-icon>mdi-arrow-right-bottom</v-icon>
               </v-col>
-              <v-col cols="auto">
+              <v-col cols="7">
                 <v-card flat>
                   <v-card-subtitle>
                     {{ productCommentReply.username }}
                     {{ productCommentReply.createdDate }}
                   </v-card-subtitle>
                   <v-card-text>
-                    {{ productCommentReply.content }}
-                    <v-btn
-                      @click="modifyProductCommentReply(i, j)"
-                      outlined
-                      small
-                      color="purple"
-                      class="mr-2"
-                    >
-                      수정
-                    </v-btn>
-                    <v-btn
-                      @click="removeProductCommentReply(i, j)"
-                      outlined
-                      small
-                      color="red"
-                    >
-                      삭제
-                    </v-btn>
+                    <v-row align="center">
+                      <v-textarea
+                        v-model="productCommentReply.content"
+                        outlined
+                        hide-details
+                        rows="1"
+                      />
+                      <v-btn
+                        @click="modifyProductCommentReply(i, j)"
+                        outlined
+                        small
+                        color="purple"
+                        class="mx-2"
+                      >
+                        수정
+                      </v-btn>
+                      <v-btn
+                        @click="removeProductCommentReply(i, j)"
+                        outlined
+                        small
+                        color="red"
+                      >
+                        삭제
+                      </v-btn>
+                    </v-row>
                   </v-card-text>
                 </v-card>
               </v-col>
@@ -528,7 +535,7 @@ export default {
 
         const productCommentDto = {
           username: this.$store.state.username,
-          orderProductId: this.purchasedProductSelected.orderProductId,
+          productId: this.purchasedProductSelected.orderProductId,
           content: this.content,
           grade: this.gradeRadios,
         };
