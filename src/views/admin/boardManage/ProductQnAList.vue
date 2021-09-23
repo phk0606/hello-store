@@ -30,7 +30,6 @@
           <v-col cols="3">
             <v-checkbox
               v-model="noAnswers"
-              value="SHOW"
               dense
               hide-details
               label="답변 없는 문의만 보기"
@@ -442,6 +441,7 @@ export default {
     },
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
+      this.getProductQnA(page);
     },
   },
 };

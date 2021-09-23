@@ -26,7 +26,7 @@
         <router-link to="/admin/community-list"
           ><v-subheader>커뮤니티</v-subheader></router-link
         >
-        <router-link to="/admin/product-regist"
+        <router-link to="/admin/product-qna-list"
           ><v-subheader>상품 문의</v-subheader></router-link
         >
         <router-link to="/admin/product-regist"

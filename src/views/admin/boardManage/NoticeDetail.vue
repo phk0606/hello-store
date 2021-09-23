@@ -41,6 +41,9 @@
           <v-col cols="auto">
             <v-text-field v-model="noticeTitle" dense hide-details outlined />
           </v-col>
+          <v-col>
+            {{ createdDate }}
+          </v-col>
         </v-row>
 
         <v-row>
@@ -105,6 +108,7 @@ export default {
         });
         this.noticeContent = data.content;
         this.noticeTitle = data.title;
+        this.createdDate = data.createdDate;
         this.importantNotice = data.important;
         console.log(data);
       } catch (error) {
@@ -151,6 +155,7 @@ export default {
       importantNotice: false,
       noticeTitle: '',
       noticeContent: '',
+      createdDate: '',
       extensions: [
         History,
         Image,

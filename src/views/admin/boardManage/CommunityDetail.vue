@@ -37,6 +37,98 @@
             <tiptap-vuetify v-model="content" :extensions="extensions" />
           </v-col>
         </v-row>
+        <v-divider />
+        <v-row>
+          <v-col cols="auto">작성된 댓글({{ replyCount }}개)</v-col>
+          <v-col>
+            <v-btn
+              outlined
+              small
+              color="indigo"
+              class="mr-2"
+              @click.prevent="replyRegistShow"
+            >
+              작성
+            </v-btn>
+            <v-btn
+              outlined
+              small
+              color="orange"
+              @click.prevent="replyRegistHidden"
+            >
+              취소
+            </v-btn>
+          </v-col>
+        </v-row>
+        <v-row align="center" v-show="replyRegistShowYn" class="pb-1">
+          <v-col cols="7">
+            <v-textarea
+              v-model="replyRegistContent"
+              outlined
+              hide-details
+              rows="1"
+            />
+          </v-col>
+          <v-col>
+            <v-btn
+              @click="createCommunityReply"
+              dark
+              color="deep-purple darken-3"
+              class="mr-2"
+            >
+              등록
+            </v-btn>
+          </v-col>
+        </v-row>
+
+        <v-row v-for="(reply, i) in replies" :key="i" dense align="center">
+          <v-col cols="1">
+            <v-spacer />
+          </v-col>
+          <v-col cols="auto">
+            <v-icon>mdi-arrow-right-bottom</v-icon>
+          </v-col>
+          <v-col cols="10">
+            <v-card flat>
+              <v-card-subtitle>
+                {{ reply.createdBy }}
+                {{ reply.createdDate }}
+              </v-card-subtitle>
+              <v-card-text>
+                <v-row align="center">
+                  <v-col cols="">
+                    <v-textarea
+                      v-model="reply.content"
+                      outlined
+                      hide-details
+                      rows="1"
+                    />
+                  </v-col>
+                  <v-col>
+                    <v-btn
+                      @click="modifyCommunityReply(i)"
+                      outlined
+                      small
+                      color="purple"
+                      class="mr-2"
+                    >
+                      수정
+                    </v-btn>
+                    <v-btn
+                      @click="removeCommunityReply(i)"
+                      outlined
+                      small
+                      color="red"
+                    >
+                      삭제
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-divider />
         <v-row>
           <v-col cols="auto">
             <v-btn to="/admin/community-list">목록 보기</v-btn>
@@ -59,6 +151,9 @@ import {
   getCommunity,
   modifyCommunity,
   removeCommunity,
+  createCommunityReply,
+  removeCommunityReply,
+  modifyCommunityReply,
 } from '@/api/community';
 import AdminBoardLeft from '@/components/admin/AdminBoardLeft.vue';
 import {
@@ -91,6 +186,50 @@ export default {
     this.getCommunity();
   },
   methods: {
+    replyRegistShow() {
+      this.replyRegistShowYn = true;
+    },
+    replyRegistHidden() {
+      this.replyRegistShowYn = false;
+    },
+    async removeCommunityReply(i) {
+      try {
+        await removeCommunityReply({
+          communityReplyId: this.replies[i].communityReplyId,
+        });
+        //console.log(data);
+        this.getCommunity();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async modifyCommunityReply(i) {
+      try {
+        const { data } = await modifyCommunityReply({
+          communityReplyId: this.replies[i].communityReplyId,
+          content: this.replies[i].content,
+        });
+        console.log(data);
+        this.getCommunity();
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async createCommunityReply() {
+      try {
+        const replyDto = {
+          communityId: this.communityId,
+          content: this.replyRegistContent,
+        };
+        const response = await createCommunityReply(replyDto);
+
+        console.log(response);
+        this.getCommunity();
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
     async getCommunity() {
       try {
         const { data } = await getCommunity({
@@ -98,6 +237,8 @@ export default {
         });
         this.content = data.content;
         this.title = data.title;
+        this.replies = data.replies;
+        this.replyCount = data.replyCount;
         console.log(data);
       } catch (error) {
         console.error(error);
@@ -137,6 +278,10 @@ export default {
   },
   data() {
     return {
+      replyCount: '',
+      replies: [],
+      replyRegistContent: '',
+      replyRegistShowYn: false,
       communityId: '',
       importantNotice: false,
       title: '',
