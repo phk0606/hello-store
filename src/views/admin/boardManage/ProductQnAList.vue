@@ -48,7 +48,7 @@
             </v-text-field>
           </v-col>
           <v-col cols="auto">
-            <v-btn color="indigo" dark @click="getOrders(1)">검색</v-btn>
+            <v-btn color="indigo" dark @click="getProductQnA(1)">검색</v-btn>
           </v-col>
         </v-row>
         <v-divider />
@@ -57,21 +57,30 @@
             <v-expansion-panels>
               <v-expansion-panel v-for="(content, i) in contents" :key="i">
                 <v-expansion-panel-header>
-                  <v-row>
-                    <v-col cols="auto">
-                      {{ content.productQuestionId }}
-                    </v-col>
-                    <v-col cols="6">
-                      <div>{{ content.questionContent }}</div>
-                    </v-col>
-
-                    <v-col cols="2">
-                      <div>{{ content.questionUsername }}</div>
-                    </v-col>
-                    <v-col cols="auto" class="d-flex">
-                      <div class="pr-2">{{ content.questionCreatedDate }}</div>
-                    </v-col>
-                  </v-row>
+                  <v-container>
+                    <v-row>
+                      <v-col>
+                        {{ content.categoryName }} >
+                        {{ content.productName }} (productId:
+                        {{ content.productId }})
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="auto">
+                        {{ content.productQuestionId }}
+                      </v-col>
+                      <v-col cols="auto">
+                        <div>Q. {{ content.questionContent }}</div>
+                      </v-col>
+                      <v-spacer />
+                      <v-col cols="auto">
+                        <div>{{ content.questionUsername }}</div>
+                      </v-col>
+                      <v-col cols="auto" class="mr-5">
+                        <div>{{ content.questionCreatedDate }}</div>
+                      </v-col>
+                    </v-row>
+                  </v-container>
                 </v-expansion-panel-header>
 
                 <v-expansion-panel-content>
@@ -204,18 +213,22 @@
                     </v-row>
                   </v-container>
                 </v-expansion-panel-content>
-                <v-card flat>
+
+                <v-container fluid>
                   <v-row align="center">
-                    <v-col cols="1" />
-                    <v-col cols="6" v-if="content.answerContent">
-                      {{ content.answerContent }}
+                    <v-col cols="auto" class="ml-6">
+                      {{ content.productAnswerId }}</v-col
+                    >
+                    <v-col cols="auto" v-if="content.answerContent">
+                      A. {{ content.answerContent }}
                     </v-col>
-                    <v-col cols="6" v-else> 등록된 답변이 없습니다. </v-col>
-                    <v-col cols="2">
+                    <v-col v-else> 등록된 답변이 없습니다. </v-col>
+                    <v-spacer />
+                    <v-col cols="auto">
                       <div>{{ content.answerUsername }}</div>
                     </v-col>
-                    <v-col cols="auto" class="d-flex">
-                      <div class="pr-2">{{ content.answerCreatedDate }}</div>
+                    <v-col cols="auto" class="mr-11">
+                      <div>{{ content.answerCreatedDate }}</div>
                     </v-col>
                   </v-row>
                   <v-row
@@ -236,7 +249,7 @@
                       </v-btn>
                     </v-col>
                   </v-row>
-                </v-card>
+                </v-container>
               </v-expansion-panel>
             </v-expansion-panels>
             <v-container>
@@ -312,6 +325,8 @@ export default {
 
   data() {
     return {
+      categoryName: '',
+      productName: '',
       noAnswers: null,
       dialog: false,
       contents: null,
