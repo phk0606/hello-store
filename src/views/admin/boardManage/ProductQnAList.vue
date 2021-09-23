@@ -29,7 +29,8 @@
         <v-row dense align="center" justify="start">
           <v-col cols="3">
             <v-checkbox
-              v-model="noAnswers"
+              v-model="noAnswer"
+              @click="getProductQnA(1)"
               dense
               hide-details
               label="답변 없는 문의만 보기"
@@ -244,7 +245,12 @@
                       <v-textarea outlined hide-details rows="1" />
                     </v-col>
                     <v-col cols="4">
-                      <v-btn dark color="deep-purple darken-3" class="mr-2">
+                      <v-btn
+                        @click="createProductQuestion"
+                        dark
+                        color="deep-purple darken-3"
+                        class="mr-2"
+                      >
                         등록
                       </v-btn>
                     </v-col>
@@ -276,6 +282,46 @@
               <v-row>
                 <v-col> 상품 문의하기 </v-col>
               </v-row>
+              <v-row align="center">
+                <v-col cols="3">
+                  <v-select
+                    v-model="category1Select"
+                    :items="category1"
+                    label="카테고리 선택"
+                    outlined
+                    dense
+                    hide-details
+                    @change="changeCategory"
+                    :menu-props="{ offsetY: true }"
+                  />
+                </v-col>
+                <v-col cols="3">
+                  <v-select
+                    v-model="category2Select"
+                    :items="category2"
+                    label="카테고리 선택"
+                    outlined
+                    dense
+                    hide-details
+                    @change="getProductsByCategoryId"
+                    :menu-props="{ offsetY: true }"
+                  />
+                </v-col>
+                <v-col cols="4">
+                  <v-select
+                    v-model="productSelected"
+                    :items="products"
+                    item-text="productName"
+                    item-value="productId"
+                    label="상품 선택"
+                    outlined
+                    dense
+                    hide-details
+                    :menu-props="{ offsetY: true }"
+                  />
+                </v-col>
+              </v-row>
+
               <v-row align="center">
                 <v-col cols="10">
                   <v-textarea
@@ -313,10 +359,13 @@ import {
   removeAnswer,
   modifyAnswer,
 } from '@/api/productQnA';
+import { getCategory } from '@/api/category';
+import { getProductsByCategoryId } from '@/api/product';
 
 export default {
   created() {
     this.getProductQnA(1);
+    this.getCategory();
   },
   components: {
     AdminBoardLeft,
@@ -325,9 +374,15 @@ export default {
 
   data() {
     return {
+      productSelected: null,
+      products: [],
+      category1Select: null,
+      category2Select: null,
+      category1: [],
+      category2: [],
       categoryName: '',
       productName: '',
-      noAnswers: null,
+      noAnswer: null,
       dialog: false,
       contents: null,
       productId: '',
@@ -359,6 +414,36 @@ export default {
     };
   },
   methods: {
+    async getProductsByCategoryId() {
+      try {
+        const { data } = await getProductsByCategoryId({
+          categoryId: this.category2Select,
+        });
+        this.products = data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getCategory(secondCategoryId) {
+      try {
+        const { data } = await getCategory({
+          parentId: this.category1Select,
+        });
+        if (this.category1Select == null) {
+          this.category1 = data;
+        } else {
+          this.category2 = data;
+          this.category2Select =
+            secondCategoryId !== null ? secondCategoryId : null;
+          console.log(data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    changeCategory() {
+      this.getCategory();
+    },
     async removeQuestion(index) {
       try {
         await removeQuestion({
@@ -412,6 +497,8 @@ export default {
           size: this.perPage,
 
           productId: this.productId,
+          noAnswer: this.noAnswer,
+          searchText: this.searchText,
         });
         this.contents = data.content;
         this.perPage = data.size;
@@ -427,12 +514,12 @@ export default {
         const productQnADto = {
           questionUsername: this.$store.state.username,
           questionContent: this.productQuestion,
-          productId: this.productId,
+          productId: this.productSelected,
         };
 
         const response = await createProductQuestion(productQnADto);
-
         console.log(response);
+        this.getProductQnA(1);
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;
