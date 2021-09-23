@@ -86,8 +86,8 @@
                 <v-expansion-panel-content>
                   <v-container>
                     <v-row>
-                      <v-col cols="7">
-                        <v-row
+                      <v-col cols="8">
+                        <v-row align="center"
                           >Q.
                           <v-textarea
                             v-model="content.questionContent"
@@ -100,7 +100,7 @@
                             outlined
                             small
                             color="purple"
-                            class="mr-2"
+                            class="mx-2"
                           >
                             수정
                           </v-btn>
@@ -114,7 +114,7 @@
                           </v-btn>
                         </v-row>
 
-                        <v-row v-if="content.answerContent">
+                        <v-row align="center" v-if="content.answerContent">
                           A.
                           <v-textarea
                             v-model="content.answerContent"
@@ -127,7 +127,7 @@
                             outlined
                             small
                             color="purple"
-                            class="mr-2"
+                            class="mx-2"
                           >
                             수정
                           </v-btn>
