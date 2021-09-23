@@ -21,39 +21,32 @@
           <v-col>
             <v-chip label x-large color="white">
               <v-icon left> mdi-chevron-right-box </v-icon>
-              공지사항 글쓰기
+              커뮤니티 상세 보기
             </v-chip>
-          </v-col>
-        </v-row>
-        <v-row dense align="center" justify="start">
-          <v-col cols="3">
-            <v-checkbox
-              v-model="importantNotice"
-              dense
-              hide-details
-              label="중요 공지"
-              class="mr-2"
-            />
           </v-col>
         </v-row>
         <v-row align="center">
           <v-col cols="auto">제목</v-col>
           <v-col cols="auto">
-            <v-text-field v-model="noticeTitle" dense hide-details outlined />
+            <v-text-field v-model="title" dense hide-details outlined />
           </v-col>
         </v-row>
 
         <v-row>
           <v-col>
-            <tiptap-vuetify v-model="noticeContent" :extensions="extensions" />
+            <tiptap-vuetify v-model="content" :extensions="extensions" />
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="auto">
-            <v-btn @click="createNotice">등록</v-btn>
+            <v-btn to="/admin/community-list">목록 보기</v-btn>
           </v-col>
           <v-col>
-            <v-btn to="/admin/notice-list">취소</v-btn>
+            <v-btn to="/admin/community-regist" color="indigo" dark class="mr-3"
+              >글쓰기</v-btn
+            >
+            <v-btn @click="modifyCommunity" class="mr-3">수정</v-btn>
+            <v-btn @click="removeCommunity">삭제</v-btn>
           </v-col>
         </v-row>
       </v-col>
@@ -62,7 +55,11 @@
 </template>
 
 <script>
-import { createNotice } from '@/api/notice';
+import {
+  getCommunity,
+  modifyCommunity,
+  removeCommunity,
+} from '@/api/community';
 import AdminBoardLeft from '@/components/admin/AdminBoardLeft.vue';
 import {
   TiptapVuetify,
@@ -89,18 +86,49 @@ export default {
     AdminBoardLeft,
     TiptapVuetify,
   },
+  created() {
+    this.communityId = this.$route.params.communityId;
+    this.getCommunity();
+  },
   methods: {
-    async createNotice() {
+    async getCommunity() {
       try {
-        const noticeDto = {
-          title: this.noticeTitle,
-          content: this.noticeContent,
-          important: this.importantNotice,
+        const { data } = await getCommunity({
+          communityId: this.communityId,
+        });
+        this.content = data.content;
+        this.title = data.title;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async modifyCommunity() {
+      try {
+        const communityDto = {
+          communityId: this.communityId,
+          title: this.title,
+          content: this.content,
         };
 
-        const response = await createNotice(noticeDto);
+        const response = await modifyCommunity(communityDto);
         console.log(response);
-        this.$router.push('/admin/notice-list');
+        this.$router.push('/admin/community-list');
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
+    async removeCommunity() {
+      try {
+        const communityeDto = {
+          communityId: this.communityId,
+        };
+
+        const response = await removeCommunity(communityeDto);
+        console.log(response);
+
+        this.$router.push('/admin/community-list');
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;
@@ -109,9 +137,10 @@ export default {
   },
   data() {
     return {
+      communityId: '',
       importantNotice: false,
-      noticeTitle: '',
-      noticeContent: '',
+      title: '',
+      content: '',
       extensions: [
         History,
         Image,
@@ -144,12 +173,12 @@ export default {
           href: 'breadcrumbs_dashboard',
         },
         {
-          text: '공지사항',
+          text: '공지 사항',
           disabled: false,
           href: 'breadcrumbs_link_1',
         },
         {
-          text: '글쓰기',
+          text: '상세 보기',
           disabled: false,
           href: 'breadcrumbs_link_1',
         },

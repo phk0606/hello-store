@@ -247,6 +247,22 @@ const routes = [
           ),
       },
       {
+        path: 'community-regist',
+        name: 'admin-community-regist',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin-community-regist" */ '@/views/admin/boardManage/CommunityRegist'
+          ),
+      },
+      {
+        path: 'community-detail/:communityId',
+        name: 'admin-community-detail',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin-community-detail" */ '@/views/admin/boardManage/CommunityDetail'
+          ),
+      },
+      {
         path: 'product-comment-list',
         name: 'admin-product-comment-list',
         component: () =>

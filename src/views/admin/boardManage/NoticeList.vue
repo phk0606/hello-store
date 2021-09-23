@@ -69,7 +69,7 @@
                 <v-row v-else justify="center">{{ item.noticeId }}</v-row>
               </template>
               <template v-slot:[`item.title`]="{ item }">
-                <v-row justify="left">
+                <v-row justify="start">
                   {{ item.title }}
                 </v-row>
               </template>

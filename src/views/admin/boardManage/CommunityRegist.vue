@@ -21,39 +21,29 @@
           <v-col>
             <v-chip label x-large color="white">
               <v-icon left> mdi-chevron-right-box </v-icon>
-              공지사항 글쓰기
+              커뮤니티 글쓰기
             </v-chip>
           </v-col>
         </v-row>
-        <v-row dense align="center" justify="start">
-          <v-col cols="3">
-            <v-checkbox
-              v-model="importantNotice"
-              dense
-              hide-details
-              label="중요 공지"
-              class="mr-2"
-            />
-          </v-col>
-        </v-row>
+
         <v-row align="center">
           <v-col cols="auto">제목</v-col>
           <v-col cols="auto">
-            <v-text-field v-model="noticeTitle" dense hide-details outlined />
+            <v-text-field v-model="title" dense hide-details outlined />
           </v-col>
         </v-row>
 
         <v-row>
           <v-col>
-            <tiptap-vuetify v-model="noticeContent" :extensions="extensions" />
+            <tiptap-vuetify v-model="content" :extensions="extensions" />
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="auto">
-            <v-btn @click="createNotice">등록</v-btn>
+            <v-btn @click="createCommunity">등록</v-btn>
           </v-col>
           <v-col>
-            <v-btn to="/admin/notice-list">취소</v-btn>
+            <v-btn to="/admin/community-list">취소</v-btn>
           </v-col>
         </v-row>
       </v-col>
@@ -62,7 +52,7 @@
 </template>
 
 <script>
-import { createNotice } from '@/api/notice';
+import { createCommunity } from '@/api/community';
 import AdminBoardLeft from '@/components/admin/AdminBoardLeft.vue';
 import {
   TiptapVuetify,
@@ -90,17 +80,16 @@ export default {
     TiptapVuetify,
   },
   methods: {
-    async createNotice() {
+    async createCommunity() {
       try {
-        const noticeDto = {
-          title: this.noticeTitle,
-          content: this.noticeContent,
-          important: this.importantNotice,
+        const communityDto = {
+          title: this.title,
+          content: this.content,
         };
 
-        const response = await createNotice(noticeDto);
+        const response = await createCommunity(communityDto);
         console.log(response);
-        this.$router.push('/admin/notice-list');
+        this.$router.push('/admin/community-list');
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;
@@ -110,8 +99,8 @@ export default {
   data() {
     return {
       importantNotice: false,
-      noticeTitle: '',
-      noticeContent: '',
+      title: '',
+      content: '',
       extensions: [
         History,
         Image,
@@ -144,7 +133,7 @@ export default {
           href: 'breadcrumbs_dashboard',
         },
         {
-          text: '공지사항',
+          text: '커뮤니티',
           disabled: false,
           href: 'breadcrumbs_link_1',
         },

@@ -121,8 +121,9 @@ export default {
         };
 
         const response = await modifyNotice(noticeDto);
-
         console.log(response);
+
+        this.$router.push('/admin/notice-list');
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;
@@ -135,8 +136,9 @@ export default {
         };
 
         const response = await removeNotice(noticeDto);
-
         console.log(response);
+
+        this.$router.push('/admin/notice-list');
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;

@@ -26,12 +26,13 @@
           </v-col>
         </v-row>
 
-        <v-row dense align="center" justify="start">
+        <v-row dense align="center">
           <v-col cols="2">
             <v-select
               label="제목 + 내용"
               v-model="searchSelected"
               :items="searchKeyword"
+              clearable
               outlined
               hide-details
               dense
@@ -44,7 +45,7 @@
             </v-text-field>
           </v-col>
           <v-col cols="auto">
-            <v-btn color="indigo" dark @click="getNotices(1)">검색</v-btn>
+            <v-btn color="indigo" dark @click="getCommunities(1)">검색</v-btn>
           </v-col>
         </v-row>
         <v-divider />
@@ -55,14 +56,18 @@
               v-model="selected"
               :headers="headers"
               :items="contents"
-              item-key="orderId"
-              show-select
+              item-key="communityId"
               class="elevation-1"
               disable-sort
             >
-              <template v-slot:[`item.noticeDetail`]="{ item }">
-                <v-row
-                  ><v-btn :to="`/admin/notice-detail/${item.noticeId}`"
+              <template v-slot:[`item.title`]="{ item }">
+                <v-row justify="start">
+                  {{ item.title }}
+                </v-row>
+              </template>
+              <template v-slot:[`item.communityDetail`]="{ item }">
+                <v-row justify="center"
+                  ><v-btn :to="`/admin/community-detail/${item.communityId}`"
                     >상세 보기</v-btn
                   ></v-row
                 >
@@ -92,7 +97,9 @@
         </v-row>
         <v-row align="center">
           <v-col cols="auto">
-            <v-btn to="/admin/notice-regist" color="indigo" dark>글쓰기</v-btn>
+            <v-btn to="/admin/community-regist" color="indigo" dark
+              >글쓰기</v-btn
+            >
           </v-col>
         </v-row>
       </v-col>
@@ -101,13 +108,13 @@
 </template>
 
 <script>
-import { getNotices } from '@/api/notice';
+import { getCommunities } from '@/api/community';
 import AdminBoardLeft from '@/components/admin/AdminBoardLeft.vue';
 import Pagination from 'vue-pagination-2';
 
 export default {
   created() {
-    this.getNotices(1);
+    this.getCommunities(1);
   },
   components: {
     Pagination,
@@ -118,10 +125,8 @@ export default {
       searchSelected: null,
       searchText: '',
       searchKeyword: [
-        { text: '주문 번호', value: 'orderId' },
-        { text: '주문 상품', value: 'productName' },
-        { text: '주문자 아이디', value: 'ordererId' },
-        { text: '주문자 이름', value: 'ordererName' },
+        { text: '제목', value: 'title' },
+        { text: '내용', value: 'content' },
       ],
       page: 1,
       records: 10,
@@ -132,12 +137,12 @@ export default {
           text: '번호',
           align: 'center',
           sortable: false,
-          value: 'noticeId',
+          value: 'communityId',
         },
         { text: '제목', align: 'center', sortable: false, value: 'title' },
         { text: '작성일', align: 'center', value: 'createdDate' },
         { text: '작성자', align: 'center', value: 'createdBy' },
-        { text: '상세보기', align: 'center', value: 'noticeDetail' },
+        { text: '상세보기', align: 'center', value: 'communityDetail' },
       ],
       contents: [],
       items: [
@@ -155,11 +160,12 @@ export default {
     };
   },
   methods: {
-    async getNotices(page) {
+    async getCommunities(page) {
       try {
-        const { data } = await getNotices({
+        const { data } = await getCommunities({
           page: page - 1,
           size: this.perPage,
+          [this.searchSelected]: this.searchText,
         });
         this.contents = data.content;
         this.perPage = data.size;
@@ -172,7 +178,7 @@ export default {
     },
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
-      this.getNotices(page);
+      this.getCommunities(page);
     },
   },
 };
