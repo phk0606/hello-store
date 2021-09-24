@@ -140,6 +140,7 @@ export default {
       const cartProducts = this.selected;
       console.log(this.selected);
       const cartProductIds = [];
+      const cartId = this.selected[0].cartId;
 
       for (const key in cartProducts) {
         const cartProductId = cartProducts[key].cartProductId;
@@ -154,6 +155,7 @@ export default {
       this.$router.push({
         name: 'style-shop-product-order',
         query: {
+          cartId: cartId,
           cartProductIds: cartProductIds,
         },
       });

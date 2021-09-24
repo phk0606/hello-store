@@ -14,7 +14,6 @@
           :headers="headers"
           :items="orderProducts"
           item-key="orderProductId"
-          show-select
           class="elevation-1"
           disable-sort
         >
@@ -188,9 +187,9 @@
                 <v-col class="d-flex justify-space-around">
                   <v-btn to="">주문내역/배송조회 확인</v-btn>
 
-                  <v-btn>쇼핑 계속하기</v-btn>
+                  <v-btn to="/style-shop/product-list">쇼핑 계속하기</v-btn>
                   <v-btn to="/">메인으로 가기</v-btn>
-                  <v-btn>로그아웃</v-btn>
+                  <v-btn @click="logoutUser">로그아웃</v-btn>
                 </v-col>
               </v-row>
             </v-container>
@@ -203,6 +202,7 @@
 
 <script>
 import { getOrder } from '@/api/order';
+import { deleteCookie } from '@/utils/cookies';
 
 export default {
   name: 'OrderComplete',
@@ -212,6 +212,21 @@ export default {
     this.orderId = orderId;
   },
   methods: {
+    logoutUser() {
+      this.$store.commit('clearUsername');
+      this.$store.commit('clearAccessToken');
+      this.$store.commit('clearRefreshToken');
+      this.$store.commit('clearAuthority');
+      this.$store.commit('clearCartProductCount');
+      deleteCookie('ecomm_accessToken');
+      deleteCookie('ecomm_refreshToken');
+      deleteCookie('ecomm_user');
+      deleteCookie('ecomm_authority');
+      deleteCookie('ecomm_cartProductCount');
+      if (this.$route.path !== '/') {
+        this.$router.push('/');
+      }
+    },
     async getOrder(orderId) {
       try {
         const { data } = await getOrder({

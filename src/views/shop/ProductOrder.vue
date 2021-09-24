@@ -321,11 +321,14 @@ import Address from '@/components/Address';
 import { getListImage } from '@/api/shopProduct';
 import { getUser } from '@/api/user';
 import { createOrder } from '@/api/order';
-import { getCartProducts } from '@/api/cart';
+import { getCartProducts, removeCartProducts } from '@/api/cart';
 
 export default {
   async created() {
+    const cartId = this.$route.query.cartId;
+    this.cartId = cartId;
     const ids = this.$route.query.cartProductIds;
+    this.cartProductIds = ids;
     const query = this.$route.query;
     console.log(Array.isArray(ids));
 
@@ -395,6 +398,21 @@ export default {
         console.log(error);
       }
     },
+    async removeCartProducts() {
+      try {
+        await removeCartProducts({
+          cartId: this.cartId,
+          cartProductIds: this.cartProductIds,
+        });
+
+        await this.$store.dispatch(
+          'GETCARTPRODUCTCOUNT',
+          this.$store.state.username,
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async payment() {
       this.orderProducts.map(orderProduct => {
         delete orderProduct.image;
@@ -430,6 +448,10 @@ export default {
       try {
         const { data } = await createOrder(orderDto);
         console.log(data);
+
+        if (this.cartId) {
+          this.removeCartProducts();
+        }
         this.$router.push(`/style-shop/order-complete/${data}`);
       } catch (error) {
         console.log(error);
@@ -480,6 +502,7 @@ export default {
   },
   data() {
     return {
+      cartProductIds: null,
       depositDueDate: new Date(
         Date.now() - new Date().getTimezoneOffset() * 60000,
       )

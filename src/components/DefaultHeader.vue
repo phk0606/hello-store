@@ -285,21 +285,8 @@ export default {
       return this.$store.getters.isLogin;
     },
   },
-  created() {
-    // this.getCartProductCount(this.$store.state.username);
-  },
+  created() {},
   methods: {
-    // async getCartProductCount(username) {
-    //   try {
-    //     const { data } = await getCartProductCount({
-    //       username: username,
-    //     });
-    //     console.log(data);
-    //     this.cartProductCount = data;
-    //   } catch (error) {
-    //     console.error(error);
-    //   }
-    // },
     logoutUser() {
       this.$store.commit('clearUsername');
       this.$store.commit('clearAccessToken');
