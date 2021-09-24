@@ -68,6 +68,8 @@ async function requestRefreshToken() {
     deleteCookie('ecomm_user');
     deleteCookie('ecomm_refreshToken');
     deleteCookie('ecomm_accessToken');
+    deleteCookie('ecomm_authority');
+    deleteCookie('ecomm_cartProductCount');
     //this.logMessage = error.response.data;
   } finally {
     //this.initForm();

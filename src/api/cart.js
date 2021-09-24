@@ -8,6 +8,10 @@ function getCartProducts(data) {
   return cart.get('/getCartProducts', { params: data });
 }
 
+function getCartProductCount(data) {
+  return cart.get('/getCartProductCount', { params: data });
+}
+
 function modifyQuantity(data) {
   return cart.put('/modifyQuantity', data);
 }
@@ -16,4 +20,10 @@ function removeCartProducts(data) {
   return cart.delete('/removeCartProducts', { data });
 }
 
-export { addCartProduct, getCartProducts, modifyQuantity, removeCartProducts };
+export {
+  addCartProduct,
+  getCartProducts,
+  modifyQuantity,
+  removeCartProducts,
+  getCartProductCount,
+};

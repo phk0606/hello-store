@@ -96,13 +96,12 @@
         </v-data-table>
         <v-divider />
         <template>
-          <v-row>
-            <v-col><v-btn @click="removeCartProducts">선택 삭제</v-btn></v-col>
-            <!-- <v-col cols=""> 총 상품 금액 </v-col>
-            <v-col>{{ sumField('totalPrice') }}</v-col> -->
-          </v-row>
           <v-container>
-            <v-row justify="end">
+            <v-row justify="end" align="center">
+              <v-col
+                ><v-btn @click="removeCartProducts">선택 삭제</v-btn></v-col
+              >
+              <v-spacer />
               <v-col cols="auto"> 총 상품 금액 </v-col>
               <v-col cols="auto">{{ sumField('salePrice') }}</v-col>
               <v-col cols="auto"> 총 배송비 </v-col>
@@ -116,8 +115,8 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-btn>계속 쇼핑하기</v-btn>
-        <v-btn @click="order">선택 구매</v-btn>
+        <v-btn to="/style-shop/product-list" class="ml-3">계속 쇼핑하기</v-btn>
+        <v-btn @click="order" class="ml-5">선택 구매</v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -178,6 +177,10 @@ export default {
         });
         //console.log(data);
         this.getCartProducts();
+        await this.$store.dispatch(
+          'GETCARTPRODUCTCOUNT',
+          this.$store.state.username,
+        );
       } catch (error) {
         console.log(error);
       }

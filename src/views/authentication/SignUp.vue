@@ -38,6 +38,7 @@
                   <v-text-field
                     tabindex="2"
                     v-model="password"
+                    type="password"
                     label="비밀번호"
                     clearable
                     prepend-icon="mdi-lock-outline"
@@ -52,6 +53,7 @@
                   <v-text-field
                     tabindex="3"
                     v-model="passwordConfirm"
+                    type="password"
                     label="비밀번호 확인"
                     clearable
                     prepend-icon="mdi-lock-outline"
@@ -188,23 +190,48 @@ export default {
     async signUp() {
       const result = await this.$refs.observer.validate();
       if (result) {
-        const userData = {
-          username: this.username,
-          password: this.password,
-          email: this.email,
-          name: this.name,
-          phoneNumber: this.phoneNumber,
-          zoneCode: this.zonecode,
-          roadAddress: this.roadAddress,
-          address: this.address,
-          detailAddress: this.detailAddress,
-        };
+        try {
+          const userData = {
+            username: this.username,
+            password: this.password,
+            email: this.email,
+            name: this.name,
+            phoneNumber: this.phoneNumber,
+            zoneCode: this.zonecode,
+            roadAddress: this.roadAddress,
+            address: this.address,
+            detailAddress: this.detailAddress,
+          };
 
-        console.log(userData);
-        const { data } = await registerUser(userData);
-        console.log(data.username);
-        this.logMessage = `${data.username} 님이 가입되었습니다`;
-        //this.initForm();
+          console.log(userData);
+          const { data } = await registerUser(userData);
+          console.log(data.username);
+          this.signIn();
+          // this.logMessage = `${data.username} 님이 가입되었습니다`;
+          //this.initForm();
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    },
+    async signIn() {
+      const result = await this.$refs.observer.validate();
+      if (result) {
+        try {
+          // 비즈니스 로직
+          const userData = {
+            username: this.username,
+            password: this.password,
+          };
+          await this.$store.dispatch('LOGIN', userData);
+          this.$router.push('/');
+        } catch (error) {
+          // 에러 핸들링할 코드
+          console.log(error.response.data);
+          this.logMessage = error.response.data;
+        } finally {
+          //this.initForm();
+        }
       }
     },
     initForm() {

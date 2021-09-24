@@ -288,6 +288,10 @@ export default {
           ],
         });
         console.log(data);
+        await this.$store.dispatch(
+          'GETCARTPRODUCTCOUNT',
+          this.$store.state.username,
+        );
       } catch (error) {
         console.log(error);
       }

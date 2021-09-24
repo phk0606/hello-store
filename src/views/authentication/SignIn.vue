@@ -36,6 +36,7 @@
                   <v-text-field
                     tabindex="2"
                     v-model="password"
+                    type="password"
                     label="비밀번호"
                     clearable
                     prepend-icon="mdi-lock-outline"
@@ -99,20 +100,17 @@ export default {
             password: this.password,
           };
           await this.$store.dispatch('LOGIN', userData);
+          await this.$store.dispatch('GETCARTPRODUCTCOUNT', this.username);
           this.$router.push('/');
         } catch (error) {
           // 에러 핸들링할 코드
-          console.log(error.response.data);
-          this.logMessage = error.response.data;
+          console.log(error);
+          // this.logMessage = error.response.data;
         } finally {
           //this.initForm();
         }
       }
     },
-    // initForm() {
-    //   this.username = '';
-    //   this.password = '';
-    // },
   },
 };
 </script>

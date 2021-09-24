@@ -34,14 +34,22 @@
         <v-col cols="2">
           <v-row v-if="isUserLogin" class="d-flex justify-center">
             <v-btn to="/my-page/cart" icon>
-              <v-badge content="2" value="2" color="indigo" overlap>
+              <v-badge
+                :content="this.$store.state.cartProductCount"
+                color="indigo"
+                overlap
+              >
                 <v-icon large>mdi-cart</v-icon>
               </v-badge>
             </v-btn>
             <v-btn to="/my-page/order-info" icon>
               <v-icon large>mdi-account</v-icon>
             </v-btn>
-            <v-btn to="/admin/product-regist" icon>
+            <v-btn
+              v-if="this.$store.state.authority === 'ROLE_ADMIN'"
+              to="/admin/product-regist"
+              icon
+            >
               <v-icon large>mdi-account-tie</v-icon>
             </v-btn>
           </v-row>
@@ -263,6 +271,7 @@
 
 <script>
 import { deleteCookie } from '@/utils/cookies';
+// import { getCartProductCount } from '@/api/cart';
 
 export default {
   name: 'DefaultHeader',
@@ -271,14 +280,32 @@ export default {
       return this.$store.getters.isLogin;
     },
   },
+  created() {
+    // this.getCartProductCount(this.$store.state.username);
+  },
   methods: {
+    // async getCartProductCount(username) {
+    //   try {
+    //     const { data } = await getCartProductCount({
+    //       username: username,
+    //     });
+    //     console.log(data);
+    //     this.cartProductCount = data;
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // },
     logoutUser() {
       this.$store.commit('clearUsername');
       this.$store.commit('clearAccessToken');
       this.$store.commit('clearRefreshToken');
+      this.$store.commit('clearAuthority');
+      this.$store.commit('clearCartProductCount');
       deleteCookie('ecomm_accessToken');
       deleteCookie('ecomm_refreshToken');
       deleteCookie('ecomm_user');
+      deleteCookie('ecomm_authority');
+      deleteCookie('ecomm_cartProductCount');
       if (this.$route.path !== '/') {
         this.$router.push('/');
       }
@@ -286,6 +313,7 @@ export default {
   },
   data() {
     return {
+      cartProductCount: null,
       font: 'text-caption text-sm-body-2 text-md-body-1 text-lg-h6 text-xl-h4',
       drawer: false,
       selectItems: ['Foo', 'Bar', 'Fizz', 'Buzz'],

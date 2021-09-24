@@ -10,6 +10,14 @@ function saveUserToCookie(value) {
   document.cookie = `ecomm_user=${value}` + ';path=/';
 }
 
+function saveAuthorityToCookie(value) {
+  document.cookie = `ecomm_authority=${value}` + ';path=/';
+}
+
+function saveCartProductCountToCookie(value) {
+  document.cookie = `ecomm_cartProductCount=${value}` + ';path=/';
+}
+
 function getAccessTokenFromCookie() {
   return document.cookie.replace(
     /(?:(?:^|.*;\s*)ecomm_accessToken\s*=\s*([^;]*).*$)|^.*$/,
@@ -31,6 +39,20 @@ function getUserFromCookie() {
   );
 }
 
+function getAuthorityFromCookie() {
+  return document.cookie.replace(
+    /(?:(?:^|.*;\s*)ecomm_authority\s*=\s*([^;]*).*$)|^.*$/,
+    '$1',
+  );
+}
+
+function getCartProductCountFromCookie() {
+  return document.cookie.replace(
+    /(?:(?:^|.*;\s*)ecomm_cartProductCount\s*=\s*([^;]*).*$)|^.*$/,
+    '$1',
+  );
+}
+
 function deleteCookie(value) {
   document.cookie = `${value}=; expires=Thu, 01 Jan 1970 00:00:01 GMT;`;
 }
@@ -39,8 +61,12 @@ export {
   saveAccessTokenToCookie,
   saveRefreshTokenToCookie,
   saveUserToCookie,
+  saveAuthorityToCookie,
+  saveCartProductCountToCookie,
   getAccessTokenFromCookie,
   getRefreshTokenFromCookie,
   getUserFromCookie,
   deleteCookie,
+  getAuthorityFromCookie,
+  getCartProductCountFromCookie,
 };
