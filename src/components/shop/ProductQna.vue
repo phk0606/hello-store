@@ -11,7 +11,7 @@
               <div>{{ content.questionContent }}</div>
             </v-col>
 
-            <v-col cols="2">
+            <v-col cols="auto">
               <div>{{ content.questionUsername }}</div>
             </v-col>
             <v-col cols="auto" class="d-flex">
@@ -21,40 +21,63 @@
         </v-expansion-panel-header>
 
         <v-expansion-panel-content>
-          <v-row>
-            <v-col cols="7">
-              <div>Q. {{ content.questionContent }}</div>
-
-              <div>A. {{ content.answerContent }}</div>
+          <v-row v-if="$store.state.username === content.questionUsername">
+            <v-col cols="7" class="d-flex">
+              Q.
+              <v-textarea
+                v-model="content.questionContent"
+                outlined
+                hide-details
+                rows="1"
+              />
             </v-col>
             <v-col cols="1" class="d-flex">
-              <v-btn outlined small color="purple" class="mr-2"> 수정 </v-btn>
-              <v-btn outlined small color="red"> 삭제 </v-btn>
+              <v-btn
+                @click="modifyQuestion(i)"
+                outlined
+                small
+                color="purple"
+                class="mr-2"
+              >
+                수정
+              </v-btn>
+              <v-btn @click="removeQuestion(i)" outlined small color="red">
+                삭제
+              </v-btn>
             </v-col>
+          </v-row>
+          <v-row v-else>
+            <v-col cols="7"> Q. {{ content.questionContent }} </v-col>
+          </v-row>
+          <v-row>
+            <v-col> A. {{ content.answerContent }} </v-col>
           </v-row>
         </v-expansion-panel-content>
         <v-card flat>
-          <v-row align="center">
-            <v-col cols="1" />
-            <v-col cols="6" v-if="content.answerContent">
-              {{ content.answerContent }}
-            </v-col>
-            <v-col cols="6" v-else>
-              답변 준비중입니다. 신속하게 답변 드리겠습니다.
-            </v-col>
-            <v-col cols="2">
-              <div>{{ content.answerUsername }}</div>
-            </v-col>
-            <v-col cols="auto" class="d-flex">
-              <div class="pr-2">{{ content.answerCreatedDate }}</div>
-            </v-col>
-          </v-row>
-          <v-row
-            align="center"
-            ref="replyRegistRow"
-            v-show="false"
-            class="pb-1"
-          >
+          <v-container>
+            <v-row align="center">
+              <v-col cols="1">
+                <v-spacer />
+              </v-col>
+              <v-col cols="auto">
+                <v-icon>mdi-arrow-right-bottom</v-icon>
+              </v-col>
+
+              <v-col cols="5" v-if="content.answerContent">
+                {{ content.answerContent }}
+              </v-col>
+              <v-col cols="5" v-else>
+                답변 준비중입니다. 신속하게 답변 드리겠습니다.
+              </v-col>
+              <v-col cols="auto">
+                <div>{{ content.answerUsername }}</div>
+              </v-col>
+              <v-col cols="auto" class="d-flex">
+                <div class="pr-2">{{ content.answerCreatedDate }}</div>
+              </v-col>
+            </v-row>
+          </v-container>
+          <!-- <v-row align="center" ref="replyRegistRow" v-show="true" class="pb-1">
             <v-col cols="1">
               <v-spacer />
             </v-col>
@@ -66,7 +89,7 @@
                 등록
               </v-btn>
             </v-col>
-          </v-row>
+          </v-row> -->
         </v-card>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -116,7 +139,12 @@
 
 <script>
 import Pagination from 'vue-pagination-2';
-import { createProductQuestion, getProductQnA } from '@/api/productQnA';
+import {
+  createProductQuestion,
+  getProductQnA,
+  removeQuestion,
+  modifyQuestion,
+} from '@/api/productQnA';
 
 export default {
   created() {
@@ -137,6 +165,29 @@ export default {
     Pagination,
   },
   methods: {
+    async removeQuestion(index) {
+      try {
+        await removeQuestion({
+          productQuestionId: this.contents[index].productQuestionId,
+        });
+        //console.log(data);
+        this.getProductQnA(1);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async modifyQuestion(index) {
+      try {
+        const { data } = await modifyQuestion({
+          productQuestionId: this.contents[index].productQuestionId,
+          questionContent: this.contents[index].questionContent,
+        });
+        console.log(data);
+        this.getProductQnA(1);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async getProductQnA(page) {
       try {
         const { data } = await getProductQnA({
@@ -163,8 +214,8 @@ export default {
         };
 
         const response = await createProductQuestion(productQnADto);
-
         console.log(response);
+        this.getProductQnA(1);
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;

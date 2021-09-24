@@ -124,7 +124,7 @@
                               persistent
                               max-width="600px"
                             >
-                              <template v-slot:activator="{ on, attrs }">
+                              <!-- <template v-slot:activator="{ on, attrs }">
                                 <v-btn
                                   color="purple"
                                   small
@@ -134,7 +134,7 @@
                                 >
                                   답변하기
                                 </v-btn>
-                              </template>
+                              </template> -->
                               <v-card>
                                 <v-card-title>
                                   <span class="text-h5"
@@ -232,6 +232,11 @@
                   </v-row>
                 </v-container>
               </v-expansion-panel>
+              <v-expansion-panel v-if="contents.length === 0">
+                <v-card flat>
+                  <v-card-text> 데이터가 없습니다. </v-card-text>
+                </v-card>
+              </v-expansion-panel>
             </v-expansion-panels>
             <v-container>
               <v-row justify="center" class="pt-2" style="text-align: center">
@@ -297,7 +302,7 @@ export default {
       productName: '',
       noAnswer: null,
       dialog: false,
-      contents: null,
+      contents: [],
       productId: '',
       productQuestion: '',
       page: 1,
