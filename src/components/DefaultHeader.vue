@@ -304,9 +304,17 @@ export default {
       ],
       serviceCenterMenus: [
         { title: '공지사항', icon: 'mdi-clock', to: '/service-center/notice' },
-        { title: '커뮤니티', icon: 'mdi-account' },
+        {
+          title: '커뮤니티',
+          icon: 'mdi-account',
+          to: '/service-center/community',
+        },
         { title: '자주하는질문', icon: 'mdi-flag' },
-        { title: '상품문의', icon: 'mdi-flag' },
+        {
+          title: '상품문의',
+          icon: 'mdi-flag',
+          to: '/service-center/productQnA',
+        },
       ],
     };
   },

@@ -1,22 +1,7 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col cols="2">
-        <admin-board-left />
-      </v-col>
-      <v-col cols="10">
-        <v-row dense align="center">
-          <v-col cols="auto">
-            <v-icon>mdi-arrow-right-drop-circle-outline</v-icon>
-          </v-col>
-          <v-col cols="">
-            <v-breadcrumbs :items="items" class="pa-0">
-              <template v-slot:divider>
-                <v-icon>mdi-chevron-right</v-icon>
-              </template>
-            </v-breadcrumbs>
-          </v-col>
-        </v-row>
+      <v-col cols="12">
         <v-row dense>
           <v-col>
             <v-chip label x-large color="white">
@@ -27,23 +12,13 @@
         </v-row>
 
         <v-row dense align="center" justify="start">
-          <v-col cols="3">
-            <v-checkbox
-              v-model="noAnswer"
-              @click="getProductQnA(1)"
-              dense
-              hide-details
-              label="답변 없는 문의만 보기"
-              class="mr-2"
-            />
-          </v-col>
           <v-col cols="4">
             <v-text-field
               v-model="searchText"
               dense
               hide-details
               outlined
-              placeholder="예) 주문 취소"
+              placeholder="예) 배송일"
             >
               <template v-slot:prepend> <v-card width="10" flat /></template>
             </v-text-field>
@@ -279,66 +254,6 @@
                   />
                 </v-col>
               </v-row>
-              <v-row>
-                <v-col> 상품 문의하기 </v-col>
-              </v-row>
-              <v-row align="center">
-                <v-col cols="3">
-                  <v-select
-                    v-model="category1Select"
-                    :items="category1"
-                    label="카테고리 선택"
-                    outlined
-                    dense
-                    hide-details
-                    @change="changeCategory"
-                    :menu-props="{ offsetY: true }"
-                  />
-                </v-col>
-                <v-col cols="3">
-                  <v-select
-                    v-model="category2Select"
-                    :items="category2"
-                    label="카테고리 선택"
-                    outlined
-                    dense
-                    hide-details
-                    @change="getProductsByCategoryId"
-                    :menu-props="{ offsetY: true }"
-                  />
-                </v-col>
-                <v-col cols="4">
-                  <v-select
-                    v-model="productSelected"
-                    :items="products"
-                    item-text="productName"
-                    item-value="productId"
-                    label="상품 선택"
-                    outlined
-                    dense
-                    hide-details
-                    :menu-props="{ offsetY: true }"
-                  />
-                </v-col>
-              </v-row>
-
-              <v-row align="center">
-                <v-col cols="10">
-                  <v-textarea
-                    v-model="productQuestion"
-                    outlined
-                    rows="3"
-                    hide-details
-                    clearable
-                    placeholder="- 띄어쓰기를 포함하여 최대 1000자까지 작성할 수 있습니다.
-※ 욕설, 영업에 방해되는 글은 관리자에 의해 삭제됩니다.
-"
-                  />
-                </v-col>
-                <v-col>
-                  <v-btn @click="createProductQuestion" large>등록</v-btn>
-                </v-col>
-              </v-row>
             </v-container>
           </v-col>
         </v-row>
@@ -348,7 +263,6 @@
 </template>
 
 <script>
-import AdminBoardLeft from '@/components/admin/AdminBoardLeft.vue';
 import Pagination from 'vue-pagination-2';
 import {
   createProductQuestion,
@@ -368,7 +282,6 @@ export default {
     this.getCategory();
   },
   components: {
-    AdminBoardLeft,
     Pagination,
   },
 
@@ -399,18 +312,6 @@ export default {
         { text: '주문자 이름', value: 'ordererName' },
       ],
       selected: [],
-      items: [
-        {
-          text: '게시판 관리',
-          disabled: false,
-          href: 'breadcrumbs_dashboard',
-        },
-        {
-          text: '상품 문의 리스트',
-          disabled: false,
-          href: 'breadcrumbs_link_1',
-        },
-      ],
     };
   },
   methods: {

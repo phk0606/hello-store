@@ -142,6 +142,38 @@ const routes = [
             /* webpackChunkName: "service-center-notice-deatil" */ '@/views/serviceCenter/NoticeDetail'
           ),
       },
+      {
+        path: 'community',
+        name: 'service-center-community',
+        component: () =>
+          import(
+            /* webpackChunkName: "service-center-community" */ '@/views/serviceCenter/Community'
+          ),
+      },
+      {
+        path: 'community-detail/:communityId',
+        name: 'service-center-community-detail',
+        component: () =>
+          import(
+            /* webpackChunkName: "service-center-community-deatil" */ '@/views/serviceCenter/CommunityDetail'
+          ),
+      },
+      {
+        path: 'community-regist',
+        name: 'service-center-community-regist',
+        component: () =>
+          import(
+            /* webpackChunkName: "service-center-community-regist" */ '@/views/serviceCenter/CommunityRegist'
+          ),
+      },
+      {
+        path: 'productQnA',
+        name: 'service-center-productQnA',
+        component: () =>
+          import(
+            /* webpackChunkName: "service-center-productQnA" */ '@/views/serviceCenter/ProductQnA'
+          ),
+      },
     ],
   },
   {
