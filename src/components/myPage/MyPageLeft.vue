@@ -74,7 +74,7 @@
             <v-list-item-title>나의 상품평</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item>
+        <v-list-item to="/my-page/product-qna">
           <v-icon>mdi-menu-right</v-icon>
           <v-list-item-content>
             <v-list-item-title>나의 상품 문의</v-list-item-title>

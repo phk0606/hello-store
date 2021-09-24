@@ -124,6 +124,14 @@ const routes = [
             /* webpackChunkName: "my-page-product-comment" */ '@/views/myPage/ProductComment'
           ),
       },
+      {
+        path: 'product-qna',
+        name: 'my-page-productQnA',
+        component: () =>
+          import(
+            /* webpackChunkName: "my-page-productQnA" */ '@/views/myPage/ProductQnA'
+          ),
+      },
     ],
   },
   {
