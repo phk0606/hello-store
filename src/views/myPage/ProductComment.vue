@@ -551,6 +551,7 @@ export default {
           size: this.perPage,
 
           productId: this.productId,
+          username: this.$store.state.username,
         });
         this.contents = data.content;
         this.perPage = data.size;

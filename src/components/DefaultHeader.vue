@@ -32,7 +32,11 @@
           <v-btn color="indigo darken-3"> 검색 </v-btn>
         </v-col>
         <v-col cols="2">
-          <v-row v-if="isUserLogin" class="d-flex justify-center">
+          <v-row
+            v-if="isUserLogin"
+            class="d-flex justify-center"
+            align="center"
+          >
             <v-btn to="/my-page/cart" icon>
               <v-badge
                 :content="this.$store.state.cartProductCount"
@@ -52,6 +56,7 @@
             >
               <v-icon large>mdi-account-tie</v-icon>
             </v-btn>
+            ({{ this.$store.state.username }})
           </v-row>
         </v-col>
       </v-row>

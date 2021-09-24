@@ -400,6 +400,7 @@ export default {
           productId: this.productId,
           noAnswer: this.noAnswer,
           searchText: this.searchText,
+          username: this.$store.state.username,
         });
         this.contents = data.content;
         this.perPage = data.size;
