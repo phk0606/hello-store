@@ -267,6 +267,13 @@
                     </v-col>
                     <v-col cols="7">
                       <v-row>
+                        <v-col>
+                          {{ content.categoryName }} >
+                          {{ content.productName }} (productId:
+                          {{ content.productId }})
+                        </v-col>
+                      </v-row>
+                      <v-row>
                         <v-col cols="7" class="d-flex">
                           <div class="pr-2">{{ content.createdDate }}</div>
 

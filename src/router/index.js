@@ -116,6 +116,14 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "my-page-cart" */ '@/views/myPage/Cart'),
       },
+      {
+        path: 'product-comment',
+        name: 'my-page-product-comment',
+        component: () =>
+          import(
+            /* webpackChunkName: "my-page-product-comment" */ '@/views/myPage/ProductComment'
+          ),
+      },
     ],
   },
   {
