@@ -39,7 +39,7 @@
           >
             <v-btn to="/my-page/cart" icon>
               <v-badge
-                :content="this.$store.state.cartProductCount"
+                :content="`${this.$store.state.cartProductCount}`"
                 color="indigo"
                 overlap
               >

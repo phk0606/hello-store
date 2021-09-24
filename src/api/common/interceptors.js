@@ -62,19 +62,20 @@ async function requestRefreshToken() {
       refreshToken: store.state.refreshToken,
       accessToken: store.state.accessToken,
     };
-    await store.dispatch('REFRESHTOKEN', refreshTokenData);
-  } catch (error) {
-    console.log(error);
-    this.$store.commit('clearUsername');
-    this.$store.commit('clearAccessToken');
-    this.$store.commit('clearRefreshToken');
-    this.$store.commit('clearAuthority');
-    this.$store.commit('clearCartProductCount');
+    store.commit('clearUsername');
+    store.commit('clearAccessToken');
+    store.commit('clearRefreshToken');
+    store.commit('clearAuthority');
+    store.commit('clearCartProductCount');
     deleteCookie('ecomm_user');
     deleteCookie('ecomm_refreshToken');
     deleteCookie('ecomm_accessToken');
     deleteCookie('ecomm_authority');
     deleteCookie('ecomm_cartProductCount');
+    await store.dispatch('REFRESHTOKEN', refreshTokenData);
+  } catch (error) {
+    console.log(error);
+
     //this.logMessage = error.response.data;
   } finally {
     //this.initForm();
