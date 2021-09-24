@@ -244,11 +244,13 @@
               </template>
               <v-card class="mx-auto" max-width="344" outlined>
                 <v-list-item
-                  v-for="(item, index) in items3"
+                  v-for="(serviceCenterMenu, index) in serviceCenterMenus"
                   :key="index"
-                  href="/shop"
+                  :to="serviceCenterMenu.to"
                 >
-                  <v-list-item-title>{{ item.title }}</v-list-item-title>
+                  <v-list-item-title>{{
+                    serviceCenterMenu.title
+                  }}</v-list-item-title>
                 </v-list-item>
               </v-card>
             </v-menu>
@@ -300,8 +302,8 @@ export default {
         { text: 'Skirt', icon: 'mdi-flag' },
         { text: 'Dress', icon: 'mdi-flag' },
       ],
-      items3: [
-        { title: '공지사항', icon: 'mdi-clock' },
+      serviceCenterMenus: [
+        { title: '공지사항', icon: 'mdi-clock', to: '/service-center/notice' },
         { title: '커뮤니티', icon: 'mdi-account' },
         { title: '자주하는질문', icon: 'mdi-flag' },
         { title: '상품문의', icon: 'mdi-flag' },

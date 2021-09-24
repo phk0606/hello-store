@@ -119,6 +119,32 @@ const routes = [
     ],
   },
   {
+    path: '/service-center',
+    component: () =>
+      import(
+        /* webpackChunkName: "service-center" */
+        '@/views/serviceCenter/ServiceCenter'
+      ),
+    children: [
+      {
+        path: 'notice',
+        name: 'service-center-notice',
+        component: () =>
+          import(
+            /* webpackChunkName: "service-center-notice" */ '@/views/serviceCenter/Notice'
+          ),
+      },
+      {
+        path: 'notice-detail/:noticeId',
+        name: 'service-center-notice-detail',
+        component: () =>
+          import(
+            /* webpackChunkName: "service-center-notice-deatil" */ '@/views/serviceCenter/NoticeDetail'
+          ),
+      },
+    ],
+  },
+  {
     path: '/admin',
     component: () =>
       import(
