@@ -6,7 +6,7 @@
           <v-col>
             <v-chip label x-large color="white">
               <v-icon left> mdi-chevron-right-box </v-icon>
-              상품 문의 리스트
+              상품 문의
             </v-chip>
           </v-col>
         </v-row>
