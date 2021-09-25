@@ -199,7 +199,7 @@ export default {
       ],
       detailSearchShowYn: false,
       page: 1,
-      records: 10,
+      records: 0,
       perPage: 5,
       selected: [],
       headers: [

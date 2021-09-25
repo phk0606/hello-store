@@ -456,7 +456,7 @@ export default {
       contents: [],
       content: null,
       page: 1,
-      records: 10,
+      records: 0,
       perPage: 5,
       panelItems: 1,
       rating: 4,

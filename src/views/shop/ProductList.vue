@@ -150,7 +150,7 @@ export default {
       productProperty: null,
       contentList: null,
       page: 1,
-      records: 10,
+      records: 0,
       perPage: 6,
       items: [
         { text: '모두보기', value: '' },

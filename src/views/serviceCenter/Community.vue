@@ -113,7 +113,7 @@ export default {
         { text: '내용', value: 'content' },
       ],
       page: 1,
-      records: 10,
+      records: 0,
       perPage: 5,
       selected: [],
       headers: [

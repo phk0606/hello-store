@@ -229,7 +229,7 @@ export default {
       orders: [],
       selected: [],
       page: 1,
-      records: 10,
+      records: 0,
       perPage: 6,
       username: '',
       orderDateA: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)

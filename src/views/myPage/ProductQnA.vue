@@ -306,7 +306,7 @@ export default {
       productId: '',
       productQuestion: '',
       page: 1,
-      records: 10,
+      records: 0,
       perPage: 5,
       searchSelected: null,
       searchText: '',

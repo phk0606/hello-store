@@ -446,6 +446,11 @@
                   </div>
                 </v-card>
               </v-expansion-panel>
+              <v-expansion-panel v-if="contents.length === 0">
+                <v-card flat>
+                  <v-card-text> 데이터가 없습니다. </v-card-text>
+                </v-card>
+              </v-expansion-panel>
             </v-expansion-panels>
             <v-container>
               <v-row justify="center" class="pt-2" style="text-align: center">
@@ -524,7 +529,7 @@ export default {
         { text: '주문자 이름', value: 'ordererName' },
       ],
       page: 1,
-      records: 10,
+      records: 0,
       perPage: 5,
       selected: [],
       headers: [
@@ -537,7 +542,7 @@ export default {
         { text: '제목', align: 'center', sortable: false, value: 'image' },
         { text: '작성일', align: 'center', value: 'createdDate' },
       ],
-      contents: null,
+      contents: [],
       content: null,
       items: [
         {

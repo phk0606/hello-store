@@ -92,6 +92,11 @@
           </v-row> -->
         </v-card>
       </v-expansion-panel>
+      <v-expansion-panel v-if="contents.length === 0">
+        <v-card flat>
+          <v-card-text> 데이터가 없습니다. </v-card-text>
+        </v-card>
+      </v-expansion-panel>
     </v-expansion-panels>
     <v-container>
       <v-row justify="center" class="pt-2" style="text-align: center">
@@ -153,11 +158,11 @@ export default {
   },
   data() {
     return {
-      contents: null,
+      contents: [],
       productId: '',
       productQuestion: '',
       page: 1,
-      records: 10,
+      records: 0,
       perPage: 5,
     };
   },

@@ -234,7 +234,7 @@ export default {
         { text: '배송 완료', value: 'COMPLETE_SHIP' },
       ],
       page: 1,
-      records: 10,
+      records: 0,
       perPage: 5,
       selected: [],
       headers: [
