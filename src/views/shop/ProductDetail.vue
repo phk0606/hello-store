@@ -278,6 +278,11 @@ export default {
         alert('두 번째 옵션을 선택해 주세요.');
         return;
       }
+      if (!this.$store.getters.username) {
+        alert('로그인이 필요합니다.');
+        this.$router.push('/authentication/sign-in');
+        return;
+      }
       try {
         const { data } = await addCartProduct({
           productId: this.productId,

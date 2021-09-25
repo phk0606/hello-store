@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import store from '@/store/index';
 
 Vue.use(VueRouter);
 
@@ -67,6 +68,9 @@ const routes = [
           import(
             /* webpackChunkName: "style-shop-product-order" */ '@/views/shop/ProductOrder'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'order-complete/:orderId',
@@ -75,6 +79,9 @@ const routes = [
           import(
             /* webpackChunkName: "style-shop-product-order-complete" */ '@/views/shop/OrderComplete'
           ),
+        meta: {
+          auth: true,
+        },
       },
     ],
   },
@@ -93,6 +100,9 @@ const routes = [
           import(
             /* webpackChunkName: "my-page-order-info" */ '@/views/myPage/OrderInfo'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'order-detail-info/:orderId',
@@ -101,6 +111,9 @@ const routes = [
           import(
             /* webpackChunkName: "my-page-order-detail-info" */ '@/views/myPage/OrderDetailInfo'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'exchange/:orderId',
@@ -109,12 +122,18 @@ const routes = [
           import(
             /* webpackChunkName: "my-page-exchange" */ '@/views/myPage/Exchange'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'cart',
         name: 'my-page-cart',
         component: () =>
           import(/* webpackChunkName: "my-page-cart" */ '@/views/myPage/Cart'),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'product-comment',
@@ -123,6 +142,9 @@ const routes = [
           import(
             /* webpackChunkName: "my-page-product-comment" */ '@/views/myPage/ProductComment'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'product-qna',
@@ -131,6 +153,9 @@ const routes = [
           import(
             /* webpackChunkName: "my-page-productQnA" */ '@/views/myPage/ProductQnA'
           ),
+        meta: {
+          auth: true,
+        },
       },
     ],
   },
@@ -207,6 +232,9 @@ const routes = [
           import(
             /* webpackChunkName: "product-regist" */ '@/views/admin/productManage/ProductRegist'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'product-modify/:productId',
@@ -215,6 +243,9 @@ const routes = [
           import(
             /* webpackChunkName: "product-modify" */ '@/views/admin/productManage/ProductModify'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'product-list',
@@ -223,6 +254,9 @@ const routes = [
           import(
             /* webpackChunkName: "product-list" */ '@/views/admin/productManage/ProductList'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'category-manage',
@@ -231,6 +265,9 @@ const routes = [
           import(
             /* webpackChunkName: "category-manage" */ '@/views/admin/productManage/CategoryManage'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'order-list',
@@ -239,6 +276,9 @@ const routes = [
           import(
             /* webpackChunkName: "order-list" */ '@/views/admin/orderManage/OrderList'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'order-detail-info/:orderId',
@@ -247,6 +287,9 @@ const routes = [
           import(
             /* webpackChunkName: "admin-order-detail-info" */ '@/views/admin/orderManage/OrderDetailInfo'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'order-cancel-list',
@@ -255,6 +298,9 @@ const routes = [
           import(
             /* webpackChunkName: "order-cancel-list" */ '@/views/admin/orderManage/OrderCancelList'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'exchange-list',
@@ -263,6 +309,9 @@ const routes = [
           import(
             /* webpackChunkName: "exchange-list" */ '@/views/admin/orderManage/ExchangeList'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'user-list',
@@ -271,6 +320,9 @@ const routes = [
           import(
             /* webpackChunkName: "exchange-list" */ '@/views/admin/userManage/UserList'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'user-detail-info/:username',
@@ -279,6 +331,9 @@ const routes = [
           import(
             /* webpackChunkName: "admin-user-detail-info" */ '@/views/admin/userManage/UserDetailInfo'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'style-shop-notice',
@@ -287,6 +342,9 @@ const routes = [
           import(
             /* webpackChunkName: "admin-stype-shop-list-notice" */ '@/views/admin/boardManage/StyleShopNotice'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'notice-list',
@@ -295,6 +353,9 @@ const routes = [
           import(
             /* webpackChunkName: "admin-notice-list" */ '@/views/admin/boardManage/NoticeList'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'notice-regist',
@@ -303,6 +364,9 @@ const routes = [
           import(
             /* webpackChunkName: "admin-notice-regist" */ '@/views/admin/boardManage/NoticeRegist'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'notice-detail/:noticeId',
@@ -311,6 +375,9 @@ const routes = [
           import(
             /* webpackChunkName: "admin-notice-detail" */ '@/views/admin/boardManage/NoticeDetail'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'community-list',
@@ -319,6 +386,9 @@ const routes = [
           import(
             /* webpackChunkName: "admin-community-list" */ '@/views/admin/boardManage/CommunityList'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'community-regist',
@@ -327,6 +397,9 @@ const routes = [
           import(
             /* webpackChunkName: "admin-community-regist" */ '@/views/admin/boardManage/CommunityRegist'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'community-detail/:communityId',
@@ -335,6 +408,9 @@ const routes = [
           import(
             /* webpackChunkName: "admin-community-detail" */ '@/views/admin/boardManage/CommunityDetail'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'product-comment-list',
@@ -343,6 +419,9 @@ const routes = [
           import(
             /* webpackChunkName: "admin-product-comment-list" */ '@/views/admin/boardManage/ProductCommentList'
           ),
+        meta: {
+          auth: true,
+        },
       },
       {
         path: 'product-qna-list',
@@ -351,6 +430,20 @@ const routes = [
           import(
             /* webpackChunkName: "admin-product-qna-list" */ '@/views/admin/boardManage/ProductQnAList'
           ),
+        meta: {
+          auth: true,
+        },
+      },
+      {
+        path: 'policy-manage',
+        name: 'admin-policy',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin-policy" */ '@/views/admin/policyManage/Policy'
+          ),
+        meta: {
+          auth: true,
+        },
       },
     ],
   },
@@ -370,6 +463,16 @@ const router = new VueRouter({
 
     return result ? '?' + result : '';
   },
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.auth && !store.getters.isLogin) {
+    alert('로그인이 필요합니다.');
+    next('/authentication/sign-in');
+    return;
+  }
+
+  next();
 });
 
 export default router;

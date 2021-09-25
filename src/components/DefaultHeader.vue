@@ -51,7 +51,7 @@
             </v-btn>
             <v-btn
               v-if="this.$store.state.authority === 'ROLE_ADMIN'"
-              to="/admin/product-regist"
+              to="/admin/order-list"
               icon
             >
               <v-icon large>mdi-account-tie</v-icon>

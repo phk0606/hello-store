@@ -66,12 +66,12 @@ async function requestRefreshToken() {
     store.commit('clearAccessToken');
     store.commit('clearRefreshToken');
     store.commit('clearAuthority');
-    store.commit('clearCartProductCount');
+    // store.commit('clearCartProductCount');
     deleteCookie('ecomm_user');
     deleteCookie('ecomm_refreshToken');
     deleteCookie('ecomm_accessToken');
     deleteCookie('ecomm_authority');
-    deleteCookie('ecomm_cartProductCount');
+    // deleteCookie('ecomm_cartProductCount');
     await store.dispatch('REFRESHTOKEN', refreshTokenData);
   } catch (error) {
     console.log(error);

@@ -130,6 +130,7 @@
                 </v-list-item>
               </v-card>
             </v-menu>
+
             <v-menu open-on-hover offset-y>
               <template v-slot:activator="{ on }">
                 <v-btn v-on="on">
@@ -137,8 +138,12 @@
                 </v-btn>
               </template>
               <v-card class="mx-auto" max-width="344" outlined>
-                <v-list-item href="/shop">
-                  <v-list-item-title />
+                <v-list-item
+                  v-for="(item, index) in policyManageMenu"
+                  :key="index"
+                  :to="item.to"
+                >
+                  <v-list-item-title>{{ item.title }}</v-list-item-title>
                 </v-list-item>
               </v-card>
             </v-menu>
@@ -285,6 +290,28 @@ export default {
           title: '게시판 카테고리 관리',
           icon: 'mdi-flag',
           to: '/admin/category-manage',
+        },
+      ],
+      policyManageMenu: [
+        {
+          title: '약관',
+          icon: 'mdi-clock',
+          to: '/admin/policy-manage',
+        },
+        {
+          title: '정책',
+          icon: 'mdi-clock',
+          to: '/admin/policy-manage',
+        },
+        {
+          title: '결제 방법',
+          icon: 'mdi-clock',
+          to: '/admin/policy-manage',
+        },
+        {
+          title: '메뉴 접근 권한',
+          icon: 'mdi-clock',
+          to: '/admin/policy-manage',
         },
       ],
     };
