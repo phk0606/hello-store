@@ -270,6 +270,14 @@ export default {
   },
   methods: {
     async addCartProduct() {
+      if (this.firstOptions[0].optionValue && !this.firstSelected) {
+        alert('첫 번째 옵션을 선택해 주세요.');
+        return;
+      }
+      if (this.secondOptions[0].optionValue && !this.secondSelected) {
+        alert('두 번째 옵션을 선택해 주세요.');
+        return;
+      }
       try {
         const { data } = await addCartProduct({
           productId: this.productId,
@@ -298,6 +306,15 @@ export default {
     },
     order() {
       console.log(this.firstSelected);
+      if (this.firstOptions[0].optionValue && !this.firstSelected) {
+        alert('첫 번째 옵션을 선택해 주세요.');
+        return;
+      }
+      if (this.secondOptions[0].optionValue && !this.secondSelected) {
+        alert('두 번째 옵션을 선택해 주세요.');
+        return;
+      }
+
       this.$router.push({
         path: '/style-shop/product-order',
         query: {
