@@ -51,7 +51,7 @@
         <v-row dense align="center">
           <v-col cols="auto"
             ><v-text-field
-              v-model="defaultShippingFee"
+              v-model="freeShippingMinPurchasePrice"
               hide-details
               dense
               outlined
@@ -74,7 +74,7 @@
         <v-row dense align="center">
           <v-col cols="auto"
             ><v-text-field
-              v-model="defaultShippingFee"
+              v-model="signUpPoint"
               hide-details
               dense
               outlined
@@ -89,7 +89,7 @@
         <v-row dense align="center">
           <v-col cols="auto"
             ><v-text-field
-              v-model="defaultShippingFee"
+              v-model="percentPerPurchasePrice"
               hide-details
               dense
               outlined
@@ -104,11 +104,11 @@
         <v-divider />
         <v-row dense>
           <v-col cols="auto">
-            <v-btn @click="mergeNoticeContent">저장</v-btn>
+            <v-btn @click="mergePolicy">저장</v-btn>
           </v-col>
-          <v-col cols="auto">
+          <!-- <v-col cols="auto">
             <v-btn @click="mergeNoticeContent">취소</v-btn>
-          </v-col>
+          </v-col> -->
         </v-row>
       </v-col>
     </v-row>
@@ -117,20 +117,24 @@
 
 <script>
 import AdminPolicyLeft from '@/components/admin/AdminPolicyLeft.vue';
+import { getPolicy, mergePolicy } from '@/api/policy';
 
 export default {
   name: 'admin-policy',
-  created() {},
+  created() {
+    this.getPolicy();
+  },
   components: {
     AdminPolicyLeft,
   },
 
   data() {
     return {
-      id: '',
-      categoryNotice: '',
-      categorySelected: null,
-      categoryItems: [],
+      policyId: null,
+      defaultShippingFee: null,
+      freeShippingMinPurchasePrice: null,
+      signUpPoint: null,
+      percentPerPurchasePrice: null,
       items: [
         {
           text: '기본 정책 관리',
@@ -145,7 +149,39 @@ export default {
       ],
     };
   },
-  methods: {},
+  methods: {
+    async getPolicy() {
+      try {
+        const { data } = await getPolicy({
+          policyId: this.policyId,
+        });
+        this.policyId = data.policyId;
+        this.defaultShippingFee = data.defaultShippingFee;
+        this.freeShippingMinPurchasePrice = data.freeShippingMinPurchasePrice;
+        this.signUpPoint = data.signUpPoint;
+        this.percentPerPurchasePrice = data.percentPerPurchasePrice;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async mergePolicy() {
+      try {
+        const response = await mergePolicy({
+          policyId: this.policyId,
+          defaultShippingFee: this.defaultShippingFee,
+          freeShippingMinPurchasePrice: this.freeShippingMinPurchasePrice,
+          signUpPoint: this.signUpPoint,
+          percentPerPurchasePrice: this.percentPerPurchasePrice,
+        });
+        this.getPolicy();
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
+  },
 };
 </script>
 

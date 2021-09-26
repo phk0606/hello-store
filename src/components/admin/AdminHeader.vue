@@ -306,7 +306,7 @@ export default {
         {
           title: '결제 방법',
           icon: 'mdi-clock',
-          to: '/admin/policy-manage',
+          to: '/admin/payment-method-manage',
         },
         {
           title: '메뉴 접근 권한',

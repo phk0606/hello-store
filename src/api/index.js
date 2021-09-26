@@ -25,6 +25,9 @@ export const productComment = createInstanceWithAuth('/productComment');
 export const productQnA = createInstanceWithAuth('/productQnA');
 export const notice = createInstanceWithAuth('/notice');
 export const community = createInstanceWithAuth('/community');
+export const policy = createInstanceWithAuth('/policy');
+export const bankAccount = createInstanceWithAuth('/bankAccount');
+export const paymentMethod = createInstanceWithAuth('/paymentMethod');
 
 export const posts = createInstanceWithAuth('posts');
 

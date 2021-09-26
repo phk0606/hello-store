@@ -16,7 +16,7 @@
         <router-link to="/admin/policy-manage"
           ><v-subheader>정책</v-subheader></router-link
         >
-        <router-link to="/admin/exchange-list"
+        <router-link to="/admin/payment-method-manage"
           ><v-subheader>결제 방법</v-subheader></router-link
         >
         <router-link to="/admin/exchange-list"

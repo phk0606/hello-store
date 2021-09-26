@@ -445,6 +445,17 @@ const routes = [
           auth: true,
         },
       },
+      {
+        path: 'payment-method-manage',
+        name: 'admin-payment-method',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin-payment-method" */ '@/views/admin/policyManage/PaymentMethod'
+          ),
+        meta: {
+          auth: true,
+        },
+      },
     ],
   },
 ];

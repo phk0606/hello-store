@@ -265,11 +265,11 @@ export default {
     },
     async removeCommunity() {
       try {
-        const communityeDto = {
+        const communityDto = {
           communityId: this.communityId,
         };
 
-        const response = await removeCommunity(communityeDto);
+        const response = await removeCommunity(communityDto);
         console.log(response);
 
         this.$router.push('/admin/community-list');
