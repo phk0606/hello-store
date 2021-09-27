@@ -41,35 +41,37 @@
                 <v-container>
                   <v-row dense align="center">
                     <v-col cols="2"><div class="subtitle-1">이름:</div></v-col>
-                    <v-col
-                      ><v-text-field
-                        v-model="name"
-                        hide-details
-                        dense
-                        solo-inverted
-                        required
-                    /></v-col>
+                    <v-col>{{ name }}</v-col>
                   </v-row>
                   <v-row dense align="center">
                     <v-col cols="2"
                       ><div class="subtitle-1">아이디:</div></v-col
                     >
-                    <v-col
-                      ><v-text-field
-                        v-model="username"
-                        hide-details
-                        dense
-                        solo-inverted
-                        required
-                    /></v-col>
+                    <v-col>{{ username }}</v-col>
                   </v-row>
                   <v-row dense align="center">
                     <v-col cols="2"
                       ><div class="subtitle-1">비밀번호:</div></v-col
                     >
                     <v-col
-                      ><v-text-field hide-details dense solo-inverted required
+                      ><v-text-field
+                        tabindex="2"
+                        v-model="password"
+                        type="password"
+                        label="비밀번호"
+                        clearable
+                        prepend-icon="mdi-lock-outline"
                     /></v-col>
+                    <v-col>
+                      <v-text-field
+                        tabindex="3"
+                        v-model="passwordConfirm"
+                        type="password"
+                        label="비밀번호 확인"
+                        clearable
+                        prepend-icon="mdi-lock-outline"
+                      />
+                    </v-col>
                   </v-row>
                   <v-row dense align="center">
                     <v-col cols="2"
@@ -152,28 +154,13 @@
                     <v-col cols="3"
                       ><div class="subtitle-1">총 구매 금액:</div></v-col
                     >
-                    <v-col
-                      ><v-text-field
-                        v-model="purchasePrice"
-                        hide-details
-                        dense
-                        solo-inverted
-                        required
-                      />
-                    </v-col>
+                    <v-col>{{ purchasePrice }} 원 </v-col>
                   </v-row>
                   <v-row>
                     <v-col cols="3"
                       ><div class="subtitle-1">포인트:</div></v-col
                     >
-                    <v-col
-                      ><v-text-field
-                        v-model="point"
-                        hide-details
-                        dense
-                        solo-inverted
-                        required
-                    /></v-col>
+                    <v-col>{{ point }} 원</v-col>
                   </v-row>
                 </v-container>
               </v-card-text>
@@ -185,11 +172,11 @@
             <v-btn>회원 탈퇴</v-btn>
           </v-col>
           <v-col cols="auto">
-            <v-btn>수정</v-btn>
+            <v-btn @click="modifyUser">수정</v-btn>
           </v-col>
 
           <v-col cols="auto">
-            <v-btn>목록 보기</v-btn>
+            <v-btn to="/admin/user-list">목록 보기</v-btn>
           </v-col>
         </v-row>
       </v-col>
@@ -198,7 +185,7 @@
 </template>
 
 <script>
-import { getUser } from '@/api/user';
+import { getUser, modifyUser } from '@/api/user';
 import Address from '@/components/Address';
 import AdminOrderLeft from '@/components/admin/AdminUserLeft.vue';
 
@@ -206,6 +193,7 @@ export default {
   name: 'UserDetailInfo',
   created() {
     const username = this.$route.params.username;
+    this.username = username;
     console.log(username);
     this.getUser(username);
     this.username = username;
@@ -225,6 +213,27 @@ export default {
       // console.log(detailAddress);
       this.detailAddress = detailAddress;
     },
+    async modifyUser() {
+      try {
+        const userDto = {
+          email: this.email,
+          phoneNumber: this.phoneNumber,
+          zoneCode: this.zonecode,
+          roadAddress: this.roadAddress,
+          address: this.address,
+          detailAddress: this.detailAddress,
+          password: this.password,
+          username: this.username,
+        };
+
+        const { data } = await modifyUser(userDto);
+        console.log(data);
+        this.getUser(this.username);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
     async getUser(username) {
       try {
         const { data } = await getUser({
@@ -242,6 +251,7 @@ export default {
         this.detailAddress = data.detailAddress;
         this.purchasePrice = data.purchasePrice;
         this.point = data.point;
+        this.password = '';
       } catch (error) {
         console.log(error);
       }
@@ -249,6 +259,8 @@ export default {
   },
   data() {
     return {
+      password: null,
+      passwordConfirm: null,
       createdDate: '',
       zonecode: '',
       roadAddress: '',

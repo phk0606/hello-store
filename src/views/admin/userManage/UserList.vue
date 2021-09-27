@@ -35,16 +35,23 @@
               outlined
               hide-details
               dense
+              clearable
               :menu-props="{ offsetY: true }"
             />
           </v-col>
           <v-col cols="3">
-            <v-text-field v-model="searchText" dense hide-details outlined>
+            <v-text-field
+              v-model="searchText"
+              dense
+              hide-details
+              outlined
+              clearable
+            >
               <template v-slot:prepend> <v-card width="10" flat /></template>
             </v-text-field>
           </v-col>
           <v-col cols="auto">
-            <v-btn color="indigo" dark>검색</v-btn>
+            <v-btn @click="getUsers(1)" color="indigo" dark>검색</v-btn>
           </v-col>
           <v-col cols="auto">
             <v-btn small text @click="detailSearchShow">상세 검색</v-btn>
@@ -106,11 +113,23 @@
                   </v-col>
                   <v-col cols="auto" class="ml-5">구매 금액</v-col>
                   <v-col cols="2">
-                    <v-text-field dense hide-details outlined suffix="원" />
+                    <v-text-field
+                      v-model="purchasePriceMin"
+                      dense
+                      hide-details
+                      outlined
+                      suffix="원"
+                    />
                   </v-col>
                   <v-col cols="auto">~</v-col>
                   <v-col cols="2">
-                    <v-text-field dense hide-details outlined suffix="원" />
+                    <v-text-field
+                      v-model="purchasePriceMax"
+                      dense
+                      hide-details
+                      outlined
+                      suffix="원"
+                    />
                   </v-col>
                 </v-row>
               </v-container>
@@ -119,7 +138,7 @@
         </transition>
         <v-divider />
         <v-row>
-          <v-col>검색 결과: 0000건</v-col>
+          <v-col>검색 결과: {{ searchResultCount }}건</v-col>
         </v-row>
         <v-row>
           <v-col>
@@ -191,6 +210,7 @@ export default {
 
   data() {
     return {
+      searchResultCount: '',
       searchText: '',
       searchSelected: null,
       searchItems: [
@@ -256,6 +276,7 @@ export default {
         [this.searchSelected]: this.searchText,
       });
       this.userList = data.content;
+      this.searchResultCount = data.numberOfElements;
       this.perPage = data.size;
       this.records = data.totalElements;
       this.page = data.pageable.pageNumber + 1;
@@ -267,17 +288,19 @@ export default {
     detailSearchShow() {
       this.detailSearchShowYn = !this.detailSearchShowYn;
       if (this.detailSearchShowYn) {
-        this.date1 = new Date(new Date().setDate(new Date().getDate() - 3))
+        this.userJoinDateA = new Date(
+          new Date().setDate(new Date().getDate() - 3),
+        )
           .toISOString()
           .substr(0, 10);
-        this.date2 = new Date(
+        this.userJoinDateB = new Date(
           Date.now() - new Date().getTimezoneOffset() * 60000,
         )
           .toISOString()
           .substr(0, 10);
       } else {
-        this.date1 = '';
-        this.date2 = '';
+        this.userJoinDateA = '';
+        this.userJoinDateB = '';
       }
     },
   },

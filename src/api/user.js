@@ -9,4 +9,8 @@ function getUsers(data) {
   return user.get('/getUsers', { params: data });
 }
 
-export { getUser, getUsers };
+function modifyUser(data) {
+  return user.put('/modifyUser', data);
+}
+
+export { getUser, getUsers, modifyUser };
