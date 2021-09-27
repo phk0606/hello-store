@@ -13,9 +13,24 @@ function modifyUser(data) {
   return user.put('/modifyUser', data);
 }
 
+function modifyPerson(data) {
+  return user.put('/modifyPerson', data);
+}
+
+function modifyPassword(data) {
+  return user.put('/modifyPassword', data);
+}
+
 function getUsername(data) {
   console.log(data.username);
   return user.get('/getUsername', { params: data });
 }
 
-export { getUser, getUsers, modifyUser, getUsername };
+export {
+  getUser,
+  getUsers,
+  modifyUser,
+  getUsername,
+  modifyPerson,
+  modifyPassword,
+};

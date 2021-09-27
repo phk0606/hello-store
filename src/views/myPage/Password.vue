@@ -67,8 +67,12 @@
             </validation-observer>
           </v-card-text>
           <v-row dense justify="center">
-            <v-col cols="auto"><v-btn>수정</v-btn></v-col>
-            <v-col cols="auto"><v-btn>취소</v-btn></v-col>
+            <v-col cols="auto"
+              ><v-btn @click="modifyPassword">수정</v-btn></v-col
+            >
+            <v-col cols="auto"
+              ><v-btn to="/my-page/order-list">취소</v-btn></v-col
+            >
           </v-row>
         </v-card>
       </v-col>
@@ -77,6 +81,8 @@
 </template>
 
 <script>
+import { modifyPassword } from '@/api/user';
+
 export default {
   created() {},
   components: {},
@@ -87,7 +93,26 @@ export default {
       newPasswordConfirm: '',
     };
   },
-  methods: {},
+  methods: {
+    async modifyPassword() {
+      try {
+        const userDto = {
+          password: this.password,
+          newPassword: this.newPassword,
+          username: this.$store.state.username,
+        };
+        console.log(userDto);
+        const { data } = await modifyPassword(userDto);
+        console.log(data);
+        this.password = '';
+        this.newPassword = '';
+        this.newPasswordConfirm = '';
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
+  },
 };
 </script>
 

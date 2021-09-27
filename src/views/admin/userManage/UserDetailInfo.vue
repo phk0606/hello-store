@@ -196,7 +196,6 @@ export default {
     this.username = username;
     console.log(username);
     this.getUser(username);
-    this.username = username;
   },
   components: {
     AdminOrderLeft,
