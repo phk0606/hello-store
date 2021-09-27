@@ -85,13 +85,13 @@
     <v-list dense>
       <v-list-item-group>
         <v-subheader>개인 정보 수정</v-subheader>
-        <v-list-item>
+        <v-list-item to="/my-page/my-info">
           <v-icon>mdi-menu-right</v-icon>
           <v-list-item-content>
             <v-list-item-title>개인 정보 수정</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item>
+        <v-list-item to="/my-page/password">
           <v-icon>mdi-menu-right</v-icon>
           <v-list-item-content>
             <v-list-item-title>비밀 번호 변경</v-list-item-title>

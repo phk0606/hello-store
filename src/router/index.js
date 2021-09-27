@@ -157,6 +157,28 @@ const routes = [
           auth: true,
         },
       },
+      {
+        path: 'my-info',
+        name: 'my-page-myInfo',
+        component: () =>
+          import(
+            /* webpackChunkName: "my-page-myInfo" */ '@/views/myPage/MyInfo'
+          ),
+        meta: {
+          auth: true,
+        },
+      },
+      {
+        path: 'password',
+        name: 'my-page-password',
+        component: () =>
+          import(
+            /* webpackChunkName: "my-page-password" */ '@/views/myPage/Password'
+          ),
+        meta: {
+          auth: true,
+        },
+      },
     ],
   },
   {
@@ -213,6 +235,14 @@ const routes = [
         component: () =>
           import(
             /* webpackChunkName: "service-center-productQnA" */ '@/views/serviceCenter/ProductQnA'
+          ),
+      },
+      {
+        path: 'idPwFind',
+        name: 'service-center-idPwFind',
+        component: () =>
+          import(
+            /* webpackChunkName: "service-center-idPwFind" */ '@/views/serviceCenter/IdPwFind'
           ),
       },
     ],
