@@ -42,7 +42,9 @@
                               outlined
                             />
                           </v-col>
-                          <v-col><v-btn>확인</v-btn></v-col>
+                          <v-col
+                            ><v-btn @click="getUsername">확인</v-btn></v-col
+                          >
                         </v-row>
                         <v-row align="center" dense>
                           <v-col cols="2" class="text-right">이메일 주소</v-col>
@@ -54,6 +56,9 @@
                               outlined
                             />
                           </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col> 아이디 조회 결과 {{ username }} </v-col>
                         </v-row>
                       </v-card>
                     </v-col>
@@ -118,17 +123,33 @@
 </template>
 
 <script>
+import { getUsername } from '@/api/user';
+
 export default {
   created() {},
   components: {},
   data() {
     return {
+      username: '',
       name: '',
       email: '',
       tab: null,
     };
   },
-  methods: {},
+  methods: {
+    async getUsername() {
+      try {
+        const { data } = await getUsername({
+          name: this.name,
+          email: this.email,
+        });
+        console.log(data);
+        this.username = data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
 };
 </script>
 

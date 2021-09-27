@@ -13,4 +13,9 @@ function modifyUser(data) {
   return user.put('/modifyUser', data);
 }
 
-export { getUser, getUsers, modifyUser };
+function getUsername(data) {
+  console.log(data.username);
+  return user.get('/getUsername', { params: data });
+}
+
+export { getUser, getUsers, modifyUser, getUsername };
