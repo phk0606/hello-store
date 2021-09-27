@@ -12,6 +12,67 @@
         </v-row>
       </v-col>
     </v-row>
+    <v-row dense>
+      <v-col>
+        <v-card width="550">
+          <v-card-text class="text-center px-12">
+            <validation-observer ref="observer">
+              <v-form @submit.prevent="signUp">
+                <validation-provider
+                  v-slot="{ errors }"
+                  name="현재의 비밀번호"
+                  :rules="{ required: true }"
+                >
+                  <v-text-field
+                    tabindex="1"
+                    v-model="password"
+                    label="현재의 비밀번호"
+                    type="password"
+                    clearable
+                    prepend-icon="mdi-lock-outline"
+                    :error-messages="errors"
+                  />
+                </validation-provider>
+                <validation-provider
+                  v-slot="{ errors }"
+                  name="새로운 비밀번호"
+                  :rules="{ required: true }"
+                >
+                  <v-text-field
+                    tabindex="1"
+                    v-model="newPassword"
+                    label="새로운 비밀번호"
+                    type="password"
+                    clearable
+                    prepend-icon="mdi-lock-outline"
+                    :error-messages="errors"
+                  />
+                </validation-provider>
+                <validation-provider
+                  v-slot="{ errors }"
+                  name="새로운 비밀번호 확인"
+                  :rules="{ required: true }"
+                >
+                  <v-text-field
+                    tabindex="1"
+                    v-model="newPasswordConfirm"
+                    label="새로운 비밀번호 확인"
+                    type="password"
+                    clearable
+                    prepend-icon="mdi-lock-outline"
+                    :error-messages="errors"
+                  />
+                </validation-provider>
+              </v-form>
+            </validation-observer>
+          </v-card-text>
+          <v-row dense justify="center">
+            <v-col cols="auto"><v-btn>수정</v-btn></v-col>
+            <v-col cols="auto"><v-btn>취소</v-btn></v-col>
+          </v-row>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -21,9 +82,9 @@ export default {
   components: {},
   data() {
     return {
-      name: '',
-      email: '',
-      tab: null,
+      password: '',
+      newPassword: '',
+      newPasswordConfirm: '',
     };
   },
   methods: {},
