@@ -146,8 +146,9 @@ export default {
     const parentId = this.$route.params.parentId;
 
     console.log(categoryId, parentId);
-
-    if (parentId === 'null') {
+    if (parentId === 'null' && categoryId === 'null') {
+      (this.parentId = null), (this.categoryId = null);
+    } else if (parentId === 'null') {
       (this.parentId = categoryId), (this.categoryId = null);
     } else {
       (this.parentId = null), (this.categoryId = categoryId);

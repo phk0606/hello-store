@@ -168,7 +168,7 @@
                 <v-btn
                   v-on="on"
                   v-bind="attrs"
-                  to="/style-shop/product-list/1/null"
+                  to="/style-shop/product-list/null/null"
                 >
                   <span :class="font" @mouseover="getProductsPageCondition()"
                     >스타일숍</span
