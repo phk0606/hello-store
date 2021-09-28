@@ -74,6 +74,21 @@
         <v-row dense align="center">
           <v-col cols="auto"
             ><v-text-field
+              v-model="defaultPoint"
+              hide-details
+              dense
+              outlined
+              required
+              suffix="원"
+              ><template v-slot:prepend>
+                <v-card width="120" flat>- 기본 포인트:</v-card></template
+              >
+            </v-text-field></v-col
+          ><v-col>적립</v-col>
+        </v-row>
+        <v-row dense align="center">
+          <v-col cols="auto"
+            ><v-text-field
               v-model="signUpPoint"
               hide-details
               dense
@@ -133,6 +148,7 @@ export default {
       policyId: null,
       defaultShippingFee: null,
       freeShippingMinPurchasePrice: null,
+      defaultPoint: null,
       signUpPoint: null,
       percentPerPurchasePrice: null,
       items: [
@@ -152,12 +168,11 @@ export default {
   methods: {
     async getPolicy() {
       try {
-        const { data } = await getPolicy({
-          policyId: this.policyId,
-        });
+        const { data } = await getPolicy({});
         this.policyId = data.policyId;
         this.defaultShippingFee = data.defaultShippingFee;
         this.freeShippingMinPurchasePrice = data.freeShippingMinPurchasePrice;
+        this.defaultPoint = data.defaultPoint;
         this.signUpPoint = data.signUpPoint;
         this.percentPerPurchasePrice = data.percentPerPurchasePrice;
         console.log(data);
@@ -171,6 +186,7 @@ export default {
           policyId: this.policyId,
           defaultShippingFee: this.defaultShippingFee,
           freeShippingMinPurchasePrice: this.freeShippingMinPurchasePrice,
+          defaultPoint: this.defaultPoint,
           signUpPoint: this.signUpPoint,
           percentPerPurchasePrice: this.percentPerPurchasePrice,
         });
