@@ -21,7 +21,15 @@
       <v-row>
         <v-col>
           <v-card outlined style="border: 0">
-            <v-card-title>공지사항</v-card-title>
+            <v-card-title
+              class="
+                justify-center
+                blue-grey
+                darken-3
+                text-white text-subtitle-2
+              "
+              >공지사항</v-card-title
+            >
             <ul v-for="(notice, i) in notices" :key="i" class="mb-0">
               <li>
                 <v-btn
@@ -36,7 +44,15 @@
         </v-col>
         <v-col>
           <v-card outlined style="border: 0">
-            <v-card-title>커뮤니티</v-card-title>
+            <v-card-title
+              class="
+                justify-center
+                blue-grey
+                darken-3
+                text-white text-subtitle-2
+              "
+              >커뮤니티</v-card-title
+            >
             <ul v-for="(community, i) in communities" :key="i" class="mb-0">
               <li>
                 <v-btn
@@ -51,7 +67,15 @@
         </v-col>
         <v-col>
           <v-card outlined style="border: 0">
-            <v-card-title>상품평</v-card-title>
+            <v-card-title
+              class="
+                justify-center
+                blue-grey
+                darken-3
+                text-white text-subtitle-2
+              "
+              >상품평</v-card-title
+            >
             <ul
               v-for="(productComment, i) in productComments"
               :key="i"
