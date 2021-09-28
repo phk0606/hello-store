@@ -8,6 +8,10 @@ function getNotices(data) {
   return notice.get('/getNotices', { params: data });
 }
 
+function getMainNotices() {
+  return notice.get('/getMainNotices');
+}
+
 function getNotice(data) {
   return notice.get('/getNotice', { params: data });
 }
@@ -20,4 +24,11 @@ function removeNotice(data) {
   return notice.delete('/removeNotice', { data });
 }
 
-export { createNotice, getNotices, getNotice, modifyNotice, removeNotice };
+export {
+  createNotice,
+  getNotices,
+  getNotice,
+  modifyNotice,
+  removeNotice,
+  getMainNotices,
+};

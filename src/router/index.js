@@ -83,6 +83,14 @@ const routes = [
           auth: true,
         },
       },
+      {
+        path: 'product-comment',
+        name: 'style-shop-product-comment',
+        component: () =>
+          import(
+            /* webpackChunkName: "style-shop-product-comment" */ '@/views/shop/ProductComment'
+          ),
+      },
     ],
   },
   {

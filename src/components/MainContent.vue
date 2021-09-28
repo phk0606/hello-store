@@ -1,11 +1,11 @@
 <template>
   <v-main>
     <v-container fluid>
-      <v-row>
-        <v-col cols="12">
+      <v-row justify="center">
+        <v-col cols="10">
           <v-carousel
             cycle
-            height="400"
+            height="300"
             hide-delimiter-background
             show-arrows-on-hover
             :touch="{ left: () => activeSlide--, right: () => activeSlide++ }"
@@ -22,36 +22,49 @@
         <v-col>
           <v-card outlined style="border: 0">
             <v-card-title>공지사항</v-card-title>
-            <ul class="text-subtitle-2">
-              <li>상품을 주문하는 방법 안내해 드립니다.</li>
-              <li>결제가 잘 되지 않을 때 이렇게 해보세요!</li>
-              <li>장바구니를 이렇게 이용하면 좋습니다.</li>
-              <li>배송은 주문 후 2일이내 완료 됩니다</li>
-              <li>상품 등록 시 주의 사항 알려드립니다.</li>
+            <ul v-for="(notice, i) in notices" :key="i" class="mb-0">
+              <li>
+                <v-btn
+                  text
+                  :to="`/service-center/notice-detail/${notice.noticeId}`"
+                  >{{ notice.title.substr(0, 20)
+                  }}<span v-if="notice.title.length >= 20">...</span></v-btn
+                >
+              </li>
             </ul>
           </v-card>
         </v-col>
         <v-col>
           <v-card outlined style="border: 0">
             <v-card-title>커뮤니티</v-card-title>
-            <ul class="text-subtitle-2">
-              <li>상품 판매는 어떻게 하나요?. 2017.07.07</li>
-              <li>상품 판매 후 금액은 어떻... 2017.07.07</li>
-              <li>포인트는 어떻게 사용하면... 2017.07.07</li>
-              <li>배송완료된 상품은 삭제해... 2017.07.07</li>
-              <li>상품은 언제까지 배송가능... 2017.07.07</li>
+            <ul v-for="(community, i) in communities" :key="i" class="mb-0">
+              <li>
+                <v-btn
+                  text
+                  :to="`/service-center/community-detail/${community.communityId}`"
+                  >{{ community.title.substr(0, 20)
+                  }}<span v-if="community.title.length >= 20">...</span></v-btn
+                >
+              </li>
             </ul>
           </v-card>
         </v-col>
         <v-col>
           <v-card outlined style="border: 0">
             <v-card-title>상품평</v-card-title>
-            <ul class="text-subtitle-2">
-              <li>옷 정말 잘 산 거 같아요! 다음에도 또…</li>
-              <li>고급 소재라서 그런지 너무 부드럽고...</li>
-              <li>너무 좋아서 맨날 입고 다니고 있어요..</li>
-              <li>세탁을 해도 옷 색이 전혀 변하지 않아...</li>
-              <li>지금 입기에 딱 좋은 옷이네요! 다른 색..</li>
+            <ul
+              v-for="(productComment, i) in productComments"
+              :key="i"
+              class="mb-0"
+            >
+              <li>
+                <v-btn text
+                  >{{ productComment.content.substr(0, 20)
+                  }}<span v-if="productComment.content.length >= 20"
+                    >...</span
+                  ></v-btn
+                >
+              </li>
             </ul>
           </v-card>
         </v-col>
@@ -61,10 +74,22 @@
 </template>
 
 <script>
+import { getNotices } from '@/api/notice';
+import { getCommunities } from '@/api/community';
+import { getProductComments } from '@/api/productComment';
+
 export default {
-  name: 'Home',
+  name: 'MainPage',
+  created() {
+    this.getNotices();
+    this.getCommunities();
+    this.getProductComments();
+  },
   data() {
     return {
+      notices: [],
+      communities: [],
+      productComments: [],
       slides: [
         {
           src: 'https://openimage.interpark.com/milti/displayclassBanner/001208/02/20210722052934.jpg',
@@ -89,6 +114,44 @@ export default {
       // slides: ['First', 'Second', 'Third', 'Fourth', 'Fifth'],
     };
   },
-  // components: {},
+  methods: {
+    async getNotices() {
+      console.log(this.searchSelected);
+      try {
+        const { data } = await getNotices({
+          page: 0,
+          size: 5,
+        });
+        this.notices = data.content;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getCommunities() {
+      try {
+        const { data } = await getCommunities({
+          page: 0,
+          size: 5,
+        });
+        this.communities = data.content;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getProductComments() {
+      try {
+        const { data } = await getProductComments({
+          page: 0,
+          size: 5,
+        });
+        this.productComments = data.content;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+  },
 };
 </script>

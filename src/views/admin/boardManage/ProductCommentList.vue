@@ -704,8 +704,6 @@ export default {
         const { data } = await getProductComments({
           page: page - 1,
           size: this.perPage,
-
-          productId: this.productId,
         });
         this.contents = data.content;
         this.perPage = data.size;
