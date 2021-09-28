@@ -172,13 +172,12 @@
             <v-menu open-on-hover offset-y min-width="1000">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
+                  @mouseover="getProductsPageCondition()"
                   v-on="on"
                   v-bind="attrs"
                   to="/style-shop/product-list/null/null"
                 >
-                  <span :class="font" @mouseover="getProductsPageCondition()"
-                    >스타일숍</span
-                  >
+                  <span :class="font">스타일숍</span>
                 </v-btn>
               </template>
               <v-container class="white" fluid>
