@@ -15,10 +15,7 @@
             />
           </router-link>
         </v-col>
-        <!-- <v-spacer />
-          <v-col cols="2">
-            <v-select :items="selectItems" hide-details label="전체검색" />
-          </v-col> -->
+
         <v-col cols="5">
           <v-text-field
             flat
@@ -171,9 +168,11 @@
                 <v-btn
                   v-on="on"
                   v-bind="attrs"
-                  to="/style-shop/product-list/9999"
+                  to="/style-shop/product-list/1/null"
                 >
-                  <span :class="font">스타일숍</span>
+                  <span :class="font" @mouseover="getProductsPageCondition()"
+                    >스타일숍</span
+                  >
                 </v-btn>
               </template>
               <v-container class="white" fluid>
@@ -187,26 +186,50 @@
                     <v-list flat>
                       <v-list-item-group v-model="selectedItem" color="primary">
                         <v-list-item
-                          :to="`/style-shop/product-list/${category.id}`"
+                          :to="`/style-shop/product-list/${category.id}/${category.parentId}`"
                           v-for="(category, i) in categories"
                           :key="i"
                         >
-                          <!-- <v-list-item-icon>
-                              <v-icon v-text="item.icon" />
-                            </v-list-item-icon> -->
                           <v-list-item-content>
-                            <v-list-item-title v-text="category.name" />
+                            <v-list-item-title
+                              v-text="category.name"
+                              @mouseover="getProductsPageCondition(category.id)"
+                            />
                           </v-list-item-content>
                         </v-list-item>
                       </v-list-item-group>
                     </v-list>
                   </v-col>
-                  <v-col align-self="center">
-                    <v-img
-                      src="@/assets/logo.jpg"
-                      max-width="150"
-                      max-height="150"
-                    />
+                  <v-col
+                    cols="auto"
+                    v-for="(content, i) in contentList"
+                    :key="i"
+                    align-self="center"
+                  >
+                    <v-card
+                      flat
+                      width="180"
+                      max-height="250"
+                      :to="`/style-shop/product-detail/${content.productId}`"
+                    >
+                      <v-row justify="center">
+                        <v-img
+                          :src="`${imageUrl}${content.fileName}`"
+                          max-width="150"
+                          max-height="150"
+                        />
+                      </v-row>
+                      <v-row>
+                        <v-card-text class="text--primary">
+                          <div class="text-center">
+                            {{ content.productName }}
+                          </div>
+                          <div class="text-center">
+                            {{ content.salePrice }}
+                          </div>
+                        </v-card-text>
+                      </v-row>
+                    </v-card>
                   </v-col>
                 </v-row>
               </v-container>
@@ -261,6 +284,7 @@
 <script>
 import { deleteCookie } from '@/utils/cookies';
 import { getCategories } from '@/api/category';
+import { getProductsPageCondition } from '@/api/shopProduct';
 
 export default {
   name: 'DefaultHeader',
@@ -273,6 +297,20 @@ export default {
     this.getCategories();
   },
   methods: {
+    async getProductsPageCondition(firstCategoryId) {
+      try {
+        const { data } = await getProductsPageCondition({
+          page: 0,
+          size: 4,
+          firstCategoryId: firstCategoryId,
+        });
+        this.contentList = data.content;
+        // console.log(data);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
     async getCategories() {
       const { data } = await getCategories();
       this.categories = data;
@@ -295,11 +333,12 @@ export default {
   },
   data() {
     return {
+      imageUrl: process.env.VUE_APP_IMAGE_URL,
+      contentList: [],
       categories: [],
       cartProductCount: null,
       font: 'text-caption text-sm-body-2 text-md-body-1 text-lg-h6 text-xl-h4',
       drawer: false,
-      selectItems: ['Foo', 'Bar', 'Fizz', 'Buzz'],
       items: [
         { title: '헬로스토어 소개', icon: 'mdi-view-dashboard', to: '/' },
         { title: '대표 인사말', icon: 'mdi-image', to: '/grid-system' },
