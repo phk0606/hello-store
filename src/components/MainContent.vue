@@ -92,10 +92,10 @@ import { getProductComments } from '@/api/productComment';
 
 export default {
   name: 'MainPage',
-  created() {
-    this.getNotices();
-    this.getCommunities();
-    this.getProductComments();
+  async created() {
+    await this.getNotices();
+    await this.getCommunities();
+    await this.getProductComments();
   },
   data() {
     return {

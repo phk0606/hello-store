@@ -46,7 +46,7 @@ const routes = [
       ),
     children: [
       {
-        path: 'product-list',
+        path: 'product-list/:categoryId/:parentId',
         name: 'style-shop-ProductList',
         component: () =>
           import(

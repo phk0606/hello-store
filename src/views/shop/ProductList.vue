@@ -142,10 +142,23 @@ export default {
     Pagination,
   },
   created() {
+    const categoryId = this.$route.params.categoryId;
+    const parentId = this.$route.params.parentId;
+
+    console.log(categoryId, parentId);
+
+    if (parentId === 'null') {
+      (this.parentId = categoryId), (this.categoryId = null);
+    } else {
+      (this.parentId = null), (this.categoryId = categoryId);
+    }
+
     this.getProductsPageCondition(1);
   },
   data() {
     return {
+      categoryId: '',
+      parentId: '',
       imageUrl: process.env.VUE_APP_IMAGE_URL,
       productProperty: null,
       contentList: null,
@@ -171,6 +184,8 @@ export default {
           page: page - 1,
           size: this.perPage,
           productProperty: this.productProperty,
+          firstCategoryId: this.parentId,
+          secondCategoryId: this.categoryId,
         });
         this.contentList = data.content;
         this.perPage = data.size;

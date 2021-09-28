@@ -168,7 +168,11 @@
             </v-menu>
             <v-menu open-on-hover offset-y min-width="1000">
               <template v-slot:activator="{ on, attrs }">
-                <v-btn v-on="on" v-bind="attrs" to="/style-shop/product-list">
+                <v-btn
+                  v-on="on"
+                  v-bind="attrs"
+                  to="/style-shop/product-list/9999"
+                >
                   <span :class="font">스타일숍</span>
                 </v-btn>
               </template>
@@ -182,42 +186,22 @@
                   <v-col cols="2">
                     <v-list flat>
                       <v-list-item-group v-model="selectedItem" color="primary">
-                        <v-list-item v-for="(item, i) in items2" :key="i">
+                        <v-list-item
+                          :to="`/style-shop/product-list/${category.id}`"
+                          v-for="(category, i) in categories"
+                          :key="i"
+                        >
                           <!-- <v-list-item-icon>
                               <v-icon v-text="item.icon" />
                             </v-list-item-icon> -->
                           <v-list-item-content>
-                            <v-list-item-title v-text="item.text" />
+                            <v-list-item-title v-text="category.name" />
                           </v-list-item-content>
                         </v-list-item>
                       </v-list-item-group>
                     </v-list>
                   </v-col>
-                  <v-col
-                    cols="10"
-                    class="d-flex flex-no-wrap"
-                    align-self="center"
-                  >
-                    <v-img
-                      src="@/assets/logo.jpg"
-                      max-width="150"
-                      max-height="150"
-                    />
-                    <v-img
-                      src="@/assets/logo.jpg"
-                      max-width="150"
-                      max-height="150"
-                    />
-                    <v-img
-                      src="@/assets/logo.jpg"
-                      max-width="150"
-                      max-height="150"
-                    />
-                    <v-img
-                      src="@/assets/logo.jpg"
-                      max-width="150"
-                      max-height="150"
-                    />
+                  <v-col align-self="center">
                     <v-img
                       src="@/assets/logo.jpg"
                       max-width="150"
@@ -276,7 +260,7 @@
 
 <script>
 import { deleteCookie } from '@/utils/cookies';
-// import { getCartProductCount } from '@/api/cart';
+import { getCategories } from '@/api/category';
 
 export default {
   name: 'DefaultHeader',
@@ -285,8 +269,14 @@ export default {
       return this.$store.getters.isLogin;
     },
   },
-  created() {},
+  created() {
+    this.getCategories();
+  },
   methods: {
+    async getCategories() {
+      const { data } = await getCategories();
+      this.categories = data;
+    },
     logoutUser() {
       this.$store.commit('clearUsername');
       this.$store.commit('clearAccessToken');
@@ -305,6 +295,7 @@ export default {
   },
   data() {
     return {
+      categories: [],
       cartProductCount: null,
       font: 'text-caption text-sm-body-2 text-md-body-1 text-lg-h6 text-xl-h4',
       drawer: false,
