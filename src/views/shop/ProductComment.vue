@@ -433,7 +433,9 @@ import {
 
 export default {
   created() {
-    this.getOrderProductsByUsername();
+    if (this.$store.getters.isLogin) {
+      this.getOrderProductsByUsername();
+    }
     this.getProductComments(1);
   },
   data() {
