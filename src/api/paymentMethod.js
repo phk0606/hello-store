@@ -8,4 +8,12 @@ function getPaymentMethodTypes() {
   return paymentMethod.get('/getPaymentMethodTypes');
 }
 
-export { modifyPaymentMethod, getPaymentMethodTypes };
+function getPaymentMethodTypesWithValues() {
+  return paymentMethod.get('/getPaymentMethodTypesWithValues');
+}
+
+export {
+  modifyPaymentMethod,
+  getPaymentMethodTypes,
+  getPaymentMethodTypesWithValues,
+};

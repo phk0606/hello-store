@@ -234,7 +234,16 @@
                         row
                         class="mt-0"
                       >
-                        <v-radio value="WITHOUT_BANKBOOK">
+                        <v-radio
+                          v-for="(paymentMethodType, i) in paymentMethodTypes"
+                          :key="i"
+                          :value="paymentMethodType.paymentMethodType"
+                        >
+                          <template v-slot:label>{{
+                            paymentMethodType.paymentMethodTypeValue
+                          }}</template>
+                        </v-radio>
+                        <!-- <v-radio value="WITHOUT_BANKBOOK">
                           <template v-slot:label>무통장 입금</template>
                         </v-radio>
                         <v-radio value="CREDIT_CARD">
@@ -242,7 +251,7 @@
                         </v-radio>
                         <v-radio value="ACCOUNT_TRANSFER">
                           <template v-slot:label> 계좌이체 </template>
-                        </v-radio>
+                        </v-radio> -->
                         <!-- <v-radio value="4">
                     <template v-slot:label> 가상계좌 </template>
                   </v-radio> -->
@@ -255,16 +264,27 @@
                       <v-col
                         ><v-select
                           v-model="selectedAccount"
-                          :items="depositAccount"
-                          item-text="optionText"
-                          item-value="optionValue"
+                          :items="bankAccounts"
+                          item-value="bankAccountId"
                           label="입금 은행을 선택해 주세요."
                           hide-details
                           outlined
                           dense
                           :menu-props="{ offsetY: true }"
                           return-object
-                      /></v-col>
+                        >
+                          <template slot="selection" slot-scope="data">
+                            {{ data.item.bankName }}
+                            {{ data.item.accountNumber }}
+                            {{ data.item.accountHolder }}
+                          </template>
+                          <template slot="item" slot-scope="data">
+                            {{ data.item.bankName }}
+                            {{ data.item.accountNumber }}
+                            {{ data.item.accountHolder }}
+                          </template>
+                        </v-select>
+                      </v-col>
                     </v-row>
                     <v-row dense align="center">
                       <v-col cols="3"> ● 입금 예정일 </v-col>
@@ -349,6 +369,8 @@ import { getListImage, getProductById } from '@/api/shopProduct';
 import { getUser } from '@/api/user';
 import { createOrder } from '@/api/order';
 import { getCartProducts, removeCartProducts } from '@/api/cart';
+import { getPaymentMethodTypesWithValues } from '@/api/paymentMethod';
+import { getBankAccounts } from '@/api/bankAccount';
 
 export default {
   async created() {
@@ -408,11 +430,31 @@ export default {
     console.log(username);
 
     this.getUser(username);
+    this.getPaymentMethodTypesWithValues();
+    this.getBankAccounts();
   },
   components: {
     Address,
   },
   methods: {
+    async getBankAccounts() {
+      try {
+        const { data } = await getBankAccounts();
+        this.bankAccounts = data;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getPaymentMethodTypesWithValues() {
+      try {
+        const { data } = await getPaymentMethodTypesWithValues();
+        this.paymentMethodTypes = data;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     pointUseCancel() {
       this.userPoint = this.userPointTemp;
       this.paymentPrice = this.paymentPriceTemp;
@@ -588,6 +630,8 @@ export default {
   },
   data() {
     return {
+      bankAccounts: [],
+      paymentMethodTypes: [],
       paymentPriceTemp: null,
       userPointTemp: null,
       pointUsed: 0,
