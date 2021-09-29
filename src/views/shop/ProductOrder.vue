@@ -148,7 +148,7 @@
                 <v-col cols="2"
                   ><div class="subtitle-1">총 상품 금액:</div></v-col
                 >
-                <v-col>
+                <v-col cols="3">
                   <v-text-field
                     reverse
                     :value="sumField('salePrice')"
@@ -161,8 +161,29 @@
                 </v-col>
               </v-row>
               <v-row dense align="center">
+                <v-col cols="2"
+                  ><div class="subtitle-1">포인트 사용:</div></v-col
+                >
+                <v-col cols="3">
+                  <v-text-field
+                    v-model="pointUsed"
+                    reverse
+                    hide-details
+                    dense
+                    required
+                    solo-inverted
+                  />
+                </v-col>
+                <v-col cols="auto">
+                  <v-btn @click="pointUse">적용</v-btn>
+                </v-col>
+                <v-col cols="auto">
+                  보유 포인트({{ userPoint }}원) (100포인트 단위로 사용)
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">총 배송비:</div></v-col>
-                <v-col>
+                <v-col cols="3">
                   <v-text-field
                     reverse
                     :value="sumField('shippingFee')"
@@ -178,10 +199,10 @@
                 <v-col cols="2"
                   ><div class="subtitle-1">총 결제 금액:</div></v-col
                 >
-                <v-col>
+                <v-col cols="3">
                   <v-text-field
+                    v-model="paymentPrice"
                     reverse
-                    :value="sumField('totalPrice')"
                     hide-details
                     dense
                     required
@@ -318,7 +339,7 @@
 
 <script>
 import Address from '@/components/Address';
-import { getListImage } from '@/api/shopProduct';
+import { getListImage, getProductById } from '@/api/shopProduct';
 import { getUser } from '@/api/user';
 import { createOrder } from '@/api/order';
 import { getCartProducts, removeCartProducts } from '@/api/cart';
@@ -345,26 +366,35 @@ export default {
       }
 
       console.log(cartProductIds);
-      this.getCartProducts(cartProductIds);
+      await this.getCartProducts(cartProductIds);
     } else {
       console.log(orderProduct);
 
       await this.getListImage(query.productId);
+      await this.getProductById(query.productId);
 
       const orderProduct = [
         {
           image: this.listImage,
           productOptions: query.productOptions,
           productId: query.productId,
-          productName: query.productName,
-          salePrice: query.salePrice,
           quantity: query.quantity,
-          shippingFee: query.shippingFee,
-          totalPrice: query.totalPrice,
-          point: query.point,
+
+          productName: this.productName,
+          salePrice: this.salePrice,
+          shippingFee: this.shippingFee,
+          totalPrice: this.salePrice * query.quantity,
+          point: this.point * query.quantity,
         },
       ];
       this.orderProducts = orderProduct;
+
+      // 총 결제 금액 할당(포인트 사용 계산을 위해 바인딩 전 할당)
+      let total = 0;
+      const sumValue = orderProduct.reduce((accumulator, currentValue) => {
+        return (total += +currentValue['totalPrice']);
+      }, 0);
+      this.paymentPrice = sumValue;
     }
 
     const username = this.$store.state.username;
@@ -376,6 +406,10 @@ export default {
     Address,
   },
   methods: {
+    pointUse() {
+      this.paymentPrice = this.paymentPrice - this.pointUsed;
+      this.userPoint = this.userPoint - this.pointUsed;
+    },
     setAddress(zonecode, roadAddress, address) {
       // console.log(zonecode, roadAddress, address);
       this.zonecode = zonecode;
@@ -386,6 +420,20 @@ export default {
       // console.log(detailAddress);
       this.detailAddress = detailAddress;
     },
+    async getProductById(productId) {
+      try {
+        const { data } = await getProductById({
+          productId: productId,
+        });
+        console.log(data);
+        this.productName = data.productName;
+        this.salePrice = data.salePrice;
+        this.point = data.point;
+        this.shippingFee = data.shippingFee;
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async getCartProducts(cartProductIds) {
       console.log(cartProductIds);
       try {
@@ -394,6 +442,13 @@ export default {
         });
         console.log(data);
         this.orderProducts = data;
+
+        // 총 결제 금액 할당(포인트 사용 계산을 위해 바인딩 전 할당)
+        let total = 0;
+        const sumValue = data.reduce((accumulator, currentValue) => {
+          return (total += +currentValue['totalPrice']);
+        }, 0);
+        this.paymentPrice = sumValue;
       } catch (error) {
         console.log(error);
       }
@@ -472,9 +527,6 @@ export default {
         0,
       );
 
-      if (key === 'totalPrice') {
-        this.paymentPrice = sumValue;
-      }
       return sumValue;
     },
     async getListImage(productId) {
@@ -495,6 +547,7 @@ export default {
         });
         console.log(data);
         this.user = data;
+        this.userPoint = data.pointSum;
       } catch (error) {
         console.log(error);
       }
@@ -502,6 +555,13 @@ export default {
   },
   data() {
     return {
+      pointUsed: 0,
+      productName: '',
+      salePrice: null,
+      shippingFee: null,
+      totalPrice: null,
+      point: null,
+      userPoint: null,
       cartProductIds: null,
       depositDueDate: new Date(
         Date.now() - new Date().getTimezoneOffset() * 60000,

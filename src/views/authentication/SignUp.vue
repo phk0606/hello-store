@@ -206,7 +206,8 @@ export default {
           console.log(userData);
           const { data } = await registerUser(userData);
           console.log(data.username);
-          this.signIn();
+          this.username = data.username;
+          await this.signIn();
           // this.logMessage = `${data.username} 님이 가입되었습니다`;
           //this.initForm();
         } catch (error) {
@@ -224,6 +225,7 @@ export default {
             password: this.password,
           };
           await this.$store.dispatch('LOGIN', userData);
+          await this.$store.dispatch('GETCARTPRODUCTCOUNT', this.username);
           this.$router.push('/');
         } catch (error) {
           // 에러 핸들링할 코드
