@@ -20,12 +20,12 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-card outlined style="border: 0">
-            <v-card-title
-              style="border: 1px solid indigo"
-              class="justify-center text-subtitle-2"
-              >공지사항</v-card-title
-            >
+          <v-card flat>
+            <v-card-title class="justify-center">
+              <v-chip color="indigo darken-3" outlined label class="text-h6">
+                공지사항
+              </v-chip>
+            </v-card-title>
             <ul v-for="(notice, i) in notices" :key="i" class="mb-0">
               <li>
                 <v-btn
@@ -39,12 +39,12 @@
           </v-card>
         </v-col>
         <v-col>
-          <v-card outlined style="border: 0">
-            <v-card-title
-              style="border: 1px solid indigo"
-              class="justify-center text-subtitle-2"
-              >커뮤니티</v-card-title
-            >
+          <v-card flat>
+            <v-card-title class="justify-center">
+              <v-chip color="indigo darken-3" outlined label class="text-h6">
+                커뮤니티
+              </v-chip>
+            </v-card-title>
             <ul v-for="(community, i) in communities" :key="i" class="mb-0">
               <li>
                 <v-btn
@@ -58,12 +58,12 @@
           </v-card>
         </v-col>
         <v-col>
-          <v-card outlined style="border: 0">
-            <v-card-title
-              style="border: 1px solid indigo"
-              class="justify-center text-subtitle-2"
-              >상품평</v-card-title
-            >
+          <v-card flat>
+            <v-card-title class="justify-center">
+              <v-chip color="indigo darken-3" outlined label class="text-h6">
+                상품평
+              </v-chip>
+            </v-card-title>
             <ul
               v-for="(productComment, i) in productComments"
               :key="i"
