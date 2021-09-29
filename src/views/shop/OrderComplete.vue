@@ -213,16 +213,17 @@ export default {
   },
   methods: {
     logoutUser() {
-      this.$store.commit('clearUsername');
-      this.$store.commit('clearAccessToken');
-      this.$store.commit('clearRefreshToken');
-      this.$store.commit('clearAuthority');
-      this.$store.commit('clearCartProductCount');
       deleteCookie('ecomm_accessToken');
       deleteCookie('ecomm_refreshToken');
       deleteCookie('ecomm_user');
       deleteCookie('ecomm_authority');
       deleteCookie('ecomm_cartProductCount');
+      this.$store.commit('clearUsername');
+      this.$store.commit('clearAccessToken');
+      this.$store.commit('clearRefreshToken');
+      this.$store.commit('clearAuthority');
+      this.$store.commit('clearCartProductCount');
+
       if (this.$route.path !== '/') {
         this.$router.push('/');
       }

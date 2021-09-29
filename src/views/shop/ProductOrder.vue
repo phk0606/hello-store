@@ -178,6 +178,12 @@
                   <v-btn @click="pointUse">적용</v-btn>
                 </v-col>
                 <v-col cols="auto">
+                  <v-btn @click="pointUseCancel">적용 취소</v-btn>
+                </v-col>
+              </v-row>
+              <v-row dense>
+                <v-col cols="2" />
+                <v-col cols="auto">
                   보유 포인트({{ userPoint }}원) (100포인트 단위로 사용)
                 </v-col>
               </v-row>
@@ -395,6 +401,7 @@ export default {
         return (total += +currentValue['totalPrice']);
       }, 0);
       this.paymentPrice = sumValue;
+      this.paymentPriceTemp = sumValue;
     }
 
     const username = this.$store.state.username;
@@ -406,9 +413,32 @@ export default {
     Address,
   },
   methods: {
+    pointUseCancel() {
+      this.userPoint = this.userPointTemp;
+      this.paymentPrice = this.paymentPriceTemp;
+      this.pointUsed = 0;
+    },
     pointUse() {
+      if (this.userPoint <= 0) {
+        alert('포인트가 없습니다.');
+        this.pointUsed = 0;
+        return;
+      }
+
+      if (this.userPoint < this.pointUsed) {
+        alert('보유 포인트를 초과할 수 없습니다.');
+        this.pointUsed = 0;
+        return;
+      }
+
+      if (this.pointUsed % 100 !== 0) {
+        alert('100 포인트 단위로 사용 가능합니다.');
+        this.pointUsed = 0;
+        return;
+      }
       this.paymentPrice = this.paymentPrice - this.pointUsed;
       this.userPoint = this.userPoint - this.pointUsed;
+      this.pointUsed = 0;
     },
     setAddress(zonecode, roadAddress, address) {
       // console.log(zonecode, roadAddress, address);
@@ -449,6 +479,7 @@ export default {
           return (total += +currentValue['totalPrice']);
         }, 0);
         this.paymentPrice = sumValue;
+        this.paymentPriceTemp = sumValue;
       } catch (error) {
         console.log(error);
       }
@@ -481,6 +512,7 @@ export default {
         phoneNumber: this.user.phoneNumber,
         paymentMethodType: this.paymentMethodType,
         paymentPrice: this.paymentPrice,
+        usedPoint: this.userPointTemp - this.userPoint,
         depositorName: this.depositorName,
         depositAccount:
           this.selectedAccount !== null ? this.selectedAccount.optionText : '',
@@ -548,6 +580,7 @@ export default {
         console.log(data);
         this.user = data;
         this.userPoint = data.pointSum;
+        this.userPointTemp = data.pointSum;
       } catch (error) {
         console.log(error);
       }
@@ -555,6 +588,8 @@ export default {
   },
   data() {
     return {
+      paymentPriceTemp: null,
+      userPointTemp: null,
       pointUsed: 0,
       productName: '',
       salePrice: null,
