@@ -48,6 +48,8 @@
             <v-row justify="end">
               <v-col cols="auto"> 총 상품 금액 </v-col>
               <v-col cols="auto">{{ sumField('salePrice') }}</v-col>
+              <v-col cols="auto"> (적립 포인트 </v-col>
+              <v-col cols="auto">{{ sumField('point') }})</v-col>
               <v-col cols="auto"> 총 배송비 </v-col>
               <v-col cols="auto">{{ sumField('shippingFee') }}</v-col>
               <v-col cols="auto"> 총 결제 금액 </v-col>
@@ -411,7 +413,7 @@ export default {
           productName: this.productName,
           salePrice: this.salePrice,
           shippingFee: this.shippingFee,
-          totalPrice: this.salePrice * query.quantity,
+          totalPrice: this.salePrice * query.quantity + this.shippingFee,
           point: this.point * query.quantity,
         },
       ];
@@ -429,9 +431,9 @@ export default {
     const username = this.$store.state.username;
     console.log(username);
 
-    this.getUser(username);
-    this.getPaymentMethodTypesWithValues();
-    this.getBankAccounts();
+    await this.getUser(username);
+    await this.getPaymentMethodTypesWithValues();
+    await this.getBankAccounts();
   },
   components: {
     Address,
@@ -548,7 +550,6 @@ export default {
       });
 
       const orderDto = {
-        productId: this.productId,
         userNo: this.user.userNo,
         username: this.user.username,
         phoneNumber: this.user.phoneNumber,
@@ -556,9 +557,14 @@ export default {
         paymentPrice: this.paymentPrice,
         usedPoint: this.userPointTemp - this.userPoint,
         depositorName: this.depositorName,
-        depositAccount:
-          this.selectedAccount !== null ? this.selectedAccount.optionText : '',
-        depositDueDate: this.depositDueDate,
+        depositAccountId:
+          this.selectedAccount !== null
+            ? this.selectedAccount.bankAccountId
+            : '',
+        depositDueDate:
+          this.paymentMethodType === 'WITHOUT_BANKBOOK'
+            ? this.depositDueDate
+            : '',
         orderProducts: this.orderProducts,
         delivery: {
           recipientName: this.recipientName,

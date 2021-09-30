@@ -223,7 +223,7 @@
                 <v-col cols="2"><div class="subtitle-1">결제 방법:</div></v-col>
                 <v-col>
                   <v-text-field
-                    v-model="paymentMethodType"
+                    v-model="paymentMethodTypeValue"
                     hide-details
                     dense
                     required
@@ -232,10 +232,57 @@
                   />
                 </v-col>
               </v-row>
+              <template v-if="paymentMethodType === 'WITHOUT_BANKBOOK'">
+                <v-row dense align="center">
+                  <v-col cols="2"
+                    ><div class="subtitle-1">입금 계좌:</div></v-col
+                  >
+                  <v-col>
+                    <v-text-field
+                      v-model="depositAccount"
+                      hide-details
+                      dense
+                      required
+                      solo-inverted
+                      readonly
+                    />
+                  </v-col>
+                </v-row>
+                <v-row dense align="center">
+                  <v-col cols="2"
+                    ><div class="subtitle-1">입금자 명:</div></v-col
+                  >
+                  <v-col>
+                    <v-text-field
+                      v-model="depositorName"
+                      hide-details
+                      dense
+                      required
+                      solo-inverted
+                      readonly
+                    />
+                  </v-col>
+                </v-row>
+                <v-row dense align="center">
+                  <v-col cols="2"
+                    ><div class="subtitle-1">입금 예정일:</div></v-col
+                  >
+                  <v-col>
+                    <v-text-field
+                      v-model="depositDueDate"
+                      hide-details
+                      dense
+                      required
+                      solo-inverted
+                      readonly
+                    />
+                  </v-col>
+                </v-row>
+              </template>
               <v-divider />
               <v-row>
                 <v-col class="d-flex justify-space-around">
-                  <v-btn to="/style-shop/order-complete">목록</v-btn>
+                  <v-btn to="/my-page/order-info">목록</v-btn>
 
                   <v-btn>확인</v-btn>
                   <v-btn
@@ -375,11 +422,15 @@ export default {
         this.roadAddress = data.address.roadAddress;
         this.address = data.address.address;
         this.detailAddress = data.address.detailAddress;
-        this.paymentMethodType = data.paymentMethodTypeValue;
+        this.paymentMethodType = data.paymentMethodType;
+        this.paymentMethodTypeValue = data.paymentMethodTypeValue;
         this.paymentPrice = data.paymentPrice;
         this.orderCreatedDate = data.createdDate;
         this.orderDeliveryStatusValue = data.orderDeliveryStatusValue;
         this.orderDeliveryStatus = data.orderDeliveryStatus;
+        this.depositAccount = data.depositAccount;
+        this.depositorName = data.depositorName;
+        this.depositDueDate = data.depositDueDate;
       } catch (error) {
         console.log(error);
       }
@@ -405,6 +456,7 @@ export default {
       recipientName: '',
       recipientPhoneNumber: '',
       paymentMethodType: '',
+      paymentMethodTypeValue: '',
       paymentPrice: '',
       orderId: '',
       headers: [

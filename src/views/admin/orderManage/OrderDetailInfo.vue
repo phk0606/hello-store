@@ -376,7 +376,7 @@
                     >
                     <v-col>
                       <v-text-field
-                        v-model="paymentMethodType"
+                        v-model="paymentMethodTypeValue"
                         hide-details
                         dense
                         required
@@ -385,6 +385,53 @@
                       />
                     </v-col>
                   </v-row>
+                  <template v-if="paymentMethodType === 'WITHOUT_BANKBOOK'">
+                    <v-row dense align="center">
+                      <v-col cols="2"
+                        ><div class="subtitle-1">입금 계좌:</div></v-col
+                      >
+                      <v-col>
+                        <v-text-field
+                          v-model="depositAccount"
+                          hide-details
+                          dense
+                          required
+                          solo-inverted
+                          readonly
+                        />
+                      </v-col>
+                    </v-row>
+                    <v-row dense align="center">
+                      <v-col cols="2"
+                        ><div class="subtitle-1">입금자 명:</div></v-col
+                      >
+                      <v-col>
+                        <v-text-field
+                          v-model="depositorName"
+                          hide-details
+                          dense
+                          required
+                          solo-inverted
+                          readonly
+                        />
+                      </v-col>
+                    </v-row>
+                    <v-row dense align="center">
+                      <v-col cols="2"
+                        ><div class="subtitle-1">입금 예정일:</div></v-col
+                      >
+                      <v-col>
+                        <v-text-field
+                          v-model="depositDueDate"
+                          hide-details
+                          dense
+                          required
+                          solo-inverted
+                          readonly
+                        />
+                      </v-col>
+                    </v-row>
+                  </template>
                   <v-divider />
                   <v-row justify="center">
                     <v-col cols="auto">
@@ -453,12 +500,16 @@ export default {
         this.fullAddress =
           data.address.address + ' ' + data.address.detailAddress;
 
-        this.paymentMethodType = data.paymentMethodTypeValue;
+        this.paymentMethodType = data.paymentMethodType;
+        this.paymentMethodTypeValue = data.paymentMethodTypeValue;
         this.paymentPrice = data.paymentPrice;
         this.orderCreatedDate = data.createdDate;
         this.orderDeliveryStatusValue = data.orderDeliveryStatusValue;
         this.paymentStatusSelected = data.paymentStatus;
         this.orderDeliveryStatusSelected = data.orderDeliveryStatus;
+        this.depositAccount = data.depositAccount;
+        this.depositorName = data.depositorName;
+        this.depositDueDate = data.depositDueDate;
       } catch (error) {
         console.log(error);
       }
@@ -470,6 +521,9 @@ export default {
   },
   data() {
     return {
+      depositAccount: '',
+      depositorName: '',
+      depositDueDate: '',
       firstOptions: [
         {
           optionGroupNumber: 1,
@@ -527,6 +581,7 @@ export default {
       recipientPhoneNumber: '',
       fullAddress: '',
       paymentMethodType: '',
+      paymentMethodTypeValue: '',
       paymentPrice: '',
       orderId: '',
       headers: [
