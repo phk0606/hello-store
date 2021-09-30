@@ -46,13 +46,13 @@
         <template>
           <v-container>
             <v-row justify="end">
-              <v-col cols="auto"> 총 상품 금액 </v-col>
+              <v-col cols="auto"> 상품 금액(합) </v-col>
               <v-col cols="auto">{{ sumField('salePrice') }}</v-col>
-              <v-col cols="auto"> (적립 포인트 </v-col>
-              <v-col cols="auto">{{ sumField('point') }})</v-col>
-              <v-col cols="auto"> 총 배송비 </v-col>
+              <v-col cols="auto"> (적립 포인트(합) </v-col>
+              <v-col cols="auto">{{ (addPoint = sumField('point')) }})</v-col>
+              <v-col cols="auto"> 배송비(합) </v-col>
               <v-col cols="auto">{{ sumField('shippingFee') }}</v-col>
-              <v-col cols="auto"> 총 결제 금액 </v-col>
+              <v-col cols="auto"> 결제 금액(합) </v-col>
               <v-col cols="auto">{{ sumField('totalPrice') }}</v-col>
             </v-row>
           </v-container>
@@ -190,6 +190,22 @@
                 </v-col>
               </v-row>
               <v-row dense align="center">
+                <v-col cols="2"
+                  ><div class="subtitle-1">사용 포인트:</div></v-col
+                >
+                <v-col cols="3">
+                  <v-text-field
+                    reverse
+                    :value="userPointTemp - userPoint"
+                    hide-details
+                    dense
+                    required
+                    solo-inverted
+                    readonly
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
                 <v-col cols="2"><div class="subtitle-1">총 배송비:</div></v-col>
                 <v-col cols="3">
                   <v-text-field
@@ -245,18 +261,6 @@
                             paymentMethodType.paymentMethodTypeValue
                           }}</template>
                         </v-radio>
-                        <!-- <v-radio value="WITHOUT_BANKBOOK">
-                          <template v-slot:label>무통장 입금</template>
-                        </v-radio>
-                        <v-radio value="CREDIT_CARD">
-                          <template v-slot:label> 카드결제 </template>
-                        </v-radio>
-                        <v-radio value="ACCOUNT_TRANSFER">
-                          <template v-slot:label> 계좌이체 </template>
-                        </v-radio> -->
-                        <!-- <v-radio value="4">
-                    <template v-slot:label> 가상계좌 </template>
-                  </v-radio> -->
                       </v-radio-group>
                     </v-col>
                   </v-row>
@@ -555,6 +559,7 @@ export default {
         phoneNumber: this.user.phoneNumber,
         paymentMethodType: this.paymentMethodType,
         paymentPrice: this.paymentPrice,
+        addPoint: this.addPoint,
         usedPoint: this.userPointTemp - this.userPoint,
         depositorName: this.depositorName,
         depositAccountId:
@@ -640,6 +645,7 @@ export default {
       paymentMethodTypes: [],
       paymentPriceTemp: null,
       userPointTemp: null,
+      addPoint: null,
       pointUsed: 0,
       productName: '',
       salePrice: null,

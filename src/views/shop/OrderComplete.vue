@@ -49,12 +49,16 @@
             <v-col>{{ sumField('totalPrice') }}</v-col>
           </v-row> -->
           <v-row justify="end">
-            <v-col cols="auto"> 총 상품 금액 </v-col>
+            <v-col cols="auto"> 상품 금액(합) </v-col>
             <v-col cols="auto">{{ sumField('salePrice') }}</v-col>
-            <v-col cols="auto"> 총 배송비 </v-col>
+            <v-col cols="auto"> (적립 포인트(합) </v-col>
+            <v-col cols="auto">{{ sumField('point') }})</v-col>
+            <v-col cols="auto"> 배송비(합) </v-col>
             <v-col cols="auto">{{ sumField('shippingFee') }}</v-col>
-            <v-col cols="auto"> 총 결제 금액 </v-col>
-            <v-col cols="auto">{{ sumField('totalPrice') }}</v-col>
+            <v-col cols="auto"> 결제 금액(합) </v-col>
+            <v-col cols="auto">{{
+              (totalPriceSum = sumField('totalPrice'))
+            }}</v-col>
           </v-row>
         </template>
       </v-col>
@@ -67,7 +71,7 @@
           <v-card-text>
             <v-container>
               <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
+                <v-col cols="3"><div class="subtitle-1">*이름:</div></v-col>
                 <v-col
                   ><v-text-field
                     v-model="name"
@@ -79,7 +83,7 @@
                 /></v-col>
               </v-row>
               <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">*연락처:</div></v-col>
+                <v-col cols="3"><div class="subtitle-1">*연락처:</div></v-col>
                 <v-col
                   ><v-text-field
                     v-model="phoneNumber"
@@ -97,7 +101,7 @@
           <v-card-text>
             <v-container>
               <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
+                <v-col cols="3"><div class="subtitle-1">*이름:</div></v-col>
                 <v-col
                   ><v-text-field
                     v-model="recipientName"
@@ -110,7 +114,7 @@
               </v-row>
               <v-divider />
               <v-row dense align="center">
-                <v-col cols="2">
+                <v-col cols="3">
                   <div class="subtitle-1">*주소:</div>
                 </v-col>
                 <v-col>
@@ -126,7 +130,7 @@
               </v-row>
               <v-divider />
               <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">*연락처:</div></v-col>
+                <v-col cols="3"><div class="subtitle-1">*연락처:</div></v-col>
                 <v-col
                   ><v-text-field
                     v-model="recipientPhoneNumber"
@@ -139,7 +143,7 @@
               </v-row>
               <v-divider />
               <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">요청사항:</div></v-col>
+                <v-col cols="3"><div class="subtitle-1">요청사항:</div></v-col>
                 <v-col
                   ><v-textarea
                     v-model="requirement"
@@ -156,7 +160,7 @@
           <v-card-text>
             <v-container>
               <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">결제 방법:</div></v-col>
+                <v-col cols="3"><div class="subtitle-1">결제 방법:</div></v-col>
                 <v-col>
                   <v-text-field
                     v-model="paymentMethodType"
@@ -170,7 +174,39 @@
               </v-row>
 
               <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">결제 금액:</div></v-col>
+                <v-col cols="3"
+                  ><div class="subtitle-1">결제 금액 합계:</div></v-col
+                >
+                <v-col>
+                  <v-text-field
+                    v-model="totalPriceSum"
+                    hide-details
+                    dense
+                    required
+                    solo-inverted
+                    readonly
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col cols="3"
+                  ><div class="subtitle-1">사용 포인트:</div></v-col
+                >
+                <v-col>
+                  <v-text-field
+                    v-model="usedPoint"
+                    hide-details
+                    dense
+                    required
+                    solo-inverted
+                    readonly
+                  />
+                </v-col>
+              </v-row>
+              <v-row dense align="center">
+                <v-col cols="3"
+                  ><div class="subtitle-1">최종 결제 금액:</div></v-col
+                >
                 <v-col>
                   <v-text-field
                     v-model="paymentPrice"
@@ -187,7 +223,9 @@
                 <v-col class="d-flex justify-space-around">
                   <v-btn to="">주문내역/배송조회 확인</v-btn>
 
-                  <v-btn to="/style-shop/product-list">쇼핑 계속하기</v-btn>
+                  <v-btn to="/style-shop/product-list/null/null"
+                    >쇼핑 계속하기</v-btn
+                  >
                   <v-btn to="/">메인으로 가기</v-btn>
                   <v-btn @click="logoutUser">로그아웃</v-btn>
                 </v-col>
@@ -253,6 +291,7 @@ export default {
         }
         this.paymentMethodType = paymentMethodType;
         this.paymentPrice = data.paymentPrice;
+        this.usedPoint = data.usedPoint;
       } catch (error) {
         console.log(error);
       }
@@ -264,6 +303,8 @@ export default {
   },
   data() {
     return {
+      usedPoint: null,
+      totalPriceSum: null,
       name: '',
       phoneNumber: '',
       requirement: '',
