@@ -187,6 +187,17 @@ const routes = [
           auth: true,
         },
       },
+      {
+        path: 'point-history',
+        name: 'my-page-point-history',
+        component: () =>
+          import(
+            /* webpackChunkName: "my-page-point-history" */ '@/views/myPage/PointHistory'
+          ),
+        meta: {
+          auth: true,
+        },
+      },
     ],
   },
   {
