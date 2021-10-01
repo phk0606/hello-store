@@ -22,7 +22,7 @@ function modifyPassword(data) {
 }
 
 function getUsername(data) {
-  console.log(data.username);
+  console.log(data.name);
   return user.get('/getUsername', { params: data });
 }
 

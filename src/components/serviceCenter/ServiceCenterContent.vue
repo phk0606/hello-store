@@ -6,7 +6,7 @@
           <service-center-left />
         </v-col>
         <v-col cols="10">
-          <router-view />
+          <router-view :key="$route.fullPath" />
         </v-col>
       </v-row>
     </v-container>

@@ -33,13 +33,13 @@
             <v-list-item-title>상품 문의</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item to="/service-center/idPwFind">
+        <v-list-item to="/service-center/idPwFind/id">
           <v-icon>mdi-menu-right</v-icon>
           <v-list-item-content>
             <v-list-item-title>아이디 찾기</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item to="/service-center/idPwFind">
+        <v-list-item to="/service-center/idPwFind/pw">
           <v-icon>mdi-menu-right</v-icon>
           <v-list-item-content>
             <v-list-item-title>비밀번호 찾기</v-list-item-title>

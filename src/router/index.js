@@ -257,7 +257,7 @@ const routes = [
           ),
       },
       {
-        path: 'idPwFind',
+        path: 'idPwFind/:idOrPw',
         name: 'service-center-idPwFind',
         component: () =>
           import(

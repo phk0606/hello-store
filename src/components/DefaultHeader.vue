@@ -90,7 +90,7 @@
               >로그인</v-btn
             >
             <v-btn
-              to="/service-center/idPwFind"
+              to="/service-center/idPwFind/id"
               small
               value="right"
               class="mr-0"

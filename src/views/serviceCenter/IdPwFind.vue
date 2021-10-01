@@ -26,41 +26,34 @@
               <v-tab-item value="tab-1">
                 <v-container>
                   <v-row>
-                    <v-col>
-                      <v-card flat>
-                        <v-chip label x-large color="white">
-                          <v-icon left> mdi-circle-medium </v-icon>
-                          가입 시 등록하신 정보를 입력해 주세요.
-                        </v-chip>
-                        <v-row align="center" dense>
-                          <v-col cols="2" class="text-right">이름</v-col>
-                          <v-col cols="auto">
-                            <v-text-field
-                              v-model="name"
-                              dense
-                              hide-details
-                              outlined
-                            />
-                          </v-col>
-                          <v-col
-                            ><v-btn @click="getUsername">확인</v-btn></v-col
-                          >
-                        </v-row>
-                        <v-row align="center" dense>
-                          <v-col cols="2" class="text-right">이메일 주소</v-col>
-                          <v-col cols="auto">
-                            <v-text-field
-                              v-model="email"
-                              dense
-                              hide-details
-                              outlined
-                            />
-                          </v-col>
-                        </v-row>
-                        <v-row>
-                          <v-col> 아이디 조회 결과 {{ username }} </v-col>
-                        </v-row>
-                      </v-card>
+                    <v-col cols="auto">
+                      <v-chip label x-large color="white">
+                        <v-icon left> mdi-circle-medium </v-icon>
+                        가입 시 등록하신 정보를 입력해 주세요.
+                      </v-chip>
+                    </v-col>
+                  </v-row>
+                  <v-row align="center" dense>
+                    <v-col cols="auto" class="ml-10 mr-13">이름</v-col>
+                    <v-col cols="auto">
+                      <v-text-field
+                        v-model="name"
+                        dense
+                        hide-details
+                        outlined
+                      />
+                    </v-col>
+                    <v-col><v-btn @click="getUsername">확인</v-btn></v-col>
+                  </v-row>
+                  <v-row align="center" dense>
+                    <v-col cols="auto" class="ml-10">이메일 주소</v-col>
+                    <v-col cols="auto">
+                      <v-text-field
+                        v-model="email"
+                        dense
+                        hide-details
+                        outlined
+                      />
                     </v-col>
                   </v-row>
                 </v-container>
@@ -69,47 +62,45 @@
                 <v-container>
                   <v-row>
                     <v-col>
-                      <v-card flat>
-                        <v-chip label x-large color="white">
-                          <v-icon left> mdi-circle-medium </v-icon>
-                          가입 시 등록하신 정보를 입력해 주세요. (이메일로 임시
-                          비밀번호 발송)
-                        </v-chip>
-                        <v-row align="center" dense>
-                          <v-col cols="2" class="text-right">이름</v-col>
-                          <v-col cols="auto">
-                            <v-text-field
-                              v-model="name"
-                              dense
-                              hide-details
-                              outlined
-                            />
-                          </v-col>
-                          <v-col><v-btn>확인</v-btn></v-col>
-                        </v-row>
-                        <v-row align="center" dense>
-                          <v-col cols="2" class="text-right">아이디</v-col>
-                          <v-col cols="auto">
-                            <v-text-field
-                              v-model="email"
-                              dense
-                              hide-details
-                              outlined
-                            />
-                          </v-col>
-                        </v-row>
-                        <v-row align="center" dense>
-                          <v-col cols="2" class="text-right">이메일 주소</v-col>
-                          <v-col cols="auto">
-                            <v-text-field
-                              v-model="email"
-                              dense
-                              hide-details
-                              outlined
-                            />
-                          </v-col>
-                        </v-row>
-                      </v-card>
+                      <v-chip label x-large color="white">
+                        <v-icon left> mdi-circle-medium </v-icon>
+                        가입 시 등록하신 정보를 입력해 주세요. (이메일로 임시
+                        비밀번호 발송)
+                      </v-chip>
+                    </v-col>
+                  </v-row>
+                  <v-row align="center" dense>
+                    <v-col cols="auto" class="ml-10 mr-13">이름</v-col>
+                    <v-col cols="auto">
+                      <v-text-field
+                        v-model="name"
+                        dense
+                        hide-details
+                        outlined
+                      />
+                    </v-col>
+                    <v-col><v-btn>확인</v-btn></v-col>
+                  </v-row>
+                  <v-row align="center" dense>
+                    <v-col cols="auto" class="ml-10 mr-9">아이디</v-col>
+                    <v-col cols="auto">
+                      <v-text-field
+                        v-model="email"
+                        dense
+                        hide-details
+                        outlined
+                      />
+                    </v-col>
+                  </v-row>
+                  <v-row align="center" dense>
+                    <v-col cols="auto" class="ml-10">이메일 주소</v-col>
+                    <v-col cols="auto">
+                      <v-text-field
+                        v-model="email"
+                        dense
+                        hide-details
+                        outlined
+                      />
                     </v-col>
                   </v-row>
                 </v-container>
@@ -119,6 +110,40 @@
         </v-row>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <v-dialog v-model="dialog" persistent max-width="300px">
+          <v-card>
+            <v-card-title>
+              <span class="text-h5"
+                ><v-icon large color="indigo"> mdi-lead-pencil </v-icon>아이디
+                조회 결과</span
+              >
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row justify="center">
+                  <h4>{{ username }}</h4>
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                color="blue darken-1"
+                text
+                @click="
+                  dialog = false;
+                  orders = [];
+                "
+              >
+                닫기
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -126,14 +151,24 @@
 import { getUsername } from '@/api/user';
 
 export default {
-  created() {},
+  created() {
+    const tabParam = this.$route.params.idOrPw;
+    console.log(tabParam);
+    if (tabParam === 'id') {
+      this.tab = 'tab-1';
+    } else {
+      this.tab = 'tab-2';
+    }
+  },
+  computed: {},
   components: {},
   data() {
     return {
+      dialog: false,
       username: '',
       name: '',
       email: '',
-      tab: null,
+      tab: 'tab-1',
     };
   },
   methods: {
@@ -148,6 +183,7 @@ export default {
       } catch (error) {
         console.error(error);
       }
+      this.dialog = true;
     },
   },
 };
