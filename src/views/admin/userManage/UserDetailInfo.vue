@@ -147,13 +147,15 @@
                     <v-col cols="3"
                       ><div class="subtitle-1">총 구매 금액:</div></v-col
                     >
-                    <v-col>{{ purchasePriceSum }} 원 </v-col>
+                    <v-col cols="2">{{ purchasePriceSum }} 원 </v-col>
+                    <v-col><v-btn>구매 내역</v-btn></v-col>
                   </v-row>
-                  <v-row>
+                  <v-row dense align="center">
                     <v-col cols="3"
                       ><div class="subtitle-1">포인트:</div></v-col
                     >
-                    <v-col>{{ pointSum }} 원</v-col>
+                    <v-col cols="2">{{ pointSum }} 원</v-col>
+                    <v-col><v-btn>포인트 이용 내역</v-btn></v-col>
                   </v-row>
                 </v-container>
               </v-card-text>

@@ -14,26 +14,51 @@
           <v-col class="text-h6"> 보유 포인트: {{ userHavePoint }} </v-col>
         </v-row>
 
-        <v-row dense align="center" justify="start">
-          <v-col cols="2">
-            <v-select
-              label="제목 + 내용"
-              v-model="searchSelected"
-              :items="searchKeyword"
-              clearable
-              outlined
-              hide-details
-              dense
-              :menu-props="{ offsetY: true }"
-            />
+        <v-row justify="center" align="center">
+          <v-col cols="auto">
+            <v-menu
+              v-model="menu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="pointDateA"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                />
+              </template>
+              <v-date-picker v-model="pointDateA" @input="menu = false" />
+            </v-menu>
           </v-col>
           <v-col cols="auto">
-            <v-text-field v-model="searchText" dense hide-details outlined>
-              <template v-slot:prepend> <v-card width="10" flat /></template>
-            </v-text-field>
+            <v-menu
+              v-model="menu2"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="pointDateB"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                />
+              </template>
+              <v-date-picker v-model="pointDateB" @input="menu2 = false" />
+            </v-menu>
           </v-col>
           <v-col cols="auto">
-            <v-btn color="indigo" dark @click="getNotices(1)">검색</v-btn>
+            <v-btn @click="getPointHistory(1)">조회</v-btn>
           </v-col>
         </v-row>
         <v-divider />
@@ -110,13 +135,16 @@ export default {
   },
   data() {
     return {
+      pointDateA: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      pointDateB: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      menu: false,
+      menu2: false,
       userHavePoint: null,
-      searchSelected: null,
-      searchText: '',
-      searchKeyword: [
-        { text: '제목', value: 'title' },
-        { text: '내용', value: 'content' },
-      ],
+
       page: 1,
       records: 0,
       perPage: 5,
@@ -147,7 +175,8 @@ export default {
         const { data } = await getPointHistory({
           page: page - 1,
           size: this.perPage,
-          [this.searchSelected]: this.searchText,
+          pointDateA: this.pointDateA,
+          pointDateB: this.pointDateB,
           username: this.$store.state.username,
         });
         this.contents = data.content;

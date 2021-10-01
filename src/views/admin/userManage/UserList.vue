@@ -276,7 +276,7 @@ export default {
         [this.searchSelected]: this.searchText,
       });
       this.userList = data.content;
-      this.searchResultCount = data.numberOfElements;
+      this.searchResultCount = data.totalElements;
       this.perPage = data.size;
       this.records = data.totalElements;
       this.page = data.pageable.pageNumber + 1;
