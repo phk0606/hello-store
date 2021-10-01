@@ -29,7 +29,13 @@
         <v-row dense align="center" justify="center">
           <v-col cols="auto"> 상품명 </v-col>
           <v-col cols="3">
-            <v-text-field v-model="productName" dense hide-details outlined>
+            <v-text-field
+              v-model="productName"
+              dense
+              hide-details
+              outlined
+              clearable
+            >
               <template v-slot:prepend> <v-card width="10" flat /></template>
             </v-text-field>
           </v-col>
@@ -170,7 +176,10 @@
         </transition>
         <v-divider />
         <v-row>
-          <v-col>총 등록 상품: 0000개/검색된 상품: 0000개</v-col>
+          <v-col
+            >총 등록 상품: {{ productCount }} 개/검색된 상품:
+            {{ records }}개</v-col
+          >
         </v-row>
         <v-row>
           <v-col>
@@ -262,7 +271,7 @@
 import AdminProductLeft from '@/components/admin/AdminProductLeft.vue';
 import Pagination from 'vue-pagination-2';
 import {
-  //getProductsPage,
+  getProductCount,
   getProductsPageCondition,
   removeProducts,
   modifyProductShowType,
@@ -274,6 +283,7 @@ export default {
     // this.getProducts();
     //this.getProductsPage(1);
     this.getProductsPageCondition(1);
+    this.getProductCount();
     this.getCategory();
   },
   components: {
@@ -287,6 +297,7 @@ export default {
   },
   data() {
     return {
+      productCount: 0,
       imageUrl: process.env.VUE_APP_IMAGE_URL,
       productShowTypes: [''],
       salePriceMin: '',
@@ -358,6 +369,10 @@ export default {
         console.log(data);
         //this.category2Select = data[0].value;
       }
+    },
+    async getProductCount() {
+      const { data } = await getProductCount({});
+      this.productCount = data;
     },
     async modifyProductShowType(productShowType) {
       const products = this.selected;

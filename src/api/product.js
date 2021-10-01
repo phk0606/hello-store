@@ -20,6 +20,10 @@ function getProductsPageCondition(data) {
   return admin.get('/getProductsPageCondition', { params: data });
 }
 
+function getProductCount() {
+  return admin.get('/getProductCount');
+}
+
 function removeProducts(productIds) {
   return admin.delete('/removeProducts', { data: productIds });
 }
@@ -44,4 +48,5 @@ export {
   modifyProduct,
   modifyProductShowType,
   getProductsByCategoryId,
+  getProductCount,
 };
