@@ -61,16 +61,18 @@
         <template>
           <v-container>
             <v-row justify="end">
-              <v-col cols="auto"> 상품 금액(합) </v-col>
-              <v-col cols="auto">{{ sumField('salePrice') }}</v-col>
-              <v-col cols="auto"> (적립 포인트(합) </v-col>
-              <v-col cols="auto">{{ sumField('point') }})</v-col>
-              <v-col cols="auto"> 배송비(합) </v-col>
-              <v-col cols="auto">{{ sumField('shippingFee') }}</v-col>
-              <v-col cols="auto"> 결제 금액(합) </v-col>
-              <v-col cols="auto">{{
-                (totalPriceSum = sumField('totalPrice'))
-              }}</v-col>
+              <v-col cols="auto">
+                총 상품 금액: {{ sumField('salePrice') }}
+              </v-col>
+              <v-col cols="auto">
+                총 적립 포인트: {{ sumField('point') }}
+              </v-col>
+              <v-col cols="auto">
+                총 배송비: {{ sumField('shippingFee') }}
+              </v-col>
+              <v-col cols="auto">
+                총 결제 금액: {{ sumField('totalPrice') }}
+              </v-col>
             </v-row>
           </v-container>
         </template>

@@ -142,6 +142,11 @@
             </v-row>
             <v-row>
               <v-col>
+                <div>총 포인트: {{ getTotalPoint }}</div>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
                 <div>총 결제 금액: {{ getTotalPrice }}</div>
               </v-col>
             </v-row>
@@ -227,6 +232,9 @@ export default {
   computed: {
     getTotalPrice() {
       return this.salePrice * this.quantity + this.shippingFee;
+    },
+    getTotalPoint() {
+      return this.point * this.quantity;
     },
   },
   data: () => ({

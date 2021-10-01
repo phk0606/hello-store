@@ -2,6 +2,14 @@
   <v-container fluid>
     <v-row dense>
       <v-col>
+        <v-chip label x-large color="white">
+          <v-icon left> mdi-chevron-right-box </v-icon>
+          스타일 숍
+        </v-chip>
+      </v-col>
+    </v-row>
+    <v-row dense>
+      <v-col>
         <div class="h5">구매 목록</div>
       </v-col>
     </v-row>
@@ -46,14 +54,18 @@
         <template>
           <v-container>
             <v-row justify="end">
-              <v-col cols="auto"> 상품 금액(합) </v-col>
-              <v-col cols="auto">{{ sumField('salePrice') }}</v-col>
-              <v-col cols="auto"> (적립 포인트(합) </v-col>
-              <v-col cols="auto">{{ (addPoint = sumField('point')) }})</v-col>
-              <v-col cols="auto"> 배송비(합) </v-col>
-              <v-col cols="auto">{{ sumField('shippingFee') }}</v-col>
-              <v-col cols="auto"> 결제 금액(합) </v-col>
-              <v-col cols="auto">{{ sumField('totalPrice') }}</v-col>
+              <v-col cols="auto">
+                총 상품 금액: {{ sumField('salePrice') }}
+              </v-col>
+              <v-col cols="auto">
+                총 적립 포인트: {{ (addPoint = sumField('calculatedPoint')) }}
+              </v-col>
+              <v-col cols="auto">
+                총 배송비: {{ sumField('shippingFee') }}
+              </v-col>
+              <v-col cols="auto">
+                총 결제 금액: {{ sumField('totalPrice') }}
+              </v-col>
             </v-row>
           </v-container>
         </template>
@@ -221,7 +233,7 @@
               </v-row>
               <v-row dense align="center">
                 <v-col cols="2"
-                  ><div class="subtitle-1">총 결제 금액:</div></v-col
+                  ><div class="subtitle-1">최종 결제 금액:</div></v-col
                 >
                 <v-col cols="3">
                   <v-text-field
@@ -418,7 +430,7 @@ export default {
           salePrice: this.salePrice,
           shippingFee: this.shippingFee,
           totalPrice: this.salePrice * query.quantity + this.shippingFee,
-          point: this.point * query.quantity,
+          calculatedPoint: this.point * query.quantity,
         },
       ];
       this.orderProducts = orderProduct;
@@ -694,7 +706,7 @@ export default {
         { text: '상품 정보', align: 'center', value: 'productName' },
         { text: '판매 가격', align: 'center', value: 'salePrice' },
         { text: '수량', align: 'center', value: 'quantity' },
-        { text: '포인트', align: 'center', value: 'point' },
+        { text: '포인트', align: 'center', value: 'calculatedPoint' },
         { text: '배송비', align: 'center', value: 'shippingFee' },
         { text: '합계', align: 'center', value: 'totalPrice' },
       ],

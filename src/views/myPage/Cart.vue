@@ -65,6 +65,7 @@
                     item.quantity += 1;
                     item.totalPrice =
                       item.salePrice * item.quantity + item.shippingFee;
+                    item.calculatedPoint = item.point * item.quantity;
                   "
                   ><v-icon>mdi-plus</v-icon></v-btn
                 ><v-btn
@@ -75,6 +76,7 @@
                     item.quantity > 1 ? (item.quantity -= 1) : 0;
                     item.totalPrice =
                       item.salePrice * item.quantity + item.shippingFee;
+                    item.calculatedPoint = item.point * item.quantity;
                   "
                   ><v-icon>mdi-minus</v-icon></v-btn
                 >
@@ -102,12 +104,18 @@
                 ><v-btn @click="removeCartProducts">선택 삭제</v-btn></v-col
               >
               <v-spacer />
-              <v-col cols="auto"> 총 상품 금액 </v-col>
-              <v-col cols="auto">{{ sumField('salePrice') }}</v-col>
-              <v-col cols="auto"> 총 배송비 </v-col>
-              <v-col cols="auto">{{ sumField('shippingFee') }}</v-col>
-              <v-col cols="auto"> 총 결제 금액 </v-col>
-              <v-col cols="auto">{{ sumField('totalPrice') }}</v-col>
+              <v-col cols="auto">
+                총 상품 금액: {{ sumField('salePrice') }}
+              </v-col>
+              <v-col cols="auto">
+                총 적립 포인트: {{ (addPoint = sumField('calculatedPoint')) }}
+              </v-col>
+              <v-col cols="auto">
+                총 배송비: {{ sumField('shippingFee') }}
+              </v-col>
+              <v-col cols="auto">
+                총 결제 금액: {{ sumField('totalPrice') }}
+              </v-col>
             </v-row>
           </v-container>
         </template>
@@ -236,7 +244,7 @@ export default {
         { text: '판매 가격', align: 'center', value: 'salePrice' },
         { text: '수량', align: 'center', value: 'quantity', width: '20%' },
         { text: '수량 수정', align: 'center', value: 'modify' },
-        { text: '포인트', align: 'center', value: 'point' },
+        { text: '포인트', align: 'center', value: 'calculatedPoint' },
         { text: '배송비', align: 'center', value: 'shippingFee' },
         { text: '합계 금액', align: 'center', value: 'totalPrice' },
       ],
