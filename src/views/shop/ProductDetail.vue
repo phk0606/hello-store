@@ -278,7 +278,7 @@ export default {
         alert('두 번째 옵션을 선택해 주세요.');
         return;
       }
-      if (!this.$store.getters.username) {
+      if (!this.$store.getters.isLogin) {
         alert('로그인이 필요합니다.');
         this.$router.push('/authentication/sign-in');
         return;
