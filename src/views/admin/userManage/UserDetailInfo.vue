@@ -134,14 +134,7 @@
                     <v-col cols="3"
                       ><div class="subtitle-1">가입일:</div></v-col
                     >
-                    <v-col
-                      ><v-text-field
-                        v-model="createdDate"
-                        hide-details
-                        dense
-                        solo-inverted
-                        required
-                    /></v-col>
+                    <v-col>{{ createdDate }}</v-col>
                     <!-- <v-col cols="2"
                       ><div class="subtitle-1">회원 등급:</div></v-col
                     >
@@ -154,13 +147,13 @@
                     <v-col cols="3"
                       ><div class="subtitle-1">총 구매 금액:</div></v-col
                     >
-                    <v-col>{{ purchasePrice }} 원 </v-col>
+                    <v-col>{{ purchasePriceSum }} 원 </v-col>
                   </v-row>
                   <v-row>
                     <v-col cols="3"
                       ><div class="subtitle-1">포인트:</div></v-col
                     >
-                    <v-col>{{ point }} 원</v-col>
+                    <v-col>{{ pointSum }} 원</v-col>
                   </v-row>
                 </v-container>
               </v-card-text>
@@ -248,8 +241,8 @@ export default {
         this.address = data.address;
         this.createdDate = data.createdDate;
         this.detailAddress = data.detailAddress;
-        this.purchasePrice = data.purchasePrice;
-        this.point = data.point;
+        this.purchasePriceSum = data.purchasePriceSum;
+        this.pointSum = data.pointSum;
         this.password = '';
       } catch (error) {
         console.log(error);
@@ -286,8 +279,8 @@ export default {
       name: '',
       email: '',
       phoneNumber: '',
-      purchasePrice: '',
-      point: '',
+      purchasePriceSum: '',
+      pointSum: '',
       selected: [],
     };
   },

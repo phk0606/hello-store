@@ -210,12 +210,16 @@
             <template>
               <v-container>
                 <v-row justify="end">
-                  <v-col cols="auto"> 총 상품 금액 </v-col>
+                  <v-col cols="auto"> 상품 금액(합) </v-col>
                   <v-col cols="auto">{{ sumField('salePrice') }}</v-col>
-                  <v-col cols="auto"> 총 배송비 </v-col>
+                  <v-col cols="auto"> (적립 포인트(합) </v-col>
+                  <v-col cols="auto">{{ sumField('point') }})</v-col>
+                  <v-col cols="auto"> 배송비(합) </v-col>
                   <v-col cols="auto">{{ sumField('shippingFee') }}</v-col>
-                  <v-col cols="auto"> 총 결제 금액 </v-col>
-                  <v-col cols="auto">{{ sumField('totalPrice') }}</v-col>
+                  <v-col cols="auto"> 결제 금액(합) </v-col>
+                  <v-col cols="auto">{{
+                    (totalPriceSum = sumField('totalPrice'))
+                  }}</v-col>
                 </v-row>
               </v-container>
             </template>
@@ -361,7 +365,7 @@
                     >
                     <v-col>
                       <v-text-field
-                        value=""
+                        v-model="usedPoint"
                         hide-details
                         dense
                         required
@@ -436,7 +440,7 @@
                   <v-row justify="center">
                     <v-col cols="auto">
                       <v-btn>저장</v-btn>
-                      <v-btn color="ml-3">취소</v-btn>
+                      <v-btn to="/admin/order-list" color="ml-3">취소</v-btn>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -510,6 +514,7 @@ export default {
         this.depositAccount = data.depositAccount;
         this.depositorName = data.depositorName;
         this.depositDueDate = data.depositDueDate;
+        this.usedPoint = data.usedPoint;
       } catch (error) {
         console.log(error);
       }
@@ -521,6 +526,7 @@ export default {
   },
   data() {
     return {
+      usedPoint: null,
       depositAccount: '',
       depositorName: '',
       depositDueDate: '',

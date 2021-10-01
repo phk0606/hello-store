@@ -61,12 +61,16 @@
         <template>
           <v-container>
             <v-row justify="end">
-              <v-col cols="auto"> 총 상품 금액 </v-col>
+              <v-col cols="auto"> 상품 금액(합) </v-col>
               <v-col cols="auto">{{ sumField('salePrice') }}</v-col>
-              <v-col cols="auto"> 총 배송비 </v-col>
+              <v-col cols="auto"> (적립 포인트(합) </v-col>
+              <v-col cols="auto">{{ sumField('point') }})</v-col>
+              <v-col cols="auto"> 배송비(합) </v-col>
               <v-col cols="auto">{{ sumField('shippingFee') }}</v-col>
-              <v-col cols="auto"> 총 결제 금액 </v-col>
-              <v-col cols="auto">{{ sumField('totalPrice') }}</v-col>
+              <v-col cols="auto"> 결제 금액(합) </v-col>
+              <v-col cols="auto">{{
+                (totalPriceSum = sumField('totalPrice'))
+              }}</v-col>
             </v-row>
           </v-container>
         </template>
@@ -88,7 +92,7 @@
                 >
               </v-row>
               <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
+                <v-col cols="3"><div class="subtitle-1">*이름:</div></v-col>
                 <v-col
                   ><v-text-field
                     v-model="name"
@@ -100,7 +104,7 @@
                 /></v-col>
               </v-row>
               <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">*연락처:</div></v-col>
+                <v-col cols="3"><div class="subtitle-1">*연락처:</div></v-col>
                 <v-col
                   ><v-text-field
                     v-model="phoneNumber"
@@ -127,7 +131,7 @@
                 >
               </v-row>
               <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
+                <v-col cols="3"><div class="subtitle-1">*이름:</div></v-col>
                 <v-col
                   ><v-text-field
                     v-model="recipientName"
@@ -148,7 +152,7 @@
               />
               <v-divider />
               <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">*연락처:</div></v-col>
+                <v-col cols="3"><div class="subtitle-1">*연락처:</div></v-col>
                 <v-col
                   ><v-text-field
                     v-model="recipientPhoneNumber"
@@ -161,7 +165,7 @@
               </v-row>
               <v-divider />
               <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">요청사항:</div></v-col>
+                <v-col cols="3"><div class="subtitle-1">요청사항:</div></v-col>
                 <v-col
                   ><v-textarea
                     v-model="requirement"
@@ -179,7 +183,9 @@
                 <v-col cols="auto">결제 정보</v-col>
               </v-row>
               <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">결제 금액:</div></v-col>
+                <v-col cols="3"
+                  ><div class="subtitle-1">최종 결제 금액:</div></v-col
+                >
                 <v-col>
                   <v-text-field
                     v-model="paymentPrice"
@@ -192,7 +198,7 @@
                 </v-col>
               </v-row>
               <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">배송료:</div></v-col>
+                <v-col cols="3"><div class="subtitle-1">배송료:</div></v-col>
                 <v-col>
                   <v-text-field
                     :value="sumField('shippingFee')"
@@ -205,12 +211,12 @@
                 </v-col>
               </v-row>
               <v-row dense align="center">
-                <v-col cols="2"
+                <v-col cols="3"
                   ><div class="subtitle-1">사용포인트:</div></v-col
                 >
                 <v-col>
                   <v-text-field
-                    value=""
+                    v-model="usedPoint"
                     hide-details
                     dense
                     required
@@ -220,7 +226,7 @@
                 </v-col>
               </v-row>
               <v-row dense align="center">
-                <v-col cols="2"><div class="subtitle-1">결제 방법:</div></v-col>
+                <v-col cols="3"><div class="subtitle-1">결제 방법:</div></v-col>
                 <v-col>
                   <v-text-field
                     v-model="paymentMethodTypeValue"
@@ -234,7 +240,7 @@
               </v-row>
               <template v-if="paymentMethodType === 'WITHOUT_BANKBOOK'">
                 <v-row dense align="center">
-                  <v-col cols="2"
+                  <v-col cols="3"
                     ><div class="subtitle-1">입금 계좌:</div></v-col
                   >
                   <v-col>
@@ -249,7 +255,7 @@
                   </v-col>
                 </v-row>
                 <v-row dense align="center">
-                  <v-col cols="2"
+                  <v-col cols="3"
                     ><div class="subtitle-1">입금자 명:</div></v-col
                   >
                   <v-col>
@@ -264,7 +270,7 @@
                   </v-col>
                 </v-row>
                 <v-row dense align="center">
-                  <v-col cols="2"
+                  <v-col cols="3"
                     ><div class="subtitle-1">입금 예정일:</div></v-col
                   >
                   <v-col>
@@ -431,6 +437,7 @@ export default {
         this.depositAccount = data.depositAccount;
         this.depositorName = data.depositorName;
         this.depositDueDate = data.depositDueDate;
+        this.usedPoint = data.usedPoint;
       } catch (error) {
         console.log(error);
       }
@@ -442,6 +449,7 @@ export default {
   },
   data() {
     return {
+      usedPoint: null,
       zonecode: '',
       roadAddress: '',
       address: '',
