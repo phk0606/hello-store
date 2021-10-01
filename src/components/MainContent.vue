@@ -81,6 +81,151 @@
           </v-card>
         </v-col>
       </v-row>
+      <v-row dense>
+        <v-col>
+          <v-divider />
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="auto" class="ml-5"
+          ><v-icon large>mdi-star-shooting</v-icon></v-col
+        >
+        <v-col> <h3>스타일 숍 신상품</h3></v-col></v-row
+      >
+      <v-row dense>
+        <v-col
+          v-for="(content, i) in newArrivals"
+          :key="i"
+          cols="12"
+          sm="6"
+          md="4"
+          lg="3"
+        >
+          <v-card
+            max-width="300"
+            class="mx-auto"
+            :to="`/style-shop/product-detail/${content.productId}`"
+          >
+            <v-img
+              height="300px"
+              width="300px"
+              :src="`${imageUrl}${content.fileName}`"
+            />
+
+            <v-card-text class="text--primary">
+              <div>{{ content.salePrice }}</div>
+
+              <div>{{ content.productName }}</div>
+              <div>{{ content.description }}</div>
+            </v-card-text>
+            <div class="text-left">
+              <v-chip
+                v-if="content.newArrival"
+                class="ml-2"
+                x-small
+                color="pink"
+                label
+                text-color="white"
+              >
+                <!-- <v-icon left> mdi-label </v-icon> -->
+                신상품
+              </v-chip>
+              <v-chip
+                v-if="content.best"
+                class="ml-2"
+                x-small
+                color="pink"
+                label
+                text-color="white"
+              >
+                <!-- <v-icon left> mdi-label </v-icon> -->
+                Best
+              </v-chip>
+              <v-chip
+                v-if="content.discount"
+                class="ml-2"
+                x-small
+                color="pink"
+                label
+                text-color="white"
+              >
+                <!-- <v-icon left> mdi-label </v-icon> -->
+                할인
+              </v-chip>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row class="mt-10">
+        <v-col cols="auto" class="ml-5"
+          ><v-icon large>mdi-star-shooting</v-icon></v-col
+        >
+        <v-col> <h3>스타일 숍 베스트</h3></v-col></v-row
+      >
+      <v-row dense>
+        <v-col
+          v-for="(content, i) in bests"
+          :key="i"
+          cols="12"
+          sm="6"
+          md="4"
+          lg="3"
+        >
+          <v-card
+            max-width="300"
+            class="mx-auto"
+            :to="`/style-shop/product-detail/${content.productId}`"
+          >
+            <v-img
+              height="300px"
+              width="300px"
+              :src="`${imageUrl}${content.fileName}`"
+            />
+
+            <v-card-text class="text--primary">
+              <div>{{ content.salePrice }}</div>
+
+              <div>{{ content.productName }}</div>
+              <div>{{ content.description }}</div>
+            </v-card-text>
+            <div class="text-left">
+              <v-chip
+                v-if="content.newArrival"
+                class="ml-2"
+                x-small
+                color="pink"
+                label
+                text-color="white"
+              >
+                <!-- <v-icon left> mdi-label </v-icon> -->
+                신상품
+              </v-chip>
+              <v-chip
+                v-if="content.best"
+                class="ml-2"
+                x-small
+                color="pink"
+                label
+                text-color="white"
+              >
+                <!-- <v-icon left> mdi-label </v-icon> -->
+                Best
+              </v-chip>
+              <v-chip
+                v-if="content.discount"
+                class="ml-2"
+                x-small
+                color="pink"
+                label
+                text-color="white"
+              >
+                <!-- <v-icon left> mdi-label </v-icon> -->
+                할인
+              </v-chip>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-container>
   </v-main>
 </template>
@@ -89,6 +234,7 @@
 import { getNotices } from '@/api/notice';
 import { getCommunities } from '@/api/community';
 import { getProductComments } from '@/api/productComment';
+import { getProductsPageCondition } from '@/api/shopProduct';
 
 export default {
   name: 'MainPage',
@@ -96,9 +242,14 @@ export default {
     await this.getNotices();
     await this.getCommunities();
     await this.getProductComments();
+    await this.getProductsPageCondition('newArrival');
+    await this.getProductsPageCondition('best');
   },
   data() {
     return {
+      imageUrl: process.env.VUE_APP_IMAGE_URL,
+      newArrivals: [],
+      bests: [],
       notices: [],
       communities: [],
       productComments: [],
@@ -123,10 +274,28 @@ export default {
         'red lighten-1',
         'deep-purple accent-4',
       ],
-      // slides: ['First', 'Second', 'Third', 'Fourth', 'Fifth'],
     };
   },
   methods: {
+    async getProductsPageCondition(productProperty) {
+      try {
+        const { data } = await getProductsPageCondition({
+          page: 0,
+          size: 10,
+          productProperty: productProperty,
+        });
+
+        if (productProperty === 'newArrival') {
+          this.newArrivals = data.content;
+        } else {
+          this.bests = data.content;
+        }
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
     async getNotices() {
       console.log(this.searchSelected);
       try {
