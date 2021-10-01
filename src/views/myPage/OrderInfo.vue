@@ -110,9 +110,7 @@
                 <v-col cols="2">
                   <v-img
                     class="mx-auto"
-                    :src="
-                      'data:image/png;base64,' + item.orderProducts[0].image
-                    "
+                    :src="`${imageUrl}${item.orderProducts[0].fileName}`"
                     style="width: 100px; height: 100px"
                   />
                 </v-col>
@@ -224,6 +222,7 @@ export default {
   },
   data() {
     return {
+      imageUrl: process.env.VUE_APP_IMAGE_URL,
       headers: [{ text: '번호', align: 'center', value: 'orderId' }],
       listImage: null,
       orders: [],

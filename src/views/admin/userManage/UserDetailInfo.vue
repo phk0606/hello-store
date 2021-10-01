@@ -148,14 +148,18 @@
                       ><div class="subtitle-1">총 구매 금액:</div></v-col
                     >
                     <v-col cols="2">{{ purchasePriceSum }} 원 </v-col>
-                    <v-col><v-btn>구매 내역</v-btn></v-col>
+                    <v-col><v-btn @click="openDialog">구매 내역</v-btn></v-col>
                   </v-row>
                   <v-row dense align="center">
                     <v-col cols="3"
                       ><div class="subtitle-1">포인트:</div></v-col
                     >
                     <v-col cols="2">{{ pointSum }} 원</v-col>
-                    <v-col><v-btn>포인트 이용 내역</v-btn></v-col>
+                    <v-col
+                      ><v-btn @click="openPointDialog"
+                        >포인트 이용 내역</v-btn
+                      ></v-col
+                    >
                   </v-row>
                 </v-container>
               </v-card-text>
@@ -176,6 +180,111 @@
         </v-row>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col cols="auto">
+        <v-dialog v-model="dialog" persistent max-width="600px">
+          <v-card>
+            <v-card-title>
+              <span class="text-h5"
+                ><v-icon large color="indigo"> mdi-lead-pencil </v-icon>구매
+                내역</span
+              >
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col>
+                    <v-data-table
+                      hide-default-footer
+                      :headers="orderHeaders"
+                      :items="orders"
+                      item-key="orderId"
+                      class="elevation-1"
+                      disable-sort
+                      fixed-header
+                      height="40vh"
+                    >
+                      <template v-slot:[`item.productName`]="{ item }">
+                        <v-container>
+                          <v-row>
+                            {{ item.orderProducts[0].productName }}
+                          </v-row>
+                          <v-row
+                            v-if="
+                              item.orderProductCount &&
+                              item.orderProductCount >= 2
+                            "
+                            >외 {{ item.orderProductCount - 1 }} 개</v-row
+                          >
+                        </v-container>
+                      </template>
+                    </v-data-table>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                color="blue darken-1"
+                text
+                @click="
+                  dialog = false;
+                  orders = [];
+                "
+              >
+                닫기
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="auto">
+        <v-dialog v-model="pointDialog" persistent max-width="600px">
+          <v-card>
+            <v-card-title>
+              <span class="text-h5"
+                ><v-icon large color="indigo"> mdi-lead-pencil </v-icon>포인트
+                내역</span
+              >
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col>
+                    <v-data-table
+                      hide-default-footer
+                      :headers="pointHistoryHeaders"
+                      :items="pointHistory"
+                      item-key="pointHistoryId"
+                      class="elevation-1"
+                      disable-sort
+                      fixed-header
+                      height="40vh"
+                    />
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                color="blue darken-1"
+                text
+                @click="
+                  pointDialog = false;
+                  pointHistory = [];
+                "
+              >
+                닫기
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -183,6 +292,8 @@
 import { getUser, modifyUser } from '@/api/user';
 import Address from '@/components/Address';
 import AdminOrderLeft from '@/components/admin/AdminUserLeft.vue';
+import { getOrdersByUsername } from '@/api/order';
+import { getPointHistory } from '@/api/pointHistory';
 
 export default {
   name: 'UserDetailInfo',
@@ -197,6 +308,14 @@ export default {
     Address,
   },
   methods: {
+    openDialog() {
+      this.getOrdersByUsername();
+      this.dialog = true;
+    },
+    openPointDialog() {
+      this.getPointHistory();
+      this.pointDialog = true;
+    },
     setAddress(zonecode, roadAddress, address) {
       // console.log(zonecode, roadAddress, address);
       this.zonecode = zonecode;
@@ -206,6 +325,29 @@ export default {
     setDetailAddress(detailAddress) {
       // console.log(detailAddress);
       this.detailAddress = detailAddress;
+    },
+    async getPointHistory() {
+      try {
+        const { data } = await getPointHistory({
+          username: this.username,
+        });
+        this.pointHistory = data.content;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getOrdersByUsername() {
+      try {
+        const { data } = await getOrdersByUsername({
+          username: this.username,
+        });
+        console.log(data);
+
+        this.orders = data.content;
+      } catch (error) {
+        console.log(error);
+      }
     },
     async modifyUser() {
       try {
@@ -253,6 +395,43 @@ export default {
   },
   data() {
     return {
+      pointHistoryHeaders: [
+        {
+          text: '번호',
+          align: 'center',
+          sortable: false,
+          value: 'pointHistoryId',
+        },
+        {
+          text: '날짜',
+          align: 'center',
+          sortable: false,
+          value: 'createdDate',
+        },
+        { text: '적립/사용', align: 'center', value: 'pointUseTypeValue' },
+        { text: '내용', align: 'center', value: 'pointUseDetailTypeValue' },
+        { text: '포인트', align: 'center', value: 'point' },
+      ],
+      pointHistory: [],
+      orderHeaders: [
+        {
+          text: '번호',
+          align: 'center',
+          sortable: false,
+          value: 'orderId',
+        },
+        {
+          text: '주문일',
+          align: 'center',
+          sortable: false,
+          value: 'createdDate',
+        },
+        { text: '주문 상품', align: 'center', value: 'productName' },
+        { text: '결제 금액', align: 'center', value: 'paymentPrice' },
+      ],
+      orders: [],
+      pointDialog: false,
+      dialog: false,
       password: null,
       passwordConfirm: null,
       createdDate: '',
