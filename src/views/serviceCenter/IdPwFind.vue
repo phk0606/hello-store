@@ -73,19 +73,21 @@
                     <v-col cols="auto" class="ml-10 mr-13">이름</v-col>
                     <v-col cols="auto">
                       <v-text-field
-                        v-model="name"
+                        v-model="pwName"
                         dense
                         hide-details
                         outlined
                       />
                     </v-col>
-                    <v-col><v-btn>확인</v-btn></v-col>
+                    <v-col
+                      ><v-btn @click="createTempPassword">확인</v-btn></v-col
+                    >
                   </v-row>
                   <v-row align="center" dense>
                     <v-col cols="auto" class="ml-10 mr-9">아이디</v-col>
                     <v-col cols="auto">
                       <v-text-field
-                        v-model="email"
+                        v-model="username"
                         dense
                         hide-details
                         outlined
@@ -96,7 +98,7 @@
                     <v-col cols="auto" class="ml-10">이메일 주소</v-col>
                     <v-col cols="auto">
                       <v-text-field
-                        v-model="email"
+                        v-model="pwEmail"
                         dense
                         hide-details
                         outlined
@@ -148,7 +150,7 @@
 </template>
 
 <script>
-import { getUsername } from '@/api/user';
+import { getUsername, createTempPassword } from '@/api/user';
 
 export default {
   created() {
@@ -168,6 +170,8 @@ export default {
       username: '',
       name: '',
       email: '',
+      pwName: '',
+      pwEmail: '',
       tab: 'tab-1',
     };
   },
@@ -184,6 +188,21 @@ export default {
         console.error(error);
       }
       this.dialog = true;
+    },
+    async createTempPassword() {
+      try {
+        const tempPasswordDto = {
+          personName: this.pwName,
+          username: this.username,
+          emailAddress: this.pwEmail,
+        };
+
+        const response = await createTempPassword(tempPasswordDto);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
     },
   },
 };

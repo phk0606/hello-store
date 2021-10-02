@@ -26,6 +26,10 @@ function getUsername(data) {
   return user.get('/getUsername', { params: data });
 }
 
+function createTempPassword(data) {
+  return user.post('/createTempPassword', data);
+}
+
 export {
   getUser,
   getUsers,
@@ -33,4 +37,5 @@ export {
   getUsername,
   modifyPerson,
   modifyPassword,
+  createTempPassword,
 };
