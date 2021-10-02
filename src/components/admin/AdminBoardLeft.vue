@@ -35,7 +35,7 @@
         <router-link to="/admin/product-comment-list"
           ><v-subheader>상품평</v-subheader></router-link
         >
-        <router-link to="/admin/product-regist"
+        <router-link to="/admin/faq-list"
           ><v-subheader>자주하는 질문</v-subheader></router-link
         >
         <router-link to="/admin/product-regist"

@@ -274,7 +274,7 @@ export default {
         {
           title: '자주 하는 질문',
           icon: 'mdi-flag',
-          to: '/admin/category-manage',
+          to: '/admin/faq-list',
         },
         {
           title: '이벤트',

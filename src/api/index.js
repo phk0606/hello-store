@@ -29,6 +29,7 @@ export const policy = createInstanceWithAuth('/policy');
 export const bankAccount = createInstanceWithAuth('/bankAccount');
 export const paymentMethod = createInstanceWithAuth('/paymentMethod');
 export const pointHistory = createInstanceWithAuth('/pointHistory');
+export const faq = createInstanceWithAuth('/faq');
 
 export const posts = createInstanceWithAuth('posts');
 

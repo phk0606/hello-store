@@ -21,7 +21,7 @@
             <v-list-item-title>커뮤니티</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item>
+        <v-list-item to="/service-center/faq">
           <v-icon>mdi-menu-right</v-icon>
           <v-list-item-content>
             <v-list-item-title>자주 하는 질문</v-list-item-title>

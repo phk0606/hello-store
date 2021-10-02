@@ -249,6 +249,14 @@ const routes = [
           ),
       },
       {
+        path: 'faq',
+        name: 'service-center-faq',
+        component: () =>
+          import(
+            /* webpackChunkName: "service-center-faq" */ '@/views/serviceCenter/Faq'
+          ),
+      },
+      {
         path: 'productQnA',
         name: 'service-center-productQnA',
         component: () =>
@@ -478,6 +486,17 @@ const routes = [
         component: () =>
           import(
             /* webpackChunkName: "admin-product-qna-list" */ '@/views/admin/boardManage/ProductQnAList'
+          ),
+        meta: {
+          auth: true,
+        },
+      },
+      {
+        path: 'faq-list',
+        name: 'admin-faq-list',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin-faq-list" */ '@/views/admin/boardManage/FaqList'
           ),
         meta: {
           auth: true,

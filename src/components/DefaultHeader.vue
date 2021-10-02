@@ -365,7 +365,7 @@ export default {
           icon: 'mdi-account',
           to: '/service-center/community',
         },
-        { title: '자주하는질문', icon: 'mdi-flag' },
+        { title: '자주하는질문', icon: 'mdi-flag', to: '/service-center/faq' },
         {
           title: '상품문의',
           icon: 'mdi-flag',
