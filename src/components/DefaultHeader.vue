@@ -262,8 +262,8 @@
               <span :class="font">이벤트</span>
             </v-btn>
             <v-menu open-on-hover offset-y>
-              <template v-slot:activator="{ on }">
-                <v-btn v-on="on">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn v-on="on" v-bind="attrs" to="/service-center/notice">
                   <span :class="font">고객센터</span>
                 </v-btn>
               </template>

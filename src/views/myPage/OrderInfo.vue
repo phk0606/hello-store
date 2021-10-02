@@ -214,7 +214,7 @@ export default {
   name: 'OrderInfo',
   created() {
     const username = this.$store.state.username;
-    this.getOrdersByUsername(username);
+    this.getOrdersByUsername(1, username);
     this.username = username;
   },
   components: {
@@ -229,7 +229,7 @@ export default {
       selected: [],
       page: 1,
       records: 0,
-      perPage: 6,
+      perPage: 5,
       username: '',
       orderDateA: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
         .toISOString()
@@ -249,7 +249,7 @@ export default {
         });
         console.log(data);
 
-        this.getOrdersByUsername(this.username);
+        this.getOrdersByUsername(1, this.username);
       } catch (error) {
         console.log(error);
       }
@@ -298,9 +298,12 @@ export default {
           .substr(0, 10);
       }
     },
-    async getOrdersByPeriod() {
+    async getOrdersByPeriod(page) {
       try {
         const { data } = await getOrdersByUsername({
+          page: page - 1,
+          size: this.perPage,
+
           username: this.username,
           orderDateA: this.orderDateA,
           orderDateB: this.orderDateB,
@@ -315,9 +318,12 @@ export default {
         console.log(error);
       }
     },
-    async getOrdersByUsername(username) {
+    async getOrdersByUsername(page, username) {
       try {
         const { data } = await getOrdersByUsername({
+          page: page - 1,
+          size: this.perPage,
+
           username: username,
         });
         console.log(data);
@@ -332,6 +338,8 @@ export default {
     },
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
+      const username = this.$store.state.username;
+      this.getOrdersByUsername(page, username);
     },
   },
 };
