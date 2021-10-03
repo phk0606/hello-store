@@ -27,25 +27,19 @@
         </v-row>
 
         <v-row dense align="center">
-          <v-col cols="2">
-            <v-select
-              label="제목 + 내용"
-              v-model="searchSelected"
-              :items="searchKeyword"
-              clearable
-              outlined
-              hide-details
-              dense
-              :menu-props="{ offsetY: true }"
-            />
-          </v-col>
           <v-col cols="auto">
-            <v-text-field v-model="searchText" dense hide-details outlined>
+            <v-text-field
+              v-model="searchText"
+              dense
+              hide-details
+              outlined
+              clearable
+            >
               <template v-slot:prepend> <v-card width="10" flat /></template>
             </v-text-field>
           </v-col>
           <v-col cols="auto">
-            <v-btn color="indigo" dark @click="getCommunities(1)">검색</v-btn>
+            <v-btn color="indigo" dark @click="getFaqs(1)">검색</v-btn>
           </v-col>
         </v-row>
         <v-divider />
@@ -215,10 +209,6 @@ export default {
       dialog: false,
       searchSelected: null,
       searchText: '',
-      searchKeyword: [
-        { text: '제목', value: 'title' },
-        { text: '내용', value: 'content' },
-      ],
       faqTypeSelected: [],
       faqTypes: [],
       page: 1,
@@ -332,6 +322,8 @@ export default {
         const { data } = await getFaqs({
           page: page - 1,
           size: this.perPage,
+
+          searchText: this.searchText,
         });
         this.contents = data.content;
         this.perPage = data.size;
