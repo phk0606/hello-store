@@ -70,7 +70,22 @@
 
               <template v-slot:expanded-item="{ headers, item }">
                 <td :colspan="headers.length">
-                  More info about {{ item.name }}
+                  <v-container>
+                    <v-row align="center">
+                      <v-col cols="10">
+                        <v-row>
+                          <v-col> Q. {{ item.question }} </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col> A. {{ item.answer }} </v-col>
+                        </v-row>
+                      </v-col>
+                      <v-col>
+                        <v-btn @click="openDialog(item.faqId)">수정</v-btn
+                        ><v-btn @click="removeFaq(item.faqId)">삭제</v-btn>
+                      </v-col>
+                    </v-row>
+                  </v-container>
                 </td>
               </template>
             </v-data-table>
@@ -98,7 +113,7 @@
         </v-row>
         <v-row align="center">
           <v-col cols="auto">
-            <v-btn @click="openDialog" color="indigo" dark>등록</v-btn>
+            <v-btn @click="openDialog(null)" color="indigo" dark>등록</v-btn>
           </v-col>
         </v-row>
       </v-col>
@@ -119,8 +134,8 @@
                   <v-col>
                     <v-select
                       label="카테고리 선택"
-                      v-model="categorySelected"
-                      :items="categories"
+                      v-model="faqTypeSelected"
+                      :items="faqTypes"
                       item-text="faqTypeValue"
                       item-value="faqType"
                       clearable
@@ -158,7 +173,9 @@
             </v-card-text>
             <v-card-actions>
               <v-spacer />
-              <v-btn color="blue darken-1" text> 저장 </v-btn>
+              <v-btn @click="createOrModifyFaq" color="blue darken-1" text>
+                저장
+              </v-btn>
               <v-btn color="blue darken-1" text @click="dialog = false">
                 닫기
               </v-btn>
@@ -171,15 +188,20 @@
 </template>
 
 <script>
-import { getCommunities } from '@/api/community';
-import { getCategories } from '@/api/faq';
+import {
+  getCategories,
+  createFaq,
+  getFaqs,
+  getFaq,
+  modifyFaq,
+  removeFaq,
+} from '@/api/faq';
 import AdminBoardLeft from '@/components/admin/AdminBoardLeft.vue';
 import Pagination from 'vue-pagination-2';
 
 export default {
   created() {
-    this.getCommunities(1);
-    this.getCategories();
+    this.getFaqs(1);
   },
   components: {
     Pagination,
@@ -187,6 +209,7 @@ export default {
   },
   data() {
     return {
+      faqId: null,
       question: '',
       answer: '',
       dialog: false,
@@ -196,8 +219,8 @@ export default {
         { text: '제목', value: 'title' },
         { text: '내용', value: 'content' },
       ],
-      categorySelected: [],
-      categories: [],
+      faqTypeSelected: [],
+      faqTypes: [],
       page: 1,
       records: 0,
       perPage: 5,
@@ -207,10 +230,11 @@ export default {
           text: '번호',
           align: 'center',
           sortable: false,
-          value: 'communityId',
+          value: 'faqId',
+          width: '10%',
         },
-        { text: '분류', align: 'center', value: 'category' },
-        { text: '제목', align: 'center', sortable: false, value: 'title' },
+        { text: '분류', align: 'center', value: 'faqTypeValue', width: '20%' },
+        { text: '제목', align: 'center', sortable: false, value: 'question' },
         { text: '', value: 'data-table-expand' },
       ],
       contents: [],
@@ -229,24 +253,85 @@ export default {
     };
   },
   methods: {
-    openDialog() {
+    createOrModifyFaq() {
+      if (this.faqId) {
+        this.modifyFaq(this.faqId);
+      } else {
+        this.createFaq();
+      }
+      this.closeDialog();
+    },
+    openDialog(faqId) {
+      console.log(faqId);
+      this.getCategories();
       this.dialog = true;
+
+      if (faqId) {
+        this.getFaq(faqId);
+      }
+    },
+    closeDialog() {
+      this.dialog = false;
+      this.faqId = null;
+      this.question = '';
+      this.answer = '';
+      this.faqTypeSelected = [];
     },
     async getCategories() {
       try {
         const { data } = await getCategories({});
-        this.categories = data;
+        this.faqTypes = data;
         console.log(data);
       } catch (error) {
         console.error(error);
       }
     },
-    async getCommunities(page) {
+    async createFaq() {
       try {
-        const { data } = await getCommunities({
+        const faqDto = {
+          question: this.question,
+          answer: this.answer,
+          faqType: this.faqTypeSelected,
+        };
+
+        const response = await createFaq(faqDto);
+        console.log(response);
+        this.getFaqs(1);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
+    async removeFaq(faqId) {
+      try {
+        await removeFaq({
+          faqId: faqId,
+        });
+        //console.log(data);
+        this.getFaqs(1);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async modifyFaq(faqId) {
+      try {
+        const { data } = await modifyFaq({
+          faqId: faqId,
+          question: this.question,
+          answer: this.answer,
+          faqType: this.faqTypeSelected,
+        });
+        console.log(data);
+        this.getFaqs(1);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getFaqs(page) {
+      try {
+        const { data } = await getFaqs({
           page: page - 1,
           size: this.perPage,
-          [this.searchSelected]: this.searchText,
         });
         this.contents = data.content;
         this.perPage = data.size;
@@ -257,9 +342,23 @@ export default {
         console.error(error);
       }
     },
+    async getFaq(faqId) {
+      try {
+        const { data } = await getFaq({
+          faqId: faqId,
+        });
+        this.faqId = data.faqId;
+        this.faqTypeSelected = data.faqType;
+        this.question = data.question;
+        this.answer = data.answer;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
-      this.getCommunities(page);
+      this.getFaqs(page);
     },
   },
 };
