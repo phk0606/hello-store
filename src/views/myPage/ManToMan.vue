@@ -91,8 +91,16 @@
         </v-card-title>
         <v-card-text>
           <v-container>
+            <v-row>
+              <v-col cols="9">
+                <v-row justify="end">
+                  <v-col cols="auto">{{ createdBy }}</v-col
+                  ><v-col cols="auto">{{ createdDate }}</v-col>
+                </v-row>
+              </v-col>
+            </v-row>
             <v-row dense>
-              <v-col>
+              <v-col cols="9">
                 <v-select
                   label="질문 유형 선택"
                   v-model="manToManQuestionSelected"
@@ -108,7 +116,7 @@
               </v-col>
             </v-row>
             <v-row dense>
-              <v-col>
+              <v-col cols="9">
                 <v-text-field
                   v-model="manToManQuestionTitle"
                   label="질문을 입력하세요."
@@ -120,13 +128,44 @@
               </v-col>
             </v-row>
             <v-row dense>
-              <v-col>
+              <v-col cols="9">
                 <v-textarea
                   v-model="manToManQuestionContent"
                   label="내용을 입력하세요."
                   outlined
                   hide-details
-                  rows="3"
+                  rows="5"
+                />
+              </v-col>
+              <v-col cols="1" class="d-flex">
+                <v-btn
+                  @click="createOrModifyManToManQuestion"
+                  outlined
+                  small
+                  color="purple"
+                  class="mr-2"
+                >
+                  질문 저장
+                </v-btn>
+                <v-btn
+                  @click="removeManToManQuestion"
+                  outlined
+                  small
+                  color="red"
+                >
+                  삭제
+                </v-btn>
+              </v-col>
+            </v-row>
+            <v-row v-if="manToManAnswerContent" dense>
+              <v-col cols="9">
+                <v-textarea
+                  label="답변"
+                  v-model="manToManAnswerContent"
+                  outlined
+                  hide-details
+                  rows="5"
+                  readonly
                 />
               </v-col>
             </v-row>
@@ -134,9 +173,6 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer />
-          <v-btn @click="createManToManQuestion" color="blue darken-1" text>
-            저장
-          </v-btn>
           <v-btn color="blue darken-1" text @click="dialog = false">
             닫기
           </v-btn>
@@ -152,6 +188,8 @@ import {
   getManToManQnA,
   getManToManQuestions,
   getManToManQuestionTypes,
+  modifyManToManQuestion,
+  removeManToManQuestion,
 } from '@/api/manToManQnA';
 import Pagination from 'vue-pagination-2';
 
@@ -169,7 +207,9 @@ export default {
       manToManQuestionId: null,
       manToManQuestionTitle: '',
       manToManQuestionContent: '',
-      manToManAnswer: '',
+      manToManAnswerContent: '',
+      createdBy: '',
+      createdDate: '',
       dialog: false,
       searchText: '',
       page: 1,
@@ -237,9 +277,46 @@ export default {
     closeDialog() {
       this.dialog = false;
       this.manToManQuestionId = null;
-      this.question = '';
-      this.answer = '';
+      this.manToManQuestionTitle = '';
+      this.manToManQuestionContent = '';
+      this.manToManAnswerContent = '';
       this.manToManQuestionTypeSelected = [];
+    },
+    createOrModifyManToManQuestion() {
+      if (this.manToManQuestionId) {
+        this.modifyManToManQuestion();
+      } else {
+        this.createManToManQuestion();
+      }
+    },
+    async removeManToManQuestion() {
+      try {
+        await removeManToManQuestion({
+          manToManQuestionId: this.manToManQuestionId,
+        });
+        //console.log(data);
+        this.closeDialog();
+        this.getManToManQuestions(1);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async modifyManToManQuestion() {
+      try {
+        const { data } = await modifyManToManQuestion({
+          manToManQuestionId: this.manToManQuestionId,
+          manToManQuestionTitle: this.manToManQuestionTitle,
+          manToManQuestionContent: this.manToManQuestionContent,
+          manToManQuestionType: this.manToManQuestionSelected,
+        });
+        console.log(data);
+
+        this.closeDialog();
+
+        this.getManToManQuestions(1);
+      } catch (error) {
+        console.error(error);
+      }
     },
     async getManToManQuestionTypes() {
       try {
@@ -260,6 +337,7 @@ export default {
 
         const response = await createManToManQuestion(manToManQuestionDto);
         console.log(response);
+        this.closeDialog();
         this.getManToManQuestions(1);
       } catch (error) {
         console.log(error);
@@ -292,8 +370,10 @@ export default {
         this.manToManQuestionId = data.manToManQuestionId;
         this.manToManQuestionTitle = data.manToManQuestionTitle;
         this.manToManQuestionContent = data.manToManQuestionContent;
-        this.manToManAnswer = data.manToManAnswerContent;
+        this.manToManAnswerContent = data.manToManAnswerContent;
         this.manToManQuestionSelected = data.manToManQuestionType;
+        this.createdBy = data.createdBy;
+        this.createdDate = data.createdDate;
         console.log(data);
       } catch (error) {
         console.error(error);
