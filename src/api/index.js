@@ -30,6 +30,7 @@ export const bankAccount = createInstanceWithAuth('/bankAccount');
 export const paymentMethod = createInstanceWithAuth('/paymentMethod');
 export const pointHistory = createInstanceWithAuth('/pointHistory');
 export const faq = createInstanceWithAuth('/faq');
+export const manToManQnA = createInstanceWithAuth('/manToManQnA');
 
 export const posts = createInstanceWithAuth('posts');
 

@@ -62,7 +62,7 @@
     <v-list dense>
       <v-list-item-group>
         <v-subheader>게시판 이용 내역</v-subheader>
-        <v-list-item>
+        <v-list-item to="/my-page/manToMan">
           <v-icon>mdi-menu-right</v-icon>
           <v-list-item-content>
             <v-list-item-title>1:1 문의</v-list-item-title>

@@ -264,7 +264,7 @@ export default {
         {
           title: '1:1 문의',
           icon: 'mdi-flag',
-          to: '/admin/category-manage',
+          to: '/admin/mantoman-list',
         },
         {
           title: '상품평',

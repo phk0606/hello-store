@@ -63,11 +63,7 @@
             <v-btn small value="left" class="mr-0" to="/my-page/order-info"
               >주문 내역</v-btn
             >
-            <v-btn
-              small
-              value="center"
-              class="mr-0"
-              to="/authentication/sign-in"
+            <v-btn small value="center" class="mr-0" to="/my-page/manToMan"
               >1:1문의</v-btn
             >
             <v-btn @click="logoutUser" small value="right" class="mr-0"

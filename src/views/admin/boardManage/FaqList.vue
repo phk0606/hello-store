@@ -26,7 +26,7 @@
           </v-col>
         </v-row>
 
-        <v-row dense align="center">
+        <v-row dense align="center" justify="center">
           <v-col cols="auto">
             <v-text-field
               v-model="searchText"
@@ -40,6 +40,12 @@
           </v-col>
           <v-col cols="auto">
             <v-btn color="indigo" dark @click="getFaqs(1)">검색</v-btn>
+          </v-col>
+        </v-row>
+        <v-row dense align="center" justify="center">
+          <v-col cols="auto"> BEST 검색어: </v-col>
+          <v-col cols="auto" v-for="(text, i) in bestSearchTexts" :key="i">
+            <v-btn @click="getFaqsBest(text)" text>{{ text }}</v-btn>
           </v-col>
         </v-row>
         <v-divider />
@@ -207,6 +213,7 @@ export default {
       answer: '',
       dialog: false,
       searchText: '',
+      bestSearchTexts: ['배송', '환불', '교환', '품절', '사이즈'],
       faqTypeSelected: [],
       faqTypes: [],
       page: 1,
@@ -240,6 +247,10 @@ export default {
     };
   },
   methods: {
+    getFaqsBest(text) {
+      this.searchText = text;
+      this.getFaqs(1);
+    },
     createOrModifyFaq() {
       if (this.faqId) {
         this.modifyFaq(this.faqId);

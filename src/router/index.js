@@ -144,6 +144,17 @@ const routes = [
         },
       },
       {
+        path: 'manToMan',
+        name: 'my-page-manToMan',
+        component: () =>
+          import(
+            /* webpackChunkName: "my-page-manToMan" */ '@/views/myPage/ManToMan'
+          ),
+        meta: {
+          auth: true,
+        },
+      },
+      {
         path: 'product-comment',
         name: 'my-page-product-comment',
         component: () =>
@@ -475,6 +486,17 @@ const routes = [
         component: () =>
           import(
             /* webpackChunkName: "admin-product-comment-list" */ '@/views/admin/boardManage/ProductCommentList'
+          ),
+        meta: {
+          auth: true,
+        },
+      },
+      {
+        path: 'mantoman-list',
+        name: 'admin-mantoman-list',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin-mantoman-list" */ '@/views/admin/boardManage/ManToManList'
           ),
         meta: {
           auth: true,

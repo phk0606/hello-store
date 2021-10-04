@@ -29,7 +29,7 @@
         <router-link to="/admin/product-qna-list"
           ><v-subheader>상품 문의</v-subheader></router-link
         >
-        <router-link to="/admin/product-regist"
+        <router-link to="/admin/mantoman-list"
           ><v-subheader>1:1 문의</v-subheader></router-link
         >
         <router-link to="/admin/product-comment-list"
