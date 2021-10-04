@@ -11,7 +11,7 @@
           </v-col>
         </v-row>
 
-        <v-row dense align="center">
+        <v-row dense align="center" justify="center">
           <v-col cols="auto">
             <v-text-field
               v-model="searchText"
@@ -25,6 +25,12 @@
           </v-col>
           <v-col cols="auto">
             <v-btn color="indigo" dark @click="getFaqs(1)">검색</v-btn>
+          </v-col>
+        </v-row>
+        <v-row dense align="center" justify="center">
+          <v-col cols="auto"> BEST 검색어: </v-col>
+          <v-col cols="auto" v-for="(text, i) in bestSearchTexts" :key="i">
+            <v-btn @click="getFaqsBest(text)" text>{{ text }}</v-btn>
           </v-col>
         </v-row>
         <v-divider />
@@ -133,6 +139,7 @@ export default {
         { value: 'CANCEL', text: '취소' },
       ],
       searchText: '',
+      bestSearchTexts: ['배송', '환불', '교환', '품절', '사이즈'],
       page: 1,
       records: 0,
       perPage: 5,
@@ -152,6 +159,10 @@ export default {
     };
   },
   methods: {
+    getFaqsBest(text) {
+      this.searchText = text;
+      this.getFaqs(1, this.tabs[0].value);
+    },
     async getFaqs(page, faqType) {
       try {
         const { data } = await getFaqs({
