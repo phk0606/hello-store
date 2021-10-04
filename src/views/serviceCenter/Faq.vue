@@ -12,25 +12,19 @@
         </v-row>
 
         <v-row dense align="center">
-          <v-col cols="2">
-            <v-select
-              label="제목 + 내용"
-              v-model="searchSelected"
-              :items="searchKeyword"
-              clearable
-              outlined
-              hide-details
-              dense
-              :menu-props="{ offsetY: true }"
-            />
-          </v-col>
           <v-col cols="auto">
-            <v-text-field v-model="searchText" dense hide-details outlined>
+            <v-text-field
+              v-model="searchText"
+              dense
+              hide-details
+              outlined
+              clearable
+            >
               <template v-slot:prepend> <v-card width="10" flat /></template>
             </v-text-field>
           </v-col>
           <v-col cols="auto">
-            <v-btn color="indigo" dark @click="getCommunities(1)">검색</v-btn>
+            <v-btn color="indigo" dark @click="getFaqs(1)">검색</v-btn>
           </v-col>
         </v-row>
         <v-divider />
@@ -43,7 +37,11 @@
                 slider-color="red"
                 dark
               >
-                <v-tab v-for="tab of tabs" :key="tab.value">
+                <v-tab
+                  v-for="tab of tabs"
+                  :key="tab.value"
+                  @click="getFaqs(1, tab.value)"
+                >
                   {{ tab.text }}
                 </v-tab>
               </v-tabs>
@@ -54,7 +52,6 @@
           <v-col>
             <v-data-table
               hide-default-footer
-              v-model="selected"
               :headers="headers"
               :items="contents"
               item-key="communityId"
@@ -71,7 +68,18 @@
 
               <template v-slot:expanded-item="{ headers, item }">
                 <td :colspan="headers.length">
-                  More info about {{ item.name }}
+                  <v-container>
+                    <v-row align="center">
+                      <v-col cols="10">
+                        <v-row>
+                          <v-col> Q. {{ item.question }} </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col> A. {{ item.answer }} </v-col>
+                        </v-row>
+                      </v-col>
+                    </v-row>
+                  </v-container>
                 </td>
               </template>
             </v-data-table>
@@ -103,12 +111,12 @@
 </template>
 
 <script>
-import { getCommunities } from '@/api/community';
+import { getFaqs } from '@/api/faq';
 import Pagination from 'vue-pagination-2';
 
 export default {
   created() {
-    this.getCommunities(1);
+    this.getFaqs(1, this.tabs[0].value);
   },
   components: {
     Pagination,
@@ -117,43 +125,41 @@ export default {
     return {
       activeTab: 0,
       tabs: [
+        { value: '', text: '전체보기' },
         { value: 'ORDER', text: '주문' },
         { value: 'SHIPPING', text: '배송' },
         { value: 'PRODUCT', text: '상품' },
         { value: 'EXCHANGE', text: '교환/반품' },
         { value: 'CANCEL', text: '취소' },
       ],
-      searchSelected: null,
       searchText: '',
-      searchKeyword: [
-        { text: '제목', value: 'title' },
-        { text: '내용', value: 'content' },
-      ],
       page: 1,
       records: 0,
       perPage: 5,
-      selected: [],
       headers: [
         {
           text: '번호',
           align: 'center',
           sortable: false,
-          value: 'communityId',
+          value: 'faqId',
+          width: '10%',
         },
-        { text: '분류', align: 'center', value: 'category' },
-        { text: '제목', align: 'center', sortable: false, value: 'title' },
+        { text: '분류', align: 'center', value: 'faqTypeValue', width: '20%' },
+        { text: '제목', align: 'center', sortable: false, value: 'question' },
         { text: '', value: 'data-table-expand' },
       ],
       contents: [],
     };
   },
   methods: {
-    async getCommunities(page) {
+    async getFaqs(page, faqType) {
       try {
-        const { data } = await getCommunities({
+        const { data } = await getFaqs({
           page: page - 1,
           size: this.perPage,
-          [this.searchSelected]: this.searchText,
+
+          searchText: this.searchText,
+          faqType: faqType,
         });
         this.contents = data.content;
         this.perPage = data.size;
@@ -166,7 +172,7 @@ export default {
     },
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
-      this.getCommunities(page);
+      this.getFaqs(page, this.tabs[this.activeTab].value);
     },
   },
 };

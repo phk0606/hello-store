@@ -47,7 +47,6 @@
           <v-col>
             <v-data-table
               hide-default-footer
-              v-model="selected"
               :headers="headers"
               :items="contents"
               item-key="communityId"
@@ -207,14 +206,12 @@ export default {
       question: '',
       answer: '',
       dialog: false,
-      searchSelected: null,
       searchText: '',
       faqTypeSelected: [],
       faqTypes: [],
       page: 1,
       records: 0,
       perPage: 5,
-      selected: [],
       headers: [
         {
           text: '번호',
