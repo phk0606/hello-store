@@ -9,16 +9,7 @@
       </v-col>
     </v-row>
 
-    <v-row dense align="center">
-      <v-col cols="3">
-        <v-checkbox
-          v-model="noAnswer"
-          dense
-          hide-details
-          label="답변 없는 문의만 보기"
-          class="mr-2"
-        />
-      </v-col>
+    <v-row dense align="center" justify="center">
       <v-col cols="auto">
         <v-text-field
           v-model="searchText"
@@ -26,6 +17,7 @@
           hide-details
           outlined
           label="제목 또는 내용"
+          clearable
         >
           <template v-slot:prepend> <v-card width="10" flat /></template>
         </v-text-field>
@@ -41,7 +33,7 @@
           hide-default-footer
           :headers="headers"
           :items="contents"
-          item-key="communityId"
+          item-key="manToManQuestionId"
           class="elevation-1"
           disable-sort
         >
@@ -174,7 +166,6 @@ export default {
     return {
       manToManQuestionTypes: [],
       manToManQuestionSelected: null,
-      noAnswer: null,
       manToManQuestionId: null,
       manToManQuestionTitle: '',
       manToManQuestionContent: '',

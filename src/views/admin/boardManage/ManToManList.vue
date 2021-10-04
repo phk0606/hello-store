@@ -30,6 +30,7 @@
           <v-col cols="3">
             <v-checkbox
               v-model="noAnswer"
+              @click="getManToManQuestions(1)"
               dense
               hide-details
               label="답변 없는 문의만 보기"
@@ -37,24 +38,21 @@
             />
           </v-col>
           <v-col cols="auto">
-            <v-select
-              label="제목 + 내용"
-              v-model="searchSelected"
-              :items="searchKeyword"
-              clearable
-              outlined
-              hide-details
+            <v-text-field
+              v-model="searchText"
               dense
-              :menu-props="{ offsetY: true }"
-            />
-          </v-col>
-          <v-col cols="auto">
-            <v-text-field v-model="searchText" dense hide-details outlined>
+              hide-details
+              outlined
+              label="제목 또는 내용"
+              clearable
+            >
               <template v-slot:prepend> <v-card width="10" flat /></template>
             </v-text-field>
           </v-col>
           <v-col cols="auto">
-            <v-btn color="indigo" dark @click="getCommunities(1)">검색</v-btn>
+            <v-btn color="indigo" dark @click="getManToManQuestions(1)"
+              >검색</v-btn
+            >
           </v-col>
         </v-row>
         <v-divider />
@@ -64,14 +62,22 @@
               hide-default-footer
               :headers="headers"
               :items="contents"
-              item-key="communityId"
+              item-key="manToManQuestionId"
               class="elevation-1"
               disable-sort
             >
               <template v-slot:[`item.manToManDetail`]="{ item }">
                 <v-row justify="center"
-                  ><v-btn :to="`/admin/notice-detail/${item.noticeId}`"
+                  ><v-btn @click="openDialog(item.manToManQuestionId)"
                     >상세 보기</v-btn
+                  ></v-row
+                >
+              </template>
+              <template v-slot:[`item.answerYn`]="{ item }">
+                <v-row justify="center"
+                  ><v-col
+                    ><span v-if="item.manToManAnswerId">답변완료</span
+                    ><span v-else>미답변</span></v-col
                   ></v-row
                 >
               </template>
@@ -100,17 +106,84 @@
         </v-row>
       </v-col>
     </v-row>
+    <v-dialog v-model="dialog" persistent max-width="600px">
+      <v-card>
+        <v-card-title>
+          <span class="text-h5"
+            ><v-icon large color="indigo"> mdi-lead-pencil </v-icon>1:1
+            문의</span
+          >
+        </v-card-title>
+        <v-card-text>
+          <v-container>
+            <v-row dense>
+              <v-col>
+                <v-select
+                  label="질문 유형 선택"
+                  v-model="manToManQuestionSelected"
+                  :items="manToManQuestionTypes"
+                  item-text="manToManQuestionTypeValue"
+                  item-value="manToManQuestionType"
+                  clearable
+                  outlined
+                  hide-details
+                  dense
+                  :menu-props="{ offsetY: true }"
+                />
+              </v-col>
+            </v-row>
+            <v-row dense>
+              <v-col>
+                <v-text-field
+                  v-model="manToManQuestionTitle"
+                  label="질문을 입력하세요."
+                  hide-details
+                  dense
+                  required
+                  outlined
+                />
+              </v-col>
+            </v-row>
+            <v-row dense>
+              <v-col>
+                <v-textarea
+                  v-model="manToManQuestionContent"
+                  label="내용을 입력하세요."
+                  outlined
+                  hide-details
+                  rows="3"
+                />
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn @click="createManToManQuestion" color="blue darken-1" text>
+            저장
+          </v-btn>
+          <v-btn color="blue darken-1" text @click="dialog = false">
+            닫기
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script>
-import { getFaqs, getFaq } from '@/api/faq';
+import {
+  createManToManQuestion,
+  getManToManQnA,
+  getManToManQuestions,
+  getManToManQuestionTypes,
+} from '@/api/manToManQnA';
 import AdminBoardLeft from '@/components/admin/AdminBoardLeft.vue';
 import Pagination from 'vue-pagination-2';
 
 export default {
   created() {
-    this.getFaqs(1);
+    this.getManToManQuestions(1);
   },
   components: {
     Pagination,
@@ -118,17 +191,15 @@ export default {
   },
   data() {
     return {
+      manToManQuestionTypes: [],
+      manToManQuestionSelected: null,
       noAnswer: null,
-      faqId: null,
-      question: '',
-      answer: '',
+      manToManQuestionId: null,
+      manToManQuestionTitle: '',
+      manToManQuestionContent: '',
+      manToManAnswer: '',
       dialog: false,
-      searchSelected: null,
       searchText: '',
-      searchKeyword: [
-        { text: '제목', value: 'title' },
-        { text: '내용', value: 'content' },
-      ],
       page: 1,
       records: 0,
       perPage: 5,
@@ -137,18 +208,33 @@ export default {
           text: '번호',
           align: 'center',
           sortable: false,
-          value: 'faqId',
+          value: 'manToManQuestionId',
         },
-        { text: '유형', align: 'center', value: 'faqTypeValue' },
-        { text: '제목', align: 'center', sortable: false, value: 'question' },
-        { text: '작성자', align: 'center', sortable: false, value: 'question' },
+        { text: '유형', align: 'center', value: 'manToManQuestionTypeValue' },
+        {
+          text: '제목',
+          align: 'center',
+          sortable: false,
+          value: 'manToManQuestionTitle',
+        },
+        {
+          text: '작성자',
+          align: 'center',
+          sortable: false,
+          value: 'createdBy',
+        },
         {
           text: '답변여부',
           align: 'center',
           sortable: false,
           value: 'answerYn',
         },
-        { text: '작성일', align: 'center', sortable: false, value: 'question' },
+        {
+          text: '작성일',
+          align: 'center',
+          sortable: false,
+          value: 'createdDate',
+        },
         { text: '상세보기', align: 'center', value: 'manToManDetail' },
       ],
       contents: [],
@@ -167,17 +253,55 @@ export default {
     };
   },
   methods: {
-    getFaqsBest(text) {
-      this.searchText = text;
-      this.getFaqs(1);
+    openDialog(manToManQuestionId) {
+      console.log(manToManQuestionId);
+      this.getManToManQuestionTypes();
+      this.dialog = true;
+
+      if (manToManQuestionId) {
+        this.getManToManQnA(manToManQuestionId);
+      }
+    },
+    closeDialog() {
+      this.dialog = false;
+      this.manToManQuestionId = null;
+      this.question = '';
+      this.answer = '';
+      this.manToManQuestionTypeSelected = [];
+    },
+    async getManToManQuestionTypes() {
+      try {
+        const { data } = await getManToManQuestionTypes({});
+        this.manToManQuestionTypes = data;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async createManToManQuestion() {
+      try {
+        const manToManQuestionDto = {
+          manToManQuestionTitle: this.manToManQuestionTitle,
+          manToManQuestionContent: this.manToManQuestionContent,
+          manToManQuestionType: this.manToManQuestionSelected,
+        };
+
+        const response = await createManToManQuestion(manToManQuestionDto);
+        console.log(response);
+        this.getManToManQuestions(1);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
     },
 
-    async getFaqs(page) {
+    async getManToManQuestions(page) {
       try {
-        const { data } = await getFaqs({
+        const { data } = await getManToManQuestions({
           page: page - 1,
           size: this.perPage,
 
+          noAnswer: this.noAnswer,
           searchText: this.searchText,
         });
         this.contents = data.content;
@@ -189,15 +313,16 @@ export default {
         console.error(error);
       }
     },
-    async getFaq(faqId) {
+    async getManToManQnA(manToManQuestionId) {
       try {
-        const { data } = await getFaq({
-          faqId: faqId,
+        const { data } = await getManToManQnA({
+          manToManQuestionId: manToManQuestionId,
         });
-        this.faqId = data.faqId;
-        this.faqTypeSelected = data.faqType;
-        this.question = data.question;
-        this.answer = data.answer;
+        this.manToManQuestionId = data.manToManQuestionId;
+        this.manToManQuestionTitle = data.manToManQuestionTitle;
+        this.manToManQuestionContent = data.manToManQuestionContent;
+        this.manToManAnswer = data.manToManAnswerContent;
+        this.manToManQuestionSelected = data.manToManQuestionType;
         console.log(data);
       } catch (error) {
         console.error(error);
@@ -205,7 +330,7 @@ export default {
     },
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
-      this.getFaqs(page);
+      this.getManToManQuestions(page);
     },
   },
 };
