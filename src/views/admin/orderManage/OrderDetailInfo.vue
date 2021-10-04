@@ -117,7 +117,6 @@
               :headers="headers"
               :items="orderProducts"
               item-key="orderProductId"
-              show-select
               class="elevation-1"
               disable-sort
             >
@@ -168,9 +167,6 @@
                         dense
                         :menu-props="{ offsetY: true }"
                         return-object
-                        @change="
-                          setFirstSelected(item.productOptions[0].optionValue)
-                        "
                       />
                     </v-col>
                   </v-row>
@@ -197,9 +193,6 @@
                         dense
                         :menu-props="{ offsetY: true }"
                         return-object
-                        @change="
-                          setFirstSelected(item.productOptions[0].optionValue)
-                        "
                       />
                     </v-col>
                   </v-row>
@@ -249,6 +242,7 @@
                         hide-details
                         dense
                         solo-inverted
+                        readonly
                         required
                     /></v-col>
                   </v-row>
@@ -263,6 +257,7 @@
                         solo-inverted
                         value="01012341234"
                         counter="11"
+                        readonly
                         required
                     /></v-col>
                   </v-row>
@@ -284,16 +279,14 @@
                   </v-row>
                   <v-divider />
                   <v-row dense align="center">
-                    <v-col cols="2">
-                      <div class="subtitle-1">*주소:</div>
-                    </v-col>
                     <v-col>
-                      <v-text-field
-                        v-model="fullAddress"
-                        hide-details
-                        dense
-                        required
-                        solo-inverted
+                      <Address
+                        v-on:setAddress="setAddress"
+                        v-on:setDetailAddress="setDetailAddress"
+                        :zonecode="zoneCode"
+                        :roadAddress="roadAddress"
+                        :address="address"
+                        :detailAddress="detailAddress"
                       />
                     </v-col>
                   </v-row>
@@ -441,7 +434,7 @@
                   <v-divider />
                   <v-row justify="center">
                     <v-col cols="auto">
-                      <v-btn>저장</v-btn>
+                      <v-btn @click="modifyOrder">저장</v-btn>
                       <v-btn to="/admin/order-list" color="ml-3">취소</v-btn>
                     </v-col>
                   </v-row>
@@ -456,8 +449,9 @@
 </template>
 
 <script>
-import { getOrder, orderCancel } from '@/api/order';
+import { getOrder, orderCancel, modifyOrder } from '@/api/order';
 import AdminOrderLeft from '@/components/admin/AdminOrderLeft.vue';
+import Address from '@/components/Address';
 
 export default {
   name: 'OrderDetailInfo',
@@ -468,8 +462,46 @@ export default {
   },
   components: {
     AdminOrderLeft,
+    Address,
   },
   methods: {
+    setAddress(zonecode, roadAddress, address) {
+      // console.log(zonecode, roadAddress, address);
+      this.zoneCode = zonecode;
+      this.roadAddress = roadAddress;
+      this.address = address;
+    },
+    setDetailAddress(detailAddress) {
+      // console.log(detailAddress);
+      this.detailAddress = detailAddress;
+    },
+    async modifyOrder() {
+      try {
+        const { data } = await modifyOrder({
+          orderId: this.orderId,
+          paymentStatus: this.paymentStatusSelected,
+          orderDeliveryStatus: this.orderDeliveryStatusSelected,
+          recipientName: this.recipientName,
+          deliveryId: this.deliveryId,
+          orderProducts: this.orderProducts,
+          address: {
+            zoneCode: this.zoneCode,
+            roadAddress: this.roadAddress,
+            address: this.address,
+            detailAddress: this.detailAddress,
+          },
+          recipientPhoneNumber: this.recipientPhoneNumber,
+          requirement: this.requirement,
+        });
+        console.log(data);
+
+        this.closeDialog();
+
+        this.getManToManQuestions(1);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async orderCancel(orderId) {
       try {
         const { data } = await orderCancel({
@@ -482,14 +514,6 @@ export default {
         console.log(error);
       }
     },
-    setFirstSelected(selected) {
-      console.log(selected);
-      this.firstSelected = selected;
-    },
-    setSecondSelected(selected) {
-      console.log(selected);
-      this.secondSelected = selected;
-    },
     async getOrder(orderId) {
       try {
         const { data } = await getOrder({
@@ -500,11 +524,14 @@ export default {
         this.username = data.username;
         this.phoneNumber = data.phoneNumber;
         this.orderProducts = data.orderProducts;
+        this.deliveryId = data.deliveryId;
         this.requirement = data.requirement;
         this.recipientName = data.recipientName;
         this.recipientPhoneNumber = data.recipientPhoneNumber;
-        this.fullAddress =
-          data.address.address + ' ' + data.address.detailAddress;
+        this.zoneCode = data.address.zoneCode;
+        this.roadAddress = data.address.roadAddress;
+        this.address = data.address.address;
+        this.detailAddress = data.address.detailAddress;
 
         this.paymentMethodType = data.paymentMethodType;
         this.paymentMethodTypeValue = data.paymentMethodTypeValue;
@@ -528,6 +555,10 @@ export default {
   },
   data() {
     return {
+      zoneCode: '',
+      roadAddress: '',
+      address: '',
+      detailAddress: '',
       usedPoint: null,
       depositAccount: '',
       depositorName: '',
@@ -546,8 +577,6 @@ export default {
           optionValue: '',
         },
       ],
-      firstSelected: null,
-      secondSelected: null,
       paymentStatusSelected: null,
       paymentStatus: [
         { text: '결제 전', value: 'BEFORE' },
@@ -585,9 +614,9 @@ export default {
       username: '',
       phoneNumber: '',
       requirement: '',
+      deliveryId: null,
       recipientName: '',
       recipientPhoneNumber: '',
-      fullAddress: '',
       paymentMethodType: '',
       paymentMethodTypeValue: '',
       paymentPrice: '',
