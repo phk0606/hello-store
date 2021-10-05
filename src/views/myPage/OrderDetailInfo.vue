@@ -309,6 +309,7 @@
                       orderDeliveryStatus === 'SHIPPING' ||
                       orderDeliveryStatus === 'COMPLETE_SHIP'
                     "
+                    :to="`/my-page/exchange/${orderId}`"
                     >교환/환불</v-btn
                   >
                 </v-col>
