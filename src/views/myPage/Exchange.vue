@@ -41,19 +41,19 @@
               {{ item.productOptions[1].optionValue }}</v-row
             >
           </template>
-          <template v-slot:[`item.exchangeRefund`]="{ item }">
+          <template v-slot:[`item.exchangeRefundType`]="{ item }">
             <v-row dense align="center">
               <v-col
                 ><v-radio-group
-                  v-model="item.exchangeRefund"
+                  v-model="item.exchangeRefundType"
                   dense
                   row
                   hide-details
                 >
-                  <v-radio value="exchange" label="교환" />
+                  <v-radio value="EXCHANGE" label="교환" />
                   <v-radio
                     class="mr-0"
-                    value="refund"
+                    value="REFUND"
                     label="환불"
                   /> </v-radio-group
               ></v-col>
@@ -102,7 +102,14 @@
             <v-divider />
             <v-row dense align="center">
               <v-col cols="2"><div class="subtitle-1">내용 작성:</div></v-col>
-              <v-col><v-textarea hide-details dense filled no-resize /></v-col>
+              <v-col
+                ><v-textarea
+                  v-model="content"
+                  hide-details
+                  dense
+                  filled
+                  no-resize
+              /></v-col>
             </v-row>
             <v-divider />
             <v-row>
@@ -168,13 +175,16 @@
       </v-col>
     </v-row>
     <v-row justify="end">
-      <v-col cols="auto"><v-btn>신청하기</v-btn></v-col>
+      <v-col cols="auto"
+        ><v-btn @click="createExchangeRefund">신청하기</v-btn></v-col
+      >
     </v-row>
   </v-container>
 </template>
 
 <script>
 import { getOrder } from '@/api/order';
+import { createExchangeRefund } from '@/api/exchangeRefund';
 
 export default {
   name: 'Exchange',
@@ -207,6 +217,42 @@ export default {
     },
   },
   methods: {
+    async createExchangeRefund() {
+      try {
+        const formData = new FormData();
+
+        if (this.image1 != null) {
+          formData.append('exchangeRefundImages', this.image1);
+        }
+
+        if (this.image2 != null) {
+          formData.append('exchangeRefundImages', this.image2);
+        }
+
+        if (this.image3 != null) {
+          formData.append('exchangeRefundImages', this.image3);
+        }
+
+        const exchangeRefundDto = {
+          exchangeRefundProducts: this.selected,
+          exchangeRefundReasonType: this.exchangeRefundReasonType,
+          content: this.content,
+        };
+
+        formData.append(
+          'exchangeRefundDto',
+          new Blob([JSON.stringify(exchangeRefundDto)], {
+            type: 'application/json',
+          }),
+        );
+
+        const response = await createExchangeRefund(formData);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
     async getOrder(orderId) {
       try {
         const { data } = await getOrder({
@@ -242,6 +288,7 @@ export default {
   },
   data() {
     return {
+      content: '',
       image1: null,
       image2: null,
       image3: null,
@@ -257,7 +304,7 @@ export default {
         { text: '상품 정보', align: 'center', value: 'productName' },
         { text: '판매 가격', align: 'center', value: 'salePrice' },
         { text: '수량', align: 'center', value: 'quantity' },
-        { text: '교환/환불', align: 'center', value: 'exchangeRefund' },
+        { text: '교환/환불', align: 'center', value: 'exchangeRefundType' },
       ],
       orderProducts: [],
       selected: [],

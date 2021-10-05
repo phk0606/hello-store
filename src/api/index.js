@@ -31,6 +31,7 @@ export const paymentMethod = createInstanceWithAuth('/paymentMethod');
 export const pointHistory = createInstanceWithAuth('/pointHistory');
 export const faq = createInstanceWithAuth('/faq');
 export const manToManQnA = createInstanceWithAuth('/manToManQnA');
+export const exchangeRefund = createInstanceWithAuth('/exchangeRefund');
 
 export const posts = createInstanceWithAuth('posts');
 
