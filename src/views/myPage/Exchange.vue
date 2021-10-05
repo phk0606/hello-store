@@ -86,12 +86,17 @@
             <v-row dense align="center">
               <v-col cols="2"><div class="subtitle-1">사유 선택</div></v-col>
               <v-col
-                ><v-radio-group dense row hide-details>
-                  <v-radio value="SHOW" label="색상/사이즈 변경" />
-                  <v-radio class="mr-0" value="HIDE" label="단순 변심" />
-                  <v-radio class="mr-0" value="HIDE" label="제품 파손" />
-                  <v-radio class="mr-0" value="HIDE" label="오배송" />
-                  <v-radio value="HIDE" label="기타" /> </v-radio-group
+                ><v-radio-group
+                  v-model="exchangeRefundReasonType"
+                  dense
+                  row
+                  hide-details
+                >
+                  <v-radio value="COLOR_SIZE_CHANGE" label="색상/사이즈 변경" />
+                  <v-radio value="MIND_CHANGE" label="단순 변심" />
+                  <v-radio value="PRODUCT_BROKEN" label="제품 파손" />
+                  <v-radio value="MISTAKE_SHIPPING" label="오배송" />
+                  <v-radio value="ETC" label="기타" /> </v-radio-group
               ></v-col>
             </v-row>
             <v-divider />
@@ -105,21 +110,48 @@
                 ><div class="subtitle-1">이미지 업로드:</div></v-col
               >
               <v-col>
-                <v-file-input
-                  dense
-                  show-size
-                  accept="image/png, image/jpeg, image/bmp"
-                />
-                <v-file-input
-                  dense
-                  show-size
-                  accept="image/png, image/jpeg, image/bmp"
-                />
-                <v-file-input
-                  dense
-                  show-size
-                  accept="image/png, image/jpeg, image/bmp"
-                />
+                <v-row>
+                  <v-col cols="5">
+                    <v-file-input
+                      dense
+                      @change="Preview_image($event, 'image1')"
+                      v-model="image1"
+                      show-size
+                      accept="image/png, image/jpeg, image/bmp"
+                    />
+                  </v-col>
+                  <v-col cols="5">
+                    <v-img :src="image1Url" width="200" height="200" />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="5">
+                    <v-file-input
+                      dense
+                      @change="Preview_image($event, 'image2')"
+                      v-model="image2"
+                      show-size
+                      accept="image/png, image/jpeg, image/bmp"
+                    />
+                  </v-col>
+                  <v-col cols="5">
+                    <v-img :src="image2Url" width="200" height="200" />
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-col cols="5">
+                    <v-file-input
+                      dense
+                      @change="Preview_image($event, 'image3')"
+                      v-model="image3"
+                      show-size
+                      accept="image/png, image/jpeg, image/bmp"
+                    />
+                  </v-col>
+                  <v-col cols="5">
+                    <v-img :src="image3Url" width="200" height="200" />
+                  </v-col>
+                </v-row>
               </v-col>
             </v-row>
             <v-divider />
@@ -187,9 +219,37 @@ export default {
         console.log(error);
       }
     },
+    Preview_image(e, imageTarget) {
+      console.log(imageTarget);
+      if (e !== null) {
+        if (imageTarget === 'image1') {
+          this.image1Url = URL.createObjectURL(this.image1);
+        } else if (imageTarget === 'image2') {
+          this.image2Url = URL.createObjectURL(this.image2);
+        } else if (imageTarget === 'image3') {
+          this.image3Url = URL.createObjectURL(this.image3);
+        }
+      } else {
+        if (imageTarget === 'image1') {
+          this.image1Url = null;
+        } else if (imageTarget === 'image2') {
+          this.image2Url = null;
+        } else if (imageTarget === 'image3') {
+          this.image3Url = null;
+        }
+      }
+    },
   },
   data() {
     return {
+      image1: null,
+      image2: null,
+      image3: null,
+      image1Url: null,
+      image2Url: null,
+      image3Url: null,
+
+      exchangeRefundReasonType: 'COLOR_SIZE_CHANGE',
       orderId: '',
       headers: [
         { text: '번호', align: 'center', value: 'orderProductId' },
