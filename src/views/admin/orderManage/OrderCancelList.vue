@@ -171,7 +171,7 @@
         <v-row>
           <v-col cols="auto">
             <v-btn @click="modifyPaymentStatus" color="brown darken-2" dark
-              >{{ tabs[activeTab === 0 ? 1 : 0].text }} 처리</v-btn
+              >{{ tabs[activeTab === 0 ? 1 : 0].text }}(으)로 이동</v-btn
             >
           </v-col>
         </v-row>

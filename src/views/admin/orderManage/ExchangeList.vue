@@ -27,7 +27,7 @@
         </v-row>
 
         <v-row dense align="center" justify="start">
-          <v-col cols="auto">주문일</v-col>
+          <v-col cols="auto">신청일</v-col>
           <v-col cols="2">
             <v-menu
               v-model="menu"
@@ -88,7 +88,9 @@
             </v-text-field>
           </v-col>
           <v-col cols="auto">
-            <v-btn color="indigo" dark @click="getOrders(1)">검색</v-btn>
+            <v-btn color="indigo" dark @click="getExchangeRefunds(1)"
+              >검색</v-btn
+            >
           </v-col>
         </v-row>
         <v-divider />
@@ -119,25 +121,43 @@
               v-model="selected"
               :headers="headers"
               :items="contentList"
-              item-key="orderId"
+              item-key="exchangeRefundId"
               show-select
               class="elevation-1"
               disable-sort
             >
               <template v-slot:[`item.productName`]="{ item }">
-                <v-row>{{ item.orderProducts[0].productName }}</v-row>
+                <v-row>{{ item.exchangeRefundProducts[0].productName }}</v-row>
                 <v-row
-                  v-if="item.orderProductCount && item.orderProductCount >= 2"
-                  >외 {{ item.orderProductCount - 1 }} 개</v-row
+                  v-if="
+                    item.exchangeRefundProductCount &&
+                    item.exchangeRefundProductCount >= 2
+                  "
+                  >외 {{ item.exchangeRefundProductCount - 1 }} 개</v-row
                 >
               </template>
               <template v-slot:[`item.name`]="{ item }">
                 <v-row>{{ item.name }}</v-row>
                 <v-row>({{ item.username }})</v-row>
               </template>
-              <template v-slot:[`item.createdDate`]="{ item }">
-                <v-row>{{ item.createdDate }}</v-row>
+
+              <template v-slot:[`item.exchangeRefundTypeValue`]="{ item }">
+                <v-row>{{
+                  item.exchangeRefundProducts[0].exchangeRefundTypeValue
+                }}</v-row>
+                <v-row
+                  v-if="
+                    item.exchangeRefundProductCount &&
+                    item.exchangeRefundProductCount >= 2
+                  "
+                  >외 {{ item.exchangeRefundProductCount - 1 }} 개</v-row
+                >
               </template>
+
+              <template v-slot:[`item.exchangeRefundStatusValue`]="{ item }">
+                <v-row>{{ item.exchangeRefundStatusValue }}</v-row>
+              </template>
+
               <template v-slot:[`item.orderDetailInfo`]="{ item }">
                 <v-row
                   ><v-btn :to="`/admin/order-detail-info/${item.orderId}`"
@@ -171,25 +191,7 @@
         <v-row>
           <v-col cols="auto">
             <v-btn @click="modifyPaymentStatus" color="brown darken-2" dark
-              >{{ tabs[activeTab === 0 ? 1 : 0].text }} 처리</v-btn
-            >
-          </v-col>
-        </v-row>
-        <v-row align="center">
-          <v-col cols="2">
-            <v-select
-              label="항목 선택"
-              v-model="orderDeliveryStatusSelected"
-              :items="orderDeliveryStatus"
-              outlined
-              hide-details
-              dense
-              :menu-props="{ offsetY: true }"
-            />
-          </v-col>
-          <v-col cols="auto">
-            <v-btn color="indigo" dark @click="modifyOrderDeliveryStatus"
-              >주문 상태 변경</v-btn
+              >{{ tabs[activeTab === 0 ? 1 : 0].text }}(으)로 이동</v-btn
             >
           </v-col>
         </v-row>
@@ -201,16 +203,14 @@
 <script>
 import AdminOrderLeft from '@/components/admin/AdminOrderLeft.vue';
 import Pagination from 'vue-pagination-2';
-import {
-  getOrders,
-  modifyOrderDeliveryStatus,
-  modifyPaymentStatus,
-} from '@/api/order';
+import { modifyOrderDeliveryStatus, modifyPaymentStatus } from '@/api/order';
+
+import { getExchangeRefunds } from '@/api/exchangeRefund';
 
 export default {
   created() {
-    console.log(this.activeTab);
-    this.getOrders(1, this.tabs[0].value);
+    console.log(this.activeTab, this.tabs[0].value);
+    this.getExchangeRefunds(1, this.tabs[0].value);
   },
   components: {
     Pagination,
@@ -221,44 +221,43 @@ export default {
     return {
       activeTab: 0,
       tabs: [
-        { value: 'CANCEL_BEFORE', text: '처리 전' },
-        { value: 'CANCEL_FINISHED', text: '처리 완료' },
+        { value: 'BEFORE', text: '처리 전' },
+        { value: 'FINISHED', text: '처리 완료' },
       ],
       productName: '',
       searchSelected: null,
       searchText: '',
       searchKeyword: [
-        { text: '주문 번호', value: 'orderId' },
-        { text: '주문 상품', value: 'productName' },
-        { text: '주문자 아이디', value: 'ordererId' },
-        { text: '주문자 이름', value: 'ordererName' },
+        { text: '접수 번호', value: 'exchangeRefundId' },
+        { text: '신청 상품', value: 'productName' },
+        { text: '신청자 아이디', value: 'username' },
+        { text: '신청자 이름', value: 'name' },
       ],
-      orderDeliveryStatusSelected: null,
-      orderDeliveryStatus: [
-        { text: '주문 확인 전', value: 'BEFORE_CONFIRM' },
-        { text: '주문 확인', value: 'CONFIRM_ORDER' },
-        { text: '배송 준비 중', value: 'READY_SHIP' },
-        { text: '배송 중', value: 'SHIPPING' },
-        { text: '배송 완료', value: 'COMPLETE_SHIP' },
-      ],
+
       page: 1,
       records: 0,
       perPage: 5,
       selected: [],
       headers: [
         {
-          text: '주문 번호',
+          text: '접수 번호',
           align: 'center',
           sortable: false,
-          value: 'orderId',
+          value: 'exchangeRefundId',
         },
         { text: '신청 일시', align: 'center', value: 'createdDate' },
-        { text: '접수 번호', align: 'center', value: 'orderCancelDate' },
-        { text: '주문 상품', align: 'center', value: 'productName' },
-        { text: '주문자(아이디)', align: 'center', value: 'name' },
-        { text: '교환/환불', align: 'center', value: 'paymentMethodTypeValue' },
-        { text: '결제 금액', align: 'center', value: 'paymentPrice' },
-        { text: '결제 상태', align: 'center', value: 'paymentStatusValue' },
+        { text: '신청 상품', align: 'center', value: 'productName' },
+        { text: '신청자(아이디)', align: 'center', value: 'name' },
+        {
+          text: '교환/환불',
+          align: 'center',
+          value: 'exchangeRefundTypeValue',
+        },
+        {
+          text: '처리 상태',
+          align: 'center',
+          value: 'exchangeRefundStatusValue',
+        },
       ],
       contentList: [],
       date1: new Date(new Date().setDate(new Date().getDate() - 3))
@@ -286,7 +285,7 @@ export default {
   methods: {
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
-      this.getOrders(page, this.tabs[this.activeTab].value);
+      this.getExchangeRefunds(page, this.tabs[this.activeTab].value);
     },
     async modifyPaymentStatus() {
       const orders = this.selected;
@@ -335,18 +334,18 @@ export default {
         // this.logMessage = error.response.data.message;
       }
     },
-    async getOrders(page, tabValue) {
+    async getExchangeRefunds(page, tabValue) {
       console.log(this.searchSelected);
       console.log(tabValue);
       console.log(this.activeTab);
       try {
-        const { data } = await getOrders({
+        const { data } = await getExchangeRefunds({
           page: page - 1,
           size: this.perPage,
 
-          orderDateA: this.date1,
-          orderDateB: this.date2,
-          paymentStatus: tabValue,
+          applicationDateA: this.date1,
+          applicationDateB: this.date2,
+          exchangeRefundStatus: tabValue,
           [this.searchSelected]: this.searchText,
         });
         this.contentList = data.content;

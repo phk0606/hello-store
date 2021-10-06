@@ -8,4 +8,8 @@ function createExchangeRefund(data) {
   });
 }
 
-export { createExchangeRefund };
+function getExchangeRefunds(data) {
+  return exchangeRefund.get('/getExchangeRefunds', { params: data });
+}
+
+export { createExchangeRefund, getExchangeRefunds };
