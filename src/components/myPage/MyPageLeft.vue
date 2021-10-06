@@ -28,6 +28,12 @@
             <v-list-item-title>포인트 이용 내역</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <v-list-item to="/my-page/exchange-list">
+          <v-icon>mdi-menu-right</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>교환/환불 내역</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list-item-group>
     </v-list>
     <v-list dense>

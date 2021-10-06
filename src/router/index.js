@@ -124,11 +124,22 @@ const routes = [
         },
       },
       {
-        path: 'exchange/:orderId',
-        name: 'my-page-exchange',
+        path: 'exchange-regist/:orderId',
+        name: 'my-page-exchange-regist',
         component: () =>
           import(
-            /* webpackChunkName: "my-page-exchange" */ '@/views/myPage/Exchange'
+            /* webpackChunkName: "my-page-exchange-regist" */ '@/views/myPage/ExchangeRegist'
+          ),
+        meta: {
+          auth: true,
+        },
+      },
+      {
+        path: 'exchange-list',
+        name: 'my-page-exchange-list',
+        component: () =>
+          import(
+            /* webpackChunkName: "my-page-exchange-list" */ '@/views/myPage/Exchange'
           ),
         meta: {
           auth: true,

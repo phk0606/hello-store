@@ -1,316 +1,329 @@
 <template>
   <v-container fluid>
-    <v-row>
+    <v-row dense>
       <v-col>
-        <h5>교환/환불 신청</h5>
+        <v-chip label x-large color="white">
+          <v-icon left> mdi-chevron-right-box </v-icon>
+          교환/환불 신청
+        </v-chip>
       </v-col>
     </v-row>
+
+    <v-row dense align="center" justify="start">
+      <v-col cols="auto">신청일</v-col>
+      <v-col cols="2">
+        <v-menu
+          v-model="menu"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          transition="scale-transition"
+          offset-y
+          min-width="auto"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="date1"
+              prepend-icon="mdi-calendar"
+              readonly
+              v-bind="attrs"
+              v-on="on"
+            />
+          </template>
+          <v-date-picker v-model="date1" @input="menu = false" />
+        </v-menu>
+      </v-col>
+      <v-col cols="2">
+        <v-menu
+          v-model="menu2"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          transition="scale-transition"
+          offset-y
+          min-width="auto"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="date2"
+              prepend-icon="mdi-calendar"
+              readonly
+              v-bind="attrs"
+              v-on="on"
+            />
+          </template>
+          <v-date-picker v-model="date2" @input="menu2 = false" />
+        </v-menu>
+      </v-col>
+      <v-col cols="auto" class="ml-5"> 키워드 검색 </v-col>
+      <v-col cols="2">
+        <v-select
+          label="항목 선택"
+          v-model="searchSelected"
+          :items="searchKeyword"
+          outlined
+          hide-details
+          dense
+          :menu-props="{ offsetY: true }"
+        />
+      </v-col>
+      <v-col cols="auto">
+        <v-text-field v-model="searchText" dense hide-details outlined>
+          <template v-slot:prepend> <v-card width="10" flat /></template>
+        </v-text-field>
+      </v-col>
+      <v-col cols="auto">
+        <v-btn color="indigo" dark @click="getExchangeRefunds(1)">검색</v-btn>
+      </v-col>
+    </v-row>
+    <v-divider />
+
     <v-row>
-      <v-col cols="12">
+      <v-col>
         <v-data-table
           hide-default-footer
           v-model="selected"
           :headers="headers"
-          :items="orderProducts"
-          item-key="orderProductId"
-          class="elevation-1"
+          :items="contentList"
+          item-key="exchangeRefundId"
           show-select
+          class="elevation-1"
           disable-sort
         >
-          <template v-slot:[`item.image`]="{ item }">
-            <v-container>
-              <v-row>
-                <v-col>
-                  <v-img
-                    class="mx-auto"
-                    :src="'data:image/png;base64,' + item.image"
-                    style="width: 100px; height: 100px"
-                  />
-                </v-col>
-              </v-row>
-            </v-container>
-          </template>
           <template v-slot:[`item.productName`]="{ item }">
-            <v-row>상품명: {{ item.productName }}</v-row>
-            <v-row v-if="item.productOptions && item.productOptions.length >= 1"
-              >{{ item.productOptions[0].optionName }}:
-              {{ item.productOptions[0].optionValue }}</v-row
-            >
-            <v-row v-if="item.productOptions && item.productOptions.length >= 2"
-              >{{ item.productOptions[1].optionName }}:
-              {{ item.productOptions[1].optionValue }}</v-row
+            <v-row>{{ item.exchangeRefundProducts[0].productName }}</v-row>
+            <v-row
+              v-if="
+                item.exchangeRefundProductCount &&
+                item.exchangeRefundProductCount >= 2
+              "
+              >외 {{ item.exchangeRefundProductCount - 1 }} 개</v-row
             >
           </template>
-          <template v-slot:[`item.exchangeRefundType`]="{ item }">
-            <v-row dense align="center">
-              <v-col
-                ><v-radio-group
-                  v-model="item.exchangeRefundType"
-                  dense
-                  row
-                  hide-details
-                >
-                  <v-radio value="EXCHANGE" label="교환" />
-                  <v-radio
-                    class="mr-0"
-                    value="REFUND"
-                    label="환불"
-                  /> </v-radio-group
-              ></v-col>
-            </v-row>
+          <template v-slot:[`item.name`]="{ item }">
+            <v-row>{{ item.name }}</v-row>
+            <v-row>({{ item.username }})</v-row>
+          </template>
+
+          <template v-slot:[`item.exchangeRefundTypeValue`]="{ item }">
+            <v-row>{{
+              item.exchangeRefundProducts[0].exchangeRefundTypeValue
+            }}</v-row>
+            <v-row
+              v-if="
+                item.exchangeRefundProductCount &&
+                item.exchangeRefundProductCount >= 2
+              "
+              >외 {{ item.exchangeRefundProductCount - 1 }} 개</v-row
+            >
+          </template>
+
+          <template v-slot:[`item.exchangeRefundStatusValue`]="{ item }">
+            <v-row>{{ item.exchangeRefundStatusValue }}</v-row>
+          </template>
+
+          <template v-slot:[`item.exchangeRefundDetail`]="{ item }">
+            <v-row
+              ><v-btn :to="`/admin/exchange-detail/${item.exchangeRefundId}`"
+                >상세 보기</v-btn
+              ></v-row
+            >
           </template>
         </v-data-table>
-        <v-divider />
       </v-col>
     </v-row>
-    <v-row>
-      <v-col>
-        <v-card ref="form">
-          <v-container>
-            <v-row dense align="center">
-              <v-col cols="2"
-                ><div class="subtitle-1">교환 환불 상품:</div></v-col
-              >
-              <v-col
-                ><v-row
-                  v-for="(
-                    getExchangeRefundProduct, i
-                  ) in getExchangeRefundProducts"
-                  :key="i"
-                  >{{ getExchangeRefundProduct }}</v-row
-                ></v-col
-              >
-            </v-row>
-            <v-divider />
-
-            <v-row dense align="center">
-              <v-col cols="2"><div class="subtitle-1">사유 선택</div></v-col>
-              <v-col
-                ><v-radio-group
-                  v-model="exchangeRefundReasonType"
-                  dense
-                  row
-                  hide-details
-                >
-                  <v-radio value="COLOR_SIZE_CHANGE" label="색상/사이즈 변경" />
-                  <v-radio value="MIND_CHANGE" label="단순 변심" />
-                  <v-radio value="PRODUCT_BROKEN" label="제품 파손" />
-                  <v-radio value="MISTAKE_SHIPPING" label="오배송" />
-                  <v-radio value="ETC" label="기타" /> </v-radio-group
-              ></v-col>
-            </v-row>
-            <v-divider />
-            <v-row dense align="center">
-              <v-col cols="2"><div class="subtitle-1">내용 작성:</div></v-col>
-              <v-col
-                ><v-textarea
-                  v-model="content"
-                  hide-details
-                  dense
-                  filled
-                  no-resize
-              /></v-col>
-            </v-row>
-            <v-divider />
-            <v-row>
-              <v-col cols="2"
-                ><div class="subtitle-1">이미지 업로드:</div></v-col
-              >
-              <v-col>
-                <v-row>
-                  <v-col cols="5">
-                    <v-file-input
-                      dense
-                      @change="Preview_image($event, 'image1')"
-                      v-model="image1"
-                      show-size
-                      accept="image/png, image/jpeg, image/bmp"
-                    />
-                  </v-col>
-                  <v-col cols="5">
-                    <v-img :src="image1Url" width="200" height="200" />
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="5">
-                    <v-file-input
-                      dense
-                      @change="Preview_image($event, 'image2')"
-                      v-model="image2"
-                      show-size
-                      accept="image/png, image/jpeg, image/bmp"
-                    />
-                  </v-col>
-                  <v-col cols="5">
-                    <v-img :src="image2Url" width="200" height="200" />
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="5">
-                    <v-file-input
-                      dense
-                      @change="Preview_image($event, 'image3')"
-                      v-model="image3"
-                      show-size
-                      accept="image/png, image/jpeg, image/bmp"
-                    />
-                  </v-col>
-                  <v-col cols="5">
-                    <v-img :src="image3Url" width="200" height="200" />
-                  </v-col>
-                </v-row>
-              </v-col>
-            </v-row>
-            <v-divider />
-            <v-row dense align="center">
-              <v-col cols="2"><div class="subtitle-1">배송비 결제:</div></v-col>
-              <v-col>
-                {배송비} 원 ※ 교환/환불 사유가 '사이즈, 색상 변경'. '단순
-                변심'의 경우 배송비를 고객님께서 부담하셔야 하므로, [교환/환불
-                신청하기] 클릭 시 배송비 결제가 진행됩니다.
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card>
+    <v-row justify="center" style="text-align: center">
+      <v-col cols="auto">
+        <pagination
+          :options="{
+            theme: 'bootstrap4',
+            edgeNavigation: true,
+            texts: {
+              first: '처음',
+              last: '마지막',
+              count: '전체 {count} 개중 {from} 부터 {to}  |{count} 개| 1 개',
+            },
+          }"
+          v-model="page"
+          :records="records"
+          :per-page="perPage"
+          @paginate="myCallback"
+        />
       </v-col>
-    </v-row>
-    <v-row justify="end">
-      <v-col cols="auto"
-        ><v-btn @click="createExchangeRefund">신청하기</v-btn></v-col
-      >
     </v-row>
   </v-container>
 </template>
 
 <script>
-import { getOrder } from '@/api/order';
-import { createExchangeRefund } from '@/api/exchangeRefund';
+import Pagination from 'vue-pagination-2';
+import { modifyOrderDeliveryStatus, modifyPaymentStatus } from '@/api/order';
+
+import { getExchangeRefunds } from '@/api/exchangeRefund';
 
 export default {
-  name: 'Exchange',
-  components: {},
   created() {
-    const orderId = this.$route.params.orderId;
-    this.getOrder(orderId);
-    this.orderId = orderId;
+    this.getExchangeRefunds(1);
   },
-  computed: {
-    getExchangeRefundProducts() {
-      return this.selected.map(item => {
-        let exchangeRefund = '';
-        if (item.exchangeRefund === 'exchange') {
-          exchangeRefund = '교환';
-        } else if (item.exchangeRefund === 'refund') {
-          exchangeRefund = '환불';
-        } else {
-          exchangeRefund = '교환 또는 환불 선택 필요';
-        }
-        return (
-          item.orderProductId +
-          ': ' +
-          item.productName +
-          ' (' +
-          exchangeRefund +
-          ')'
-        );
-      });
-    },
+  components: {
+    Pagination,
+  },
+
+  data() {
+    return {
+      productName: '',
+      searchSelected: null,
+      searchText: '',
+      searchKeyword: [
+        { text: '접수 번호', value: 'exchangeRefundId' },
+        { text: '신청 상품', value: 'productName' },
+        { text: '신청자 아이디', value: 'username' },
+        { text: '신청자 이름', value: 'name' },
+      ],
+
+      page: 1,
+      records: 0,
+      perPage: 5,
+      selected: [],
+      headers: [
+        {
+          text: '접수 번호',
+          align: 'center',
+          sortable: false,
+          value: 'exchangeRefundId',
+        },
+        { text: '신청 일시', align: 'center', value: 'createdDate' },
+        { text: '신청 상품', align: 'center', value: 'productName' },
+        { text: '신청자(아이디)', align: 'center', value: 'name' },
+        {
+          text: '교환/환불',
+          align: 'center',
+          value: 'exchangeRefundTypeValue',
+        },
+        {
+          text: '처리 상태',
+          align: 'center',
+          value: 'exchangeRefundStatusValue',
+        },
+        { text: '상세보기', align: 'center', value: 'exchangeRefundDetail' },
+      ],
+      contentList: [],
+      date1: new Date(new Date().setDate(new Date().getDate() - 3))
+        .toISOString()
+        .substr(0, 10),
+      date2: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      menu: false,
+      menu2: false,
+      items: [
+        {
+          text: '주문 관리',
+          disabled: false,
+          href: 'breadcrumbs_dashboard',
+        },
+        {
+          text: '교환/환불',
+          disabled: false,
+          href: 'breadcrumbs_link_1',
+        },
+      ],
+    };
   },
   methods: {
-    async createExchangeRefund() {
+    myCallback: function (page) {
+      console.log(`Page ${page} was selected. Do something about it`);
+      this.getExchangeRefunds(page);
+    },
+    async modifyPaymentStatus() {
+      const orders = this.selected;
+      const orderIds = [];
+
+      for (const key in orders) {
+        const orderId = orders[key].orderId;
+        console.log(orderId);
+        orderIds.push(orderId);
+      }
+
       try {
-        const formData = new FormData();
+        const { data } = await modifyPaymentStatus({
+          orderIds: orderIds,
+          paymentStatus:
+            this.activeTab === 0 ? this.tabs[1].value : this.tabs[0].value,
+        });
 
-        if (this.image1 != null) {
-          formData.append('exchangeRefundImages', this.image1);
-        }
-
-        if (this.image2 != null) {
-          formData.append('exchangeRefundImages', this.image2);
-        }
-
-        if (this.image3 != null) {
-          formData.append('exchangeRefundImages', this.image3);
-        }
-
-        const exchangeRefundDto = {
-          exchangeRefundProducts: this.selected,
-          exchangeRefundReasonType: this.exchangeRefundReasonType,
-          content: this.content,
-        };
-
-        formData.append(
-          'exchangeRefundDto',
-          new Blob([JSON.stringify(exchangeRefundDto)], {
-            type: 'application/json',
-          }),
-        );
-
-        const response = await createExchangeRefund(formData);
-        console.log(response);
+        console.log(data);
+        this.getOrders(1, this.tabs[this.activeTab].value);
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;
       }
     },
-    async getOrder(orderId) {
-      try {
-        const { data } = await getOrder({
-          orderId: orderId,
-        });
-        console.log(data);
+    async modifyOrderDeliveryStatus() {
+      const orders = this.selected;
+      const orderIds = [];
 
-        this.orderProducts = data.orderProducts;
+      for (const key in orders) {
+        const orderId = orders[key].orderId;
+        console.log(orderId);
+        orderIds.push(orderId);
+      }
+
+      try {
+        const { data } = await modifyOrderDeliveryStatus({
+          orderIds: orderIds,
+          orderDeliveryStatus: this.orderDeliveryStatusSelected,
+        });
+
+        console.log(data);
+        this.getOrders(1, this.tabs[this.activeTab].value);
       } catch (error) {
         console.log(error);
+        // this.logMessage = error.response.data.message;
       }
     },
-    Preview_image(e, imageTarget) {
-      console.log(imageTarget);
-      if (e !== null) {
-        if (imageTarget === 'image1') {
-          this.image1Url = URL.createObjectURL(this.image1);
-        } else if (imageTarget === 'image2') {
-          this.image2Url = URL.createObjectURL(this.image2);
-        } else if (imageTarget === 'image3') {
-          this.image3Url = URL.createObjectURL(this.image3);
-        }
-      } else {
-        if (imageTarget === 'image1') {
-          this.image1Url = null;
-        } else if (imageTarget === 'image2') {
-          this.image2Url = null;
-        } else if (imageTarget === 'image3') {
-          this.image3Url = null;
-        }
-      }
-    },
-  },
-  data() {
-    return {
-      content: '',
-      image1: null,
-      image2: null,
-      image3: null,
-      image1Url: null,
-      image2Url: null,
-      image3Url: null,
+    async getExchangeRefunds(page, tabValue) {
+      console.log(this.searchSelected);
+      console.log(tabValue);
+      console.log(this.activeTab);
+      try {
+        const { data } = await getExchangeRefunds({
+          page: page - 1,
+          size: this.perPage,
 
-      exchangeRefundReasonType: 'COLOR_SIZE_CHANGE',
-      orderId: '',
-      headers: [
-        { text: '번호', align: 'center', value: 'orderProductId' },
-        { text: '이미지', align: 'center', sortable: false, value: 'image' },
-        { text: '상품 정보', align: 'center', value: 'productName' },
-        { text: '판매 가격', align: 'center', value: 'salePrice' },
-        { text: '수량', align: 'center', value: 'quantity' },
-        { text: '교환/환불', align: 'center', value: 'exchangeRefundType' },
-      ],
-      orderProducts: [],
-      selected: [],
-    };
+          applicationDateA: this.date1,
+          applicationDateB: this.date2,
+          exchangeRefundStatus: tabValue,
+          [this.searchSelected]: this.searchText,
+        });
+        this.contentList = data.content;
+        this.perPage = data.size;
+        this.records = data.totalElements;
+        this.page = data.pageable.pageNumber + 1;
+        console.log(data);
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
   },
 };
 </script>
 
-<style></style>
+<style>
+.v-input__prepend-outer {
+  margin: 0 !important;
+  align-self: center;
+}
+.v-input {
+  margin-top: 0 !important;
+}
+label {
+  margin-bottom: 0;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.1s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
