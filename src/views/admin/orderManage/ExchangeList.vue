@@ -106,7 +106,7 @@
                 <v-tab
                   v-for="tab of tabs"
                   :key="tab.value"
-                  @click="getOrders(1, tab.value)"
+                  @click="getExchangeRefunds(1, tab.value)"
                 >
                   {{ tab.text }}
                 </v-tab>
@@ -158,9 +158,10 @@
                 <v-row>{{ item.exchangeRefundStatusValue }}</v-row>
               </template>
 
-              <template v-slot:[`item.orderDetailInfo`]="{ item }">
+              <template v-slot:[`item.exchangeRefundDetail`]="{ item }">
                 <v-row
-                  ><v-btn :to="`/admin/order-detail-info/${item.orderId}`"
+                  ><v-btn
+                    :to="`/admin/exchange-detail/${item.exchangeRefundId}`"
                     >상세 보기</v-btn
                   ></v-row
                 >
@@ -258,6 +259,7 @@ export default {
           align: 'center',
           value: 'exchangeRefundStatusValue',
         },
+        { text: '상세보기', align: 'center', value: 'exchangeRefundDetail' },
       ],
       contentList: [],
       date1: new Date(new Date().setDate(new Date().getDate() - 3))

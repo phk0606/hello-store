@@ -12,4 +12,8 @@ function getExchangeRefunds(data) {
   return exchangeRefund.get('/getExchangeRefunds', { params: data });
 }
 
-export { createExchangeRefund, getExchangeRefunds };
+function getExchangeRefund(data) {
+  return exchangeRefund.get('/getExchangeRefund', { params: data });
+}
+
+export { createExchangeRefund, getExchangeRefunds, getExchangeRefund };

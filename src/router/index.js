@@ -382,6 +382,17 @@ const routes = [
         },
       },
       {
+        path: 'exchange-detail/:exchangeRefundId',
+        name: 'exchange-detail',
+        component: () =>
+          import(
+            /* webpackChunkName: "exchange-detail" */ '@/views/admin/orderManage/ExchangeDetail'
+          ),
+        meta: {
+          auth: true,
+        },
+      },
+      {
         path: 'user-list',
         name: 'user-list',
         component: () =>
