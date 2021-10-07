@@ -105,11 +105,11 @@
             app
           >
             <v-menu open-on-hover offset-y min-width="1000">
-              <template v-slot:activator="{ on, attrs }">
+              <!-- <template v-slot:activator="{ on, attrs }">
                 <v-btn v-on="on" v-bind="attrs">
                   <span :class="font">오픈숍</span>
                 </v-btn>
-              </template>
+              </template> -->
               <v-container class="white" fluid>
                 <v-row>
                   <v-col>

@@ -36,7 +36,7 @@
         </v-list-item>
       </v-list-item-group>
     </v-list>
-    <v-list dense>
+    <!-- <v-list dense>
       <v-list-item-group>
         <v-subheader>오픈숍 상품 관리</v-subheader>
         <v-list-item>
@@ -64,7 +64,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
-    </v-list>
+    </v-list> -->
     <v-list dense>
       <v-list-item-group>
         <v-subheader>게시판 이용 내역</v-subheader>

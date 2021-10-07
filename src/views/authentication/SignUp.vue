@@ -92,7 +92,7 @@
                 <validation-provider
                   v-slot="{ errors }"
                   name="이메일"
-                  :rules="{ required: true }"
+                  rules="required|email"
                 >
                   <v-text-field
                     tabindex="6"
@@ -207,6 +207,9 @@ export default {
           const { data } = await registerUser(userData);
           console.log(data.username);
           this.username = data.username;
+          alert(
+            `${data.username} 님이 가입되었습니다\n 가입 포인트, ${data.signUpPoint} 포인트가 추가 되었습니다.`,
+          );
           await this.signIn();
           // this.logMessage = `${data.username} 님이 가입되었습니다`;
           //this.initForm();

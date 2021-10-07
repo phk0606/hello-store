@@ -21,13 +21,13 @@
             <v-list-item-title>스타일 숍</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item>
+        <!-- <v-list-item>
           <v-icon>mdi-menu-right</v-icon>
 
           <v-list-item-content>
             <v-list-item-title>오픈 숍</v-list-item-title>
           </v-list-item-content>
-        </v-list-item>
+        </v-list-item> -->
       </v-list-item-group>
     </v-list>
     <v-list dense>
@@ -40,13 +40,13 @@
             <v-list-item-title>스타일 숍</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-list-item>
+        <!-- <v-list-item>
           <v-icon>mdi-menu-right</v-icon>
 
           <v-list-item-content>
             <v-list-item-title>오픈 숍</v-list-item-title>
           </v-list-item-content>
-        </v-list-item>
+        </v-list-item> -->
       </v-list-item-group>
     </v-list>
   </v-card>

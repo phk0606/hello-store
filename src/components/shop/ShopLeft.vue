@@ -9,8 +9,8 @@
         >
       </template>
     </v-treeview>
-    <v-subheader class="indigo lighten-4">오픈숍</v-subheader>
-    <v-treeview dense activatable color="warning" :items="menus" />
+    <!-- <v-subheader class="indigo lighten-4">오픈숍</v-subheader>
+    <v-treeview dense activatable color="warning" :items="menus" /> -->
   </v-card>
 </template>
 
