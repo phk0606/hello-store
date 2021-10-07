@@ -4,7 +4,7 @@
       <v-col>
         <v-chip label x-large color="white">
           <v-icon left> mdi-chevron-right-box </v-icon>
-          교환/환불 신청
+          교환/환불 내역
         </v-chip>
       </v-col>
     </v-row>
@@ -122,7 +122,7 @@
 
           <template v-slot:[`item.exchangeRefundDetail`]="{ item }">
             <v-row
-              ><v-btn :to="`/admin/exchange-detail/${item.exchangeRefundId}`"
+              ><v-btn :to="`/my-page/exchange-detail/${item.exchangeRefundId}`"
                 >상세 보기</v-btn
               ></v-row
             >
@@ -279,18 +279,17 @@ export default {
         // this.logMessage = error.response.data.message;
       }
     },
-    async getExchangeRefunds(page, tabValue) {
+    async getExchangeRefunds(page) {
       console.log(this.searchSelected);
-      console.log(tabValue);
       console.log(this.activeTab);
       try {
         const { data } = await getExchangeRefunds({
           page: page - 1,
           size: this.perPage,
 
+          username: this.$store.state.username,
           applicationDateA: this.date1,
           applicationDateB: this.date2,
-          exchangeRefundStatus: tabValue,
           [this.searchSelected]: this.searchText,
         });
         this.contentList = data.content;

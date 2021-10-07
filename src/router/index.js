@@ -135,6 +135,17 @@ const routes = [
         },
       },
       {
+        path: 'exchange-detail/:exchangeRefundId',
+        name: 'my-page-exchange-detail',
+        component: () =>
+          import(
+            /* webpackChunkName: "my-page-exchange-detail" */ '@/views/myPage/ExchangeDetail'
+          ),
+        meta: {
+          auth: true,
+        },
+      },
+      {
         path: 'exchange-list',
         name: 'my-page-exchange-list',
         component: () =>

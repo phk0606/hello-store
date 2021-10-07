@@ -16,4 +16,13 @@ function getExchangeRefund(data) {
   return exchangeRefund.get('/getExchangeRefund', { params: data });
 }
 
-export { createExchangeRefund, getExchangeRefunds, getExchangeRefund };
+function modifyExchangeRefundStatus(data) {
+  return exchangeRefund.put('/modifyExchangeRefundStatus', data);
+}
+
+export {
+  createExchangeRefund,
+  getExchangeRefunds,
+  getExchangeRefund,
+  modifyExchangeRefundStatus,
+};

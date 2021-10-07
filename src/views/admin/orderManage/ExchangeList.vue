@@ -191,7 +191,10 @@
         </v-row>
         <v-row>
           <v-col cols="auto">
-            <v-btn @click="modifyPaymentStatus" color="brown darken-2" dark
+            <v-btn
+              @click="modifyExchangeRefundStatus"
+              color="brown darken-2"
+              dark
               >{{ tabs[activeTab === 0 ? 1 : 0].text }}(으)로 이동</v-btn
             >
           </v-col>
@@ -204,9 +207,11 @@
 <script>
 import AdminOrderLeft from '@/components/admin/AdminOrderLeft.vue';
 import Pagination from 'vue-pagination-2';
-import { modifyOrderDeliveryStatus, modifyPaymentStatus } from '@/api/order';
 
-import { getExchangeRefunds } from '@/api/exchangeRefund';
+import {
+  getExchangeRefunds,
+  modifyExchangeRefundStatus,
+} from '@/api/exchangeRefund';
 
 export default {
   created() {
@@ -289,48 +294,25 @@ export default {
       console.log(`Page ${page} was selected. Do something about it`);
       this.getExchangeRefunds(page, this.tabs[this.activeTab].value);
     },
-    async modifyPaymentStatus() {
-      const orders = this.selected;
-      const orderIds = [];
+    async modifyExchangeRefundStatus() {
+      const exchangeRefunds = this.selected;
+      const exchangeRefundIds = [];
 
-      for (const key in orders) {
-        const orderId = orders[key].orderId;
-        console.log(orderId);
-        orderIds.push(orderId);
+      for (const key in exchangeRefunds) {
+        const exchangeRefundId = exchangeRefunds[key].exchangeRefundId;
+        console.log(exchangeRefundId);
+        exchangeRefundIds.push(exchangeRefundId);
       }
 
       try {
-        const { data } = await modifyPaymentStatus({
-          orderIds: orderIds,
-          paymentStatus:
+        const { data } = await modifyExchangeRefundStatus({
+          exchangeRefundIds: exchangeRefundIds,
+          exchangeRefundStatus:
             this.activeTab === 0 ? this.tabs[1].value : this.tabs[0].value,
         });
 
         console.log(data);
-        this.getOrders(1, this.tabs[this.activeTab].value);
-      } catch (error) {
-        console.log(error);
-        // this.logMessage = error.response.data.message;
-      }
-    },
-    async modifyOrderDeliveryStatus() {
-      const orders = this.selected;
-      const orderIds = [];
-
-      for (const key in orders) {
-        const orderId = orders[key].orderId;
-        console.log(orderId);
-        orderIds.push(orderId);
-      }
-
-      try {
-        const { data } = await modifyOrderDeliveryStatus({
-          orderIds: orderIds,
-          orderDeliveryStatus: this.orderDeliveryStatusSelected,
-        });
-
-        console.log(data);
-        this.getOrders(1, this.tabs[this.activeTab].value);
+        this.getExchangeRefunds(1, this.tabs[this.activeTab].value);
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;
