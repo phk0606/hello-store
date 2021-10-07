@@ -38,6 +38,32 @@ const routes = [
     ],
   },
   {
+    path: '/company',
+    component: () =>
+      import(
+        /* webpackChunkName: "company" */
+        '@/views/company/Company'
+      ),
+    children: [
+      {
+        path: 'company-info',
+        name: 'company-company-info',
+        component: () =>
+          import(
+            /* webpackChunkName: "company-company-info" */ '@/views/company/CompanyInfo'
+          ),
+      },
+      {
+        path: 'company-location',
+        name: 'company-company-location',
+        component: () =>
+          import(
+            /* webpackChunkName: "company-company-location" */ '@/views/company/CompanyLocation'
+          ),
+      },
+    ],
+  },
+  {
     path: '/style-shop',
     component: () =>
       import(

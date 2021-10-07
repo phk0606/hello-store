@@ -245,7 +245,7 @@
                 <v-list-item
                   v-for="(item, index) in items"
                   :key="index"
-                  href="/shop"
+                  :to="item.to"
                 >
                   <v-list-item-title>{{ item.title }}</v-list-item-title>
                 </v-list-item>
@@ -342,9 +342,17 @@ export default {
       font: 'text-caption text-sm-body-2 text-md-body-1 text-lg-h6 text-xl-h4',
       drawer: false,
       items: [
-        { title: '헬로스토어 소개', icon: 'mdi-view-dashboard', to: '/' },
-        { title: '대표 인사말', icon: 'mdi-image', to: '/grid-system' },
-        { title: '찾아오시는 길', icon: 'mdi-image', to: '/grid-system' },
+        {
+          title: '헬로스토어 소개',
+          icon: 'mdi-view-dashboard',
+          to: '/company/company-info',
+        },
+        // { title: '대표 인사말', icon: 'mdi-image', to: '/grid-system' },
+        {
+          title: '찾아오시는 길',
+          icon: 'mdi-image',
+          to: '/company/company-location',
+        },
       ],
       selectedItem: 1,
       items2: [
