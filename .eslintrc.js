@@ -1,5 +1,8 @@
 module.exports = {
   root: true,
+  globals: {
+    kakao: false
+  },
   env: {
     node: true,
   },
