@@ -8,4 +8,8 @@ function getEvents(data) {
   return event.get('/getEvents', { params: data });
 }
 
-export { createEvent, getEvents };
+function getEvent(data) {
+  return event.get('/getEvent', { params: data });
+}
+
+export { createEvent, getEvents, getEvent };

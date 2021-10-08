@@ -118,7 +118,7 @@
         </v-row>
         <v-row>
           <v-col cols="auto">
-            <v-btn @click="createEvent">등록</v-btn>
+            <v-btn @click="createEvent">저장</v-btn>
           </v-col>
           <v-col>
             <v-btn to="/admin/event-list">취소</v-btn>
@@ -130,7 +130,7 @@
 </template>
 
 <script>
-import { createEvent } from '@/api/event';
+import { createEvent, getEvent } from '@/api/event';
 import AdminBoardLeft from '@/components/admin/AdminBoardLeft.vue';
 import {
   TiptapVuetify,
@@ -157,7 +157,32 @@ export default {
     AdminBoardLeft,
     TiptapVuetify,
   },
+  created() {
+    const eventId = this.$route.params.eventId;
+
+    if (eventId != null) {
+      this.eventId = eventId;
+      this.getEvent();
+    }
+  },
   methods: {
+    async getEvent() {
+      try {
+        const { data } = await getEvent({
+          eventId: this.eventId,
+        });
+        this.content = data.content;
+        this.title = data.title;
+        this.description = data.description;
+        this.eventDateA = data.eventDateA;
+        this.eventDateB = data.eventDateB;
+        this.url = this.imageUrl + data.fileName;
+
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async createEvent() {
       try {
         const formData = new FormData();
@@ -198,6 +223,8 @@ export default {
   },
   data() {
     return {
+      imageUrl: process.env.VUE_APP_IMAGE_URL,
+      eventId: null,
       image: null,
       url: null,
       menu: false,

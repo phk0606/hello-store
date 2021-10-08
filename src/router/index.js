@@ -606,6 +606,17 @@ const routes = [
         },
       },
       {
+        path: 'event-detail/:eventId',
+        name: 'admin-event-detail',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin-event-detail" */ '@/views/admin/boardManage/EventRegist'
+          ),
+        meta: {
+          auth: true,
+        },
+      },
+      {
         path: 'policy-manage',
         name: 'admin-policy',
         component: () =>
