@@ -123,6 +123,9 @@
           <v-col>
             <v-btn to="/admin/event-list">취소</v-btn>
           </v-col>
+          <v-col>
+            <v-btn @click="removeEvents">삭제</v-btn>
+          </v-col>
         </v-row>
       </v-col>
     </v-row>
@@ -130,7 +133,7 @@
 </template>
 
 <script>
-import { createEvent, getEvent, modifyEvent } from '@/api/event';
+import { createEvent, getEvent, modifyEvent, removeEvents } from '@/api/event';
 import AdminBoardLeft from '@/components/admin/AdminBoardLeft.vue';
 import {
   TiptapVuetify,
@@ -166,6 +169,19 @@ export default {
     }
   },
   methods: {
+    async removeEvents() {
+      try {
+        const eventIds = [];
+        eventIds.push(this.eventId);
+        await removeEvents({
+          eventIds,
+        });
+        this.$router.push('/admin/event-list');
+        //console.log(data);
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async getEvent() {
       try {
         const { data } = await getEvent({
@@ -178,6 +194,13 @@ export default {
         this.eventDateB = data.eventDateB;
         this.url = this.imageUrl + data.fileName;
 
+        let dataImage = data.image;
+        let contentType = 'image/png';
+        let file = new File(
+          [this.b64toBlob(dataImage, contentType)],
+          data.originalFileName,
+        );
+        this.image = file;
         console.log(data);
       } catch (error) {
         console.error(error);
@@ -213,6 +236,8 @@ export default {
           const response = await createEvent(formData);
           console.log(response);
         }
+
+        this.$router.push('/admin/event-list');
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;
@@ -224,6 +249,29 @@ export default {
       } else {
         this.url = null;
       }
+    },
+    b64toBlob(b64Data, contentType = '', sliceSize = 512) {
+      const byteCharacters = atob(b64Data);
+      const byteArrays = [];
+
+      for (
+        let offset = 0;
+        offset < byteCharacters.length;
+        offset += sliceSize
+      ) {
+        const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        const byteNumbers = new Array(slice.length);
+        for (let i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        const byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+      }
+
+      const blob = new Blob(byteArrays, { type: contentType });
+      return blob;
     },
   },
   data() {
