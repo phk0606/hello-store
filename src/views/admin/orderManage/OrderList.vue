@@ -88,7 +88,12 @@
             </v-text-field>
           </v-col>
           <v-col cols="auto">
-            <v-btn color="indigo" dark @click="getOrders(1)">검색</v-btn>
+            <v-btn
+              color="indigo"
+              dark
+              @click="getOrders(1, tabs[activeTab].value)"
+              >검색</v-btn
+            >
           </v-col>
         </v-row>
         <v-divider />
