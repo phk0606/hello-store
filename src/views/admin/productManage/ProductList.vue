@@ -279,12 +279,12 @@ import {
 import { getCategory } from '@/api/category';
 
 export default {
-  created() {
+  async created() {
     // this.getProducts();
     //this.getProductsPage(1);
-    this.getProductsPageCondition(1);
-    this.getProductCount();
-    this.getCategory();
+    await this.getProductsPageCondition(1);
+    await this.getProductCount();
+    await this.getCategory();
   },
   components: {
     Pagination,
