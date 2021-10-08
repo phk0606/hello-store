@@ -64,6 +64,32 @@ const routes = [
     ],
   },
   {
+    path: '/event',
+    component: () =>
+      import(
+        /* webpackChunkName: "event" */
+        '@/views/event/Event'
+      ),
+    children: [
+      {
+        path: 'event-list',
+        name: 'event-event-list',
+        component: () =>
+          import(
+            /* webpackChunkName: "event-event-list" */ '@/views/event/EventList'
+          ),
+      },
+      {
+        path: 'event-detail/:eventId',
+        name: 'event-event-detail',
+        component: () =>
+          import(
+            /* webpackChunkName: "event-event-detail" */ '@/views/event/EventDetail'
+          ),
+      },
+    ],
+  },
+  {
     path: '/style-shop',
     component: () =>
       import(

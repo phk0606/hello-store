@@ -254,7 +254,7 @@
             <v-btn to="/style-shop/product-comment">
               <span :class="font">상품평</span>
             </v-btn>
-            <v-btn href="/blog">
+            <v-btn to="/event/event-list">
               <span :class="font">이벤트</span>
             </v-btn>
             <v-menu open-on-hover offset-y>
