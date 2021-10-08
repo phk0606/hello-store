@@ -118,7 +118,7 @@
         </v-row>
         <v-row>
           <v-col cols="auto">
-            <v-btn @click="createEvent">저장</v-btn>
+            <v-btn @click="createOrModifyEvent">저장</v-btn>
           </v-col>
           <v-col>
             <v-btn to="/admin/event-list">취소</v-btn>
@@ -130,7 +130,7 @@
 </template>
 
 <script>
-import { createEvent, getEvent } from '@/api/event';
+import { createEvent, getEvent, modifyEvent } from '@/api/event';
 import AdminBoardLeft from '@/components/admin/AdminBoardLeft.vue';
 import {
   TiptapVuetify,
@@ -183,7 +183,7 @@ export default {
         console.error(error);
       }
     },
-    async createEvent() {
+    async createOrModifyEvent() {
       try {
         const formData = new FormData();
 
@@ -192,6 +192,7 @@ export default {
         }
 
         const eventDto = {
+          eventId: this.eventId,
           title: this.title,
           description: this.description,
           eventDateA: this.eventDateA,
@@ -206,8 +207,12 @@ export default {
           }),
         );
 
-        const response = await createEvent(formData);
-        console.log(response);
+        if (this.eventId != null) {
+          await modifyEvent(formData);
+        } else {
+          const response = await createEvent(formData);
+          console.log(response);
+        }
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;

@@ -12,4 +12,8 @@ function getEvent(data) {
   return event.get('/getEvent', { params: data });
 }
 
-export { createEvent, getEvents, getEvent };
+function modifyEvent(data) {
+  return event.put('/modifyEvent', data);
+}
+
+export { createEvent, getEvents, getEvent, modifyEvent };
