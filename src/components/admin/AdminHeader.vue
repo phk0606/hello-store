@@ -279,18 +279,18 @@ export default {
         {
           title: '이벤트',
           icon: 'mdi-flag',
-          to: '/admin/category-manage',
+          to: '/admin/event-list',
         },
-        {
-          title: '허위 상품 접수',
-          icon: 'mdi-flag',
-          to: '/admin/category-manage',
-        },
-        {
-          title: '게시판 카테고리 관리',
-          icon: 'mdi-flag',
-          to: '/admin/category-manage',
-        },
+        // {
+        //   title: '허위 상품 접수',
+        //   icon: 'mdi-flag',
+        //   to: '/admin/category-manage',
+        // },
+        // {
+        //   title: '게시판 카테고리 관리',
+        //   icon: 'mdi-flag',
+        //   to: '/admin/category-manage',
+        // },
       ],
       policyManageMenu: [
         {

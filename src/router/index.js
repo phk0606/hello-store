@@ -584,6 +584,28 @@ const routes = [
         },
       },
       {
+        path: 'event-list',
+        name: 'admin-event-list',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin-event-list" */ '@/views/admin/boardManage/EventList'
+          ),
+        meta: {
+          auth: true,
+        },
+      },
+      {
+        path: 'event-regist',
+        name: 'admin-event-regist',
+        component: () =>
+          import(
+            /* webpackChunkName: "admin-event-regist" */ '@/views/admin/boardManage/EventRegist'
+          ),
+        meta: {
+          auth: true,
+        },
+      },
+      {
         path: 'policy-manage',
         name: 'admin-policy',
         component: () =>

@@ -38,15 +38,15 @@
         <router-link to="/admin/faq-list"
           ><v-subheader>자주하는 질문</v-subheader></router-link
         >
-        <router-link to="/admin/product-regist"
+        <router-link to="/admin/event-list"
           ><v-subheader>이벤트</v-subheader></router-link
         >
-        <router-link to="/admin/product-regist"
+        <!-- <router-link to="/admin/product-regist"
           ><v-subheader>허위 상품 접수</v-subheader></router-link
         >
         <router-link to="/admin/product-regist"
           ><v-subheader>게시판 카테고리 관리</v-subheader></router-link
-        >
+        > -->
       </v-list-item-group>
     </v-list>
   </v-card>

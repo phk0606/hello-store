@@ -37,9 +37,14 @@
           </v-col>
         </v-row>
         <v-row align="center">
-          <v-col cols="auto">제목</v-col>
-          <v-col cols="auto">
-            <v-text-field v-model="noticeTitle" dense hide-details outlined />
+          <v-col cols="12">
+            <v-text-field
+              label="제목을 입력하세요."
+              v-model="noticeTitle"
+              dense
+              hide-details
+              outlined
+            />
           </v-col>
         </v-row>
 
