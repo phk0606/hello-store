@@ -8,13 +8,13 @@
             <v-btn small value="left" class="mr-0" to="/"
               >이용자 화면 보기</v-btn
             >
-            <v-btn
+            <!-- <v-btn
               small
               value="center"
               class="mr-0"
               to="/authentication/sign-in"
               >사내 게시판</v-btn
-            >
+            > -->
             <v-btn @click="logoutUser" small value="right" class="mr-0"
               >로그아웃</v-btn
             >

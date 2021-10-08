@@ -465,7 +465,7 @@
             <v-btn @click.prevent="modifyProduct">수정</v-btn>
           </v-col>
           <v-col>
-            <v-btn>취소</v-btn>
+            <v-btn to="/admin/product-list">취소</v-btn>
           </v-col>
         </v-row>
       </v-col>
@@ -783,6 +783,7 @@ export default {
         const response = await modifyProduct(formData);
 
         console.log(response);
+        this.$router.push('/admin/product-list');
       } catch (error) {
         console.log(error.response.data.message);
         this.logMessage = error.response.data.message;
