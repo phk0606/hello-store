@@ -16,4 +16,8 @@ function modifyEvent(data) {
   return event.put('/modifyEvent', data);
 }
 
-export { createEvent, getEvents, getEvent, modifyEvent };
+function removeEvents(eventIds) {
+  return event.delete('/removeEvents', { data: eventIds });
+}
+
+export { createEvent, getEvents, getEvent, modifyEvent, removeEvents };

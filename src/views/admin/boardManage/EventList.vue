@@ -114,7 +114,7 @@
         </v-row>
         <v-row align="center">
           <v-col cols="auto">
-            <v-btn to="/admin/notice-regist" outlined small color="red"
+            <v-btn @click="removeEvents" outlined small color="red"
               >선택 삭제</v-btn
             >
           </v-col>
@@ -130,7 +130,7 @@
 </template>
 
 <script>
-import { getEvents } from '@/api/event';
+import { getEvents, removeEvents } from '@/api/event';
 import AdminBoardLeft from '@/components/admin/AdminBoardLeft.vue';
 import Pagination from 'vue-pagination-2';
 
@@ -177,6 +177,25 @@ export default {
     };
   },
   methods: {
+    async removeEvents() {
+      const events = this.selected;
+      const eventIds = [];
+
+      for (const key in events) {
+        const eventId = events[key].eventId;
+        console.log(eventId);
+        eventIds.push(eventId);
+      }
+      try {
+        await removeEvents({
+          eventIds,
+        });
+        //console.log(data);
+        this.getEvents(1);
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async getEvents(page) {
       console.log(this.searchSelected);
       try {
