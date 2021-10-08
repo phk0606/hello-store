@@ -237,7 +237,7 @@
             </v-menu>
             <v-menu open-on-hover offset-y>
               <template v-slot:activator="{ on }">
-                <v-btn v-on="on">
+                <v-btn v-on="on" to="/company/company-info">
                   <span :class="font">헬로스토어</span>
                 </v-btn>
               </template>
