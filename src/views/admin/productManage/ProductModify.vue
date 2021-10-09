@@ -233,9 +233,9 @@
                               />
                             </v-col>
                             <v-col cols="auto">
-                              <v-btn @click="firstOptionRemove(i)" small
+                              <!-- <v-btn @click="firstOptionRemove(i)" small
                                 >삭제</v-btn
-                              >
+                              > -->
                             </v-col>
                           </v-row>
                         </div>
@@ -243,9 +243,9 @@
                       <v-col>
                         <v-container>
                           <v-row justify="center">
-                            <v-btn small @click="firstOptionAdd"
+                            <!-- <v-btn small @click="firstOptionAdd"
                               >항목 추가</v-btn
-                            >
+                            > -->
                           </v-row>
                         </v-container>
                       </v-col>
@@ -279,9 +279,9 @@
                               />
                             </v-col>
                             <v-col cols="auto">
-                              <v-btn @click="secondOptionRemove(i)" small
+                              <!-- <v-btn @click="secondOptionRemove(i)" small
                                 >삭제</v-btn
-                              >
+                              > -->
                             </v-col>
                           </v-row>
                         </div>
@@ -289,9 +289,9 @@
                       <v-col>
                         <v-container>
                           <v-row justify="center">
-                            <v-btn small @click="secondOptionAdd"
+                            <!-- <v-btn small @click="secondOptionAdd"
                               >항목 추가</v-btn
-                            >
+                            > -->
                           </v-row>
                         </v-container>
                       </v-col>
