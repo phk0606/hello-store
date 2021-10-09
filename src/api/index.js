@@ -33,6 +33,7 @@ export const faq = createInstanceWithAuth('/faq');
 export const manToManQnA = createInstanceWithAuth('/manToManQnA');
 export const exchangeRefund = createInstanceWithAuth('/exchangeRefund');
 export const event = createInstanceWithAuth('/event');
+export const stockQuantity = createInstanceWithAuth('/stockQuantity');
 
 export const posts = createInstanceWithAuth('posts');
 

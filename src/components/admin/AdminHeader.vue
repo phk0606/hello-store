@@ -93,7 +93,7 @@
                 </v-list-item>
               </v-card>
             </v-menu>
-            <v-menu open-on-hover offset-y>
+            <!-- <v-menu open-on-hover offset-y>
               <template v-slot:activator="{ on }">
                 <v-btn v-on="on">
                   <span :class="font">메인 관리</span>
@@ -129,7 +129,7 @@
                   <v-list-item-title />
                 </v-list-item>
               </v-card>
-            </v-menu>
+            </v-menu> -->
 
             <v-menu open-on-hover offset-y>
               <template v-slot:activator="{ on }">
@@ -193,6 +193,11 @@ export default {
           title: '상품 리스트',
           icon: 'mdi-account',
           to: '/admin/product-list',
+        },
+        {
+          title: '재고 리스트',
+          icon: 'mdi-account',
+          to: '/admin/stock-quantity-list',
         },
         {
           title: '카테고리 관리',

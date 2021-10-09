@@ -401,6 +401,17 @@ const routes = [
         },
       },
       {
+        path: 'stock-quantity-list',
+        name: 'stock-quantity-list',
+        component: () =>
+          import(
+            /* webpackChunkName: "stock-quantity-list" */ '@/views/admin/productManage/StockQuantityList'
+          ),
+        meta: {
+          auth: true,
+        },
+      },
+      {
         path: 'category-manage',
         name: 'category-manage',
         component: () =>
