@@ -12,4 +12,13 @@ function getListImage(data) {
   return instance.get('/shop/getListImage', { params: data });
 }
 
-export { getProductsPageCondition, getProductById, getListImage };
+function modifyClickCount(data) {
+  return instance.put('/shop/modifyClickCount', data);
+}
+
+export {
+  getProductsPageCondition,
+  getProductById,
+  getListImage,
+  modifyClickCount,
+};

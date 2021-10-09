@@ -220,14 +220,15 @@
 <script>
 import ProductComment from '@/components/shop/ProductComment';
 import ProductQna from '@/components/shop/ProductQna.vue';
-import { getProductById } from '@/api/shopProduct';
+import { getProductById, modifyClickCount } from '@/api/shopProduct';
 import { addCartProduct } from '@/api/cart';
 
 export default {
-  created() {
+  async created() {
     const productId = this.$route.params.productId;
     this.productId = productId;
-    this.getProductById(productId);
+    await this.getProductById(productId);
+    await this.modifyClickCount();
   },
   computed: {
     getTotalPrice() {
@@ -277,6 +278,16 @@ export default {
     ProductQna,
   },
   methods: {
+    async modifyClickCount() {
+      try {
+        const { data } = await modifyClickCount({
+          productId: this.productId,
+        });
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async addCartProduct() {
       if (this.firstOptions[0].optionValue && !this.firstSelected) {
         alert('첫 번째 옵션을 선택해 주세요.');
