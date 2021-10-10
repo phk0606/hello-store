@@ -497,7 +497,8 @@ export default {
 
         this.closeDialog();
 
-        this.getManToManQuestions(1);
+        alert('주문이 수정 되었습니다.');
+        this.$router.push('/admin/order-list');
       } catch (error) {
         console.error(error);
       }
@@ -508,8 +509,9 @@ export default {
           orderId: orderId,
         });
         console.log(data);
-
-        this.getOrder(orderId);
+        alert('주문이 취소 되었습니다.');
+        this.$router.push('/admin/order-list');
+        // this.getOrder(orderId);
       } catch (error) {
         console.log(error);
       }

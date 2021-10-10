@@ -292,7 +292,6 @@
                 <v-col class="d-flex justify-space-around">
                   <v-btn to="/my-page/order-info">목록</v-btn>
 
-                  <v-btn>확인</v-btn>
                   <v-btn
                     class="ml-3"
                     @click="orderCancel(orderId)"

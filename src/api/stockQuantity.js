@@ -4,4 +4,8 @@ function getStockQuantities(data) {
   return stockQuantity.get('/getStockQuantities', { params: data });
 }
 
-export { getStockQuantities };
+function modifyStockQuantity(data) {
+  return stockQuantity.put('/modifyStockQuantity', data);
+}
+
+export { getStockQuantities, modifyStockQuantity };

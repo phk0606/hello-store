@@ -322,7 +322,7 @@ export default {
         { text: '이미지', align: 'center', sortable: false, value: 'image' },
         { text: '카테고리와 상품명', align: 'center', value: 'name' },
         { text: '판매 가격(적립금)', align: 'center', value: 'salePrice' },
-        { text: '재고 수량', align: 'center', value: 'stockQuantity' },
+        // { text: '재고 수량', align: 'center', value: 'stockQuantity' },
         { text: '진열상태', align: 'center', value: 'productShowType' },
         { text: '등록일(수정일)', align: 'center', value: 'createdDate' },
         { text: '아이디', align: 'center', value: 'createBy' },

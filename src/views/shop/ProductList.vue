@@ -53,12 +53,14 @@
         lg="3"
       >
         <v-card
+          max-width="300"
           class="mx-auto"
           :to="`/style-shop/product-detail/${content.productId}`"
         >
           <v-img
             class="white--text align-end"
-            height="200px"
+            height="300px"
+            width="300px"
             :src="`${imageUrl}${content.fileName}`"
           >
             <!-- <v-card-title>Top 10 Australian beaches</v-card-title> -->

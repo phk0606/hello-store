@@ -98,7 +98,7 @@
                         ><v-card width="80" flat>정상 가격:</v-card></template
                       >
                     </v-text-field>
-                    <v-text-field
+                    <!-- <v-text-field
                       v-model="stockQuantity"
                       hide-details
                       dense
@@ -109,7 +109,7 @@
                       ><template v-slot:prepend
                         ><v-card width="80" flat>재고 수량:</v-card></template
                       >
-                    </v-text-field>
+                    </v-text-field> -->
                     <v-text-field
                       v-model="maxPurchaseQuantity"
                       hide-details
@@ -164,7 +164,7 @@
                         value="EACH"
                         label="별도 배송비 적용: "
                       />
-                      <v-col cols="EACH"
+                      <v-col cols="3"
                         ><v-text-field
                           v-model="eachShippingFee"
                           dense

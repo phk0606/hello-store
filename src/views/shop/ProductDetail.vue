@@ -309,11 +309,13 @@ export default {
           productOptions: [
             {
               optionGroupNumber: 1,
+              optionId: this.firstSelected.id,
               optionName: this.firstSelected.optionName,
               optionValue: this.firstSelected.optionValue,
             },
             {
               optionGroupNumber: 2,
+              optionId: this.secondSelected.id,
               optionName: this.secondSelected.optionName,
               optionValue: this.secondSelected.optionValue,
             },
@@ -345,11 +347,13 @@ export default {
           productOptions: [
             {
               optionGroupNumber: 1,
+              optionId: this.firstSelected.id,
               optionName: this.firstSelected.optionName,
               optionValue: this.firstSelected.optionValue,
             },
             {
               optionGroupNumber: 2,
+              optionId: this.secondSelected.id,
               optionName: this.secondSelected.optionName,
               optionValue: this.secondSelected.optionValue,
             },
