@@ -78,7 +78,11 @@
             <div>상품 요약: {{ description }}</div>
           </v-card-text>
           <v-container>
-            <v-row v-if="firstOptions[0].optionValue" dense align="center">
+            <v-row
+              v-if="firstOptions && firstOptions[0].optionValue"
+              dense
+              align="center"
+            >
               <v-col cols="2"
                 ><div class="subtitle-1">
                   {{ firstOptions[0].optionName }}:
@@ -94,12 +98,17 @@
                   hide-details
                   outlined
                   dense
+                  @change="getSecondOptionsInStockQuantity"
                   :menu-props="{ offsetY: true }"
                   return-object
                 />
               </v-col>
             </v-row>
-            <v-row v-if="secondOptions[0].optionValue" dense align="center">
+            <v-row
+              v-if="secondOptions && secondOptions[0].optionValue"
+              dense
+              align="center"
+            >
               <v-col cols="2"
                 ><div class="subtitle-1">
                   {{ secondOptions[0].optionName }}:
@@ -222,12 +231,17 @@ import ProductComment from '@/components/shop/ProductComment';
 import ProductQna from '@/components/shop/ProductQna.vue';
 import { getProductById, modifyClickCount } from '@/api/shopProduct';
 import { addCartProduct } from '@/api/cart';
+import {
+  getFirstOptionsInStockQuantity,
+  getSecondOptionsInStockQuantity,
+} from '@/api/stockQuantity';
 
 export default {
   async created() {
     const productId = this.$route.params.productId;
     this.productId = productId;
     await this.getProductById(productId);
+    await this.getFirstOptionsInStockQuantity();
     await this.modifyClickCount();
   },
   computed: {
@@ -256,6 +270,7 @@ export default {
     exchangeReturnInfo: null,
     firstOptions: [
       {
+        id: null,
         optionGroupNumber: 1,
         optionName: '',
         optionValue: '',
@@ -263,6 +278,7 @@ export default {
     ],
     secondOptions: [
       {
+        id: null,
         optionGroupNumber: 2,
         optionName: '',
         optionValue: '',
@@ -278,6 +294,40 @@ export default {
     ProductQna,
   },
   methods: {
+    async getFirstOptionsInStockQuantity() {
+      try {
+        const { data } = await getFirstOptionsInStockQuantity({
+          productId: this.productId,
+        });
+        if (data.length <= 0) {
+          this.firstOptions = [
+            {
+              id: null,
+              optionGroupNumber: 1,
+              optionName: '',
+              optionValue: '',
+            },
+          ];
+        } else {
+          this.firstOptions = data;
+        }
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getSecondOptionsInStockQuantity() {
+      try {
+        const { data } = await getSecondOptionsInStockQuantity({
+          productId: this.productId,
+          firstOptionId: this.firstSelected.id,
+        });
+        this.secondOptions = data;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async modifyClickCount() {
       try {
         const { data } = await modifyClickCount({
@@ -389,8 +439,8 @@ export default {
         this.detailInfo = data.detailInfo;
         this.shippingInfo = data.shippingInfo;
         this.exchangeReturnInfo = data.exchangeReturnInfo;
-        this.firstOptions = data.firstOptions;
-        this.secondOptions = data.secondOptions;
+        // this.firstOptions = data.firstOptions;
+        // this.secondOptions = data.secondOptions;
       } catch (error) {
         console.log(error);
       }
