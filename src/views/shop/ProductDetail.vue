@@ -126,7 +126,16 @@
                   dense
                   :menu-props="{ offsetY: true }"
                   return-object
-                />
+                >
+                  <template slot="selection" slot-scope="data">
+                    <span class="mr-5">{{ data.item.optionValue }}</span>
+                    <span>(재고: {{ data.item.stockQuantity }})</span>
+                  </template>
+                  <template slot="item" slot-scope="data">
+                    <span class="mr-5">{{ data.item.optionValue }}</span>
+                    <span>(재고: {{ data.item.stockQuantity }})</span>
+                  </template>
+                </v-select>
               </v-col>
             </v-row>
           </v-container>
