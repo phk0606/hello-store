@@ -243,9 +243,9 @@
                       <v-col>
                         <v-container>
                           <v-row justify="center">
-                            <!-- <v-btn small @click="firstOptionAdd"
+                            <v-btn small @click="firstOptionAdd"
                               >항목 추가</v-btn
-                            > -->
+                            >
                           </v-row>
                         </v-container>
                       </v-col>
@@ -289,9 +289,9 @@
                       <v-col>
                         <v-container>
                           <v-row justify="center">
-                            <!-- <v-btn small @click="secondOptionAdd"
+                            <v-btn small @click="secondOptionAdd"
                               >항목 추가</v-btn
-                            > -->
+                            >
                           </v-row>
                         </v-container>
                       </v-col>
@@ -566,6 +566,7 @@ export default {
       description: '',
       firstOptions: [
         {
+          id: null,
           optionGroupNumber: 1,
           optionName: '',
           optionValue: '',
@@ -573,6 +574,7 @@ export default {
       ],
       secondOptions: [
         {
+          id: null,
           optionGroupNumber: 2,
           optionName: '',
           optionValue: '',

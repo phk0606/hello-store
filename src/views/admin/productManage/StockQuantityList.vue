@@ -26,6 +26,84 @@
           </v-col>
         </v-row>
 
+        <v-row align="center">
+          <v-col cols="5">
+            <v-select
+              v-model="productSelect"
+              :items="products"
+              item-value="productId"
+              item-text="productName"
+              label="상품 선택"
+              outlined
+              dense
+              hide-details
+              @change="changeProduct"
+              :menu-props="{ offsetY: true }"
+            />
+          </v-col>
+          <v-col cols="1"
+            ><div
+              v-if="firstOptions && firstOptions[0].optionValue"
+              class="text-right"
+            >
+              {{ firstOptions[0].optionName }}
+            </div></v-col
+          >
+          <v-col cols="2">
+            <v-select
+              v-model="firstOptionSelect"
+              :items="firstOptions"
+              item-value="id"
+              item-text="optionValue"
+              label="옵션1 선택"
+              outlined
+              dense
+              hide-details
+              @change="getStockQuantities(1)"
+              :menu-props="{ offsetY: true }"
+            />
+          </v-col>
+          <v-col cols="1"
+            ><div
+              v-if="secondOptions && secondOptions[0].optionValue"
+              class="text-right"
+            >
+              {{ secondOptions[0].optionName }}
+            </div></v-col
+          >
+          <v-col cols="2">
+            <v-select
+              v-model="secondOptionSelect"
+              :items="secondOptions"
+              item-value="id"
+              item-text="optionValue"
+              label="옵션2 선택"
+              outlined
+              dense
+              hide-details
+              @change="getStockQuantities(1)"
+              :menu-props="{ offsetY: true }"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="2">
+            <v-text-field
+              v-model="stockQuantity"
+              label="재고량"
+              dense
+              hide-details
+              outlined
+            />
+          </v-col>
+          <v-col cols="auto">
+            <v-btn color="indigo" dark @click="createStockQuantity">등록</v-btn>
+          </v-col>
+          <v-col cols="auto">
+            <v-btn @click="clear">초기화</v-btn>
+          </v-col>
+        </v-row>
+        <v-divider />
         <v-row dense align="center" justify="center">
           <v-col cols="auto" class="ml-5">재고량</v-col>
           <v-col cols="2">
@@ -144,13 +222,20 @@
 </template>
 
 <script>
-import { getStockQuantities, modifyStockQuantity } from '@/api/stockQuantity';
+import {
+  getStockQuantities,
+  modifyStockQuantity,
+  createStockQuantity,
+} from '@/api/stockQuantity';
+import { getProducts } from '@/api/product';
+import { getFirstOptions, getSecondOptions } from '@/api/productOption';
 import AdminProductLeft from '@/components/admin/AdminProductLeft.vue';
 import Pagination from 'vue-pagination-2';
 
 export default {
-  created() {
-    this.getStockQuantities(1);
+  async created() {
+    await this.getProducts();
+    await this.getStockQuantities(1);
   },
   components: {
     Pagination,
@@ -158,6 +243,27 @@ export default {
   },
   data() {
     return {
+      stockQuantity: null,
+      productSelect: null,
+      products: [],
+      firstOptionSelect: null,
+      firstOptions: [
+        {
+          id: '',
+          optionGroupNumber: 1,
+          optionName: '',
+          optionValue: '',
+        },
+      ],
+      secondOptionSelect: null,
+      secondOptions: [
+        {
+          id: '',
+          optionGroupNumber: 2,
+          optionName: '',
+          optionValue: '',
+        },
+      ],
       stockQuantityMin: null,
       stockQuantityMax: null,
       snack: false,
@@ -210,11 +316,90 @@ export default {
     };
   },
   methods: {
+    clear() {
+      this.productSelect = null;
+      this.firstOptionSelect = null;
+      this.firstOptions = [
+        {
+          id: '',
+          optionGroupNumber: 1,
+          optionName: '',
+          optionValue: '',
+        },
+      ];
+      this.secondOptionSelect = null;
+      this.secondOptions = [
+        {
+          id: '',
+          optionGroupNumber: 2,
+          optionName: '',
+          optionValue: '',
+        },
+      ];
+      this.stockQuantity = '';
+    },
+    async createStockQuantity() {
+      try {
+        const stockQuantityDto = {
+          productId: this.productSelect,
+          firstOptionId: this.firstOptionSelect,
+          secondOptionId: this.secondOptionSelect,
+          stockQuantity: this.stockQuantity,
+        };
+
+        const response = await createStockQuantity(stockQuantityDto);
+        console.log(response);
+        await this.getStockQuantities(1);
+        this.clear();
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
+    },
+    async changeProduct() {
+      await this.getFirstOptions();
+      await this.getSecondOptions();
+      await this.getStockQuantities(1);
+    },
+    async getFirstOptions() {
+      try {
+        const { data } = await getFirstOptions({
+          productId: this.productSelect,
+        });
+        this.firstOptions = data;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getSecondOptions() {
+      try {
+        const { data } = await getSecondOptions({
+          productId: this.productSelect,
+        });
+        this.secondOptions = data;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getProducts() {
+      try {
+        const { data } = await getProducts({});
+        this.products = data;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async getStockQuantities(page) {
       try {
         const { data } = await getStockQuantities({
           page: page - 1,
           size: this.perPage,
+          productId: this.productSelect,
+          firstOptionId: this.firstOptionSelect,
+          secondOptionId: this.secondOptionSelect,
           stockQuantityMin: this.stockQuantityMin,
           stockQuantityMax: this.stockQuantityMax,
           searchText: this.searchText,

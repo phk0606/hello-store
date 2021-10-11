@@ -34,6 +34,7 @@ export const manToManQnA = createInstanceWithAuth('/manToManQnA');
 export const exchangeRefund = createInstanceWithAuth('/exchangeRefund');
 export const event = createInstanceWithAuth('/event');
 export const stockQuantity = createInstanceWithAuth('/stockQuantity');
+export const productOption = createInstanceWithAuth('/productOption');
 
 export const posts = createInstanceWithAuth('posts');
 

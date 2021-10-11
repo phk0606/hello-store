@@ -8,4 +8,8 @@ function modifyStockQuantity(data) {
   return stockQuantity.put('/modifyStockQuantity', data);
 }
 
-export { getStockQuantities, modifyStockQuantity };
+function createStockQuantity(data) {
+  return stockQuantity.post('/createStockQuantity', data);
+}
+
+export { getStockQuantities, modifyStockQuantity, createStockQuantity };
