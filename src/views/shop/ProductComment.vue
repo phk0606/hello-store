@@ -8,35 +8,53 @@
         </v-chip>
       </v-col>
     </v-row>
-    <v-row dense align="center" justify="start">
-      <v-col cols="2">
+
+    <v-row align="center">
+      <v-col cols="3">
         <v-select
-          label="항목 선택"
-          v-model="searchSelected"
-          :items="searchKeyword"
+          v-model="searchCategory1Select"
+          :items="searchCategory1"
+          label="카테고리 선택"
           outlined
-          hide-details
           dense
+          hide-details
+          @change="changeSearchCategory"
           :menu-props="{ offsetY: true }"
+          clearable
+        />
+      </v-col>
+      <v-col cols="3">
+        <v-select
+          v-model="searchCategory2Select"
+          :items="searchCategory2"
+          label="카테고리 선택"
+          outlined
+          dense
+          hide-details
+          :menu-props="{ offsetY: true }"
+          clearable
+        />
+      </v-col>
+      <v-col cols="3">
+        <v-text-field
+          label="상품명"
+          v-model="searchText"
+          dense
+          hide-details
+          outlined
+          clearable
         />
       </v-col>
       <v-col cols="auto">
-        <v-text-field v-model="searchText" dense hide-details outlined>
-          <template v-slot:prepend> <v-card width="10" flat /></template>
-        </v-text-field>
+        <v-btn color="indigo" dark @click="getProductComments(1)">검색</v-btn>
       </v-col>
       <v-col cols="auto">
-        <v-btn color="indigo" dark @click="getOrders(1)">검색</v-btn>
+        <v-btn @click="openDialog" color="purple" dark> 상품평 작성 </v-btn>
       </v-col>
-      <v-spacer />
+    </v-row>
+    <v-row dense align="center" justify="start">
       <v-col cols="auto">
-        <!-- <v-btn dark color="purple">상품평 작성</v-btn> -->
         <v-dialog v-model="dialog" persistent max-width="600px">
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn color="purple" dark v-bind="attrs" v-on="on">
-              상품평 작성
-            </v-btn>
-          </template>
           <v-card>
             <v-card-title>
               <span class="text-h5"
@@ -420,6 +438,7 @@
 <script>
 import Pagination from 'vue-pagination-2';
 import { getOrderProductsByUsername } from '@/api/order';
+import { getCategory } from '@/api/category';
 import {
   createProductComment,
   createProductCommentReply,
@@ -432,22 +451,23 @@ import {
 } from '@/api/productComment';
 
 export default {
-  created() {
+  async created() {
     if (this.$store.getters.isLogin) {
       this.getOrderProductsByUsername();
     }
-    this.getProductComments(1);
+    if (this.$route.params.productId > 0) {
+      this.productId = this.$route.params.productId;
+    }
+    await this.getProductComments(1);
+    await this.changeSearchCategory();
   },
   data() {
     return {
-      searchSelected: null,
       searchText: '',
-      searchKeyword: [
-        { text: '주문 번호', value: 'orderId' },
-        { text: '주문 상품', value: 'productName' },
-        { text: '주문자 아이디', value: 'ordererId' },
-        { text: '주문자 이름', value: 'ordererName' },
-      ],
+      searchCategory1Select: null,
+      searchCategory2Select: null,
+      searchCategory1: [],
+      searchCategory2: [],
       replyRegistContent: [],
       imageUrl: process.env.VUE_APP_IMAGE_URL,
       productId: null,
@@ -470,6 +490,24 @@ export default {
     Pagination,
   },
   methods: {
+    openDialog() {
+      this.dialog = true;
+    },
+    async changeSearchCategory() {
+      try {
+        const { data } = await getCategory({
+          parentId: this.searchCategory1Select,
+        });
+
+        if (this.searchCategory1Select == null) {
+          this.searchCategory1 = data;
+        } else {
+          this.searchCategory2 = data;
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async removeProductCommentReply(i, j) {
       try {
         await removeProductCommentReply({
@@ -555,6 +593,11 @@ export default {
         const { data } = await getProductComments({
           page: page - 1,
           size: this.perPage,
+
+          productId: this.productId,
+          productName: this.searchText,
+          firstCategoryId: this.searchCategory1Select,
+          secondCategoryId: this.searchCategory2Select,
         });
         this.contents = data.content;
         this.perPage = data.size;

@@ -136,7 +136,7 @@ const routes = [
         },
       },
       {
-        path: 'product-comment',
+        path: 'product-comment/:productId',
         name: 'style-shop-product-comment',
         component: () =>
           import(

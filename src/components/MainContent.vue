@@ -70,7 +70,9 @@
               class="mb-0"
             >
               <li>
-                <v-btn text
+                <v-btn
+                  text
+                  :to="`/style-shop/product-comment/${productComment.productId}`"
                   >{{ productComment.content.substr(0, 20)
                   }}<span v-if="productComment.content.length >= 20"
                     >...</span

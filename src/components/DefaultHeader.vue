@@ -251,7 +251,7 @@
                 </v-list-item>
               </v-card>
             </v-menu>
-            <v-btn to="/style-shop/product-comment">
+            <v-btn to="/style-shop/product-comment/0">
               <span :class="font">상품평</span>
             </v-btn>
             <v-btn to="/event/event-list">
