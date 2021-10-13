@@ -658,7 +658,8 @@ export default {
 
         for (let i in data.productImageDtos) {
           let imageType = data.productImageDtos[i].imageType;
-          let originalFileName = data.productImageDtos[i].originalFileName;
+          let originalFileName =
+            data.productImageDtos[i].imageFile.originalFileName;
           let dataImage = data.productImageDtos[i].byteImage;
           let dataImageString =
             'data:image/png;base64,' + data.productImageDtos[i].byteImage;

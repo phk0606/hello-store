@@ -54,7 +54,7 @@
                   <v-row>
                     <v-col>
                       <v-img
-                        :src="`${imageUrl}${item.fileName}`"
+                        :src="`${imageUrl}${item.imageFile.fileName}`"
                         max-width="200"
                       />
                     </v-col>

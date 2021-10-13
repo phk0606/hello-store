@@ -287,6 +287,15 @@ export default {
     },
     async modifyOrderDeliveryStatus() {
       const orders = this.selected;
+      const orderDeilvierySelected = this.orderDeliveryStatusSelected;
+      if (orders.length <= 0) {
+        alert('주문을 선택해 주세요.');
+        return;
+      }
+      if (orderDeilvierySelected === null) {
+        alert('항목을 선택해 주세요.');
+        return;
+      }
       const orderIds = [];
 
       for (const key in orders) {

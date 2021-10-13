@@ -198,9 +198,9 @@ export default {
     getExchangeRefundProducts() {
       return this.selected.map(item => {
         let exchangeRefund = '';
-        if (item.exchangeRefund === 'exchange') {
+        if (item.exchangeRefundType === 'EXCHANGE') {
           exchangeRefund = '교환';
-        } else if (item.exchangeRefund === 'refund') {
+        } else if (item.exchangeRefundType === 'REFUND') {
           exchangeRefund = '환불';
         } else {
           exchangeRefund = '교환 또는 환불 선택 필요';
@@ -248,6 +248,8 @@ export default {
 
         const response = await createExchangeRefund(formData);
         console.log(response);
+        alert('교환/환불 신청이 등록되었습니다.');
+        this.$router.push('/my-page/order-info');
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;

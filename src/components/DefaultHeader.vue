@@ -47,7 +47,7 @@
               <v-icon large>mdi-account</v-icon>
             </v-btn>
             <v-btn
-              v-if="this.$store.state.authority === 'ROLE_ADMIN'"
+              v-if="this.$store.state.authority.includes('ROLE_ADMIN')"
               to="/admin/order-list"
               icon
             >

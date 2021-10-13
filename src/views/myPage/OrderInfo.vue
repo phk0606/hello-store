@@ -94,7 +94,7 @@
                     >주문취소</v-btn
                   >
                   <v-btn
-                    :to="`/my-page/exchange/${item.orderId}`"
+                    :to="`/my-page/exchange-regist/${item.orderId}`"
                     class="ml-3"
                     v-if="
                       item.orderDeliveryStatus === 'READY_SHIP' ||

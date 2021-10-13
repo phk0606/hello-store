@@ -409,7 +409,8 @@ export default {
           productIds,
         });
         //console.log(data);
-        this.getProductsPageCondition(1);
+        await this.getProductsPageCondition(1);
+        await this.getProductCount();
       } catch (error) {
         console.log(error.response.data.message);
         this.logMessage = error.response.data.message;

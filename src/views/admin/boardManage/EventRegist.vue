@@ -192,13 +192,13 @@ export default {
         this.description = data.description;
         this.eventDateA = data.eventDateA;
         this.eventDateB = data.eventDateB;
-        this.url = this.imageUrl + data.fileName;
+        this.url = this.imageUrl + data.imageFile.fileName;
 
         let dataImage = data.image;
         let contentType = 'image/png';
         let file = new File(
           [this.b64toBlob(dataImage, contentType)],
-          data.originalFileName,
+          data.imageFile.originalFileName,
         );
         this.image = file;
         console.log(data);

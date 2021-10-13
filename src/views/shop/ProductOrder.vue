@@ -17,11 +17,9 @@
       <v-col cols="12">
         <v-data-table
           hide-default-footer
-          v-model="selected"
           :headers="headers"
           :items="orderProducts"
           item-key="cartProductId"
-          show-select
           class="elevation-1"
           disable-sort
         >
@@ -674,20 +672,7 @@ export default {
       menu: false,
       selectedAccount: null,
       depositorName: '',
-      depositAccount: [
-        {
-          optionText: '하나은행 110-234-05234 헬로스토어',
-          optionValue: 'HanaBank',
-        },
-        {
-          optionText: '우리은행 110-234-05234 헬로스토어',
-          optionValue: 'WooriBank',
-        },
-        {
-          optionText: '국민은행 110-234-05234 헬로스토어',
-          optionValue: 'KBBank',
-        },
-      ],
+      depositAccount: [],
       requirement: '',
       productId: null,
       user: {},
@@ -712,7 +697,6 @@ export default {
       ],
       listImage: null,
       orderProducts: [],
-      selected: [],
     };
   },
 };
