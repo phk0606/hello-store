@@ -129,11 +129,17 @@
                 >
                   <template slot="selection" slot-scope="data">
                     <span class="mr-5">{{ data.item.optionValue }}</span>
-                    <span>(남음: {{ data.item.stockQuantity }})</span>
+                    <span
+                      >(남음:
+                      {{ (stockQuantity = data.item.stockQuantity) }})</span
+                    >
                   </template>
                   <template slot="item" slot-scope="data">
                     <span class="mr-5">{{ data.item.optionValue }}</span>
-                    <span>(남음: {{ data.item.stockQuantity }})</span>
+                    <span
+                      >(남음:
+                      {{ (stockQuantity = data.item.stockQuantity) }})</span
+                    >
                   </template>
                 </v-select>
               </v-col>
@@ -262,6 +268,7 @@ export default {
     },
   },
   data: () => ({
+    stockQuantity: null,
     productId: null,
     images: null,
     productName: '',
@@ -397,6 +404,10 @@ export default {
       }
       if (this.secondOptions[0].optionValue && !this.secondSelected) {
         alert('두 번째 옵션을 선택해 주세요.');
+        return;
+      }
+      if (this.stockQuantity - this.quantity < 0) {
+        alert('재고 수량을 초과하였습니다.');
         return;
       }
 

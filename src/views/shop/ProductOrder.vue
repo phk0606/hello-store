@@ -369,7 +369,7 @@
               <v-col class="d-flex justify-end">
                 <v-btn @click="payment" class="mr-5">결제하기</v-btn>
                 <!-- to="/style-shop/order-complete" -->
-                <v-btn>취소</v-btn>
+                <v-btn to="/">취소</v-btn>
               </v-col>
             </v-row>
           </v-card-text>
@@ -604,7 +604,12 @@ export default {
         }
         this.$router.push(`/style-shop/order-complete/${data}`);
       } catch (error) {
-        console.log(error);
+        const message = error.response.data.message;
+        console.log(message);
+        if (message === '재고 부족') {
+          alert('재고 수량을 초과하였습니다.');
+          return;
+        }
       }
     },
     sumField(key) {
