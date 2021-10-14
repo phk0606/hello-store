@@ -39,20 +39,27 @@
             <v-card ref="form">
               <v-card-text>
                 <v-container>
-                  <v-row dense align="center">
-                    <v-col cols="2"><div class="subtitle-1">이름:</div></v-col>
-                    <v-col>{{ name }}</v-col>
+                  <v-row align="center">
+                    <v-col>
+                      <v-text-field
+                        v-model="name"
+                        label="이름"
+                        hide-details
+                        readonly
+                      />
+                    </v-col>
                   </v-row>
-                  <v-row dense align="center">
-                    <v-col cols="2"
-                      ><div class="subtitle-1">아이디:</div></v-col
-                    >
-                    <v-col>{{ username }}</v-col>
+                  <v-row align="center">
+                    <v-col>
+                      <v-text-field
+                        v-model="username"
+                        label="아이디"
+                        hide-details
+                        readonly
+                      />
+                    </v-col>
                   </v-row>
-                  <v-row dense align="center">
-                    <v-col cols="2"
-                      ><div class="subtitle-1">비밀번호:</div></v-col
-                    >
+                  <v-row align="center">
                     <v-col
                       ><v-text-field
                         tabindex="2"
@@ -73,31 +80,25 @@
                       />
                     </v-col>
                   </v-row>
-                  <v-row dense align="center">
-                    <v-col cols="2"
-                      ><div class="subtitle-1">이메일:</div></v-col
-                    >
+                  <v-row align="center">
                     <v-col
                       ><v-text-field
+                        label="이메일"
                         v-model="email"
                         hide-details
-                        dense
-                        solo-inverted
                         required
+                        clearable
                     /></v-col>
                   </v-row>
-                  <v-row dense align="center">
-                    <v-col cols="2"
-                      ><div class="subtitle-1">연락처:</div></v-col
-                    >
+                  <v-row align="center">
                     <v-col
                       ><v-text-field
+                        label="연락처"
                         v-model="phoneNumber"
                         hide-details
-                        dense
-                        solo-inverted
                         counter="11"
                         required
+                        clearable
                     /></v-col>
                   </v-row>
                   <v-row>
@@ -117,7 +118,7 @@
             </v-card>
           </v-col>
         </v-row>
-        <v-row dense>
+        <v-row>
           <v-col>
             <v-chip label large color="white">
               <v-icon left> mdi-record </v-icon>
@@ -130,11 +131,15 @@
             <v-card ref="form">
               <v-card-text>
                 <v-container>
-                  <v-row dense align="center">
-                    <v-col cols="3"
-                      ><div class="subtitle-1">가입일:</div></v-col
-                    >
-                    <v-col>{{ createdDate }}</v-col>
+                  <v-row align="center">
+                    <v-col>
+                      <v-text-field
+                        v-model="createdDate"
+                        label="가입일"
+                        hide-details
+                        readonly
+                      />
+                    </v-col>
                     <!-- <v-col cols="2"
                       ><div class="subtitle-1">회원 등급:</div></v-col
                     >
@@ -143,18 +148,26 @@
                     /></v-col> -->
                   </v-row>
 
-                  <v-row dense align="center">
-                    <v-col cols="3"
-                      ><div class="subtitle-1">총 구매 금액:</div></v-col
-                    >
-                    <v-col cols="2">{{ purchasePriceSum }} 원 </v-col>
+                  <v-row align="center">
+                    <v-col>
+                      <v-text-field
+                        v-model="purchasePriceSum"
+                        label="총 구매 금액"
+                        hide-details
+                        readonly
+                      />
+                    </v-col>
                     <v-col><v-btn @click="openDialog">구매 내역</v-btn></v-col>
                   </v-row>
-                  <v-row dense align="center">
-                    <v-col cols="3"
-                      ><div class="subtitle-1">포인트:</div></v-col
-                    >
-                    <v-col cols="2">{{ pointSum }} 원</v-col>
+                  <v-row align="center">
+                    <v-col>
+                      <v-text-field
+                        v-model="pointSum"
+                        label="포인트"
+                        hide-details
+                        readonly
+                      />
+                    </v-col>
                     <v-col
                       ><v-btn @click="openPointDialog"
                         >포인트 이용 내역</v-btn

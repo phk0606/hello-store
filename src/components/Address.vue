@@ -1,20 +1,18 @@
 <template>
-  <div>
-    <v-row dense align="center">
-      <v-col cols="2">
+  <v-container fluid>
+    <v-row align="center">
+      <v-col cols="3">
         <div class="subtitle-1"><v-icon>mdi-map-marker</v-icon> 주소:</div>
       </v-col>
       <v-col>
-        <v-row dense align="center">
+        <v-row align="center">
           <v-col
             ><v-text-field
+              label="우편번호"
               v-model="zonecode"
-              placeholder="우편번호"
               hide-details
-              dense
-              solo-inverted
               required
-              disabled
+              readonly
           /></v-col>
           <v-col>
             <v-dialog v-model="dialog" persistent max-width="600px">
@@ -50,42 +48,37 @@
         <v-row dense align="center">
           <v-col
             ><v-text-field
+              label="도로명 주소"
               v-model="roadAddress"
-              placeholder="도로명 주소"
               hide-details
-              dense
-              solo-inverted
               required
-              disabled
+              readonly
           /></v-col>
         </v-row>
         <v-row dense align="center">
           <v-col
             ><v-text-field
               v-model="address"
-              placeholder="지번 주소"
+              label="지번 주소"
               hide-details
-              dense
-              solo-inverted
               required
-              disabled
+              readonly
           /></v-col>
         </v-row>
         <v-row dense align="center">
           <v-col
             ><v-text-field
               :value="detailAddress"
-              placeholder="상세 주소"
+              label="상세 주소"
               hide-details
-              dense
-              solo-inverted
               required
+              clearable
               @change="setDetailAddress"
           /></v-col>
         </v-row>
       </v-col>
     </v-row>
-  </div>
+  </v-container>
 </template>
 
 <script>

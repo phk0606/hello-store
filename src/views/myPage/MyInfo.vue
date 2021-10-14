@@ -22,11 +22,11 @@
                       :rules="{ required: true }"
                     >
                       <v-text-field
-                        disabled
                         v-model="username"
                         label="아이디"
                         prepend-icon="mdi-identifier"
                         :error-messages="errors"
+                        readonly
                       />
                     </validation-provider>
                     <validation-provider
@@ -37,9 +37,9 @@
                       <v-text-field
                         v-model="name"
                         label="이름"
-                        disabled
                         prepend-icon="mdi-account"
                         :error-messages="errors"
+                        readonly
                       />
                     </validation-provider>
                     <validation-provider

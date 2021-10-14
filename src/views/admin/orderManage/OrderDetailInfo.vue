@@ -83,10 +83,9 @@
                   /></v-col>
                   <v-col cols="4"
                     ><v-text-field
-                      placeholder="운송장번호 입력"
+                      label="운송장번호 입력"
                       hide-details
                       dense
-                      solo-inverted
                       required
                   /></v-col>
                   <v-col cols="auto"><v-btn>배송 조회</v-btn></v-col>
@@ -234,27 +233,21 @@
               <v-card-title>주문자 정보</v-card-title>
               <v-card-text>
                 <v-container>
-                  <v-row dense align="center">
-                    <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
+                  <v-row align="center">
                     <v-col
                       ><v-text-field
+                        label="이름"
                         v-model="name"
                         hide-details
-                        dense
-                        solo-inverted
                         readonly
                         required
                     /></v-col>
                   </v-row>
-                  <v-row dense align="center">
-                    <v-col cols="2"
-                      ><div class="subtitle-1">*연락처:</div></v-col
-                    >
+                  <v-row align="center">
                     <v-col
                       ><v-text-field
+                        label="연락처"
                         hide-details
-                        dense
-                        solo-inverted
                         value="01012341234"
                         counter="11"
                         readonly
@@ -266,15 +259,14 @@
               <v-card-title>수령자 정보</v-card-title>
               <v-card-text>
                 <v-container>
-                  <v-row dense align="center">
-                    <v-col cols="2"><div class="subtitle-1">*이름:</div></v-col>
+                  <v-row align="center">
                     <v-col
                       ><v-text-field
+                        label="이름"
                         v-model="recipientName"
                         hide-details
-                        dense
                         required
-                        solo-inverted
+                        clearable
                     /></v-col>
                   </v-row>
                   <v-divider />
@@ -291,32 +283,27 @@
                     </v-col>
                   </v-row>
                   <v-divider />
-                  <v-row dense align="center">
-                    <v-col cols="2"
-                      ><div class="subtitle-1">*연락처:</div></v-col
-                    >
+                  <v-row align="center">
                     <v-col
                       ><v-text-field
+                        label="연락처"
                         v-model="recipientPhoneNumber"
                         hide-details
-                        dense
-                        solo-inverted
                         counter="11"
                         required
+                        clearable
                     /></v-col>
                   </v-row>
                   <v-divider />
-                  <v-row dense align="center">
-                    <v-col cols="2"
-                      ><div class="subtitle-1">요청사항:</div></v-col
-                    >
+                  <v-row align="center">
                     <v-col
                       ><v-textarea
+                        label="요청사항"
                         v-model="requirement"
                         hide-details
-                        dense
-                        filled
+                        outlined
                         no-resize
+                        clearable
                     /></v-col>
                   </v-row>
                 </v-container>
@@ -324,62 +311,50 @@
               <v-card-title>결제 정보</v-card-title>
               <v-card-text>
                 <v-container>
-                  <v-row dense align="center">
-                    <v-col cols="2"
-                      ><div class="subtitle-1">결제 금액:</div></v-col
-                    >
+                  <v-row align="center">
                     <v-col>
                       <v-text-field
+                        reverse
+                        label="결제 금액"
                         v-model="paymentPrice"
                         hide-details
-                        dense
                         required
-                        solo-inverted
                         readonly
                       />
                     </v-col>
                   </v-row>
-                  <v-row dense align="center">
-                    <v-col cols="2"
-                      ><div class="subtitle-1">배송료:</div></v-col
-                    >
+                  <v-row align="center">
                     <v-col>
                       <v-text-field
+                        reverse
+                        label="배송료"
                         :value="sumField('shippingFee')"
                         hide-details
-                        dense
                         required
-                        solo-inverted
                         readonly
                       />
                     </v-col>
                   </v-row>
-                  <v-row dense align="center">
-                    <v-col cols="2"
-                      ><div class="subtitle-1">사용포인트:</div></v-col
-                    >
+                  <v-row align="center">
                     <v-col>
                       <v-text-field
+                        label="사용포인트"
+                        reverse
                         v-model="usedPoint"
                         hide-details
-                        dense
                         required
-                        solo-inverted
                         readonly
                       />
                     </v-col>
                   </v-row>
-                  <v-row dense align="center">
-                    <v-col cols="2"
-                      ><div class="subtitle-1">결제 방법:</div></v-col
-                    >
+                  <v-row align="center">
                     <v-col>
                       <v-text-field
+                        reverse
+                        label="결제 방법"
                         v-model="paymentMethodTypeValue"
                         hide-details
-                        dense
                         required
-                        solo-inverted
                         readonly
                       />
                     </v-col>

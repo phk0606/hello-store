@@ -33,27 +33,35 @@
                       </v-chip>
                     </v-col>
                   </v-row>
-                  <v-row align="center" dense>
-                    <v-col cols="auto" class="ml-10 mr-13">이름</v-col>
-                    <v-col cols="auto">
-                      <v-text-field
-                        v-model="name"
-                        dense
-                        hide-details
-                        outlined
-                      />
+                  <v-row dense>
+                    <v-col cols="3">
+                      <v-row align="center" dense>
+                        <v-col cols="auto">
+                          <v-text-field
+                            dense
+                            label="이름"
+                            v-model="name"
+                            hide-details
+                            outlined
+                            clearable
+                          />
+                        </v-col>
+                      </v-row>
+                      <v-row align="center" dense>
+                        <v-col cols="auto">
+                          <v-text-field
+                            label="이메일 주소"
+                            v-model="email"
+                            dense
+                            hide-details
+                            outlined
+                            clearable
+                          />
+                        </v-col>
+                      </v-row>
                     </v-col>
-                    <v-col><v-btn @click="getUsername">확인</v-btn></v-col>
-                  </v-row>
-                  <v-row align="center" dense>
-                    <v-col cols="auto" class="ml-10">이메일 주소</v-col>
-                    <v-col cols="auto">
-                      <v-text-field
-                        v-model="email"
-                        dense
-                        hide-details
-                        outlined
-                      />
+                    <v-col align-self="center">
+                      <v-btn @click="getUsername">확인</v-btn>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -70,40 +78,47 @@
                     </v-col>
                   </v-row>
                   <v-row align="center" dense>
-                    <v-col cols="auto" class="ml-10 mr-13">이름</v-col>
-                    <v-col cols="auto">
-                      <v-text-field
-                        v-model="pwName"
-                        dense
-                        hide-details
-                        outlined
-                      />
+                    <v-col cols="3">
+                      <v-row>
+                        <v-col cols="auto">
+                          <v-text-field
+                            label="이름"
+                            v-model="pwName"
+                            dense
+                            hide-details
+                            outlined
+                            clearable
+                          />
+                        </v-col>
+                      </v-row>
+                      <v-row align="center" dense>
+                        <v-col cols="auto">
+                          <v-text-field
+                            label="아이디"
+                            v-model="username"
+                            dense
+                            hide-details
+                            outlined
+                            clearable
+                          />
+                        </v-col>
+                      </v-row>
+                      <v-row align="center" dense>
+                        <v-col cols="auto">
+                          <v-text-field
+                            label="이메일 주소"
+                            v-model="pwEmail"
+                            dense
+                            hide-details
+                            outlined
+                            clearable
+                          />
+                        </v-col>
+                      </v-row>
                     </v-col>
                     <v-col
                       ><v-btn @click="createTempPassword">확인</v-btn></v-col
                     >
-                  </v-row>
-                  <v-row align="center" dense>
-                    <v-col cols="auto" class="ml-10 mr-9">아이디</v-col>
-                    <v-col cols="auto">
-                      <v-text-field
-                        v-model="username"
-                        dense
-                        hide-details
-                        outlined
-                      />
-                    </v-col>
-                  </v-row>
-                  <v-row align="center" dense>
-                    <v-col cols="auto" class="ml-10">이메일 주소</v-col>
-                    <v-col cols="auto">
-                      <v-text-field
-                        v-model="pwEmail"
-                        dense
-                        hide-details
-                        outlined
-                      />
-                    </v-col>
                   </v-row>
                 </v-container>
               </v-tab-item>

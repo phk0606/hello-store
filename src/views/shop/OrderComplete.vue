@@ -67,25 +67,21 @@
           <v-card-text>
             <v-container>
               <v-row dense align="center">
-                <v-col cols="3"><div class="subtitle-1">*이름:</div></v-col>
                 <v-col
                   ><v-text-field
+                    label="이름"
                     v-model="name"
                     hide-details
-                    dense
-                    solo-inverted
                     required
                     readonly
                 /></v-col>
               </v-row>
               <v-row dense align="center">
-                <v-col cols="3"><div class="subtitle-1">*연락처:</div></v-col>
                 <v-col
                   ><v-text-field
+                    label="연락처"
                     v-model="phoneNumber"
                     hide-details
-                    dense
-                    solo-inverted
                     counter="11"
                     required
                     readonly
@@ -97,56 +93,48 @@
           <v-card-text>
             <v-container>
               <v-row dense align="center">
-                <v-col cols="3"><div class="subtitle-1">*이름:</div></v-col>
                 <v-col
                   ><v-text-field
+                    label="이름"
                     v-model="recipientName"
                     hide-details
-                    dense
                     required
-                    solo-inverted
                     readonly
                 /></v-col>
               </v-row>
               <v-divider />
               <v-row dense align="center">
-                <v-col cols="3">
-                  <div class="subtitle-1">*주소:</div>
-                </v-col>
                 <v-col>
                   <v-text-field
+                    label="주소"
                     v-model="fullAddress"
                     hide-details
-                    dense
                     required
-                    solo-inverted
                     readonly
                   />
                 </v-col>
               </v-row>
               <v-divider />
               <v-row dense align="center">
-                <v-col cols="3"><div class="subtitle-1">*연락처:</div></v-col>
                 <v-col
                   ><v-text-field
+                    label="연락처"
                     v-model="recipientPhoneNumber"
                     hide-details
-                    dense
-                    solo-inverted
                     counter="11"
                     required
+                    readonly
                 /></v-col>
               </v-row>
               <v-divider />
               <v-row dense align="center">
-                <v-col cols="3"><div class="subtitle-1">요청사항:</div></v-col>
                 <v-col
                   ><v-textarea
+                    label="요청사항"
                     v-model="requirement"
                     hide-details
-                    dense
-                    filled
                     no-resize
+                    outlined
                     readonly
                 /></v-col>
               </v-row>
@@ -155,61 +143,51 @@
           <v-card-title>결제 정보</v-card-title>
           <v-card-text>
             <v-container>
-              <v-row dense align="center">
-                <v-col cols="3"><div class="subtitle-1">결제 방법:</div></v-col>
+              <v-row align="center">
                 <v-col>
                   <v-text-field
+                    reverse
+                    label="결제 방법"
                     v-model="paymentMethodType"
                     hide-details
-                    dense
                     required
-                    solo-inverted
                     readonly
                   />
                 </v-col>
               </v-row>
 
-              <v-row dense align="center">
-                <v-col cols="3"
-                  ><div class="subtitle-1">결제 금액 합계:</div></v-col
-                >
+              <v-row align="center">
                 <v-col>
                   <v-text-field
+                    reverse
+                    label="결제 금액 합계"
                     v-model="totalPriceSum"
                     hide-details
-                    dense
                     required
-                    solo-inverted
                     readonly
                   />
                 </v-col>
               </v-row>
-              <v-row dense align="center">
-                <v-col cols="3"
-                  ><div class="subtitle-1">사용 포인트:</div></v-col
-                >
+              <v-row align="center">
                 <v-col>
                   <v-text-field
+                    reverse
+                    label="사용 포인트"
                     v-model="usedPoint"
                     hide-details
-                    dense
                     required
-                    solo-inverted
                     readonly
                   />
                 </v-col>
               </v-row>
-              <v-row dense align="center">
-                <v-col cols="3"
-                  ><div class="subtitle-1">최종 결제 금액:</div></v-col
-                >
+              <v-row align="center">
                 <v-col>
                   <v-text-field
+                    reverse
+                    label="최종 결제 금액"
                     v-model="paymentPrice"
                     hide-details
-                    dense
                     required
-                    solo-inverted
                     readonly
                   />
                 </v-col>

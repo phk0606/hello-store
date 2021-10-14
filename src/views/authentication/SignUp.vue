@@ -10,7 +10,7 @@
           />
         </router-link>
 
-        <v-card width="550">
+        <v-card width="600">
           <p class="log">{{ logMessage }}</p>
           <v-card-text class="text-center px-12 py-16">
             <validation-observer ref="observer" v-slot="{ invalid }">

@@ -92,7 +92,7 @@
               class="mr-0"
               >ID/비밀번호 찾기</v-btn
             >
-            <v-btn small value="justify" class="mr-0">비회원 주문조회</v-btn>
+            <!-- <v-btn small value="justify" class="mr-0">비회원 주문조회</v-btn> -->
           </v-btn-toggle>
         </v-col>
       </v-row>
