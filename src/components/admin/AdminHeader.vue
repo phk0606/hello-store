@@ -217,7 +217,7 @@ export default {
           to: '/admin/order-cancel-list',
         },
         {
-          title: '교환/환불 신청 리스트',
+          title: '교환/반품 신청 리스트',
           icon: 'mdi-flag',
           to: '/admin/exchange-list',
         },

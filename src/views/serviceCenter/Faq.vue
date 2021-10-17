@@ -139,7 +139,7 @@ export default {
         { value: 'CANCEL', text: '취소' },
       ],
       searchText: '',
-      bestSearchTexts: ['배송', '환불', '교환', '품절', '사이즈'],
+      bestSearchTexts: ['배송', '반품', '교환', '품절', '사이즈'],
       page: 1,
       records: 0,
       perPage: 5,

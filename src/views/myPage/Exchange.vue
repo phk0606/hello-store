@@ -4,7 +4,7 @@
       <v-col>
         <v-chip label x-large color="white">
           <v-icon left> mdi-chevron-right-box </v-icon>
-          교환/환불 내역
+          교환/반품 내역
         </v-chip>
       </v-col>
     </v-row>
@@ -71,7 +71,7 @@
         </v-text-field>
       </v-col>
       <v-col cols="auto">
-        <v-btn color="indigo" dark @click="getExchangeRefunds(1)">검색</v-btn>
+        <v-btn color="indigo" dark @click="getExchangeReturns(1)">검색</v-btn>
       </v-col>
     </v-row>
     <v-divider />
@@ -83,19 +83,19 @@
           v-model="selected"
           :headers="headers"
           :items="contentList"
-          item-key="exchangeRefundId"
+          item-key="exchangeReturnId"
           show-select
           class="elevation-1"
           disable-sort
         >
           <template v-slot:[`item.productName`]="{ item }">
-            <v-row>{{ item.exchangeRefundProducts[0].productName }}</v-row>
+            <v-row>{{ item.exchangeReturnProducts[0].productName }}</v-row>
             <v-row
               v-if="
-                item.exchangeRefundProductCount &&
-                item.exchangeRefundProductCount >= 2
+                item.exchangeReturnProductCount &&
+                item.exchangeReturnProductCount >= 2
               "
-              >외 {{ item.exchangeRefundProductCount - 1 }} 개</v-row
+              >외 {{ item.exchangeReturnProductCount - 1 }} 개</v-row
             >
           </template>
           <template v-slot:[`item.name`]="{ item }">
@@ -103,26 +103,26 @@
             <v-row>({{ item.username }})</v-row>
           </template>
 
-          <template v-slot:[`item.exchangeRefundTypeValue`]="{ item }">
+          <template v-slot:[`item.exchangeReturnTypeValue`]="{ item }">
             <v-row>{{
-              item.exchangeRefundProducts[0].exchangeRefundTypeValue
+              item.exchangeReturnProducts[0].exchangeReturnTypeValue
             }}</v-row>
             <v-row
               v-if="
-                item.exchangeRefundProductCount &&
-                item.exchangeRefundProductCount >= 2
+                item.exchangeReturnProductCount &&
+                item.exchangeReturnProductCount >= 2
               "
-              >외 {{ item.exchangeRefundProductCount - 1 }} 개</v-row
+              >외 {{ item.exchangeReturnProductCount - 1 }} 개</v-row
             >
           </template>
 
-          <template v-slot:[`item.exchangeRefundStatusValue`]="{ item }">
-            <v-row>{{ item.exchangeRefundStatusValue }}</v-row>
+          <template v-slot:[`item.exchangeReturnStatusValue`]="{ item }">
+            <v-row>{{ item.exchangeReturnStatusValue }}</v-row>
           </template>
 
-          <template v-slot:[`item.exchangeRefundDetail`]="{ item }">
+          <template v-slot:[`item.exchangeReturnDetail`]="{ item }">
             <v-row
-              ><v-btn :to="`/my-page/exchange-detail/${item.exchangeRefundId}`"
+              ><v-btn :to="`/my-page/exchange-detail/${item.exchangeReturnId}`"
                 >상세 보기</v-btn
               ></v-row
             >
@@ -156,11 +156,11 @@
 import Pagination from 'vue-pagination-2';
 import { modifyOrderDeliveryStatus, modifyPaymentStatus } from '@/api/order';
 
-import { getExchangeRefunds } from '@/api/exchangeRefund';
+import { getExchangeReturns } from '@/api/exchangeReturn';
 
 export default {
   created() {
-    this.getExchangeRefunds(1);
+    this.getExchangeReturns(1);
   },
   components: {
     Pagination,
@@ -172,7 +172,7 @@ export default {
       searchSelected: null,
       searchText: '',
       searchKeyword: [
-        { text: '접수 번호', value: 'exchangeRefundId' },
+        { text: '접수 번호', value: 'exchangeReturndId' },
         { text: '신청 상품', value: 'productName' },
         { text: '신청자 아이디', value: 'username' },
         { text: '신청자 이름', value: 'name' },
@@ -187,22 +187,22 @@ export default {
           text: '접수 번호',
           align: 'center',
           sortable: false,
-          value: 'exchangeRefundId',
+          value: 'exchangeReturnId',
         },
         { text: '신청 일시', align: 'center', value: 'createdDate' },
         { text: '신청 상품', align: 'center', value: 'productName' },
         { text: '신청자(아이디)', align: 'center', value: 'name' },
         {
-          text: '교환/환불',
+          text: '교환/반품',
           align: 'center',
-          value: 'exchangeRefundTypeValue',
+          value: 'exchangeReturnTypeValue',
         },
         {
           text: '처리 상태',
           align: 'center',
-          value: 'exchangeRefundStatusValue',
+          value: 'exchangeReturnStatusValue',
         },
-        { text: '상세보기', align: 'center', value: 'exchangeRefundDetail' },
+        { text: '상세보기', align: 'center', value: 'exchangeReturnDetail' },
       ],
       contentList: [],
       date1: new Date(new Date().setDate(new Date().getDate() - 3))
@@ -220,7 +220,7 @@ export default {
           href: 'breadcrumbs_dashboard',
         },
         {
-          text: '교환/환불',
+          text: '교환/반품',
           disabled: false,
           href: 'breadcrumbs_link_1',
         },
@@ -230,7 +230,7 @@ export default {
   methods: {
     myCallback: function (page) {
       console.log(`Page ${page} was selected. Do something about it`);
-      this.getExchangeRefunds(page);
+      this.getExchangeReturns(page);
     },
     async modifyPaymentStatus() {
       const orders = this.selected;
@@ -279,11 +279,11 @@ export default {
         // this.logMessage = error.response.data.message;
       }
     },
-    async getExchangeRefunds(page) {
+    async getExchangeReturns(page) {
       console.log(this.searchSelected);
       console.log(this.activeTab);
       try {
-        const { data } = await getExchangeRefunds({
+        const { data } = await getExchangeReturns({
           page: page - 1,
           size: this.perPage,
 

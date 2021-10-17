@@ -187,7 +187,7 @@ const routes = [
         },
       },
       {
-        path: 'exchange-detail/:exchangeRefundId',
+        path: 'exchange-detail/:exchangeReturnId',
         name: 'my-page-exchange-detail',
         component: () =>
           import(
@@ -467,7 +467,7 @@ const routes = [
         },
       },
       {
-        path: 'exchange-detail/:exchangeRefundId',
+        path: 'exchange-detail/:exchangeReturnId',
         name: 'exchange-detail',
         component: () =>
           import(

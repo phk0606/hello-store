@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row>
       <v-col>
-        <h5>교환/환불 신청</h5>
+        <h5>교환/반품 신청</h5>
       </v-col>
     </v-row>
     <v-row>
@@ -41,11 +41,11 @@
               {{ item.productOptions[1].optionValue }}</v-row
             >
           </template>
-          <template v-slot:[`item.exchangeRefundType`]="{ item }">
+          <template v-slot:[`item.exchangeReturnType`]="{ item }">
             <v-row dense align="center">
               <v-col
                 ><v-radio-group
-                  v-model="item.exchangeRefundType"
+                  v-model="item.exchangeReturnType"
                   dense
                   row
                   hide-details
@@ -53,8 +53,8 @@
                   <v-radio value="EXCHANGE" label="교환" />
                   <v-radio
                     class="mr-0"
-                    value="REFUND"
-                    label="환불"
+                    value="RETURN"
+                    label="반품"
                   /> </v-radio-group
               ></v-col>
             </v-row>
@@ -69,15 +69,15 @@
           <v-container>
             <v-row dense align="center">
               <v-col cols="2"
-                ><div class="subtitle-1">교환 환불 상품:</div></v-col
+                ><div class="subtitle-1">교환 반품 상품:</div></v-col
               >
               <v-col
                 ><v-row
                   v-for="(
-                    getExchangeRefundProduct, i
-                  ) in getExchangeRefundProducts"
+                    getExchangeReturnProduct, i
+                  ) in getExchangeReturnProducts"
                   :key="i"
-                  >{{ getExchangeRefundProduct }}</v-row
+                  >{{ getExchangeReturnProduct }}</v-row
                 ></v-col
               >
             </v-row>
@@ -87,7 +87,7 @@
               <v-col cols="2"><div class="subtitle-1">사유 선택</div></v-col>
               <v-col
                 ><v-radio-group
-                  v-model="exchangeRefundReasonType"
+                  v-model="exchangeReturnReasonType"
                   dense
                   row
                   hide-details
@@ -103,12 +103,7 @@
             <v-row dense align="center">
               <v-col cols="2"><div class="subtitle-1">내용 작성:</div></v-col>
               <v-col
-                ><v-textarea
-                  v-model="content"
-                  hide-details
-                  dense
-                  filled
-                  no-resize
+                ><v-textarea v-model="content" hide-details outlined no-resize
               /></v-col>
             </v-row>
             <v-divider />
@@ -165,8 +160,8 @@
             <v-row dense align="center">
               <v-col cols="2"><div class="subtitle-1">배송비 결제:</div></v-col>
               <v-col>
-                {배송비} 원 ※ 교환/환불 사유가 '사이즈, 색상 변경'. '단순
-                변심'의 경우 배송비를 고객님께서 부담하셔야 하므로, [교환/환불
+                {배송비} 원 ※ 교환/반품 사유가 '사이즈, 색상 변경'. '단순
+                변심'의 경우 배송비를 고객님께서 부담하셔야 하므로, [교환/반품
                 신청하기] 클릭 시 배송비 결제가 진행됩니다.
               </v-col>
             </v-row>
@@ -176,7 +171,7 @@
     </v-row>
     <v-row justify="end">
       <v-col cols="auto"
-        ><v-btn @click="createExchangeRefund">신청하기</v-btn></v-col
+        ><v-btn @click="createExchangeReturn">신청하기</v-btn></v-col
       >
     </v-row>
   </v-container>
@@ -184,7 +179,7 @@
 
 <script>
 import { getOrder } from '@/api/order';
-import { createExchangeRefund } from '@/api/exchangeRefund';
+import { createExchangeReturn } from '@/api/exchangeReturn';
 
 export default {
   name: 'Exchange',
@@ -195,60 +190,60 @@ export default {
     this.orderId = orderId;
   },
   computed: {
-    getExchangeRefundProducts() {
+    getExchangeReturnProducts() {
       return this.selected.map(item => {
-        let exchangeRefund = '';
-        if (item.exchangeRefundType === 'EXCHANGE') {
-          exchangeRefund = '교환';
-        } else if (item.exchangeRefundType === 'REFUND') {
-          exchangeRefund = '환불';
+        let exchangeReturn = '';
+        if (item.exchangeReturnType === 'EXCHANGE') {
+          exchangeReturn = '교환';
+        } else if (item.exchangeReturnType === 'RETURN') {
+          exchangeReturn = '반품';
         } else {
-          exchangeRefund = '교환 또는 환불 선택 필요';
+          exchangeReturn = '교환 또는 반품 선택 필요';
         }
         return (
           item.orderProductId +
           ': ' +
           item.productName +
           ' (' +
-          exchangeRefund +
+          exchangeReturn +
           ')'
         );
       });
     },
   },
   methods: {
-    async createExchangeRefund() {
+    async createExchangeReturn() {
       try {
         const formData = new FormData();
 
         if (this.image1 != null) {
-          formData.append('exchangeRefundImages', this.image1);
+          formData.append('exchangeReturnImages', this.image1);
         }
 
         if (this.image2 != null) {
-          formData.append('exchangeRefundImages', this.image2);
+          formData.append('exchangeReturnImages', this.image2);
         }
 
         if (this.image3 != null) {
-          formData.append('exchangeRefundImages', this.image3);
+          formData.append('exchangeReturnImages', this.image3);
         }
 
-        const exchangeRefundDto = {
-          exchangeRefundProducts: this.selected,
-          exchangeRefundReasonType: this.exchangeRefundReasonType,
+        const exchangeReturnDto = {
+          exchangeReturnProducts: this.selected,
+          exchangeReturnReasonType: this.exchangeReturnReasonType,
           content: this.content,
         };
 
         formData.append(
-          'exchangeRefundDto',
-          new Blob([JSON.stringify(exchangeRefundDto)], {
+          'exchangeReturnDto',
+          new Blob([JSON.stringify(exchangeReturnDto)], {
             type: 'application/json',
           }),
         );
 
-        const response = await createExchangeRefund(formData);
+        const response = await createExchangeReturn(formData);
         console.log(response);
-        alert('교환/환불 신청이 등록되었습니다.');
+        alert('교환/반품 신청이 등록되었습니다.');
         this.$router.push('/my-page/order-info');
       } catch (error) {
         console.log(error);
@@ -298,7 +293,7 @@ export default {
       image2Url: null,
       image3Url: null,
 
-      exchangeRefundReasonType: 'COLOR_SIZE_CHANGE',
+      exchangeReturnReasonType: 'COLOR_SIZE_CHANGE',
       orderId: '',
       headers: [
         { text: '번호', align: 'center', value: 'orderProductId' },
@@ -306,7 +301,7 @@ export default {
         { text: '상품 정보', align: 'center', value: 'productName' },
         { text: '판매 가격', align: 'center', value: 'salePrice' },
         { text: '수량', align: 'center', value: 'quantity' },
-        { text: '교환/환불', align: 'center', value: 'exchangeRefundType' },
+        { text: '교환/반품', align: 'center', value: 'exchangeReturnType' },
       ],
       orderProducts: [],
       selected: [],

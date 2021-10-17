@@ -213,7 +213,7 @@ export default {
       answer: '',
       dialog: false,
       searchText: '',
-      bestSearchTexts: ['배송', '환불', '교환', '품절', '사이즈'],
+      bestSearchTexts: ['배송', '반품', '교환', '품절', '사이즈'],
       faqTypeSelected: [],
       faqTypes: [],
       page: 1,

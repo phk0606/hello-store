@@ -284,7 +284,7 @@
                       orderDeliveryStatus === 'SHIPPING_COMPLETE'
                     "
                     :to="`/my-page/exchange-regist/${orderId}`"
-                    >교환/환불</v-btn
+                    >교환/반품</v-btn
                   >
                 </v-col>
               </v-row>

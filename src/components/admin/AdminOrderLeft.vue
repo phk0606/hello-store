@@ -17,7 +17,7 @@
           ><v-subheader>주문 취소 관리</v-subheader></router-link
         >
         <router-link to="/admin/exchange-list"
-          ><v-subheader>교환/환불 관리</v-subheader></router-link
+          ><v-subheader>교환/반품 관리</v-subheader></router-link
         >
       </v-list-item-group>
     </v-list>

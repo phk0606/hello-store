@@ -21,7 +21,7 @@
           <v-col>
             <v-chip label x-large color="white">
               <v-icon left> mdi-chevron-right-box </v-icon>
-              교환/환불 신청
+              교환/반품 신청
             </v-chip>
           </v-col>
         </v-row>
@@ -31,8 +31,8 @@
               hide-default-footer
               v-model="selected"
               :headers="headers"
-              :items="exchangeRefundProducts"
-              item-key="exchangeRefundProductId"
+              :items="exchangeReturnProducts"
+              item-key="exchangeReturnProductId"
               class="elevation-1"
               disable-sort
             >
@@ -62,11 +62,11 @@
                   {{ item.productOptions[1].optionValue }}</v-row
                 >
               </template>
-              <template v-slot:[`item.exchangeRefundType`]="{ item }">
+              <template v-slot:[`item.exchangeReturnType`]="{ item }">
                 <v-row dense align="center">
                   <v-col
                     ><v-radio-group
-                      v-model="item.exchangeRefundType"
+                      v-model="item.exchangeReturnType"
                       dense
                       row
                       hide-details
@@ -74,8 +74,8 @@
                       <v-radio value="EXCHANGE" label="교환" />
                       <v-radio
                         class="mr-0"
-                        value="REFUND"
-                        label="환불"
+                        value="RETURN"
+                        label="반품"
                       /> </v-radio-group
                   ></v-col>
                 </v-row>
@@ -94,7 +94,7 @@
                   >
                   <v-col
                     ><v-radio-group
-                      v-model="exchangeRefundReasonType"
+                      v-model="exchangeReturnReasonType"
                       dense
                       row
                       hide-details
@@ -179,9 +179,9 @@
                     ><div class="subtitle-1">배송비 결제:</div></v-col
                   >
                   <v-col>
-                    {배송비} 원 ※ 교환/환불 사유가 '사이즈, 색상 변경'. '단순
+                    {배송비} 원 ※ 교환/반품 사유가 '사이즈, 색상 변경'. '단순
                     변심'의 경우 배송비를 고객님께서 부담하셔야 하므로,
-                    [교환/환불 신청하기] 클릭 시 배송비 결제가 진행됩니다.
+                    [교환/반품 신청하기] 클릭 시 배송비 결제가 진행됩니다.
                   </v-col>
                 </v-row>
               </v-container>
@@ -200,7 +200,7 @@
 
 <script>
 import AdminOrderLeft from '@/components/admin/AdminOrderLeft.vue';
-import { createExchangeRefund, getExchangeRefund } from '@/api/exchangeRefund';
+import { createExchangeReturn, getExchangeReturn } from '@/api/exchangeReturn';
 
 export default {
   name: 'ExchangeDetail',
@@ -208,61 +208,61 @@ export default {
     AdminOrderLeft,
   },
   created() {
-    const exchangeRefundId = this.$route.params.exchangeRefundId;
-    this.getExchangeRefund(exchangeRefundId);
-    this.exchangeRefundId = exchangeRefundId;
+    const exchangeReturnId = this.$route.params.exchangeReturnId;
+    this.getExchangeReturn(exchangeReturnId);
+    this.exchangeReturnId = exchangeReturnId;
   },
 
   methods: {
-    async createExchangeRefund() {
+    async createExchangeReturn() {
       try {
         const formData = new FormData();
 
         if (this.image1 != null) {
-          formData.append('exchangeRefundImages', this.image1);
+          formData.append('exchangeReturnImages', this.image1);
         }
 
         if (this.image2 != null) {
-          formData.append('exchangeRefundImages', this.image2);
+          formData.append('exchangeReturnImages', this.image2);
         }
 
         if (this.image3 != null) {
-          formData.append('exchangeRefundImages', this.image3);
+          formData.append('exchangeReturnImages', this.image3);
         }
 
-        const exchangeRefundDto = {
-          exchangeRefundProducts: this.selected,
-          exchangeRefundReasonType: this.exchangeRefundReasonType,
+        const exchangeReturnDto = {
+          exchangeReturnProducts: this.selected,
+          exchangeReturnReasonType: this.exchangeReturnReasonType,
           content: this.content,
         };
 
         formData.append(
-          'exchangeRefundDto',
-          new Blob([JSON.stringify(exchangeRefundDto)], {
+          'exchangeReturnDto',
+          new Blob([JSON.stringify(exchangeReturnDto)], {
             type: 'application/json',
           }),
         );
 
-        const response = await createExchangeRefund(formData);
+        const response = await createExchangeReturn(formData);
         console.log(response);
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;
       }
     },
-    async getExchangeRefund(exchangeRefundId) {
+    async getExchangeReturn(exchangeReturnId) {
       try {
-        const { data } = await getExchangeRefund({
-          exchangeRefundId: exchangeRefundId,
+        const { data } = await getExchangeReturn({
+          exchangeReturnId: exchangeReturnId,
         });
         console.log(data);
 
-        this.exchangeRefundProducts = data.exchangeRefundProducts;
-        this.exchangeRefundReasonType = data.exchangeRefundReasonType;
+        this.exchangeReturnProducts = data.exchangeReturnProducts;
+        this.exchangeReturnReasonType = data.exchangeReturnReasonType;
         this.content = data.content;
-        this.image1Url = this.imageUrl + data.exchangeRefundImages[0].fileName;
-        this.image2Url = this.imageUrl + data.exchangeRefundImages[1].fileName;
-        this.image3Url = this.imageUrl + data.exchangeRefundImages[2].fileName;
+        this.image1Url = this.imageUrl + data.exchangeReturnImages[0].fileName;
+        this.image2Url = this.imageUrl + data.exchangeReturnImages[1].fileName;
+        this.image3Url = this.imageUrl + data.exchangeReturnImages[2].fileName;
       } catch (error) {
         console.log(error);
       }
@@ -299,17 +299,17 @@ export default {
       image2Url: null,
       image3Url: null,
 
-      exchangeRefundReasonType: 'COLOR_SIZE_CHANGE',
-      exchangeRefundId: '',
+      exchangeReturnReasonType: 'COLOR_SIZE_CHANGE',
+      exchangeReturnId: '',
       headers: [
-        { text: '번호', align: 'center', value: 'exchangeRefundProductId' },
+        { text: '번호', align: 'center', value: 'exchangeReturnProductId' },
         { text: '이미지', align: 'center', sortable: false, value: 'image' },
         { text: '상품 정보', align: 'center', value: 'productName' },
         { text: '판매 가격', align: 'center', value: 'salePrice' },
         { text: '수량', align: 'center', value: 'quantity' },
-        { text: '교환/환불', align: 'center', value: 'exchangeRefundType' },
+        { text: '교환/반품', align: 'center', value: 'exchangeReturnType' },
       ],
-      exchangeRefundProducts: [],
+      exchangeReturnProducts: [],
       selected: [],
       items: [
         {
@@ -318,7 +318,7 @@ export default {
           href: 'breadcrumbs_dashboard',
         },
         {
-          text: '교환/환불',
+          text: '교환/반품',
           disabled: false,
           href: 'breadcrumbs_link_1',
         },
