@@ -176,7 +176,7 @@
           </v-col>
         </v-row>
         <v-row align="center">
-          <v-col cols="2">
+          <v-col cols="3">
             <v-select
               label="항목 선택"
               v-model="orderDeliveryStatusSelected"
@@ -235,11 +235,11 @@ export default {
       ],
       orderDeliveryStatusSelected: null,
       orderDeliveryStatus: [
-        { text: '주문 확인 전', value: 'BEFORE_CONFIRM' },
-        { text: '주문 확인', value: 'CONFIRM_ORDER' },
-        { text: '배송 준비 중', value: 'READY_SHIP' },
+        { text: '주문 확인 전', value: 'ORDER_CONFIRM_BEFORE' },
+        { text: '주문 확인 완료', value: 'ORDER_CONFIRM_COMPLETE' },
+        { text: '배송 준비 중', value: 'SHIPPING_READY' },
         { text: '배송 중', value: 'SHIPPING' },
-        { text: '배송 완료', value: 'COMPLETE_SHIP' },
+        { text: '배송 완료', value: 'SHIPPING_COMPLETE' },
       ],
       page: 1,
       records: 0,

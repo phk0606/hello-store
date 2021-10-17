@@ -106,26 +106,42 @@
           <v-card-text>
             <v-container>
               <v-row align="center">
-                <v-col
-                  ><v-text-field
-                    label="이름"
-                    v-model="recipientName"
-                    hide-details
-                    dense
-                    required
-                /></v-col>
+                <v-col>
+                  <validation-provider
+                    v-slot="{ errors }"
+                    name="이름"
+                    :rules="{ required: true }"
+                  >
+                    <v-text-field
+                      label="이름"
+                      v-model="recipientName"
+                      dense
+                      required
+                      clearable
+                      :error-messages="errors"
+                    />
+                  </validation-provider>
+                </v-col>
               </v-row>
               <v-row align="center">
-                <v-col
-                  ><v-text-field
-                    label="연락처"
-                    v-model="recipientPhoneNumber"
-                    hide-details
-                    dense
-                    placeholder="01012341234"
-                    counter="11"
-                    required
-                /></v-col>
+                <v-col>
+                  <validation-provider
+                    v-slot="{ errors }"
+                    name="연락처"
+                    :rules="{ required: true }"
+                  >
+                    <v-text-field
+                      label="연락처"
+                      v-model="recipientPhoneNumber"
+                      dense
+                      placeholder="01012341234"
+                      counter="11"
+                      required
+                      clearable
+                      :error-messages="errors"
+                    />
+                  </validation-provider>
+                </v-col>
               </v-row>
               <v-row>
                 <Address

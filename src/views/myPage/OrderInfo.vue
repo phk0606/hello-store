@@ -88,8 +88,8 @@
                     class="ml-3"
                     @click="orderCancel(item.orderId)"
                     v-if="
-                      item.orderDeliveryStatus === 'BEFORE_CONFIRM' ||
-                      item.orderDeliveryStatus === 'CONFIRM_ORDER'
+                      item.orderDeliveryStatus === 'ORDER_CONFIRM_BEFORE' ||
+                      item.orderDeliveryStatus === 'ORDER_CONFIRM_COMPLETE'
                     "
                     >주문취소</v-btn
                   >
@@ -97,9 +97,9 @@
                     :to="`/my-page/exchange-regist/${item.orderId}`"
                     class="ml-3"
                     v-if="
-                      item.orderDeliveryStatus === 'READY_SHIP' ||
+                      item.orderDeliveryStatus === 'SHIPPING_READY' ||
                       item.orderDeliveryStatus === 'SHIPPING' ||
-                      item.orderDeliveryStatus === 'COMPLETE_SHIP'
+                      item.orderDeliveryStatus === 'SHIPPING_COMPLETE'
                     "
                     >교환/환불</v-btn
                   >
@@ -243,6 +243,9 @@ export default {
   },
   methods: {
     async orderCancel(orderId) {
+      if (!confirm('주문을 취소하시겠습니까?')) {
+        return;
+      }
       try {
         const { data } = await orderCancel({
           orderId: orderId,

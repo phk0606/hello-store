@@ -216,6 +216,7 @@
               <v-row align="center">
                 <v-col>
                   <v-text-field
+                    reverse
                     label="결제 방법"
                     v-model="paymentMethodTypeValue"
                     hide-details
@@ -228,6 +229,7 @@
                 <v-row align="center">
                   <v-col>
                     <v-text-field
+                      reverse
                       label="입금 계좌"
                       v-model="depositAccount"
                       hide-details
@@ -239,6 +241,7 @@
                 <v-row align="center">
                   <v-col>
                     <v-text-field
+                      reverse
                       label="입금자 명"
                       v-model="depositorName"
                       hide-details
@@ -250,6 +253,7 @@
                 <v-row align="center">
                   <v-col>
                     <v-text-field
+                      reverse
                       label="입금 예정일"
                       v-model="depositDueDate"
                       hide-details
@@ -267,17 +271,17 @@
                     class="ml-3"
                     @click="orderCancel(orderId)"
                     v-if="
-                      orderDeliveryStatus === 'BEFORE_CONFIRM' ||
-                      orderDeliveryStatus === 'CONFIRM_ORDER'
+                      orderDeliveryStatus === 'ORDER_CONFIRM_BEFORE' ||
+                      orderDeliveryStatus === 'ORDER_CONFIRM_COMPLETE'
                     "
                     >주문취소</v-btn
                   >
                   <v-btn
                     class="ml-3"
                     v-if="
-                      orderDeliveryStatus === 'READY_SHIP' ||
+                      orderDeliveryStatus === 'SHIPPING_READY' ||
                       orderDeliveryStatus === 'SHIPPING' ||
-                      orderDeliveryStatus === 'COMPLETE_SHIP'
+                      orderDeliveryStatus === 'SHIPPING_COMPLETE'
                     "
                     :to="`/my-page/exchange-regist/${orderId}`"
                     >교환/환불</v-btn
@@ -325,7 +329,7 @@ export default {
     async modifyPhoneNumber() {
       const orderDeliveryStatus = this.orderDeliveryStatus;
       if (
-        orderDeliveryStatus === 'READY_SHIP' ||
+        orderDeliveryStatus === 'SHIPPING_READY' ||
         orderDeliveryStatus === 'SHIPPING'
       ) {
         alert('배송 단계이므로 정보를 수정할 수 없습니다.');
@@ -346,7 +350,7 @@ export default {
     async modifyDeliveryInfo() {
       const orderDeliveryStatus = this.orderDeliveryStatus;
       if (
-        orderDeliveryStatus === 'READY_SHIP' ||
+        orderDeliveryStatus === 'SHIPPING_READY' ||
         orderDeliveryStatus === 'SHIPPING'
       ) {
         alert('배송 단계이므로 정보를 수정할 수 없습니다.');
@@ -373,6 +377,10 @@ export default {
       }
     },
     async orderCancel(orderId) {
+      if (!confirm('주문을 취소하시겠습니까?')) {
+        return;
+      }
+
       try {
         const { data } = await orderCancel({
           orderId: orderId,

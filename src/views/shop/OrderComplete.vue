@@ -192,7 +192,6 @@
                   />
                 </v-col>
               </v-row>
-              <v-divider />
               <v-row>
                 <v-col class="d-flex justify-space-around">
                   <v-btn to="/my-page/order-info">주문내역/배송조회 확인</v-btn>

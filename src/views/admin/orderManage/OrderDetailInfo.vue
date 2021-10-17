@@ -360,53 +360,43 @@
                     </v-col>
                   </v-row>
                   <template v-if="paymentMethodType === 'WITHOUT_BANKBOOK'">
-                    <v-row dense align="center">
-                      <v-col cols="2"
-                        ><div class="subtitle-1">입금 계좌:</div></v-col
-                      >
+                    <v-row align="center">
                       <v-col>
                         <v-text-field
+                          label="입금 계좌"
+                          reverse
                           v-model="depositAccount"
                           hide-details
-                          dense
                           required
-                          solo-inverted
                           readonly
                         />
                       </v-col>
                     </v-row>
-                    <v-row dense align="center">
-                      <v-col cols="2"
-                        ><div class="subtitle-1">입금자 명:</div></v-col
-                      >
+                    <v-row align="center">
                       <v-col>
                         <v-text-field
+                          label="입금자 명"
+                          reverse
                           v-model="depositorName"
                           hide-details
-                          dense
                           required
-                          solo-inverted
                           readonly
                         />
                       </v-col>
                     </v-row>
-                    <v-row dense align="center">
-                      <v-col cols="2"
-                        ><div class="subtitle-1">입금 예정일:</div></v-col
-                      >
+                    <v-row align="center">
                       <v-col>
                         <v-text-field
+                          label="입금 예정일"
+                          reverse
                           v-model="depositDueDate"
                           hide-details
-                          dense
                           required
-                          solo-inverted
                           readonly
                         />
                       </v-col>
                     </v-row>
                   </template>
-                  <v-divider />
                   <v-row justify="center">
                     <v-col cols="auto">
                       <v-btn @click="modifyOrder">저장</v-btn>
@@ -469,8 +459,6 @@ export default {
           requirement: this.requirement,
         });
         console.log(data);
-
-        this.closeDialog();
 
         alert('주문이 수정 되었습니다.');
         this.$router.push('/admin/order-list');
@@ -562,11 +550,11 @@ export default {
       ],
       orderDeliveryStatusSelected: null,
       orderDeliveryStatus: [
-        { text: '주문 확인 전', value: 'BEFORE_CONFIRM' },
-        { text: '주문 확인', value: 'CONFIRM_ORDER' },
-        { text: '배송 준비 중', value: 'READY_SHIP' },
+        { text: '주문 확인 전', value: 'ORDER_CONFIRM_BEFORE' },
+        { text: '주문 확인 완료', value: 'ORDER_CONFIRM_COMPLETE' },
+        { text: '배송 준비 중', value: 'SHIPPING_READY' },
         { text: '배송 중', value: 'SHIPPING' },
-        { text: '배송 완료', value: 'COMPLETE_SHIP' },
+        { text: '배송 완료', value: 'SHIPPING_COMPLETE' },
       ],
       items: [
         {
