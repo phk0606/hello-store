@@ -271,6 +271,7 @@ export default {
           sortable: false,
           value: 'exchangeReturnId',
         },
+        { text: '주문 번호', align: 'center', value: 'orderId' },
         { text: '신청 일시', align: 'center', value: 'createdDate' },
         { text: '신청 상품', align: 'center', value: 'productName' },
         { text: '신청자(아이디)', align: 'center', value: 'name' },

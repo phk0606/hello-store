@@ -51,6 +51,7 @@
                   dense
                   row
                   hide-details
+                  readonly
                 >
                   <v-radio value="EXCHANGE" label="교환" />
                   <v-radio
@@ -77,6 +78,7 @@
                   dense
                   row
                   hide-details
+                  readonly
                 >
                   <v-radio value="COLOR_SIZE_CHANGE" label="색상/사이즈 변경" />
                   <v-radio value="MIND_CHANGE" label="단순 변심" />
@@ -92,9 +94,9 @@
                 ><v-textarea
                   v-model="content"
                   hide-details
-                  dense
-                  filled
+                  outlined
                   no-resize
+                  readonly
               /></v-col>
             </v-row>
             <v-divider />
@@ -225,9 +227,18 @@ export default {
         this.exchangeReturnProducts = data.exchangeReturnProducts;
         this.exchangeReturnReasonType = data.exchangeReturnReasonType;
         this.content = data.content;
-        this.image1Url = this.imageUrl + data.exchangeReturnImages[0].fileName;
-        this.image2Url = this.imageUrl + data.exchangeReturnImages[1].fileName;
-        this.image3Url = this.imageUrl + data.exchangeReturnImages[2].fileName;
+        if (data.exchangeReturnImages && data.exchangeReturnImages[0]) {
+          this.image1Url =
+            this.imageUrl + data.exchangeReturnImages[0].fileName;
+        }
+        if (data.exchangeReturnImages && data.exchangeReturnImages[1]) {
+          this.image2Url =
+            this.imageUrl + data.exchangeReturnImages[1].fileName;
+        }
+        if (data.exchangeReturnImages && data.exchangeReturnImages[2]) {
+          this.image3Url =
+            this.imageUrl + data.exchangeReturnImages[2].fileName;
+        }
       } catch (error) {
         console.log(error);
       }

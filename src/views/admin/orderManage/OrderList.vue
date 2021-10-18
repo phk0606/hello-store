@@ -129,6 +129,10 @@
               class="elevation-1"
               disable-sort
             >
+              <template v-slot:[`item.exchangeReturnId`]="{ item }">
+                <v-row v-if="item.exchangeReturnId">교환/반품</v-row>
+                <v-row v-else>신규</v-row>
+              </template>
               <template v-slot:[`item.productName`]="{ item }">
                 <v-row>{{ item.orderProducts[0].productName }}</v-row>
                 <v-row
@@ -220,6 +224,7 @@ export default {
         { value: 'SHIPPING_READY', text: '배송 준비 중' },
         { value: 'SHIPPING', text: '배송 중' },
         { value: 'SHIPPING_COMPLETE', text: '배송 완료' },
+        { value: '', text: '주문 모두 보기' },
       ],
       productName: '',
       searchSelected: null,
@@ -249,7 +254,12 @@ export default {
           sortable: false,
           value: 'orderId',
         },
-        { text: '유형', align: 'center', sortable: false, value: 'image' },
+        {
+          text: '유형',
+          align: 'center',
+          sortable: false,
+          value: 'exchangeReturnId',
+        },
         { text: '주문 일시', align: 'center', value: 'createdDate' },
         { text: '주문 상품', align: 'center', value: 'productName' },
         { text: '주문자(아이디)', align: 'center', value: 'name' },

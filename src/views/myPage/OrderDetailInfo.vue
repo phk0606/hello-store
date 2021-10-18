@@ -12,7 +12,8 @@
           <v-col cols="auto">주문일: {{ orderCreatedDate }}</v-col>
           <v-spacer />
           <v-col cols="auto">[주문 배송 상태]</v-col
-          ><v-col cols="auto">{{ orderDeliveryStatusValue }}</v-col>
+          ><v-col cols="auto" v-if="exchangeReturnId">교환/반품</v-col>
+          <v-col cols="auto" v-else>{{ orderDeliveryStatusValue }}</v-col>
         </v-row>
       </v-col>
     </v-row>
@@ -87,7 +88,10 @@
                 <v-col cols="auto">주문자 정보</v-col>
                 <v-col cols="auto"
                   ><v-btn
-                    v-if="orderDeliveryStatus !== 'COMPLETE_SHIP'"
+                    v-if="
+                      orderDeliveryStatus !== 'SHIPPING_COMPLETE' &&
+                      !exchangeReturnId
+                    "
                     @click="modifyPhoneNumber"
                     >수정</v-btn
                   ></v-col
@@ -123,7 +127,10 @@
                 <v-col cols="auto">배송 정보</v-col>
                 <v-col cols="auto"
                   ><v-btn
-                    v-if="orderDeliveryStatus !== 'COMPLETE_SHIP'"
+                    v-if="
+                      orderDeliveryStatus !== 'SHIPPING_COMPLETE' &&
+                      !exchangeReturnId
+                    "
                     @click="modifyDeliveryInfo"
                     >수정</v-btn
                   ></v-col
@@ -271,17 +278,19 @@
                     class="ml-3"
                     @click="orderCancel(orderId)"
                     v-if="
-                      orderDeliveryStatus === 'ORDER_CONFIRM_BEFORE' ||
-                      orderDeliveryStatus === 'ORDER_CONFIRM_COMPLETE'
+                      (orderDeliveryStatus === 'ORDER_CONFIRM_BEFORE' ||
+                        orderDeliveryStatus === 'ORDER_CONFIRM_COMPLETE') &&
+                      !exchangeReturnId
                     "
                     >주문취소</v-btn
                   >
                   <v-btn
                     class="ml-3"
                     v-if="
-                      orderDeliveryStatus === 'SHIPPING_READY' ||
-                      orderDeliveryStatus === 'SHIPPING' ||
-                      orderDeliveryStatus === 'SHIPPING_COMPLETE'
+                      (orderDeliveryStatus === 'SHIPPING_READY' ||
+                        orderDeliveryStatus === 'SHIPPING' ||
+                        orderDeliveryStatus === 'SHIPPING_COMPLETE') &&
+                      !exchangeReturnId
                     "
                     :to="`/my-page/exchange-regist/${orderId}`"
                     >교환/반품</v-btn
@@ -419,6 +428,7 @@ export default {
         this.depositorName = data.depositorName;
         this.depositDueDate = data.depositDueDate;
         this.usedPoint = data.usedPoint;
+        this.exchangeReturnId = data.exchangeReturnId;
       } catch (error) {
         console.log(error);
       }
@@ -430,6 +440,7 @@ export default {
   },
   data() {
     return {
+      exchangeReturnId: '',
       usedPoint: null,
       zonecode: '',
       roadAddress: '',

@@ -26,6 +26,23 @@
           </v-col>
         </v-row>
         <v-row>
+          <v-col> 접수일: 2017-10-17 15:56:10 </v-col>
+          <v-col> 처리 완료일: </v-col>
+          <v-col> 처리 상태: </v-col>
+          <v-col>
+            <v-select
+              label="처리 상태"
+              item-text=""
+              item-value=""
+              clearable
+              outlined
+              hide-details
+              dense
+              :menu-props="{ offsetY: true }"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
           <v-col cols="12">
             <v-data-table
               hide-default-footer
@@ -118,8 +135,7 @@
                     ><v-textarea
                       v-model="content"
                       hide-details
-                      dense
-                      filled
+                      outlined
                       no-resize
                   /></v-col>
                 </v-row>
@@ -188,10 +204,18 @@
             </v-card>
           </v-col>
         </v-row>
+        <v-row dense align="center">
+          <v-col cols="2"><div class="subtitle-1">처리 사항 메모:</div></v-col>
+          <v-col
+            ><v-textarea v-model="memo" hide-details outlined no-resize
+          /></v-col>
+        </v-row>
         <v-row justify="end">
           <v-col cols="auto"
             ><v-btn to="/admin/exchange-list">목록</v-btn></v-col
           >
+          <v-col cols="auto"><v-btn>저장</v-btn></v-col>
+          <v-col cols="auto"><v-btn>삭제하기</v-btn></v-col>
         </v-row>
       </v-col>
     </v-row>
@@ -292,6 +316,7 @@ export default {
     return {
       imageUrl: process.env.VUE_APP_IMAGE_URL,
       content: '',
+      memo: '',
       image1: null,
       image2: null,
       image3: null,

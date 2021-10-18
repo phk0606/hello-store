@@ -229,6 +229,7 @@ export default {
         }
 
         const exchangeReturnDto = {
+          orderId: this.orderId,
           exchangeReturnProducts: this.selected,
           exchangeReturnReasonType: this.exchangeReturnReasonType,
           content: this.content,

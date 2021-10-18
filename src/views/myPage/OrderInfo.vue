@@ -88,8 +88,10 @@
                     class="ml-3"
                     @click="orderCancel(item.orderId)"
                     v-if="
-                      item.orderDeliveryStatus === 'ORDER_CONFIRM_BEFORE' ||
-                      item.orderDeliveryStatus === 'ORDER_CONFIRM_COMPLETE'
+                      (item.orderDeliveryStatus === 'ORDER_CONFIRM_BEFORE' ||
+                        item.orderDeliveryStatus ===
+                          'ORDER_CONFIRM_COMPLETE') &&
+                      !item.exchangeReturnId
                     "
                     >주문취소</v-btn
                   >
@@ -97,9 +99,10 @@
                     :to="`/my-page/exchange-regist/${item.orderId}`"
                     class="ml-3"
                     v-if="
-                      item.orderDeliveryStatus === 'SHIPPING_READY' ||
-                      item.orderDeliveryStatus === 'SHIPPING' ||
-                      item.orderDeliveryStatus === 'SHIPPING_COMPLETE'
+                      (item.orderDeliveryStatus === 'SHIPPING_READY' ||
+                        item.orderDeliveryStatus === 'SHIPPING' ||
+                        item.orderDeliveryStatus === 'SHIPPING_COMPLETE') &&
+                      !item.exchangeReturnId
                     "
                     >교환/반품</v-btn
                   >
@@ -141,6 +144,14 @@
                     }}</v-row
                   >
                 </v-col>
+                <v-col v-if="item.exchangeReturnId" align-self="center">
+                  <v-card>
+                    <v-card-title
+                      class="red lighten-2 text-white justify-center"
+                      >교환/반품
+                    </v-card-title>
+                  </v-card>
+                </v-col>
                 <v-col>
                   <v-card>
                     <v-card-title class="blue-grey text-white justify-center"
@@ -159,10 +170,11 @@
                       >결제 상태</v-card-title
                     >
                     <v-card-actions class="justify-center"
-                      ><v-btn text>{{
+                      ><v-btn text v-if="!item.exchangeReturnId">{{
                         item.paymentStatusValue
-                      }}</v-btn></v-card-actions
-                    >
+                      }}</v-btn>
+                      <v-btn text v-else>-</v-btn>
+                    </v-card-actions>
                   </v-card>
                 </v-col>
                 <v-col>
@@ -171,10 +183,11 @@
                       >주문/배송</v-card-title
                     >
                     <v-card-actions class="justify-center"
-                      ><v-btn text>
+                      ><v-btn text v-if="!item.exchangeReturnId">
                         {{ item.orderDeliveryStatusValue }}
-                      </v-btn></v-card-actions
-                    >
+                      </v-btn>
+                      <v-btn text v-else>-</v-btn>
+                    </v-card-actions>
                   </v-card>
                 </v-col>
               </v-row>
