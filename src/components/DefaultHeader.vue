@@ -24,6 +24,7 @@
             prepend-inner-icon="mdi-magnify"
             label="검색어를 입력하세요."
             class="hidden-xs-and-down"
+            clearable
           />
         </v-col>
         <v-col cols="2">
