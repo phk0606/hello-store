@@ -129,10 +129,6 @@
               class="elevation-1"
               disable-sort
             >
-              <template v-slot:[`item.exchangeReturnId`]="{ item }">
-                <v-row v-if="item.exchangeReturnId">교환/반품</v-row>
-                <v-row v-else>신규</v-row>
-              </template>
               <template v-slot:[`item.productName`]="{ item }">
                 <v-row>{{ item.orderProducts[0].productName }}</v-row>
                 <v-row
@@ -258,7 +254,7 @@ export default {
           text: '유형',
           align: 'center',
           sortable: false,
-          value: 'exchangeReturnId',
+          value: 'orderTypeValue',
         },
         { text: '주문 일시', align: 'center', value: 'createdDate' },
         { text: '주문 상품', align: 'center', value: 'productName' },

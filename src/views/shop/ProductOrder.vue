@@ -102,7 +102,15 @@
               </v-row>
             </v-container>
           </v-card-text>
-          <v-card-title>배송 정보</v-card-title>
+          <v-card-title
+            >배송 정보<v-checkbox
+              v-model="ordererEqual"
+              @click="ordererEqualCheck"
+              dense
+              hide-details
+              label="주문자 정보와 동일"
+              class="ml-5"
+          /></v-card-title>
           <v-card-text>
             <v-container>
               <v-row align="center">
@@ -559,6 +567,7 @@ export default {
       });
 
       const orderDto = {
+        orderType: 'NEW',
         userNo: this.user.userNo,
         username: this.user.username,
         phoneNumber: this.user.phoneNumber,
@@ -648,9 +657,27 @@ export default {
         console.log(error);
       }
     },
+    ordererEqualCheck() {
+      if (this.ordererEqual) {
+        this.recipientName = this.user.name;
+        this.recipientPhoneNumber = this.user.phoneNumber;
+        this.zonecode = this.user.zoneCode;
+        this.address = this.user.address;
+        this.roadAddress = this.user.roadAddress;
+        this.detailAddress = this.user.detailAddress;
+      } else {
+        this.recipientName = '';
+        this.recipientPhoneNumber = '';
+        this.zonecode = '';
+        this.address = '';
+        this.roadAddress = '';
+        this.detailAddress = '';
+      }
+    },
   },
   data() {
     return {
+      ordererEqual: false,
       bankAccounts: [],
       paymentMethodTypes: [],
       paymentPriceTemp: null,

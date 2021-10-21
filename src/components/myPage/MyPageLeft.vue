@@ -31,7 +31,7 @@
         <v-list-item to="/my-page/exchange-list">
           <v-icon>mdi-menu-right</v-icon>
           <v-list-item-content>
-            <v-list-item-title>교환/반품 내역</v-list-item-title>
+            <v-list-item-title>교환/반품 신청 내역</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>

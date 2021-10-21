@@ -16,8 +16,16 @@ function getExchangeReturn(data) {
   return exchangeReturn.get('/getExchangeReturn', { params: data });
 }
 
+function modifyExchangeReturn(data) {
+  return exchangeReturn.put('/modifyExchangeReturn', data);
+}
+
 function modifyExchangeReturnStatus(data) {
   return exchangeReturn.put('/modifyExchangeReturnStatus', data);
+}
+
+function removeExchangeReturn(data) {
+  return exchangeReturn.delete('/removeExchangeReturn', { data });
 }
 
 export {
@@ -25,4 +33,6 @@ export {
   getExchangeReturns,
   getExchangeReturn,
   modifyExchangeReturnStatus,
+  modifyExchangeReturn,
+  removeExchangeReturn,
 };

@@ -144,14 +144,7 @@
                     }}</v-row
                   >
                 </v-col>
-                <v-col v-if="item.exchangeReturnId" align-self="center">
-                  <v-card>
-                    <v-card-title
-                      class="red lighten-2 text-white justify-center"
-                      >교환/반품
-                    </v-card-title>
-                  </v-card>
-                </v-col>
+
                 <v-col>
                   <v-card>
                     <v-card-title class="blue-grey text-white justify-center"
@@ -169,11 +162,8 @@
                     <v-card-title class="blue-grey text-white justify-center"
                       >결제 상태</v-card-title
                     >
-                    <v-card-actions class="justify-center"
-                      ><v-btn text v-if="!item.exchangeReturnId">{{
-                        item.paymentStatusValue
-                      }}</v-btn>
-                      <v-btn text v-else>-</v-btn>
+                    <v-card-actions class="justify-center">
+                      <v-btn text>{{ item.paymentStatusValue }}</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-col>
@@ -182,11 +172,8 @@
                     <v-card-title class="blue-grey text-white justify-center"
                       >주문/배송</v-card-title
                     >
-                    <v-card-actions class="justify-center"
-                      ><v-btn text v-if="!item.exchangeReturnId">
-                        {{ item.orderDeliveryStatusValue }}
-                      </v-btn>
-                      <v-btn text v-else>-</v-btn>
+                    <v-card-actions class="justify-center">
+                      <v-btn text>{{ item.orderDeliveryStatusValue }}</v-btn>
                     </v-card-actions>
                   </v-card>
                 </v-col>

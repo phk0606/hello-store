@@ -26,14 +26,18 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col> 접수일: 2017-10-17 15:56:10 </v-col>
-          <v-col> 처리 완료일: </v-col>
-          <v-col> 처리 상태: </v-col>
-          <v-col>
+          <v-col cols="3"> 접수일: {{ createdDate }} </v-col>
+          <v-col cols="3">주문 번호: {{ orderId }}</v-col>
+          <v-col cols="3"> 신청인: {{ name }}</v-col>
+          <v-col cols="3"> 처리 완료일: </v-col>
+        </v-row>
+        <v-row align="center">
+          <v-col cols="auto"> 처리 상태: </v-col>
+          <v-col cols="3">
             <v-select
+              v-model="exchangeReturnStatus"
               label="처리 상태"
-              item-text=""
-              item-value=""
+              :items="exchangeReturnStates"
               clearable
               outlined
               hide-details
@@ -66,18 +70,113 @@
                   </v-row>
                 </v-container>
               </template>
-              <template v-slot:[`item.productName`]="{ item }">
-                <v-row>상품명: {{ item.productName }}</v-row>
-                <v-row
-                  v-if="item.productOptions && item.productOptions.length >= 1"
-                  >{{ item.productOptions[0].optionName }}:
-                  {{ item.productOptions[0].optionValue }}</v-row
-                >
-                <v-row
-                  v-if="item.productOptions && item.productOptions.length >= 2"
-                  >{{ item.productOptions[1].optionName }}:
-                  {{ item.productOptions[1].optionValue }}</v-row
-                >
+              <template v-slot:[`item.productName`]="{ item, index }">
+                <v-container>
+                  <v-row class="text-left"
+                    ><v-col> 상품명: {{ item.productName }}</v-col></v-row
+                  >
+                  <v-row
+                    dense
+                    class="text-left"
+                    v-if="
+                      item.productOptions && item.productOptions.length >= 1
+                    "
+                    ><v-col
+                      >{{ item.productOptions[0].optionName }}:
+                      {{ item.productOptions[0].optionValue }}</v-col
+                    ></v-row
+                  >
+                  <v-row
+                    dense
+                    class="text-left"
+                    v-if="
+                      item.productOptions && item.productOptions.length >= 2
+                    "
+                    ><v-col
+                      >{{ item.productOptions[1].optionName }}:
+                      {{ item.productOptions[1].optionValue }}</v-col
+                    ></v-row
+                  >
+                  <div
+                    v-if="
+                      item.exchangeReturnType === 'EXCHANGE' && !item.newOrderId
+                    "
+                  >
+                    <v-divider />
+                    <v-row class="text-left"
+                      ><v-col><h6>교환 옵션</h6></v-col></v-row
+                    >
+                    <v-row
+                      v-if="
+                        item.firstOptions && item.firstOptions[0].optionValue
+                      "
+                      dense
+                      align="center"
+                    >
+                      <v-col cols="auto"
+                        ><div class="mr-3">
+                          {{ item.firstOptions[0].optionName }}:
+                        </div></v-col
+                      >
+                      <v-col cols="8">
+                        <v-select
+                          label="항목선택"
+                          v-model="item.newFirstOption"
+                          :items="item.firstOptions"
+                          item-text="optionValue"
+                          item-value="optionValue"
+                          hide-details
+                          outlined
+                          dense
+                          :menu-props="{ offsetY: true }"
+                          return-object
+                          @change="getSecondOptionsInStockQuantity(item, index)"
+                        />
+                      </v-col>
+                    </v-row>
+                    <v-row
+                      v-if="
+                        item.secondOptions.length > 0 &&
+                        item.secondOptions[0].optionValue
+                      "
+                      dense
+                      align="center"
+                    >
+                      <v-col cols="auto"
+                        ><div>
+                          {{ item.secondOptions[0].optionName }}:
+                        </div></v-col
+                      >
+                      <v-col cols="8">
+                        <v-select
+                          label="항목선택"
+                          v-model="item.newSecondOption"
+                          :items="item.secondOptions"
+                          item-text="optionValue"
+                          item-value="optionValue"
+                          hide-details
+                          outlined
+                          dense
+                          :menu-props="{ offsetY: true }"
+                          return-object
+                        >
+                          <template slot="selection" slot-scope="data">
+                            <span class="mr-5">{{
+                              data.item.optionValue
+                            }}</span>
+                            <span>(남음: {{ data.item.stockQuantity }})</span>
+                          </template>
+                          <template slot="item" slot-scope="data">
+                            <span class="mr-5">{{
+                              data.item.optionValue
+                            }}</span>
+                            <span>(남음: {{ data.item.stockQuantity }})</span>
+                          </template>
+                        </v-select>
+                      </v-col>
+                    </v-row>
+                  </div>
+                </v-container>
               </template>
               <template v-slot:[`item.exchangeReturnType`]="{ item }">
                 <v-row dense align="center">
@@ -87,6 +186,7 @@
                       dense
                       row
                       hide-details
+                      readonly
                     >
                       <v-radio value="EXCHANGE" label="교환" />
                       <v-radio
@@ -97,8 +197,24 @@
                   ></v-col>
                 </v-row>
               </template>
+              <template v-slot:[`item.process`]="{ item }">
+                <v-row dense align="center">
+                  <v-col v-if="item.newOrderId">
+                    처리 주문 번호: {{ item.newOrderId }}
+                  </v-col>
+                  <v-col v-else>
+                    <v-btn
+                      v-if="item.exchangeReturnType === 'EXCHANGE'"
+                      @click="createExchangeReturnOrder(item)"
+                      >교환 처리</v-btn
+                    >
+                    <v-btn v-else @click="createExchangeReturnOrder(item)"
+                      >반품 처리</v-btn
+                    >
+                  </v-col>
+                </v-row>
+              </template>
             </v-data-table>
-            <v-divider />
           </v-col>
         </v-row>
         <v-row>
@@ -141,9 +257,7 @@
                 </v-row>
                 <v-divider />
                 <v-row>
-                  <v-col cols="2"
-                    ><div class="subtitle-1">이미지 업로드:</div></v-col
-                  >
+                  <v-col cols="2"><div class="subtitle-1">이미지:</div></v-col>
                   <v-col>
                     <v-row>
                       <!-- <v-col cols="5">
@@ -156,7 +270,11 @@
                         />
                       </v-col> -->
                       <v-col cols="5">
-                        <v-img :src="image1Url" width="200" height="200" />
+                        <v-img
+                          :src="image1Url"
+                          max-width="200"
+                          max-height="200"
+                        />
                       </v-col>
                     </v-row>
                     <v-row>
@@ -170,7 +288,11 @@
                         />
                       </v-col> -->
                       <v-col cols="5">
-                        <v-img :src="image2Url" width="200" height="200" />
+                        <v-img
+                          :src="image2Url"
+                          max-width="200"
+                          max-height="200"
+                        />
                       </v-col>
                     </v-row>
                     <v-row>
@@ -184,13 +306,17 @@
                         />
                       </v-col> -->
                       <v-col cols="5">
-                        <v-img :src="image3Url" width="200" height="200" />
+                        <v-img
+                          :src="image3Url"
+                          max-width="200"
+                          max-height="200"
+                        />
                       </v-col>
                     </v-row>
                   </v-col>
                 </v-row>
                 <v-divider />
-                <v-row dense align="center">
+                <!-- <v-row dense align="center">
                   <v-col cols="2"
                     ><div class="subtitle-1">배송비 결제:</div></v-col
                   >
@@ -200,22 +326,30 @@
                     [교환/반품 신청하기] 클릭 시 배송비 결제가 진행됩니다.
                   </v-col>
                 </v-row>
+                <v-divider /> -->
+                <v-row dense align="center">
+                  <v-col cols="2"
+                    ><div class="subtitle-1">처리 사항 메모:</div></v-col
+                  >
+                  <v-col
+                    ><v-textarea v-model="memo" hide-details outlined no-resize
+                  /></v-col>
+                </v-row>
               </v-container>
             </v-card>
           </v-col>
         </v-row>
-        <v-row dense align="center">
-          <v-col cols="2"><div class="subtitle-1">처리 사항 메모:</div></v-col>
-          <v-col
-            ><v-textarea v-model="memo" hide-details outlined no-resize
-          /></v-col>
-        </v-row>
+
         <v-row justify="end">
           <v-col cols="auto"
             ><v-btn to="/admin/exchange-list">목록</v-btn></v-col
           >
-          <v-col cols="auto"><v-btn>저장</v-btn></v-col>
-          <v-col cols="auto"><v-btn>삭제하기</v-btn></v-col>
+          <v-col cols="auto"
+            ><v-btn @click="modifyExchangeReturn">저장</v-btn></v-col
+          >
+          <v-col cols="auto"
+            ><v-btn @click="removeExchangeReturn">삭제하기</v-btn></v-col
+          >
         </v-row>
       </v-col>
     </v-row>
@@ -224,7 +358,14 @@
 
 <script>
 import AdminOrderLeft from '@/components/admin/AdminOrderLeft.vue';
-import { createExchangeReturn, getExchangeReturn } from '@/api/exchangeReturn';
+import {
+  getExchangeReturn,
+  removeExchangeReturn,
+  modifyExchangeReturn,
+} from '@/api/exchangeReturn';
+
+import { getSecondOptionsInStockQuantity } from '@/api/stockQuantity';
+import { createExchangeReturnOrder } from '@/api/order';
 
 export default {
   name: 'ExchangeDetail',
@@ -238,40 +379,87 @@ export default {
   },
 
   methods: {
-    async createExchangeReturn() {
+    async createExchangeReturnOrder(item) {
+      console.log(item);
+
+      // 교환: 기존 상품 재고 증가, 변경 상품 재고 감소
+      //       기존 상품 조회 후 옵션 변경 이외 동일 내용으로 교환 주문 생성
+      // 반품: 기존 상품 재고 증가, 사용자 포인트 감소
+      //       기존 상품 조회 후 동일 내용으로 반품 주문 생성
+      const exchangeReturnOrderDto = {
+        exchangeReturnProductId: item.exchangeReturnProductId,
+        username: this.username,
+        orderId: this.orderId,
+        productId: item.productId,
+        orderProductId: item.orderProductId,
+        newFirstOptionId:
+          item.exchangeReturnType === 'EXCHANGE' ? item.newFirstOption.id : '',
+        newSecondOptionId:
+          item.exchangeReturnType === 'EXCHANGE' ? item.newSecondOption.id : '',
+        orderType: item.exchangeReturnType,
+      };
+
+      console.log(exchangeReturnOrderDto);
+
       try {
-        const formData = new FormData();
-
-        if (this.image1 != null) {
-          formData.append('exchangeReturnImages', this.image1);
-        }
-
-        if (this.image2 != null) {
-          formData.append('exchangeReturnImages', this.image2);
-        }
-
-        if (this.image3 != null) {
-          formData.append('exchangeReturnImages', this.image3);
-        }
-
-        const exchangeReturnDto = {
-          exchangeReturnProducts: this.selected,
-          exchangeReturnReasonType: this.exchangeReturnReasonType,
-          content: this.content,
-        };
-
-        formData.append(
-          'exchangeReturnDto',
-          new Blob([JSON.stringify(exchangeReturnDto)], {
-            type: 'application/json',
-          }),
+        const { data } = await createExchangeReturnOrder(
+          exchangeReturnOrderDto,
         );
+        console.log(data);
 
-        const response = await createExchangeReturn(formData);
-        console.log(response);
+        alert(item.exchangeReturnTypeValue + ' 처리 되었습니다.');
+        this.getExchangeReturn(this.exchangeReturnId);
+
+        // this.$router.push(`/style-shop/order-complete/${data}`);
+      } catch (error) {
+        const message = error.response.data.message;
+        console.log(message);
+        if (message === '재고 부족') {
+          alert('재고 수량을 초과하였습니다.');
+          return;
+        }
+      }
+    },
+    async getSecondOptionsInStockQuantity(item, index) {
+      console.log(item, index);
+      try {
+        const { data } = await getSecondOptionsInStockQuantity({
+          productId: item.productId,
+          firstOptionId: item.newFirstOption.id,
+        });
+        this.exchangeReturnProducts[index].secondOptions = data;
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async removeExchangeReturn() {
+      try {
+        await removeExchangeReturn({
+          exchangeReturnId: this.exchangeReturnId,
+        });
+        //console.log(data);
+        alert('교환/반품 신청이 삭제되었습니다.');
+        this.$router.push('/admin/exchange-list');
       } catch (error) {
         console.log(error);
-        // this.logMessage = error.response.data.message;
+      }
+    },
+    async modifyExchangeReturn() {
+      try {
+        const { data } = await modifyExchangeReturn({
+          exchangeReturnId: this.exchangeReturnId,
+          exchangeReturnStatus: this.exchangeReturnStatus,
+          exchangeReturnReasonType: this.exchangeReturnReasonType,
+          content: this.content,
+          memo: this.memo,
+        });
+        console.log(data);
+
+        alert('교환/반품 신청이 수정 되었습니다.');
+        this.$router.push('/admin/exchange-list');
+      } catch (error) {
+        console.error(error);
       }
     },
     async getExchangeReturn(exchangeReturnId) {
@@ -280,13 +468,28 @@ export default {
           exchangeReturnId: exchangeReturnId,
         });
         console.log(data);
-
+        this.exchangeReturnStatus = data.exchangeReturnStatus;
         this.exchangeReturnProducts = data.exchangeReturnProducts;
         this.exchangeReturnReasonType = data.exchangeReturnReasonType;
+        this.createdDate = data.createdDate;
+        this.orderId = data.orderId;
+        this.username = data.username;
+        this.name = data.name;
+        this.userNo = data.userNo;
         this.content = data.content;
-        this.image1Url = this.imageUrl + data.exchangeReturnImages[0].fileName;
-        this.image2Url = this.imageUrl + data.exchangeReturnImages[1].fileName;
-        this.image3Url = this.imageUrl + data.exchangeReturnImages[2].fileName;
+        this.memo = data.memo;
+        if (data.exchangeReturnImages && data.exchangeReturnImages[0]) {
+          this.image1Url =
+            this.imageUrl + data.exchangeReturnImages[0].fileName;
+        }
+        if (data.exchangeReturnImages && data.exchangeReturnImages[1]) {
+          this.image2Url =
+            this.imageUrl + data.exchangeReturnImages[1].fileName;
+        }
+        if (data.exchangeReturnImages && data.exchangeReturnImages[2]) {
+          this.image3Url =
+            this.imageUrl + data.exchangeReturnImages[2].fileName;
+        }
       } catch (error) {
         console.log(error);
       }
@@ -315,6 +518,13 @@ export default {
   data() {
     return {
       imageUrl: process.env.VUE_APP_IMAGE_URL,
+      newFirstProductOptions: [],
+      newSecondProductOptions: [],
+      createdDate: '',
+      orderId: '',
+      username: '',
+      name: '',
+      userNo: '',
       content: '',
       memo: '',
       image1: null,
@@ -323,16 +533,28 @@ export default {
       image1Url: null,
       image2Url: null,
       image3Url: null,
-
+      exchangeReturnStatus: '',
+      exchangeReturnStates: [
+        { text: '신청', value: 'REQUESTED' },
+        { text: '처리 중', value: 'PROCESSING' },
+        { text: '처리 완료', value: 'FINISHED' },
+      ],
       exchangeReturnReasonType: 'COLOR_SIZE_CHANGE',
       exchangeReturnId: '',
       headers: [
         { text: '번호', align: 'center', value: 'exchangeReturnProductId' },
         { text: '이미지', align: 'center', sortable: false, value: 'image' },
-        { text: '상품 정보', align: 'center', value: 'productName' },
+        {
+          text: '상품 정보',
+          align: 'center',
+          value: 'productName',
+          width: '30%',
+        },
         { text: '판매 가격', align: 'center', value: 'salePrice' },
         { text: '수량', align: 'center', value: 'quantity' },
+        { text: '포인트', align: 'center', value: 'point' },
         { text: '교환/반품', align: 'center', value: 'exchangeReturnType' },
+        { text: '처리', align: 'center', value: 'process' },
       ],
       exchangeReturnProducts: [],
       selected: [],

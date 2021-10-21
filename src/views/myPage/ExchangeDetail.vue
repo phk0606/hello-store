@@ -63,7 +63,6 @@
             </v-row>
           </template>
         </v-data-table>
-        <v-divider />
       </v-col>
     </v-row>
     <v-row>
@@ -116,7 +115,7 @@
                         />
                       </v-col> -->
                   <v-col cols="5">
-                    <v-img :src="image1Url" width="200" height="200" />
+                    <v-img :src="image1Url" max-width="200" max-height="200" />
                   </v-col>
                 </v-row>
                 <v-row>
@@ -130,7 +129,7 @@
                         />
                       </v-col> -->
                   <v-col cols="5">
-                    <v-img :src="image2Url" width="200" height="200" />
+                    <v-img :src="image2Url" max-width="200" max-height="200" />
                   </v-col>
                 </v-row>
                 <v-row>
@@ -144,7 +143,7 @@
                         />
                       </v-col> -->
                   <v-col cols="5">
-                    <v-img :src="image3Url" width="200" height="200" />
+                    <v-img :src="image3Url" max-width="200" max-height="200" />
                   </v-col>
                 </v-row>
               </v-col>

@@ -102,7 +102,6 @@
                     readonly
                 /></v-col>
               </v-row>
-              <v-divider />
               <v-row dense align="center">
                 <v-col>
                   <v-text-field
@@ -114,7 +113,6 @@
                   />
                 </v-col>
               </v-row>
-              <v-divider />
               <v-row dense align="center">
                 <v-col
                   ><v-text-field
@@ -126,8 +124,7 @@
                     readonly
                 /></v-col>
               </v-row>
-              <v-divider />
-              <v-row dense align="center">
+              <v-row align="center">
                 <v-col
                   ><v-textarea
                     label="요청사항"

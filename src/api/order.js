@@ -4,6 +4,10 @@ function createOrder(data) {
   return order.post('/createOrder', data);
 }
 
+function createExchangeReturnOrder(data) {
+  return order.post('/createExchangeReturnOrder', data);
+}
+
 function getOrder(data) {
   return order.get('/getOrder', { params: data });
 }
@@ -56,4 +60,5 @@ export {
   modifyOrderDeliveryStatus,
   modifyPaymentStatus,
   modifyOrder,
+  createExchangeReturnOrder,
 };

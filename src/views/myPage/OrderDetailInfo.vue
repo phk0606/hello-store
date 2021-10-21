@@ -11,9 +11,8 @@
           <v-col cols="auto">주문번호: {{ orderId }}</v-col>
           <v-col cols="auto">주문일: {{ orderCreatedDate }}</v-col>
           <v-spacer />
-          <v-col cols="auto">[주문 배송 상태]</v-col
-          ><v-col cols="auto" v-if="exchangeReturnId">교환/반품</v-col>
-          <v-col cols="auto" v-else>{{ orderDeliveryStatusValue }}</v-col>
+          <v-col cols="auto">[주문 배송 상태]</v-col>
+          <v-col cols="auto">{{ orderDeliveryStatusValue }}</v-col>
         </v-row>
       </v-col>
     </v-row>
@@ -90,7 +89,7 @@
                   ><v-btn
                     v-if="
                       orderDeliveryStatus !== 'SHIPPING_COMPLETE' &&
-                      !exchangeReturnId
+                      orderDeliveryStatus !== 'SHIPPING'
                     "
                     @click="modifyPhoneNumber"
                     >수정</v-btn
@@ -129,7 +128,7 @@
                   ><v-btn
                     v-if="
                       orderDeliveryStatus !== 'SHIPPING_COMPLETE' &&
-                      !exchangeReturnId
+                      orderDeliveryStatus !== 'SHIPPING'
                     "
                     @click="modifyDeliveryInfo"
                     >수정</v-btn

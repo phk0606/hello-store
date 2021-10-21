@@ -66,10 +66,6 @@
                       dense
                       :menu-props="{ offsetY: true }"
                   /></v-col>
-                  <v-spacer />
-                  <v-col cols="auto"
-                    ><v-btn class="mr-9">교환 진행</v-btn></v-col
-                  >
                 </v-row>
                 <v-row align="center">
                   <v-col cols="auto">운송장번호:</v-col>

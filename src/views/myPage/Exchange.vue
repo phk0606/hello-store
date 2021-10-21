@@ -4,7 +4,7 @@
       <v-col>
         <v-chip label x-large color="white">
           <v-icon left> mdi-chevron-right-box </v-icon>
-          교환/반품 내역
+          교환/반품 신청 내역
         </v-chip>
       </v-col>
     </v-row>

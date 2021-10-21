@@ -246,7 +246,7 @@ export default {
       exchangeReturnStatusSelected: null,
       activeTab: 0,
       tabs: [
-        { value: 'REQUESTED', text: '신청 완료' },
+        { value: 'REQUESTED', text: '신청' },
         { value: 'PROCESSING', text: '처리 중' },
         { value: 'FINISHED', text: '처리 완료' },
       ],
