@@ -18,6 +18,7 @@
 
         <v-col cols="5">
           <v-text-field
+            v-model="searchText"
             flat
             hide-details
             prepend-inner-icon="mdi-magnify"
@@ -26,7 +27,7 @@
           />
         </v-col>
         <v-col cols="2">
-          <v-btn color="indigo darken-3"> 검색 </v-btn>
+          <v-btn @click="searchProduct" color="indigo darken-3"> 검색 </v-btn>
         </v-col>
         <v-col cols="2">
           <v-row
@@ -296,8 +297,18 @@ export default {
   },
   created() {
     this.getCategories();
+    const searchText = this.$route.params.searchText;
+    console.log(searchText);
+    if (searchText) {
+      this.searchText = searchText;
+    }
   },
   methods: {
+    searchProduct() {
+      this.$router
+        .push('/style-shop/product-search/' + this.searchText)
+        .catch(() => {});
+    },
     async getProductsPageCondition(firstCategoryId) {
       try {
         const { data } = await getProductsPageCondition({
@@ -336,6 +347,7 @@ export default {
   data() {
     return {
       imageUrl: process.env.VUE_APP_IMAGE_URL,
+      searchText: '',
       contentList: [],
       categories: [],
       cartProductCount: null,

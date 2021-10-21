@@ -98,6 +98,14 @@ const routes = [
       ),
     children: [
       {
+        path: 'product-search/:searchText',
+        name: 'style-shop-ProductSearch',
+        component: () =>
+          import(
+            /* webpackChunkName: "style-shop-ProductSearch" */ '@/views/shop/ProductSearch'
+          ),
+      },
+      {
         path: 'product-list/:categoryId/:parentId',
         name: 'style-shop-ProductList',
         component: () =>

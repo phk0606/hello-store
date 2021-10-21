@@ -225,195 +225,208 @@
         </v-dialog>
       </v-col>
     </v-row>
-    <v-divider />
-    <v-expansion-panels>
-      <v-expansion-panel v-for="(content, i) in contents" :key="i">
-        <v-expansion-panel-header>
-          <v-row>
-            <v-col cols="2">
-              <v-img :src="`${imageUrl}${content.fileName}`" max-width="120" />
-            </v-col>
-            <v-col cols="7">
+    <v-row>
+      <v-col>
+        <v-expansion-panels>
+          <v-expansion-panel v-for="(content, i) in contents" :key="i">
+            <v-expansion-panel-header>
               <v-row>
-                <v-col cols="7" class="d-flex">
-                  <div class="pr-2">{{ content.createdDate }}</div>
+                <v-col cols="2">
+                  <v-img
+                    :src="`${imageUrl}${content.fileName}`"
+                    max-width="120"
+                  />
+                </v-col>
+                <v-col cols="7">
+                  <v-row>
+                    <v-col cols="7" class="d-flex">
+                      <div class="pr-2">{{ content.createdDate }}</div>
 
-                  <div>{{ content.username }}</div>
+                      <div>{{ content.username }}</div>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      {{ content.categoryName }} >
+                      {{ content.productName }} (productId:
+                      {{ content.productId }})
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col>
+                      <div>
+                        {{ content.content }}
+                      </div>
+                    </v-col>
+                  </v-row>
+                </v-col>
+                <v-col cols="2" align-self="center">
+                  <v-rating
+                    :value="content.grade"
+                    color="indigo"
+                    small
+                    readonly
+                  />
                 </v-col>
               </v-row>
-              <v-row>
-                <v-col>
-                  {{ content.categoryName }} >
-                  {{ content.productName }} (productId: {{ content.productId }})
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <div>
-                    {{ content.content }}
-                  </div>
-                </v-col>
-              </v-row>
-            </v-col>
-            <v-col cols="2" align-self="center">
-              <v-rating :value="content.grade" color="indigo" small readonly />
-            </v-col>
-          </v-row>
-        </v-expansion-panel-header>
+            </v-expansion-panel-header>
 
-        <v-expansion-panel-content>
-          <v-row align="center">
-            <v-col cols="10">
-              <v-row>
-                <v-col>
-                  <div>
-                    <v-text-field
-                      v-model="content.content"
-                      hide-details
-                      dense
-                      required
-                      solo-inverted
-                    />
-                  </div>
+            <v-expansion-panel-content>
+              <v-row align="center">
+                <v-col cols="10">
+                  <v-row>
+                    <v-col>
+                      <div>
+                        <v-text-field
+                          v-model="content.content"
+                          hide-details
+                          dense
+                          required
+                          solo-inverted
+                        />
+                      </div>
+                    </v-col>
+                  </v-row>
+                </v-col>
+                <v-col cols="1" class="d-flex">
+                  <v-btn
+                    @click="modifyProductComment(i)"
+                    outlined
+                    small
+                    color="purple"
+                    class="mr-2"
+                  >
+                    수정
+                  </v-btn>
+                  <v-btn
+                    @click="removeProductComment(i)"
+                    outlined
+                    small
+                    color="red"
+                  >
+                    삭제
+                  </v-btn>
                 </v-col>
               </v-row>
-            </v-col>
-            <v-col cols="1" class="d-flex">
-              <v-btn
-                @click="modifyProductComment(i)"
-                outlined
-                small
-                color="purple"
-                class="mr-2"
+            </v-expansion-panel-content>
+            <v-card>
+              <v-row align="center">
+                <v-col cols="2">
+                  <v-btn text @click.prevent="replyListShowToggle(i)"
+                    >작성된 댓글({{ content.replyCount }})</v-btn
+                  >
+                </v-col>
+                <v-col>
+                  <v-btn
+                    outlined
+                    small
+                    color="indigo"
+                    class="mr-2"
+                    @click.prevent="replyRegistShow(i)"
+                  >
+                    작성
+                  </v-btn>
+                  <v-btn
+                    outlined
+                    small
+                    color="orange"
+                    @click.prevent="replyRegistHidden(i)"
+                  >
+                    취소
+                  </v-btn>
+                </v-col>
+              </v-row>
+              <v-row
+                align="center"
+                ref="replyRegistRow"
+                v-show="false"
+                class="pb-1"
               >
-                수정
-              </v-btn>
-              <v-btn
-                @click="removeProductComment(i)"
-                outlined
-                small
-                color="red"
-              >
-                삭제
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-expansion-panel-content>
-        <v-card flat>
-          <v-row align="center">
-            <v-col cols="2">
-              <v-btn text @click.prevent="replyListShowToggle(i)"
-                >작성된 댓글({{ content.replyCount }})</v-btn
-              >
-            </v-col>
-            <v-col>
-              <v-btn
-                outlined
-                small
-                color="indigo"
-                class="mr-2"
-                @click.prevent="replyRegistShow(i)"
-              >
-                작성
-              </v-btn>
-              <v-btn
-                outlined
-                small
-                color="orange"
-                @click.prevent="replyRegistHidden(i)"
-              >
-                취소
-              </v-btn>
-            </v-col>
-          </v-row>
-          <v-row
-            align="center"
-            ref="replyRegistRow"
-            v-show="false"
-            class="pb-1"
-          >
-            <v-col cols="1">
-              <v-spacer />
-            </v-col>
-            <v-col cols="7">
-              <v-textarea
-                v-model="content.replyRegistContent"
-                outlined
-                hide-details
-                rows="1"
-              />
-            </v-col>
-            <v-col cols="4">
-              <v-btn
-                @click="createReply(i)"
-                dark
-                color="deep-purple darken-3"
-                class="mr-2"
-              >
-                등록
-              </v-btn>
-            </v-col>
-          </v-row>
-          <div v-show="false" ref="replyList">
-            <v-row
-              v-for="(productCommentReply, j) in content.productCommentReplies"
-              :key="j"
-              dense
-              align="center"
-            >
-              <v-col cols="1">
-                <v-spacer />
-              </v-col>
-              <v-col cols="auto">
-                <v-icon>mdi-arrow-right-bottom</v-icon>
-              </v-col>
-              <v-col cols="7">
-                <v-card flat>
-                  <v-card-subtitle>
-                    {{ productCommentReply.username }}
-                    {{ productCommentReply.createdDate }}
-                  </v-card-subtitle>
-                  <v-card-text>
-                    <v-row align="center">
-                      <v-textarea
-                        v-model="productCommentReply.content"
-                        outlined
-                        hide-details
-                        rows="1"
-                      />
-                      <v-btn
-                        @click="modifyProductCommentReply(i, j)"
-                        outlined
-                        small
-                        color="purple"
-                        class="mx-2"
-                      >
-                        수정
-                      </v-btn>
-                      <v-btn
-                        @click="removeProductCommentReply(i, j)"
-                        outlined
-                        small
-                        color="red"
-                      >
-                        삭제
-                      </v-btn>
-                    </v-row>
-                  </v-card-text>
-                </v-card>
-              </v-col>
-            </v-row>
-          </div>
-        </v-card>
-      </v-expansion-panel>
-      <v-expansion-panel v-if="contents.length === 0">
-        <v-card flat>
-          <v-card-text> 데이터가 없습니다. </v-card-text>
-        </v-card>
-      </v-expansion-panel>
-    </v-expansion-panels>
-
-    <v-row justify="center" class="pt-2" style="text-align: center">
+                <v-col cols="1">
+                  <v-spacer />
+                </v-col>
+                <v-col cols="7">
+                  <v-textarea
+                    v-model="content.replyRegistContent"
+                    outlined
+                    hide-details
+                    rows="1"
+                  />
+                </v-col>
+                <v-col cols="4">
+                  <v-btn
+                    @click="createReply(i)"
+                    dark
+                    color="deep-purple darken-3"
+                    class="mr-2"
+                  >
+                    등록
+                  </v-btn>
+                </v-col>
+              </v-row>
+              <div v-show="false" ref="replyList">
+                <v-row
+                  v-for="(
+                    productCommentReply, j
+                  ) in content.productCommentReplies"
+                  :key="j"
+                  dense
+                  align="center"
+                >
+                  <v-col cols="1">
+                    <v-spacer />
+                  </v-col>
+                  <v-col cols="auto">
+                    <v-icon>mdi-arrow-right-bottom</v-icon>
+                  </v-col>
+                  <v-col cols="7">
+                    <v-card>
+                      <v-card-subtitle>
+                        {{ productCommentReply.username }}
+                        {{ productCommentReply.createdDate }}
+                      </v-card-subtitle>
+                      <v-card-text>
+                        <v-row align="center">
+                          <v-textarea
+                            v-model="productCommentReply.content"
+                            outlined
+                            hide-details
+                            rows="1"
+                          />
+                          <v-btn
+                            @click="modifyProductCommentReply(i, j)"
+                            outlined
+                            small
+                            color="purple"
+                            class="mx-2"
+                          >
+                            수정
+                          </v-btn>
+                          <v-btn
+                            @click="removeProductCommentReply(i, j)"
+                            outlined
+                            small
+                            color="red"
+                          >
+                            삭제
+                          </v-btn>
+                        </v-row>
+                      </v-card-text>
+                    </v-card>
+                  </v-col>
+                </v-row>
+              </div>
+            </v-card>
+          </v-expansion-panel>
+          <v-expansion-panel v-if="contents.length === 0">
+            <v-card flat>
+              <v-card-text> 데이터가 없습니다. </v-card-text>
+            </v-card>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-col>
+    </v-row>
+    <v-row justify="center" style="text-align: center">
       <v-col cols="auto">
         <pagination
           :options="{
