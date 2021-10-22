@@ -56,7 +56,9 @@
         </v-row>
         <v-row dense align="center">
           <v-col cols="auto"> 모든 카테고리에 동일하게 적용 </v-col>
-          <v-col cols="auto"><v-checkbox dense hide-details /></v-col>
+          <v-col cols="auto"
+            ><v-checkbox v-model="allCategoriesSame" dense hide-details
+          /></v-col>
         </v-row>
         <v-divider />
         <v-row dense>
@@ -85,6 +87,7 @@ export default {
 
   data() {
     return {
+      allCategoriesSame: false,
       id: '',
       categoryNotice: '',
       categorySelected: null,
@@ -117,6 +120,7 @@ export default {
     async mergeNoticeContent() {
       try {
         const response = await mergeNoticeContent({
+          allCategoriesSame: this.allCategoriesSame,
           id: this.id,
           categoryId: this.categorySelected,
           content: this.categoryNotice,

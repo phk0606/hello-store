@@ -11,11 +11,9 @@
     </v-row>
     <v-row class="mb-5">
       <v-col>
-        <v-card outlined elevation="1">
-          <v-card-title> 신상품 입고 안내 </v-card-title>
+        <v-card v-if="categoryNotice" outlined elevation="1">
           <v-card-text>
-            기모 티셔츠 상품이 새로 입고되었습니다 . 새로 입고된 상품은 Season
-            Off 상품이지만 가격 대비 품질이 우수하여 선보이게 되었습니다
+            {{ categoryNotice }}
           </v-card-text>
         </v-card>
       </v-col>
@@ -136,6 +134,7 @@
 // import ProductItem from '@/components/shop/ProductItem.vue';
 import Pagination from 'vue-pagination-2';
 import { getProductsPageCondition } from '@/api/shopProduct';
+import { getCategoryNotice } from '@/api/styleShopNotice';
 
 export default {
   name: 'ProductList',
@@ -157,9 +156,11 @@ export default {
     }
 
     this.getProductsPageCondition(1);
+    this.getCategoryNotice();
   },
   data() {
     return {
+      categoryNotice: '',
       categoryId: '',
       parentId: '',
       imageUrl: process.env.VUE_APP_IMAGE_URL,
@@ -180,6 +181,19 @@ export default {
     changeProductProperty() {
       console.log(this.productProperty);
       this.getProductsPageCondition();
+    },
+    async getCategoryNotice() {
+      console.log(this.categorySelected);
+      try {
+        const { data } = await getCategoryNotice({
+          categoryId: this.categoryId,
+        });
+        console.log(data);
+        this.categoryNotice = data.content;
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
     },
     async getProductsPageCondition(page) {
       try {
