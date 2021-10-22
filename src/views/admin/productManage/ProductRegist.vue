@@ -606,6 +606,30 @@ export default {
   },
   methods: {
     async createProduct() {
+      if (!this.category1Select || !this.category2Select) {
+        alert('카테고리를 선택해 주세요.');
+        return;
+      }
+      if (!this.name) {
+        alert('상품명을 입력해 주세요.');
+        return;
+      }
+      if (!this.salePrice || !this.regularPrice) {
+        alert('가격을 입력해 주세요.');
+        return;
+      }
+      if (
+        !this.firstOptions[0].optionName ||
+        !this.firstOptions[0].optionValue ||
+        !this.secondOptions[0].optionName ||
+        !this.secondOptions[0].optionValue
+      ) {
+        alert('옵션을 입력해 주세요.');
+        return;
+      }
+      if (!confirm('상품 등록을 하시겠습니까?')) {
+        return;
+      }
       const formData = new FormData();
 
       if (this.listImage != null) {
@@ -684,8 +708,9 @@ export default {
 
       try {
         const response = await createProduct(formData);
-
         console.log(response);
+
+        alert('상품을 등록하였습니다.');
         this.$router.push('/admin/product-list');
       } catch (error) {
         console.log(error.response.data.message);
