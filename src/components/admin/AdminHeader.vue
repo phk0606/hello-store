@@ -207,43 +207,43 @@ export default {
       ],
       orderManageMenu: [
         {
-          title: '주문 리스트',
+          title: '주문 관리',
           icon: 'mdi-clock',
           to: '/admin/order-list',
         },
         {
-          title: '주문 취소 리스트',
+          title: '주문 취소 관리',
           icon: 'mdi-account',
           to: '/admin/order-cancel-list',
         },
         {
-          title: '교환/반품 신청 리스트',
+          title: '교환/반품 신청',
           icon: 'mdi-flag',
           to: '/admin/exchange-list',
         },
       ],
       userManageMenu: [
         { title: '회원 리스트', icon: 'mdi-clock', to: '/admin/user-list' },
-        {
-          title: '탈퇴 회원 리스트',
-          icon: 'mdi-account',
-          to: '/admin/product-list',
-        },
-        {
-          title: '메일 관리',
-          icon: 'mdi-flag',
-          to: '/admin/category-manage',
-        },
-        {
-          title: 'SMS 관리',
-          icon: 'mdi-flag',
-          to: '/admin/category-manage',
-        },
-        {
-          title: '대용량 메일 발송',
-          icon: 'mdi-flag',
-          to: '/admin/category-manage',
-        },
+        // {
+        //   title: '탈퇴 회원 리스트',
+        //   icon: 'mdi-account',
+        //   to: '/admin/product-list',
+        // },
+        // {
+        //   title: '메일 관리',
+        //   icon: 'mdi-flag',
+        //   to: '/admin/category-manage',
+        // },
+        // {
+        //   title: 'SMS 관리',
+        //   icon: 'mdi-flag',
+        //   to: '/admin/category-manage',
+        // },
+        // {
+        //   title: '대용량 메일 발송',
+        //   icon: 'mdi-flag',
+        //   to: '/admin/category-manage',
+        // },
       ],
       boardManageMenu: [
         {
@@ -298,11 +298,11 @@ export default {
         // },
       ],
       policyManageMenu: [
-        {
-          title: '약관',
-          icon: 'mdi-clock',
-          to: '/admin/policy-manage',
-        },
+        // {
+        //   title: '약관',
+        //   icon: 'mdi-clock',
+        //   to: '/admin/policy-manage',
+        // },
         {
           title: '정책',
           icon: 'mdi-clock',
@@ -313,11 +313,11 @@ export default {
           icon: 'mdi-clock',
           to: '/admin/payment-method-manage',
         },
-        {
-          title: '메뉴 접근 권한',
-          icon: 'mdi-clock',
-          to: '/admin/policy-manage',
-        },
+        // {
+        //   title: '메뉴 접근 권한',
+        //   icon: 'mdi-clock',
+        //   to: '/admin/policy-manage',
+        // },
       ],
     };
   },

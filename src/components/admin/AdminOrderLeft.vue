@@ -10,15 +10,24 @@
 
     <v-list dense>
       <v-list-item-group>
-        <router-link to="/admin/order-list"
-          ><v-subheader>주문 관리</v-subheader></router-link
-        >
-        <router-link to="/admin/order-cancel-list"
-          ><v-subheader>주문 취소 관리</v-subheader></router-link
-        >
-        <router-link to="/admin/exchange-list"
-          ><v-subheader>교환/반품 신청</v-subheader></router-link
-        >
+        <v-list-item to="/admin/order-list">
+          <v-icon>mdi-menu-right</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>주문 관리</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/admin/order-cancel-list">
+          <v-icon>mdi-menu-right</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>주문 취소 관리</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/admin/exchange-list">
+          <v-icon>mdi-menu-right</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>교환/반품 신청</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
       </v-list-item-group>
     </v-list>
   </v-card>

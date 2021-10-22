@@ -117,12 +117,10 @@
         </v-row>
         <v-row no-gutters>
           <v-col>
+            <v-btn @click="openDialog('')" color="purple" small dark>
+              은행 계좌 등록
+            </v-btn>
             <v-dialog v-model="dialog" persistent max-width="600px">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn color="purple" small dark v-bind="attrs" v-on="on">
-                  은행 계좌 등록
-                </v-btn>
-              </template>
               <v-card>
                 <v-card-title>
                   <span class="text-h5"
@@ -133,14 +131,15 @@
                 <v-card-text>
                   <v-container>
                     <v-row align="center">
-                      <v-col cols="auto"> ● 은행 이름 </v-col>
+                      <v-col cols="auto"> ● 은행명 </v-col>
                       <v-col>
                         <v-text-field
+                          placeholder="은행명 입력"
                           v-model="bankName"
                           hide-details
                           dense
-                          solo-inverted
                           required
+                          outlined
                         />
                       </v-col>
                     </v-row>
@@ -148,10 +147,11 @@
                       <v-col cols="auto"> ● 계좌 번호 </v-col>
                       <v-col>
                         <v-text-field
+                          placeholder="계좌 번호 입력"
                           v-model="accountNumber"
                           hide-details
                           dense
-                          solo-inverted
+                          outlined
                           required
                         />
                       </v-col>
@@ -160,10 +160,11 @@
                       <v-col cols="auto"> ● 예금주 명 </v-col>
                       <v-col>
                         <v-text-field
+                          placeholder="예금주 입력"
                           v-model="accountHolder"
                           hide-details
                           dense
-                          solo-inverted
+                          outlined
                           required
                         />
                       </v-col>
@@ -224,7 +225,9 @@
               <template v-slot:[`item.modify`]="{ item }">
                 <v-row justify="center"
                   ><v-btn @click="openDialog(item.bankAccountId)">수정</v-btn
-                  ><v-btn @click="removeBankAccount(item.bankAccountId)"
+                  ><v-btn
+                    @click="removeBankAccount(item.bankAccountId)"
+                    class="ml-5"
                     >삭제</v-btn
                   ></v-row
                 >
@@ -309,8 +312,16 @@ export default {
   },
   methods: {
     openDialog(bankAccountId) {
+      console.log(bankAccountId);
       this.dialog = true;
-      this.getBankAccount(bankAccountId);
+      if (bankAccountId) {
+        this.getBankAccount(bankAccountId);
+      } else {
+        this.bankAccountId = '';
+        this.bankName = '';
+        this.accountNumber = '';
+        this.accountHolder = '';
+      }
     },
     async getPaymentMethodTypes() {
       try {

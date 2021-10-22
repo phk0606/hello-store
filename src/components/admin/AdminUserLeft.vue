@@ -10,10 +10,13 @@
 
     <v-list dense>
       <v-list-item-group>
-        <router-link to="/admin/user-list"
-          ><v-subheader>회원 리스트</v-subheader></router-link
-        >
-        <router-link to="/admin/product-regist"
+        <v-list-item to="/admin/user-list">
+          <v-icon>mdi-menu-right</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>회원 리스트</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <!-- <router-link to="/admin/product-regist"
           ><v-subheader>탈퇴 회원 리스트</v-subheader></router-link
         >
         <router-link to="/admin/product-regist"
@@ -24,7 +27,7 @@
         >
         <router-link to="/admin/product-regist"
           ><v-subheader>대량 메일 발송</v-subheader></router-link
-        >
+        > -->
       </v-list-item-group>
     </v-list>
   </v-card>

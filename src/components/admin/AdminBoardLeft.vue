@@ -10,7 +10,6 @@
 
     <v-list dense>
       <v-list-item-group>
-        <v-subheader>공지 사항</v-subheader>
         <v-list-item to="/admin/style-shop-notice">
           <v-icon>mdi-menu-right</v-icon>
           <v-list-item-content>
@@ -23,24 +22,42 @@
             <v-list-item-title>고객 센터 공지</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <router-link to="/admin/community-list"
-          ><v-subheader>커뮤니티</v-subheader></router-link
-        >
-        <router-link to="/admin/product-qna-list"
-          ><v-subheader>상품 문의</v-subheader></router-link
-        >
-        <router-link to="/admin/mantoman-list"
-          ><v-subheader>1:1 문의</v-subheader></router-link
-        >
-        <router-link to="/admin/product-comment-list"
-          ><v-subheader>상품평</v-subheader></router-link
-        >
-        <router-link to="/admin/faq-list"
-          ><v-subheader>자주하는 질문</v-subheader></router-link
-        >
-        <router-link to="/admin/event-list"
-          ><v-subheader>이벤트</v-subheader></router-link
-        >
+        <v-list-item to="/admin/community-list">
+          <v-icon>mdi-menu-right</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>커뮤니티</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/admin/product-qna-list">
+          <v-icon>mdi-menu-right</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>상품 문의</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/admin/mantoman-list">
+          <v-icon>mdi-menu-right</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>1:1 문의</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/admin/product-comment-list">
+          <v-icon>mdi-menu-right</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>상품평</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/admin/faq-list">
+          <v-icon>mdi-menu-right</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>자주하는 질문</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/admin/event-list">
+          <v-icon>mdi-menu-right</v-icon>
+          <v-list-item-content>
+            <v-list-item-title>이벤트</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
         <!-- <router-link to="/admin/product-regist"
           ><v-subheader>허위 상품 접수</v-subheader></router-link
         >
