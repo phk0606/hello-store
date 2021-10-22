@@ -561,6 +561,29 @@ export default {
       }
     },
     async payment() {
+      if (
+        !this.recipientName ||
+        !this.recipientPhoneNumber ||
+        !this.zonecode ||
+        !this.roadAddress ||
+        !this.address ||
+        !this.detailAddress
+      ) {
+        alert('배송 정보를 입력해주세요.');
+        return;
+      }
+
+      if (
+        this.paymentMethodType === 'WITHOUT_BANKBOOK' &&
+        (!this.selectedAccount || !this.depositorName)
+      ) {
+        alert('입금 정보를 입력해주세요.');
+        return;
+      }
+
+      if (!confirm('결제 하시겠습니까?')) {
+        return;
+      }
       this.orderProducts.map(orderProduct => {
         delete orderProduct.image;
         return orderProduct;
