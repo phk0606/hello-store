@@ -1,23 +1,5 @@
 <template>
   <v-container fluid>
-    <v-row>
-      <v-col>
-        <v-img
-          lazy-src="https://openimage.interpark.com/milti/displayclassBanner/001208/03/20210722053134.jpg"
-          src="https://openimage.interpark.com/milti/displayclassBanner/001208/03/20210722053134.jpg"
-          max-height="200"
-        />
-      </v-col>
-    </v-row>
-    <v-row class="mb-5">
-      <v-col>
-        <v-card v-if="categoryNotice" outlined elevation="1">
-          <v-card-text>
-            {{ categoryNotice }}
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
     <v-row dense align="center">
       <v-col cols="auto">
         <v-icon>mdi-arrow-right-drop-circle-outline</v-icon>
@@ -30,6 +12,25 @@
         </v-breadcrumbs>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col>
+        <v-img
+          lazy-src="https://openimage.interpark.com/milti/displayclassBanner/001208/03/20210722053134.jpg"
+          src="https://openimage.interpark.com/milti/displayclassBanner/001208/03/20210722053134.jpg"
+          max-height="200"
+        />
+      </v-col>
+    </v-row>
+    <v-row v-if="categoryNotice" class="mb-5">
+      <v-col>
+        <v-card outlined elevation="1">
+          <v-card-text>
+            {{ categoryNotice }}
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+
     <v-row justify="space-between" align="end">
       <v-col>
         <v-btn-toggle tile group no-gutters>
