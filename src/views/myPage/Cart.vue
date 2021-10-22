@@ -98,9 +98,9 @@
         </v-data-table>
         <v-divider />
         <template>
-          <v-container>
-            <v-row justify="end" align="center">
-              <v-col
+          <v-container fluid>
+            <v-row align="center">
+              <v-col cols="auto"
                 ><v-btn @click="removeCartProducts">선택 삭제</v-btn></v-col
               >
               <v-spacer />
@@ -121,9 +121,11 @@
         </template>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row dense>
       <v-col>
-        <v-btn to="/style-shop/product-list" class="ml-3">계속 쇼핑하기</v-btn>
+        <v-btn to="/style-shop/product-list/null/null" class="ml-3"
+          >계속 쇼핑하기</v-btn
+        >
         <v-btn @click="order" class="ml-5">선택 구매</v-btn>
       </v-col>
     </v-row>
@@ -146,7 +148,15 @@ export default {
   methods: {
     order() {
       const cartProducts = this.selected;
-      console.log(this.selected);
+      console.log(cartProducts);
+      if (cartProducts.length <= 0) {
+        alert('상품을 선택해 주세요.');
+        return;
+      }
+      if (!confirm('선택 상품을 구매 하시겠습니까?')) {
+        return;
+      }
+
       const cartProductIds = [];
       const cartId = this.selected[0].cartId;
 
@@ -156,10 +166,7 @@ export default {
         cartProductIds.push(cartProductId);
       }
       console.log(cartProductIds.length);
-      if (cartProductIds.length <= 0) {
-        alert('주문 상품을 선택해 주세요.');
-        return;
-      }
+
       this.$router.push({
         name: 'style-shop-product-order',
         query: {
@@ -170,6 +177,13 @@ export default {
     },
     async removeCartProducts() {
       const cartProducts = this.selected;
+      if (cartProducts.length <= 0) {
+        alert('상품을 선택해 주세요.');
+        return;
+      }
+      if (!confirm('선택 상품을 장바구니에서 삭제하시겠습니까?')) {
+        return;
+      }
       const cartProductIds = [];
       const cartId = this.selected[0].cartId;
 

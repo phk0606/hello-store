@@ -1,5 +1,13 @@
 <template>
   <v-container>
+    <v-row dense>
+      <v-col>
+        <v-chip label x-large color="white">
+          <v-icon left> mdi-chevron-right-box </v-icon>
+          상품 소개
+        </v-chip>
+      </v-col>
+    </v-row>
     <v-row>
       <v-col cols="6">
         <v-carousel
@@ -355,6 +363,11 @@ export default {
       }
     },
     async addCartProduct() {
+      if (!this.$store.getters.isLogin) {
+        alert('로그인이 필요합니다.');
+        this.$router.push('/authentication/sign-in');
+        return;
+      }
       if (this.firstOptions[0].optionValue && !this.firstSelected) {
         alert('첫 번째 옵션을 선택해 주세요.');
         return;
@@ -363,11 +376,7 @@ export default {
         alert('두 번째 옵션을 선택해 주세요.');
         return;
       }
-      if (!this.$store.getters.isLogin) {
-        alert('로그인이 필요합니다.');
-        this.$router.push('/authentication/sign-in');
-        return;
-      }
+
       try {
         const { data } = await addCartProduct({
           productId: this.productId,
@@ -392,12 +401,18 @@ export default {
           'GETCARTPRODUCTCOUNT',
           this.$store.state.username,
         );
+        alert('장바구니에 추가하였습니다.');
       } catch (error) {
         console.log(error);
       }
     },
     order() {
       console.log(this.firstSelected);
+      if (!this.$store.getters.isLogin) {
+        alert('로그인이 필요합니다.');
+        this.$router.push('/authentication/sign-in');
+        return;
+      }
       if (this.firstOptions[0].optionValue && !this.firstSelected) {
         alert('첫 번째 옵션을 선택해 주세요.');
         return;
@@ -408,6 +423,10 @@ export default {
       }
       if (this.stockQuantity - this.quantity < 0) {
         alert('재고 수량을 초과하였습니다.');
+        return;
+      }
+
+      if (!confirm('구매 하시겠습니까?')) {
         return;
       }
 

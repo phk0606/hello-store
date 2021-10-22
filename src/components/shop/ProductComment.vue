@@ -222,7 +222,7 @@
                       hide-details
                       dense
                       required
-                      solo-inverted
+                      outlined
                     />
                   </div>
                 </v-col>
