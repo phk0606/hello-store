@@ -13,6 +13,10 @@ function getCategory(data) {
   return instance.get('/getCategory', { params: data });
 }
 
+function getCategoryName(data) {
+  return instance.get('/getCategoryName', { params: data });
+}
+
 function createCategory(data) {
   return instance.post('/createCategory', data);
 }
@@ -32,4 +36,5 @@ export {
   createCategory,
   modifyCategory,
   deleteCategory,
+  getCategoryName,
 };

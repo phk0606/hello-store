@@ -18,6 +18,18 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row dense align="center">
+      <v-col cols="auto">
+        <v-icon>mdi-arrow-right-drop-circle-outline</v-icon>
+      </v-col>
+      <v-col cols="">
+        <v-breadcrumbs :items="items2" class="pa-0">
+          <template v-slot:divider>
+            <v-icon>mdi-chevron-right</v-icon>
+          </template>
+        </v-breadcrumbs>
+      </v-col>
+    </v-row>
     <v-row justify="space-between" align="end">
       <v-col>
         <v-btn-toggle tile group no-gutters>
@@ -135,6 +147,7 @@
 import Pagination from 'vue-pagination-2';
 import { getProductsPageCondition } from '@/api/shopProduct';
 import { getCategoryNotice } from '@/api/styleShopNotice';
+import { getCategoryName } from '@/api/category';
 
 export default {
   name: 'ProductList',
@@ -142,7 +155,7 @@ export default {
     // ProductItem,
     Pagination,
   },
-  created() {
+  async created() {
     const categoryId = this.$route.params.categoryId;
     const parentId = this.$route.params.parentId;
 
@@ -155,14 +168,19 @@ export default {
       (this.parentId = null), (this.categoryId = categoryId);
     }
 
-    this.getProductsPageCondition(1);
-    this.getCategoryNotice();
+    await this.getProductsPageCondition(1);
+    if (parentId !== 'null') {
+      await this.getCategoryNotice();
+    }
+    await this.getCategoryName();
   },
   data() {
     return {
       categoryNotice: '',
       categoryId: '',
+      categoryName: '',
       parentId: '',
+      parentName: '',
       imageUrl: process.env.VUE_APP_IMAGE_URL,
       productProperty: null,
       contentList: null,
@@ -175,12 +193,47 @@ export default {
         { text: 'Best', value: 'best' },
         { text: '할인', value: 'discount' },
       ],
+      items2: [
+        {
+          text: '스타일 숍',
+          disabled: false,
+          href: 'breadcrumbs_dashboard',
+        },
+      ],
     };
   },
   methods: {
     changeProductProperty() {
       console.log(this.productProperty);
       this.getProductsPageCondition();
+    },
+    async getCategoryName() {
+      console.log(this.categoryId, this.parentId);
+      try {
+        const { data } = await getCategoryName({
+          categoryId:
+            this.categoryId !== null ? this.categoryId : this.parentId,
+        });
+        console.log(data);
+        this.categoryName = data.name;
+        this.parentName = data.parentName;
+
+        if (data.parentName) {
+          this.items2.push({
+            text: data.parentName,
+            disabled: false,
+            href: 'breadcrumbs_link_1',
+          });
+        }
+        this.items2.push({
+          text: data.name,
+          disabled: false,
+          href: 'breadcrumbs_link_1',
+        });
+      } catch (error) {
+        console.log(error);
+        // this.logMessage = error.response.data.message;
+      }
     },
     async getCategoryNotice() {
       console.log(this.categorySelected);
