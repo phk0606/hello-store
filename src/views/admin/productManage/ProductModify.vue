@@ -705,6 +705,10 @@ export default {
       }
     },
     async modifyProduct() {
+      if (!confirm('상품을 수정 하시겠습니까?')) {
+        return;
+      }
+
       const formData = new FormData();
 
       if (this.listImage != null) {
@@ -784,8 +788,8 @@ export default {
 
       try {
         const response = await modifyProduct(formData);
-
         console.log(response);
+        alert('상품을 수정 하였습니다.');
         this.$router.push('/admin/product-list');
       } catch (error) {
         console.log(error.response.data.message);

@@ -349,8 +349,8 @@ export default {
 
         const response = await createStockQuantity(stockQuantityDto);
         console.log(response);
-        await this.getStockQuantities(1);
         this.clear();
+        await this.getStockQuantities(1);
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;
