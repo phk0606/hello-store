@@ -104,18 +104,17 @@
           lg="3"
         >
           <v-card
-            max-width="300"
+            max-width="500"
             class="mx-auto"
             :to="`/style-shop/product-detail/${content.productId}`"
           >
-            <v-img
-              height="300px"
-              width="300px"
-              :src="`${imageUrl}${content.fileName}`"
-            />
+            <v-img max-width="500" :src="`${imageUrl}${content.fileName}`" />
 
             <v-card-text class="text--primary">
-              <div>{{ content.salePrice }}</div>
+              <div v-if="content.salePrice">
+                <del>{{ content.regularPrice }}</del> → {{ content.salePrice }}
+              </div>
+              <div v-else>{{ content.regularPrice }}</div>
 
               <div>{{ content.productName }}</div>
               <div>{{ content.description }}</div>
@@ -174,18 +173,17 @@
           lg="3"
         >
           <v-card
-            max-width="300"
+            max-width="500"
             class="mx-auto"
             :to="`/style-shop/product-detail/${content.productId}`"
           >
-            <v-img
-              height="300px"
-              width="300px"
-              :src="`${imageUrl}${content.fileName}`"
-            />
+            <v-img max-width="500" :src="`${imageUrl}${content.fileName}`" />
 
             <v-card-text class="text--primary">
-              <div>{{ content.salePrice }}</div>
+              <div v-if="content.salePrice">
+                <del>{{ content.regularPrice }}</del> → {{ content.salePrice }}
+              </div>
+              <div v-else>{{ content.regularPrice }}</div>
 
               <div>{{ content.productName }}</div>
               <div>{{ content.description }}</div>

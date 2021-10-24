@@ -34,11 +34,29 @@
     <v-row justify="space-between" align="end">
       <v-col>
         <v-btn-toggle tile group no-gutters>
-          <v-btn small value="left" class="font-weight-bold">신상품</v-btn>
+          <v-btn
+            @click="productSort('id,desc')"
+            small
+            value="left"
+            class="font-weight-bold"
+            >신상품</v-btn
+          >
           <v-divider vertical />
-          <v-btn small value="center" class="font-weight-bold">낮은가격</v-btn>
+          <v-btn
+            @click="productSort('salePrice,asc')"
+            small
+            value="center"
+            class="font-weight-bold"
+            >낮은가격</v-btn
+          >
           <v-divider vertical />
-          <v-btn small value="right" class="font-weight-bold">높은가격</v-btn>
+          <v-btn
+            @click="productSort('salePrice,desc')"
+            small
+            value="right"
+            class="font-weight-bold"
+            >높은가격</v-btn
+          >
         </v-btn-toggle>
       </v-col>
       <v-col cols="3">
@@ -64,21 +82,23 @@
         lg="3"
       >
         <v-card
-          max-width="300"
+          max-width="500"
           class="mx-auto"
           :to="`/style-shop/product-detail/${content.productId}`"
         >
           <v-img
             class="white--text align-end"
-            height="300px"
-            width="300px"
+            max-width="500"
             :src="`${imageUrl}${content.fileName}`"
           >
             <!-- <v-card-title>Top 10 Australian beaches</v-card-title> -->
           </v-img>
 
           <v-card-text class="text--primary">
-            <div>{{ content.salePrice }}</div>
+            <div v-if="content.salePrice">
+              <del>{{ content.regularPrice }}</del> → {{ content.salePrice }}
+            </div>
+            <div v-else>{{ content.regularPrice }}</div>
 
             <div>{{ content.productName }}</div>
             <div>{{ content.description }}</div>
@@ -173,10 +193,13 @@ export default {
     if (parentId !== 'null') {
       await this.getCategoryNotice();
     }
-    await this.getCategoryName();
+    if (parentId !== 'null' && categoryId !== 'null') {
+      await this.getCategoryName();
+    }
   },
   data() {
     return {
+      sort: '',
       categoryNotice: '',
       categoryId: '',
       categoryName: '',
@@ -187,7 +210,7 @@ export default {
       contentList: null,
       page: 1,
       records: 0,
-      perPage: 6,
+      perPage: 8,
       items: [
         { text: '모두보기', value: '' },
         { text: '신상품', value: 'newArrival' },
@@ -204,6 +227,10 @@ export default {
     };
   },
   methods: {
+    productSort(columnDirection) {
+      this.sort = columnDirection;
+      this.getProductsPageCondition(1);
+    },
     changeProductProperty() {
       console.log(this.productProperty);
       this.getProductsPageCondition();
@@ -254,6 +281,7 @@ export default {
         const { data } = await getProductsPageCondition({
           page: page - 1,
           size: this.perPage,
+          sort: this.sort,
           productProperty: this.productProperty,
           firstCategoryId: this.parentId,
           secondCategoryId: this.categoryId,
