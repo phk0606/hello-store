@@ -306,6 +306,10 @@ export default {
   },
   methods: {
     searchProduct() {
+      if (!this.searchText) {
+        alert('상품명을 입력하세요.');
+        return;
+      }
       this.$router
         .push('/style-shop/product-search/' + this.searchText)
         .catch(() => {});
