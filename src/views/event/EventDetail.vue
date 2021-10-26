@@ -76,7 +76,7 @@ export default {
         this.description = data.description;
         this.eventDateA = data.eventDateA;
         this.eventDateB = data.eventDateB;
-        this.url = this.imageUrl + data.fileName;
+        this.url = this.imageUrl + data.imageFile.fileName;
 
         console.log(data);
       } catch (error) {
