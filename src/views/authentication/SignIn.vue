@@ -67,7 +67,7 @@
                   |
                   <router-link
                     class="text-decoration-none"
-                    to="/authentication/sign-up"
+                    to="/service-center/idPwFind/id"
                     >ID/비밀번호 찾기</router-link
                   >
                 </div>
