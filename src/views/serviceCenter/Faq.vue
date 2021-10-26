@@ -60,7 +60,7 @@
               hide-default-footer
               :headers="headers"
               :items="contents"
-              item-key="communityId"
+              item-key="faqId"
               single-expand
               show-expand
               class="elevation-1"
