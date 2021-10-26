@@ -11,9 +11,14 @@
           </v-col>
         </v-row>
         <v-row align="center">
-          <v-col cols="auto">제목</v-col>
-          <v-col cols="auto">
-            <v-text-field v-model="title" dense hide-details outlined />
+          <v-col cols="8">
+            <v-text-field
+              v-model="title"
+              label="제목"
+              dense
+              hide-details
+              outlined
+            />
           </v-col>
           <v-col> {{ createdBy }} {{ createdDate }} </v-col>
         </v-row>

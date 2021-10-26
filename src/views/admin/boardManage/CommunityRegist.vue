@@ -27,9 +27,14 @@
         </v-row>
 
         <v-row align="center">
-          <v-col cols="auto">제목</v-col>
-          <v-col cols="auto">
-            <v-text-field v-model="title" dense hide-details outlined />
+          <v-col cols="8">
+            <v-text-field
+              v-model="title"
+              label="제목"
+              dense
+              hide-details
+              outlined
+            />
           </v-col>
         </v-row>
 
@@ -81,6 +86,18 @@ export default {
   },
   methods: {
     async createCommunity() {
+      if (this.title === '') {
+        alert('제목을 입력해주세요.');
+        return;
+      }
+      if (this.content === '') {
+        alert('내용을 입력해주세요.');
+        return;
+      }
+      if (!confirm('글을 등록하시겠습니까?')) {
+        return;
+      }
+
       try {
         const communityDto = {
           title: this.title,
