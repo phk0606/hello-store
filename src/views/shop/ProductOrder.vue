@@ -629,6 +629,7 @@ export default {
         if (this.cartId) {
           this.removeCartProducts();
         }
+        alert('주문을 완료하였습니다.');
         this.$router.push(`/style-shop/order-complete/${data}`);
       } catch (error) {
         const message = error.response.data.message;
