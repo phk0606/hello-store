@@ -134,13 +134,19 @@ export default {
     },
     async getCategoryNotice() {
       console.log(this.categorySelected);
+
       try {
-        const { data } = await getCategoryNotice({
-          categoryId: this.categorySelected,
-        });
-        console.log(data);
-        this.categoryNotice = data.content;
-        this.id = data.id;
+        if (this.categorySelected) {
+          const { data } = await getCategoryNotice({
+            categoryId: this.categorySelected,
+          });
+          console.log(data);
+          this.categoryNotice = data.content;
+          this.id = data.id;
+        } else {
+          this.categoryNotice = '';
+          this.id = '';
+        }
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;
