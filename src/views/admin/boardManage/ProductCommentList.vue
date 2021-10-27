@@ -319,7 +319,13 @@
                 </v-expansion-panel-header>
 
                 <v-expansion-panel-content>
-                  <v-row align="center">
+                  <v-row
+                    v-if="
+                      $store.state.username === content.username ||
+                      $store.state.authority.includes('ROLE_ADMIN')
+                    "
+                    align="center"
+                  >
                     <v-col cols="10">
                       <v-row>
                         <v-col>
@@ -329,7 +335,7 @@
                               hide-details
                               dense
                               required
-                              solo-inverted
+                              outlined
                             />
                           </div>
                         </v-col>
@@ -353,6 +359,11 @@
                       >
                         삭제
                       </v-btn>
+                    </v-col>
+                  </v-row>
+                  <v-row v-else>
+                    <v-col>
+                      {{ content.content }}
                     </v-col>
                   </v-row>
                 </v-expansion-panel-content>
