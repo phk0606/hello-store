@@ -426,7 +426,7 @@
                       <v-col cols="auto">
                         <v-icon>mdi-arrow-right-bottom</v-icon>
                       </v-col>
-                      <v-col cols="7">
+                      <v-col cols="10">
                         <v-card flat>
                           <v-card-subtitle>
                             {{ productCommentReply.username }}
