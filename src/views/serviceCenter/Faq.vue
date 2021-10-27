@@ -152,7 +152,7 @@ export default {
           width: '10%',
         },
         { text: '분류', align: 'center', value: 'faqTypeValue', width: '20%' },
-        { text: '제목', align: 'center', sortable: false, value: 'question' },
+        { text: '제목', align: 'left', sortable: false, value: 'question' },
         { text: '', value: 'data-table-expand' },
       ],
       contents: [],

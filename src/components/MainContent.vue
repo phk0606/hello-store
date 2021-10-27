@@ -104,12 +104,45 @@
           lg="3"
         >
           <v-card
+            height="100%"
             max-width="500"
             class="mx-auto"
             :to="`/style-shop/product-detail/${content.productId}`"
           >
             <v-img max-width="500" :src="`${imageUrl}${content.fileName}`" />
-
+            <v-chip
+              v-if="content.newArrival"
+              class="ml-2"
+              x-small
+              color="pink"
+              label
+              text-color="white"
+            >
+              <!-- <v-icon left> mdi-label </v-icon> -->
+              신상품
+            </v-chip>
+            <v-chip
+              v-if="content.best"
+              class="ml-2"
+              x-small
+              color="pink"
+              label
+              text-color="white"
+            >
+              <!-- <v-icon left> mdi-label </v-icon> -->
+              Best
+            </v-chip>
+            <v-chip
+              v-if="content.discount"
+              class="ml-2"
+              x-small
+              color="pink"
+              label
+              text-color="white"
+            >
+              <!-- <v-icon left> mdi-label </v-icon> -->
+              할인
+            </v-chip>
             <v-card-text class="text--primary">
               <div v-if="content.salePrice">
                 <del>{{ content.regularPrice }}</del> → {{ content.salePrice }}
@@ -119,41 +152,6 @@
               <div>{{ content.productName }}</div>
               <div>{{ content.description }}</div>
             </v-card-text>
-            <div class="text-left">
-              <v-chip
-                v-if="content.newArrival"
-                class="ml-2"
-                x-small
-                color="pink"
-                label
-                text-color="white"
-              >
-                <!-- <v-icon left> mdi-label </v-icon> -->
-                신상품
-              </v-chip>
-              <v-chip
-                v-if="content.best"
-                class="ml-2"
-                x-small
-                color="pink"
-                label
-                text-color="white"
-              >
-                <!-- <v-icon left> mdi-label </v-icon> -->
-                Best
-              </v-chip>
-              <v-chip
-                v-if="content.discount"
-                class="ml-2"
-                x-small
-                color="pink"
-                label
-                text-color="white"
-              >
-                <!-- <v-icon left> mdi-label </v-icon> -->
-                할인
-              </v-chip>
-            </div>
           </v-card>
         </v-col>
       </v-row>
@@ -173,12 +171,45 @@
           lg="3"
         >
           <v-card
+            height="100%"
             max-width="500"
             class="mx-auto"
             :to="`/style-shop/product-detail/${content.productId}`"
           >
             <v-img max-width="500" :src="`${imageUrl}${content.fileName}`" />
-
+            <v-chip
+              v-if="content.newArrival"
+              class="ml-2"
+              x-small
+              color="pink"
+              label
+              text-color="white"
+            >
+              <!-- <v-icon left> mdi-label </v-icon> -->
+              신상품
+            </v-chip>
+            <v-chip
+              v-if="content.best"
+              class="ml-2"
+              x-small
+              color="pink"
+              label
+              text-color="white"
+            >
+              <!-- <v-icon left> mdi-label </v-icon> -->
+              Best
+            </v-chip>
+            <v-chip
+              v-if="content.discount"
+              class="ml-2"
+              x-small
+              color="pink"
+              label
+              text-color="white"
+            >
+              <!-- <v-icon left> mdi-label </v-icon> -->
+              할인
+            </v-chip>
             <v-card-text class="text--primary">
               <div v-if="content.salePrice">
                 <del>{{ content.regularPrice }}</del> → {{ content.salePrice }}
@@ -188,41 +219,6 @@
               <div>{{ content.productName }}</div>
               <div>{{ content.description }}</div>
             </v-card-text>
-            <div class="text-left">
-              <v-chip
-                v-if="content.newArrival"
-                class="ml-2"
-                x-small
-                color="pink"
-                label
-                text-color="white"
-              >
-                <!-- <v-icon left> mdi-label </v-icon> -->
-                신상품
-              </v-chip>
-              <v-chip
-                v-if="content.best"
-                class="ml-2"
-                x-small
-                color="pink"
-                label
-                text-color="white"
-              >
-                <!-- <v-icon left> mdi-label </v-icon> -->
-                Best
-              </v-chip>
-              <v-chip
-                v-if="content.discount"
-                class="ml-2"
-                x-small
-                color="pink"
-                label
-                text-color="white"
-              >
-                <!-- <v-icon left> mdi-label </v-icon> -->
-                할인
-              </v-chip>
-            </div>
           </v-card>
         </v-col>
       </v-row>
