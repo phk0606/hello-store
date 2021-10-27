@@ -380,7 +380,7 @@
                     <v-icon>mdi-arrow-right-bottom</v-icon>
                   </v-col>
                   <v-col cols="10">
-                    <v-card>
+                    <v-card flat>
                       <v-card-subtitle>
                         {{ productCommentReply.username }}
                         {{ productCommentReply.createdDate }}
