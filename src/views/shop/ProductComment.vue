@@ -379,14 +379,21 @@
                   <v-col cols="auto">
                     <v-icon>mdi-arrow-right-bottom</v-icon>
                   </v-col>
-                  <v-col cols="7">
+                  <v-col cols="10">
                     <v-card>
                       <v-card-subtitle>
                         {{ productCommentReply.username }}
                         {{ productCommentReply.createdDate }}
                       </v-card-subtitle>
                       <v-card-text>
-                        <v-row align="center">
+                        <v-row
+                          v-if="
+                            $store.state.username ===
+                              productCommentReply.username ||
+                            $store.state.authority.includes('ROLE_ADMIN')
+                          "
+                          align="center"
+                        >
                           <v-textarea
                             v-model="productCommentReply.content"
                             outlined
@@ -410,6 +417,9 @@
                           >
                             삭제
                           </v-btn>
+                        </v-row>
+                        <v-row v-else>
+                          {{ productCommentReply.content }}
                         </v-row>
                       </v-card-text>
                     </v-card>

@@ -373,7 +373,14 @@
                     {{ productCommentReply.createdDate }}
                   </v-card-subtitle>
                   <v-card-text>
-                    <v-row align="center">
+                    <v-row
+                      v-if="
+                        $store.state.username ===
+                          productCommentReply.username ||
+                        $store.state.authority.includes('ROLE_ADMIN')
+                      "
+                      align="center"
+                    >
                       <v-textarea
                         v-model="productCommentReply.content"
                         outlined
@@ -397,6 +404,9 @@
                       >
                         삭제
                       </v-btn>
+                    </v-row>
+                    <v-row v-else>
+                      {{ productCommentReply.content }}
                     </v-row>
                   </v-card-text>
                 </v-card>
