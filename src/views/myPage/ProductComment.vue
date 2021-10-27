@@ -566,9 +566,17 @@ export default {
     },
     async createReply(index) {
       try {
+        if (!this.$store.getters.isLogin) {
+          alert('로그인이 필요합니다.');
+          return;
+        }
         const replyRegistContent = this.contents[index].replyRegistContent;
-        const productCommentId = this.contents[index].productCommentId;
         console.log(replyRegistContent);
+        if (!replyRegistContent) {
+          alert('내용을 입력하세요.');
+          return;
+        }
+        const productCommentId = this.contents[index].productCommentId;
         const replyDto = {
           productCommentId: productCommentId,
           content: replyRegistContent,
@@ -578,6 +586,7 @@ export default {
 
         console.log(response);
         this.getProductCommentReplies(index);
+        this.$refs.replyList[index].style.display = 'block';
       } catch (error) {
         console.log(error);
         // this.logMessage = error.response.data.message;
