@@ -85,6 +85,7 @@
 import { VueDaumPostcode } from 'vue-daum-postcode';
 
 export default {
+  name: 'Address',
   components: {
     VueDaumPostcode,
   },

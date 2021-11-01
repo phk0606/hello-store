@@ -3,4 +3,7 @@ module.exports = {
   devServer: {
     overlay: false,
   },
+  chainWebpack: config => {
+    config.plugins.delete('prefetch');
+  },
 };
