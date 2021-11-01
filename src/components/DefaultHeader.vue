@@ -211,8 +211,9 @@
                   >
                     <v-card
                       flat
-                      width="180"
-                      max-height="250"
+                      max-width="150"
+                      max-height="300"
+                      min-height="250"
                       :to="`/style-shop/product-detail/${content.productId}`"
                     >
                       <v-row justify="center">
