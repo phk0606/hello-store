@@ -83,9 +83,7 @@
         </v-row>
         <v-row align="center">
           <v-col cols="auto">
-            <v-btn to="/service-center/community-regist" color="indigo" dark
-              >글쓰기</v-btn
-            >
+            <v-btn @click="toCommunityRegist" color="indigo" dark>글쓰기</v-btn>
           </v-col>
         </v-row>
       </v-col>
@@ -132,6 +130,13 @@ export default {
     };
   },
   methods: {
+    toCommunityRegist() {
+      if (!this.$store.getters.isLogin) {
+        alert('로그인이 필요합니다.');
+        return;
+      }
+      this.$router.push('/service-center/community-regist');
+    },
     async getCommunities(page) {
       try {
         const { data } = await getCommunities({

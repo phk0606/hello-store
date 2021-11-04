@@ -11,7 +11,13 @@
           </v-col>
         </v-row>
         <v-row align="center">
-          <v-col cols="8">
+          <v-col
+            cols="auto"
+            v-if="
+              $store.state.username === content.username ||
+              $store.state.authority.includes('ROLE_ADMIN')
+            "
+          >
             <v-text-field
               v-model="title"
               label="제목"
@@ -20,12 +26,30 @@
               outlined
             />
           </v-col>
-          <v-col> {{ createdBy }} {{ createdDate }} </v-col>
-        </v-row>
-
-        <v-row>
+          <v-col v-else cols="auto">
+            {{ title }}
+          </v-col>
           <v-col>
+            <v-spacer />
+          </v-col>
+          <v-col cols="auto"> {{ createdBy }} {{ createdDate }} </v-col>
+        </v-row>
+        <v-row no-gutters>
+          <v-col>
+            <v-divider />
+          </v-col>
+        </v-row>
+        <v-row dense>
+          <v-col
+            v-if="
+              $store.state.username === content.username ||
+              $store.state.authority.includes('ROLE_ADMIN')
+            "
+          >
             <tiptap-vuetify v-model="content" :extensions="extensions" />
+          </v-col>
+          <v-col v-else>
+            <div v-html="content" />
           </v-col>
         </v-row>
         <v-divider />
@@ -125,15 +149,26 @@
             <v-btn to="/service-center/community">목록 보기</v-btn>
           </v-col>
           <v-col>
-            <v-btn
-              to="/service-center/community-regist"
-              color="indigo"
-              dark
-              class="mr-3"
+            <v-btn @click="toCommunityRegist" color="indigo" dark class="mr-3"
               >글쓰기</v-btn
             >
-            <v-btn @click="modifyCommunity" class="mr-3">수정</v-btn>
-            <v-btn @click="removeCommunity">삭제</v-btn>
+            <v-btn
+              v-if="
+                $store.state.username === content.username ||
+                $store.state.authority.includes('ROLE_ADMIN')
+              "
+              @click="modifyCommunity"
+              class="mr-3"
+              >수정</v-btn
+            >
+            <v-btn
+              v-if="
+                $store.state.username === content.username ||
+                $store.state.authority.includes('ROLE_ADMIN')
+              "
+              @click="removeCommunity"
+              >삭제</v-btn
+            >
           </v-col>
         </v-row>
       </v-col>
@@ -179,6 +214,13 @@ export default {
     this.getCommunity();
   },
   methods: {
+    toCommunityRegist() {
+      if (!this.$store.getters.isLogin) {
+        alert('로그인이 필요합니다.');
+        return;
+      }
+      this.$router.push('/service-center/community-regist');
+    },
     replyRegistShow() {
       this.replyRegistShowYn = true;
     },
@@ -210,6 +252,16 @@ export default {
     },
     async createCommunityReply() {
       try {
+        if (!this.$store.getters.isLogin) {
+          alert('로그인이 필요합니다.');
+          return;
+        }
+        const replyRegistContent = this.replyRegistContent;
+        console.log(replyRegistContent);
+        if (!replyRegistContent) {
+          alert('내용을 입력하세요.');
+          return;
+        }
         const replyDto = {
           communityId: this.communityId,
           content: this.replyRegistContent,
