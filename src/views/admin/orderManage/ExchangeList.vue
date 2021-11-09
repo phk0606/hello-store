@@ -332,6 +332,7 @@ export default {
         });
 
         console.log(data);
+        this.selected = [];
         this.getExchangeReturns(1, this.tabs[this.activeTab].value);
       } catch (error) {
         console.log(error);

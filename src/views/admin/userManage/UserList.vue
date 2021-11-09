@@ -148,7 +148,6 @@
               :headers="headers"
               :items="userList"
               item-key="productId"
-              show-select
               class="elevation-1"
               disable-sort
             >
@@ -182,13 +181,13 @@
             />
           </v-col>
         </v-row>
-        <v-row>
+        <!-- <v-row>
           <v-col>
             <v-btn class="mr-5">선택 탈퇴</v-btn>
             <v-btn class="mr-5">선택 회원 포인트 지급</v-btn>
             <v-btn class="mr-5">검색된 회원 포인트 지급</v-btn>
           </v-col>
-        </v-row>
+        </v-row> -->
       </v-col>
     </v-row>
   </v-container>

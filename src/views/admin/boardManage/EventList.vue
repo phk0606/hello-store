@@ -191,6 +191,7 @@ export default {
           eventIds,
         });
         //console.log(data);
+        this.selected = [];
         this.getEvents(1);
       } catch (error) {
         console.log(error);

@@ -389,6 +389,7 @@ export default {
           productShowType: productShowType,
         });
         //console.log(data);
+        this.selected = [];
         this.getProductsPageCondition(1);
       } catch (error) {
         console.log(error.response);
@@ -409,6 +410,7 @@ export default {
           productIds,
         });
         //console.log(data);
+        this.selected = [];
         await this.getProductsPageCondition(1);
         await this.getProductCount();
       } catch (error) {

@@ -317,6 +317,7 @@ export default {
         });
 
         console.log(data);
+        this.selected = [];
         this.getOrders(1, this.tabs[0].value);
         this.activeTab = 0;
       } catch (error) {
